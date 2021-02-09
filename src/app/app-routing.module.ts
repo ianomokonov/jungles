@@ -14,10 +14,12 @@ const routes: Routes = [
   {
     path: 'rates',
     loadChildren: () => import('./modules/rates/rates.module').then((m) => m.RatesModule),
+    data: { title: 'Тарифы' },
   },
   {
     path: 'profile',
     loadChildren: () => import('./modules/profile/profile.module').then((m) => m.ProfileModule),
+    data: { title: 'Личный кабинет' },
   },
   {
     path: 'tasks',

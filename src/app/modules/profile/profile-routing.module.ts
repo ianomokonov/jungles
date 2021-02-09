@@ -10,7 +10,6 @@ const routes: Routes = [
   {
     path: '',
     component: ProfileComponent,
-    data: { titles: ['Личный кабинет'] },
     children: [
       {
         path: '',
