@@ -52,7 +52,7 @@ module.exports = {
         '@typescript-eslint/explicit-member-accessibility': [
           'error',
           {
-            ignoredMethodNames: ['constructor'],
+            ignoredMethodNames: ['constructor', 'ngOnInit'],
           },
         ],
         'no-console': [
