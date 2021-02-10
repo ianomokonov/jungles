@@ -53,7 +53,7 @@ header {
 
 section {
   &.first {
-      margin-bottom: 10rem;
+    margin-bottom: 10rem;
     .row {
       .col {
         display: flex;
@@ -62,6 +62,200 @@ section {
         h4 {
           text-transform: uppercase;
         }
+      }
+    }
+  }
+
+  &.second {
+    margin-left: -5rem;
+    margin-right: -8rem;
+    margin-bottom: 10rem;
+    .section-body {
+      display: flex;
+      justify-content: flex-end;
+      .content {
+        width: 57%;
+
+        .video {
+          height: 18rem;
+          width: 35rem;
+          padding-bottom: 1.5rem;
+          padding-top: 3rem;
+          background: url(../../../assets/images/Слой231.png) no-repeat -20% 270%,
+            url(../../../assets/images/Слой232.png) no-repeat 30% 20%,
+            url(../../../assets/images/лист.png) no-repeat right center,
+            url(../../../assets/images/лист2.png) no-repeat right center;
+          .cloud {
+            position: relative;
+            left: -5rem;
+            background-image: url(../../../assets/images/cloud.svg);
+            background-repeat: no-repeat;
+            background-size: contain;
+            width: 35rem;
+            height: 12rem;
+            padding-left: 5rem;
+            padding-top: 2.5rem;
+            img {
+              margin-right: 1rem;
+            }
+            p {
+              margin-bottom: 0.4rem;
+            }
+          }
+        }
+
+        .messages {
+          .message {
+            width: 20rem;
+          }
+        }
+      }
+      min-height: 40rem;
+      background-image: url('../../../assets/images/Жираф.png');
+      background-repeat: no-repeat;
+      background-size: auto calc(100% - 3rem);
+      background-position: left bottom;
+    }
+  }
+
+  &.third {
+    margin-bottom: 10rem;
+    .groups {
+      .group {
+        padding-top: 7rem;
+        &:last-child {
+          .content {
+            img {
+              top: -7.5rem;
+            }
+
+            padding-bottom: calc(10rem - 24px);
+          }
+        }
+        .content {
+          position: relative;
+          background-color: @light-grey;
+          padding-top: 15rem;
+          padding-left: 3.5rem;
+          padding-right: 3.5rem;
+          padding: 15rem 3.5rem 10rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          img {
+            position: absolute;
+            top: -4rem;
+          }
+          h2 {
+            margin-bottom: 2rem;
+          }
+          ul {
+            margin-bottom: 2rem;
+          }
+          p {
+            margin-bottom: 2rem;
+          }
+          .btn {
+            position: absolute;
+            bottom: 4rem;
+          }
+        }
+      }
+    }
+  }
+
+  &.fourth {
+    .content {
+      padding-top: 2rem;
+      min-height: 40rem;
+      background-image: url('../../../assets/images/Тигр_с_каской.svg');
+      background-repeat: no-repeat;
+      background-size: auto calc(100% - 3rem);
+      background-position: center bottom;
+      position: relative;
+
+      .left-content {
+        position: relative;
+        background-image: url('../../../assets/images/cloud2.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+        width: 18rem;
+        height: 20rem;
+
+        padding-left: 3rem;
+        padding-right: 3rem;
+        padding-top: 8rem;
+        display: flex;
+        justify-content: center;
+
+        img {
+          position: absolute;
+          top: -2rem;
+        }
+      }
+
+      .message {
+        width: 28rem;
+        position: absolute;
+        right: 0;
+        top: 3rem;
+      }
+    }
+  }
+
+  &.sixth {
+    min-height: 50rem;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    .content {
+      position: absolute;
+      bottom: 5rem;
+      width: 35rem;
+
+      .message{
+        padding: 3rem 3rem 12rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        *{
+          text-align: center;
+        }
+
+        .btn{
+          margin-top: 2rem;
+          margin-bottom: 2rem;
+        }
+      }
+    }
+
+    margin-right: -15rem;
+    margin-left: -15rem;
+
+    background: url(../../../assets/images/Слон_с_моноклем1.svg) no-repeat 15% 80%,
+      url(../../../assets/images/тигр.svg) no-repeat 78% 70%,
+      url(../../../assets/images/трава_за_слоном2.svg) no-repeat 0 80%,
+      url(../../../assets/images/трава_за_слоном.svg) no-repeat 100% bottom;
+
+    img {
+      position: absolute;
+
+      &.cloud-img {
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 10;
+      }
+
+      &.first-grass {
+        left: 2rem;
+        bottom: 2rem;
+      }
+      &.second-grass {
+        right: 8rem;
+        bottom: 3rem;
       }
     }
   }

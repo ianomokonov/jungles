@@ -80,8 +80,8 @@ h3,
   font-size: 0.75rem;
 }
 
-.text-orange{
-    color: @orange;
+.text-orange {
+  color: @orange;
 }
 
 /*  Clickable Elements Styles */
@@ -142,33 +142,61 @@ ul {
   }
 }
 
-.section-header{
-    text-transform: uppercase;
-    text-align: center;
-    margin-bottom: 1.5rem;
+.section-header {
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 1.5rem;
 }
 
-.section-label{
-    text-align: center;
-    margin-bottom: 5rem;
+.section-label {
+  text-align: center;
+  margin-bottom: 5rem;
+  &:extend(.text-mb);
 }
 
-.link-sm{
+.link-sm {
+  color: inherit;
+  position: relative;
+  &:hover {
+    text-decoration: none;
     color: inherit;
-    position: relative;
-    &:hover{
-        text-decoration: none;
-        color: inherit;
-    }
+  }
 
-    &::after{
-        content: '';
-        background-color: @dark-green;
-        height: 1px;
-        position: absolute;
-        top: 100%;
-        width: 100%;
-        left: 0;
-    }
+  &::after {
+    content: '';
+    background-color: @dark-green;
+    height: 1px;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    left: 0;
+  }
+}
 
+.message {
+  background-color: @light-grey;
+  border: 7px solid @light-green;
+  border-radius: 12px;
+  padding: 1.5rem;
+
+  display: flex;
+  align-items: center;
+  &.no-numbers {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .message-title {
+    text-transform: uppercase;
+  }
+  .message-number {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 44px;
+    margin-right: 1.2rem;
+  }
+
+  .message-content {
+    margin-bottom: 0;
+  }
 }
