@@ -1,0 +1,63 @@
+@import '../../styles.less';
+
+.enter {
+  margin: 0 auto;
+  padding: 40px;
+
+  .enter-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-bottom: 30px;
+
+    span {
+      cursor: pointer;
+
+      &.active {
+        font-weight: 700;
+      }
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .enter-inputs {
+      input {
+        width: 322px;
+        height: 55px;
+        font-size: 14px;
+        font-weight: 600;
+        color: @grey;
+        font-family: Open Sans;
+        border-radius: 25px;
+        border: 1px solid @green;
+        box-sizing: border-box;
+        border-radius: 25px;
+        padding: 18px 25px;
+      }
+    }
+
+    .enter-checks {
+      margin-bottom: 20px;
+      .form-check {
+        padding: 0;
+
+        input {
+          width: 12px;
+          height: 12px;
+          border: 1px solid @grey;
+          margin-right: 4px;
+        }
+
+        label {
+          letter-spacing: -0.02em;
+          font-weight: 400;
+          font-size: 14px;
+          color: @grey;
+        }
+      }
+    }
+  }
+}
