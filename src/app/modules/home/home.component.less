@@ -1,0 +1,44 @@
+header{
+    min-height: 30rem;
+    padding-top: 3rem;
+
+    .content{
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        h1{
+            margin-bottom: 2rem;
+        }
+
+        h3{
+            margin-bottom: 3rem;
+        }
+
+        ul{
+            margin-bottom: 2.5rem;
+        }
+
+        .btn-block{
+            flex: 0;
+            display: inline-flex;
+            img, span{
+                position: absolute;
+            }
+            img{
+                top: calc(100% + 1rem);
+                left: calc(20% + 1rem);
+            }
+            span{
+                top: calc(100% + 3.5rem);
+                left: calc(20% + 4rem);
+                max-width: 10.5rem;
+            }
+        }
+    }
+
+    background-image: url('../../../assets/images/slon.png');
+    background-repeat: no-repeat;
+    background-size: auto calc(100% - 3rem);
+    background-position: right bottom;
+}
