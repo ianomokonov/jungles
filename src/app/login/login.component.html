@@ -1,1 +1,19 @@
-<p>login works!</p>
+<img class="modal-dismiss" src="../../assets/images/icons/cross.svg" (click)="modal.dismiss()">
+<div class="modal-block">
+    <header class="modal-nav">
+        <span class="text-m active">Войти</span>
+        <span class="text-m" (click)="regRed()">Регистрация</span>
+    </header>
+    <form [formGroup]="logForm">
+        <div class="modal-inputs">
+            <div class="form-group">
+                <input type="text" class="form-control" formControlName="Email" id="inputEmail" placeholder="E-mail">
+            </div>
+            <div class="form-group">
+                <span class="reg-fpass">Забыли пароль?</span>
+                <input type="text" class="form-control" formControlName="Password" id="inputPassword" placeholder="Пароль">
+            </div>
+        </div>
+        <button class="btn btn-success">ВОЙТИ</button>
+    </form>
+</div>

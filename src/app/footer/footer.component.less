@@ -1,0 +1,118 @@
+@import '../../styles.less';
+
+.footer {
+  max-width: 1600px;
+  background-color: #f2f9f3;
+  height: 248px;
+  padding: 0 200px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .footer-logo {
+    display: flex;
+    flex-direction: column;
+    margin-top: 61px;
+    img {
+      width: 163px;
+      height: 31px;
+    }
+
+    span {
+      margin-top: 8px;
+      width: 188px;
+    }
+  }
+
+  .footer-center {
+    display: flex;
+    flex-direction: column;
+
+    .footer-top {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .footer-icons {
+        margin-top: 66px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        img {
+          margin-right: 20px;
+        }
+        
+        img:nth-child(1) {
+          width: 21px;
+          height: 13px;
+        }
+        img:nth-child(2) {
+          width: 21px;
+          height: 15px;
+        }
+        img:nth-child(3) {
+          width: 19px;
+          height: 21px;
+        }
+        img:nth-child(4) {
+          width: 11px;
+          height: 21px;
+        }
+        img:nth-child(5) {
+          width: 21px;
+          height: 21px;
+        }
+      }
+
+      .footer-nav {
+        margin-left: 146px;
+        margin-top: 50px;
+        max-width: 300px;
+
+        span:nth-child(1) {
+          margin-right: 60px;
+          margin-bottom: 8px;
+        }
+
+        span:nth-child(3) {
+          margin-right: 112px;
+        }
+      }
+    }
+
+    .footer-pay {
+      margin-top: 55px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      span {
+        margin-right: 18px;
+      }
+
+      img {
+        margin-right: 20px;
+      }
+
+    }
+  }
+
+  .footer-buttons {
+    margin-top: 52px;
+    display: flex;
+    flex-direction: column;
+
+    .footer-docs {
+      margin-top: 43px;
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+
+      a {
+        width: auto;
+        border-bottom: 1px solid @dark-green;
+      }
+    }
+  }
+}

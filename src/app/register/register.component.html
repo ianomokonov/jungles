@@ -1,11 +1,11 @@
 <img class="modal-dismiss" src="../../assets/images/icons/cross.svg" (click)="modal.dismiss()">
-<div class="enter">
-    <header class="enter-nav">
-        <span class="text-m">Войти</span>
+<div class="modal-block">
+    <header class="modal-nav">
+        <span class="text-m" (click)="loginRed()">Войти</span>
         <span class="text-m active">Регистрация</span>
     </header>
     <form [formGroup]="regForm">
-        <div class="enter-inputs">
+        <div class="modal-inputs">
             <div class="form-group">
                 <input type="text" class="form-control" formControlName="FLName" id="inputFLName" placeholder="Имя Фамилия">
             </div>
@@ -16,16 +16,16 @@
                 <input type="text" class="form-control" formControlName="Phone" id="inputPhone" placeholder="Телефон">
             </div>
         </div>
-        <div class="enter-checks">
+        <div class="reg-checks">
             <div class="form-check">
                 <input type="checkbox" value="" id="checkMailing">
-                <label class="enter-checkl" for="checkMailing">
+                <label class="reg-checkl" for="checkMailing">
                         Согласие на рассылку новостей курсов
                     </label>
             </div>
             <div class="form-check">
                 <input type="checkbox" value="" id="checkPersonalData">
-                <label class="enter-checkl" for="checkPersonalData">
+                <label class="reg-checkl" for="checkPersonalData">
                         Согласие на обработку персональных данных
                     </label>
             </div>

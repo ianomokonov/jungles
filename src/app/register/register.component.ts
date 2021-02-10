@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'register',
@@ -9,12 +10,12 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class RegisterComponent implements OnInit {
   public regForm: FormGroup;
-  public showLog: boolean;
-  public showReg: boolean;
 
-  constructor(private fb: FormBuilder, public modal: NgbActiveModal) {
-    this.showReg = true;
-    this.showLog = false;
+  constructor(
+    private fb: FormBuilder,
+    public modal: NgbActiveModal,
+    private modalService: NgbModal,
+  ) {
     this.regForm = this.fb.group({
       FLName: [null, Validators.required],
       Email: [null, [Validators.required, Validators.email]],
@@ -23,4 +24,9 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  public loginRed(): void {
+    this.modal.dismiss();
+    this.modalService.open(LoginComponent, { windowClass: 'modal-log' });
+  }
 }
