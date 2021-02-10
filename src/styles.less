@@ -141,3 +141,34 @@ ul {
     }
   }
 }
+
+.section-header{
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.section-label{
+    text-align: center;
+    margin-bottom: 5rem;
+}
+
+.link-sm{
+    color: inherit;
+    position: relative;
+    &:hover{
+        text-decoration: none;
+        color: inherit;
+    }
+
+    &::after{
+        content: '';
+        background-color: @dark-green;
+        height: 1px;
+        position: absolute;
+        top: 100%;
+        width: 100%;
+        left: 0;
+    }
+
+}
