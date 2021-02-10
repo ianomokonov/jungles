@@ -1,7 +1,9 @@
+@import './variables.less';
+
 /* Fonts */
 @font-face {
   font-family: Museo Cyrl;
-  src: url(./assets/fonts/museocyrl.otf);
+  src: url(./assets/fonts/Museocyrl500.ttf);
 }
 
 @font-face {
@@ -9,24 +11,10 @@
   src: url(./assets/fonts/opensans.ttf);
 }
 
-/* Colors */
-@dark-green: #2d6255;
-@green: #91c29c;
-@light-green: #e4f4e7;
-@orange: #ff952c;
-@grey: #c9c9c9;
-@light-grey: #f6fbfa;
-@blue: #7ee1e4;
-@yellow: #fccc4c;
-@brown: #5f3812;
-@light-brown: #cf7822;
-@red: #ff7676;
-
 /*  Text Styles */
 
 h1,
 h2,
-h3,
 h4 {
   font-family: Museo Cyrl;
   font-style: normal;
@@ -52,6 +40,7 @@ h4 {
   font-size: 20px;
 }
 
+h3,
 .menu-item,
 .text-mb,
 .text-m,
@@ -91,6 +80,10 @@ h4 {
   font-size: 0.75rem;
 }
 
+.text-orange{
+    color: @orange;
+}
+
 /*  Clickable Elements Styles */
 
 .btn {
@@ -126,23 +119,25 @@ h4 {
   }
 }
 
-html{
-    background-image: url('./assets/images/ФОН.png');
-    background-size: cover;
-    background-repeat: no-repeat;
+html {
+  background-image: url('./assets/images/ФОН.png');
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
-body{
-    background-color: transparent;
+body {
+  background-color: transparent;
+
+  color: @dark-green;
 }
 
-ul{
-    &.check-mark{
-        list-style-image: url('./assets/images/галка.png');
+ul {
+  &.check-mark {
+    list-style-image: url('./assets/images/галка.png');
 
-        li{
-            padding-left: 0.5rem;
-        }
+    li {
+      padding-left: 0.5rem;
+      margin-bottom: 0.5rem;
     }
+  }
 }
-

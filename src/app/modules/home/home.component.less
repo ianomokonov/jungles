@@ -1,3 +1,5 @@
+@import '../../../variables.less';
+
 header{
     min-height: 30rem;
     padding-top: 3rem;
@@ -9,6 +11,10 @@ header{
         align-items: flex-start;
         h1{
             margin-bottom: 2rem;
+            color: @orange;
+            p{
+                color: @dark-green;
+            }
         }
 
         h3{
@@ -27,12 +33,12 @@ header{
             }
             img{
                 top: calc(100% + 1rem);
-                left: calc(20% + 1rem);
+                left: calc(30% + 1rem);
             }
             span{
                 top: calc(100% + 3.5rem);
-                left: calc(20% + 4rem);
-                max-width: 10.5rem;
+                left: calc(30% + 4rem);
+                max-width: 9.5rem;
             }
         }
     }
