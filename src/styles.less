@@ -1,4 +1,131 @@
-/* You can add global styles to this file, and also import other style files */
+/* Fonts */
+@font-face {
+  font-family: Museo Cyrl;
+  src: url(./assets/fonts/museocyrl.otf);
+}
+
+@font-face {
+  font-family: Open Sans;
+  src: url(./assets/fonts/opensans.ttf);
+}
+
+/* Colors */
+@dark-green: #2d6255;
+@green: #91c29c;
+@light-green: #e4f4e7;
+@orange: #ff952c;
+@grey: #c9c9c9;
+@light-grey: #f6fbfa;
+@blue: #7ee1e4;
+@yellow: #fccc4c;
+@brown: #5f3812;
+@light-brown: #cf7822;
+@red: #ff7676;
+
+/*  Text Styles */
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: Museo Cyrl;
+  font-style: normal;
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 44px;
+}
+
+h2 {
+  font-weight: 600;
+  font-size: 36px;
+}
+
+h3 {
+  font-weight: 600;
+  font-size: 22px;
+}
+
+h4 {
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.menu-item,
+.text-mb,
+.text-m,
+.text-b,
+.text,
+.subt {
+  font-family: Open Sans;
+}
+
+.menu-item {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.text-mb {
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+.text-m {
+  font-weight: 400;
+  font-size: 1.125rem;
+}
+
+.text-b {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.text {
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+.subt {
+  font-weight: 400;
+  font-size: 0.75rem;
+}
+
+/*  Clickable Elements Styles */
+
+.btn {
+  border: 0;
+  border-radius: 55px;
+  font-family: Open Sans;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 1rem;
+  padding: 20px 60px;
+}
+
+.btn-primary {
+  background: linear-gradient(182.07deg, #ffc081 1.75%, #ff9b38 74.75%);
+  box-shadow: 0px 5px 12px rgba(207, 120, 34, 0.4);
+  color: #5f3812;
+
+  &:hover {
+    box-shadow: 0px 0px 20px 8px rgba(207, 120, 34, 0.4);
+    color: #5f3812;
+  }
+}
+
+.btn-success {
+  background: linear-gradient(0.63deg, #4b7d55 23.7%, #6da262 85.35%);
+  box-shadow: 0px 5px 12px rgba(66, 103, 78, 0.4);
+  color: #ffffff;
+
+  &:hover {
+    background: linear-gradient(182.07deg, #ffc081 1.75%, #ff9b38 74.75%);
+    box-shadow: 0px 0px 10px 5px rgba(207, 120, 34, 0.4);
+    color: #5f3812;
+  }
+}
+
 html{
     background-image: url('./assets/images/ФОН.png');
     background-size: cover;
@@ -18,3 +145,4 @@ ul{
         }
     }
 }
+
