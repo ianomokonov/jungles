@@ -1,51 +1,68 @@
 @import '../../../variables.less';
 
-header{
-    min-height: 30rem;
-    padding-top: 3rem;
-    margin-bottom: 14rem;
+header {
+  min-height: 30rem;
+  padding-top: 3rem;
+  margin-bottom: 14rem;
 
-    .content{
-        width: 50%;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        h1{
-            margin-bottom: 2rem;
-            color: @orange;
-            p{
-                color: @dark-green;
-            }
-        }
-
-        h3{
-            margin-bottom: 3rem;
-        }
-
-        ul{
-            margin-bottom: 2.5rem;
-        }
-
-        .btn-block{
-            flex: 0;
-            display: inline-flex;
-            img, span{
-                position: absolute;
-            }
-            img{
-                top: calc(100% + 1rem);
-                left: calc(30% + 1rem);
-            }
-            span{
-                top: calc(100% + 3.5rem);
-                left: calc(30% + 4rem);
-                max-width: 9.5rem;
-            }
-        }
+  .content {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    h1 {
+      margin-bottom: 2rem;
+      color: @orange;
+      p {
+        color: @dark-green;
+      }
     }
 
-    background-image: url('../../../assets/images/slon.png');
-    background-repeat: no-repeat;
-    background-size: auto calc(100% - 3rem);
-    background-position: right bottom;
+    h3 {
+      margin-bottom: 3rem;
+    }
+
+    ul {
+      margin-bottom: 2.5rem;
+    }
+
+    .btn-block {
+      flex: 0;
+      display: inline-flex;
+      img,
+      span {
+        position: absolute;
+      }
+      img {
+        top: calc(100% + 1rem);
+        left: calc(30% + 1rem);
+      }
+      span {
+        top: calc(100% + 3.5rem);
+        left: calc(30% + 4rem);
+        max-width: 9.5rem;
+      }
+    }
+  }
+
+  background-image: url('../../../assets/images/slon.png');
+  background-repeat: no-repeat;
+  background-size: auto calc(100% - 3rem);
+  background-position: right bottom;
+}
+
+section {
+  &.first {
+      margin-bottom: 10rem;
+    .row {
+      .col {
+        display: flex;
+        justify-content: center;
+
+        h4 {
+          text-transform: uppercase;
+        }
+      }
+    }
+  }
 }
