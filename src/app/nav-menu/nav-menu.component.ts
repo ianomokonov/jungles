@@ -1,15 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { LoginComponent } from '../login/login.component';
 
 @Component({
-  selector: 'app-nav-menu',
+  selector: 'nav-menu',
   templateUrl: './nav-menu.component.html',
-  styleUrls: ['./nav-menu.component.less']
+  styleUrls: ['./nav-menu.component.less'],
 })
-export class NavMenuComponent implements OnInit {
+export class NavMenuComponent {
+  @Input() public showMonkey: boolean;
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(private modalService: NgbModal) {
+    this.showMonkey = true;
   }
 
+  public logIn(): void {
+    this.modalService.open(LoginComponent, { windowClass: 'modal-log' });
+  }
 }
