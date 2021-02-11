@@ -22,7 +22,7 @@
         <button
           class="btn link-sm"
           *ngIf="feedback.text.length > 350"
-          (click)="feedback.show = true"
+          (click)="feedback.show = !feedback.show"
         >
           {{ feedback.show ? 'Скрыть' : 'Читать далее' }}
         </button>
