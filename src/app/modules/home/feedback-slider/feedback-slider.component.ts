@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-feedback-slider',
   templateUrl: './feedback-slider.component.html',
   styleUrls: ['./feedback-slider.component.less'],
 })
-export class FeedbackSliderComponent implements OnInit {
+export class FeedbackSliderComponent {
   public feedbacks = [
     {
       img: '../../../../assets/images/user_photo.png',
@@ -62,7 +62,4 @@ export class FeedbackSliderComponent implements OnInit {
       show: false,
     },
   ];
-  constructor() {}
-
-  ngOnInit(): void {}
 }
