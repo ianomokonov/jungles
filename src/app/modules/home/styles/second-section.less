@@ -1,6 +1,4 @@
 section.second {
-  margin-left: -5rem;
-  margin-right: -8rem;
   margin-bottom: 10rem;
   .section-body {
     display: flex;
@@ -57,3 +55,135 @@ section.second {
   }
 }
 
+@media (max-width: 1200px) {
+  section.second {
+    .section-body {
+      background-size: 50% auto;
+      background-position: left top;
+      justify-content: center !important;
+      .content {
+        width: 100%;
+        .messages {
+          margin-top: 15rem;
+          justify-content: center;
+        }
+        .video {
+          width: auto !important;
+          background: none !important;
+          margin-top: -5rem;
+          margin-left: 35rem;
+          .cloud {
+            background-image: url(../../../../assets/images/cloud4.png) !important;
+            width: 21rem;
+            padding-right: 3rem;
+            padding-left: 4rem;
+            height: 22rem !important;
+
+            .d-flex {
+              flex-direction: column;
+              align-items: center;
+
+              .btn {
+                min-width: 5rem;
+                min-height: 5rem;
+                margin-bottom: 1rem;
+                margin-right: 0;
+              }
+
+              p {
+                text-align: center;
+                margin-bottom: 1rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  section.second {
+    .section-body {
+      .content {
+        .messages {
+          margin-top: 10rem;
+        }
+        .video {
+          margin-left: 25rem;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  section.second {
+    .section-body {
+      background-size: 70% auto;
+      .content {
+        .messages {
+          margin-top: 10rem;
+        }
+        .video {
+          margin-left: 22rem;
+          width: 2rem !important;
+          display: inline-block;
+          .cloud {
+            background-size: 100% 100%;
+            margin-left: 0;
+            width: 15rem;
+            height: 19rem !important;
+            margin-bottom: -5rem;
+            p {
+              font-size: 12px;
+            }
+
+            .d-flex {
+              .btn {
+                min-width: 3rem;
+                min-height: 3rem;
+                margin-bottom: 1rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  section.second {
+    .section-body {
+      background-size: 23rem auto;
+      background-position: -10rem top;
+      .content {
+        .messages {
+          margin-top: 10rem;
+        }
+        .video {
+          margin-left: 50vw;
+          .cloud {
+            background-size: 100% 100%;
+            margin-left: 0;
+            width: 15rem;
+            height: 19rem !important;
+            margin-bottom: -5rem;
+            p {
+              font-size: 12px;
+            }
+
+            .d-flex {
+              .btn {
+                min-width: 3rem;
+                min-height: 3rem;
+                margin-bottom: 1rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

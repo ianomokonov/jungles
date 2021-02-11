@@ -66,6 +66,12 @@ section {
   }
 }
 
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1250px;
+  }
+}
+
 @media (max-width: 1200px) {
   header {
     background-size: 60% auto;
@@ -104,6 +110,11 @@ section {
 }
 
 @media (max-width: 576px) {
+  .container{
+    &:nth-child(3){
+      padding: 0;
+    }
+  }
   header {
     padding-top: 60vw;
     .content {
