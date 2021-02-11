@@ -1,6 +1,10 @@
 section.third {
   margin-bottom: 10rem;
-  .groups {
+  .slider {
+    display: none;
+  }
+  .groups,
+  .slider {
     .group {
       padding-top: 7rem;
       &:last-child {
@@ -32,5 +36,18 @@ section.third {
         }
       }
     }
+  }
+}
+
+@media (max-width: 992px) {
+  .slider {
+    display: flex !important;
+  }
+  .content{
+    padding-right: 2rem !important;
+    padding-left: 2rem !important;
+  }
+  .groups {
+    display: none;
   }
 }

@@ -46,6 +46,9 @@ section.second {
           width: 20rem;
         }
       }
+      .slider{
+        display: none;
+      }
     }
     min-height: 40rem;
     background-image: url('../../../../assets/images/giraffe.png');
@@ -119,11 +122,16 @@ section.second {
 
 @media (max-width: 767px) {
   section.second {
+    margin-bottom: 0;
     .section-body {
       background-size: 70% auto;
       .content {
         .messages {
+          display: none !important;
+        }
+        .slider{
           margin-top: 10rem;
+          display: flex;
         }
         .video {
           margin-left: 22rem;
@@ -159,9 +167,10 @@ section.second {
       background-size: 23rem auto;
       background-position: -10rem top;
       .content {
-        .messages {
-          margin-top: 10rem;
-        }
+        // .slider{
+        //   margin-right: 2rem;
+        //   margin-left: 2rem;
+        // }
         .video {
           margin-left: 50vw;
           .cloud {

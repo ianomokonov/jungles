@@ -46,7 +46,7 @@
       </div>
       <div class="mb-3 col-6 col-lg-3">
         <div>
-          <img class="mb-4" src="../../../assets/images/лампа.png" alt="" />
+          <img class="mb-4" src="../../../assets/images/light.png" alt="" />
           <h4>мышление</h4>
           <p class="text m-0">
             Способность рассуждать,<br />
@@ -56,7 +56,7 @@
       </div>
       <div class="mb-3 col-6 col-lg-3">
         <div>
-          <img class="mb-4" src="../../../assets/images/логика.png" alt="" />
+          <img class="mb-4" src="../../../assets/images/logic.png" alt="" />
           <h4>логика</h4>
           <p class="text m-0">
             Поиск нестандартных<br />
@@ -66,7 +66,7 @@
       </div>
       <div class="mb-3 col-6 col-lg-3">
         <div>
-          <img class="mb-4" src="../../../assets/images/карандаш.png" alt="" />
+          <img class="mb-4" src="../../../assets/images/pencil.png" alt="" />
           <h4>креативность</h4>
           <p class="text m-0">
             Развитие фантазии<br />
@@ -129,62 +129,169 @@
             </p>
           </div>
         </div>
+        <div class="slider position-relative">
+          <ngb-carousel [animation]="false" [interval]="0" [showNavigationArrows]="false" #carousel>
+            <ng-template ngbSlide>
+              <div class="message">
+                <div class="message-number">1</div>
+                <p class="message-content">
+                  В упражнениях задействованы <b>все области образования,</b> необходимые для
+                  развития ребенка
+                </p>
+              </div>
+            </ng-template>
+            <ng-template ngbSlide>
+              <div class="message">
+                <div class="message-number">2</div>
+                <p class="message-content">
+                  Ребёнок научится <b>разумному использованию гаджета</b> для обучения
+                </p>
+              </div>
+            </ng-template>
+            <ng-template ngbSlide>
+              <div class="message">
+                <div class="message-number">3</div>
+                <p class="message-content">
+                  Задания в игровой форме <b>заинтересуют любого ребенка</b>
+                </p>
+              </div>
+            </ng-template>
+            <ng-template ngbSlide>
+              <div class="message">
+                <div class="message-number">4</div>
+                <p class="message-content">
+                  Динамичное обучение <b>по 20-30 минут в день</b> заинтересует ребенка и не даст
+                  скучать
+                </p>
+              </div>
+            </ng-template>
+          </ngb-carousel>
+          <button class="btn btn-primary prev" (click)="carousel.prev()">
+            <img src="../../../../assets/images/icons/arrow-right.svg" alt="" />
+          </button>
+          <button class="btn btn-primary next" (click)="carousel.next()">
+            <img src="../../../../assets/images/icons/arrow-right.svg" alt="" />
+          </button>
+        </div>
       </div>
     </div>
   </section>
 </div>
 <div class="container">
   <section class="third">
-  <h2 class="section-header">
-    Программа подготовлена<br />
-    для <span class="text-orange">2-х возрастных групп</span>
-  </h2>
-  <p class="section-label">Выберите возраст ребенка и погрузитесь в увлекательный мир знаний</p>
-  <div class="row groups">
-    <div class="col group mb-5 mb-lg-0">
-      <div class="content">
-        <img src="../../../assets/images/обезбянка_с_кубиками.png" alt="" />
-        <h2>Малыши (3-5 лет)</h2>
-        <div>
-          <p class="text-b">При помощи наших заданий детки освоят:</p>
-          <ul class="check-mark">
-            <li class="text">Цифры и арифметические знаки</li>
-            <li class="text">Цвета и формы</li>
-            <li class="text">Буквы, звуки и слоги</li>
-            <li class="text">Фигуры и их признаки</li>
-            <li class="text">Название животных и др.</li>
-          </ul>
-          <p class="text">
-            Также наши упражнения развивают логику, мышление, внимание и память ребёнка.<br />
-            А главное — это интересно и эффективно!
-          </p>
+    <h2 class="section-header">
+      Программа подготовлена<br />
+      для <span class="text-orange">2-х возрастных групп</span>
+    </h2>
+    <p class="section-label">Выберите возраст ребенка и погрузитесь в увлекательный мир знаний</p>
+    <div class="contentt">
+      <div class="row groups">
+        <div class="col group mb-5 mb-lg-0">
+          <div class="content">
+            <img src="../../../assets/images/обезбянка_с_кубиками.png" alt="" />
+            <h2>Малыши (3-5 лет)</h2>
+            <div>
+              <p class="text-b">При помощи наших заданий детки освоят:</p>
+              <ul class="check-mark">
+                <li class="text">Цифры и арифметические знаки</li>
+                <li class="text">Цвета и формы</li>
+                <li class="text">Буквы, звуки и слоги</li>
+                <li class="text">Фигуры и их признаки</li>
+                <li class="text">Название животных и др.</li>
+              </ul>
+              <p class="text">
+                Также наши упражнения развивают логику, мышление, внимание и память ребёнка.<br />
+                А главное — это интересно и эффективно!
+              </p>
+            </div>
+            <a routerLink="/profile" class="btn btn-primary">НАЧАТЬ ЗАНИМАТЬСЯ</a>
+          </div>
         </div>
-        <a routerLink="/profile" class="btn btn-primary">НАЧАТЬ ЗАНИМАТЬСЯ</a>
+        <div class="col group">
+          <div class="content">
+            <img src="../../../assets/images/обезьянка_с_книгами.png" alt="" />
+            <h2>Дошкольники (6-7 лет)</h2>
+            <div>
+              <p class="text-b">Подготовим ребенка к школе и научим:</p>
+              <ul class="check-mark">
+                <li class="text">Решать примеры и задачи</li>
+                <li class="text">Читать по слогам и писать</li>
+                <li class="text">Различать признаки времён года</li>
+                <li class="text">Основам школьных предметов</li>
+                <li class="text">Решать логические задачи и др.</li>
+              </ul>
+              <p class="text">
+                Наши задания помогут ребнку освоиться в школе и проявить свои таланты и навыки с
+                первых дней. Важно, малыш полюбит процесс обучения уже сейчас!
+              </p>
+            </div>
+            <a routerLink="/profile" class="btn btn-primary">НАЧАТЬ ЗАНИМАТЬСЯ</a>
+          </div>
+        </div>
+      </div>
+      <div class="slider position-relative">
+        <ngb-carousel
+          [animation]="false"
+          [interval]="0"
+          [showNavigationArrows]="false"
+          #carouselGroups
+        >
+          <ng-template ngbSlide>
+            <div class="group">
+              <div class="content">
+                <img src="../../../assets/images/monkey_with_cubs.png" alt="" />
+                <h2>Малыши (3-5 лет)</h2>
+                <div>
+                  <p class="text-b">При помощи наших заданий детки освоят:</p>
+                  <ul class="check-mark">
+                    <li class="text">Цифры и арифметические знаки</li>
+                    <li class="text">Цвета и формы</li>
+                    <li class="text">Буквы, звуки и слоги</li>
+                    <li class="text">Фигуры и их признаки</li>
+                    <li class="text">Название животных и др.</li>
+                  </ul>
+                  <p class="text">
+                    Также наши упражнения развивают логику, мышление, внимание и память ребёнка.<br />
+                    А главное — это интересно и эффективно!
+                  </p>
+                </div>
+                <a routerLink="/profile" class="btn btn-primary">НАЧАТЬ ЗАНИМАТЬСЯ</a>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template ngbSlide>
+            <div class="group">
+              <div class="content">
+                <img src="../../../assets/images/monkey_with_books.png" alt="" />
+                <h2>Дошкольники (6-7 лет)</h2>
+                <div>
+                  <p class="text-b">Подготовим ребенка к школе и научим:</p>
+                  <ul class="check-mark">
+                    <li class="text">Решать примеры и задачи</li>
+                    <li class="text">Читать по слогам и писать</li>
+                    <li class="text">Различать признаки времён года</li>
+                    <li class="text">Основам школьных предметов</li>
+                    <li class="text">Решать логические задачи и др.</li>
+                  </ul>
+                  <p class="text">
+                    Наши задания помогут ребнку освоиться в школе и проявить свои таланты и навыки с
+                    первых дней. Важно, малыш полюбит процесс обучения уже сейчас!
+                  </p>
+                </div>
+                <a routerLink="/profile" class="btn btn-primary">НАЧАТЬ ЗАНИМАТЬСЯ</a>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-carousel>
+        <button class="btn btn-primary prev" (click)="carouselGroups.prev()">
+          <img src="../../../../assets/images/icons/arrow-right.svg" alt="" />
+        </button>
+        <button class="btn btn-primary next" (click)="carouselGroups.next()">
+          <img src="../../../../assets/images/icons/arrow-right.svg" alt="" />
+        </button>
       </div>
     </div>
-    <div class="col group">
-      <div class="content">
-        <img src="../../../assets/images/обезьянка_с_книгами.png" alt="" />
-        <h2>Дошкольники (6-7 лет)</h2>
-        <div>
-          <p class="text-b">Подготовим ребенка к школе и научим:</p>
-          <ul class="check-mark">
-            <li class="text">Решать примеры и задачи</li>
-            <li class="text">Читать по слогам и писать</li>
-            <li class="text">Различать признаки времён года</li>
-            <li class="text">Основам школьных предметов</li>
-            <li class="text">Решать логические задачи и др.</li>
-          </ul>
-          <p class="text">
-            Наши задания помогут ребнку освоиться в школе и проявить свои таланты и навыки с первых
-            дней. Важно, малыш полюбит процесс обучения уже сейчас!
-          </p>
-        </div>
-        <a routerLink="/profile" class="btn btn-primary">НАЧАТЬ ЗАНИМАТЬСЯ</a>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
   <!-- <section class="fourth">
   <h2 class="section-header">
     Подарки станут <span class="text-orange">отличной мотивацией</span><br />
