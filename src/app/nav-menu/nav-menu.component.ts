@@ -9,12 +9,18 @@ import { LoginComponent } from '../login/login.component';
 })
 export class NavMenuComponent {
   @Input() public showMonkey: boolean;
+  public showMenu: boolean;
 
   constructor(private modalService: NgbModal) {
     this.showMonkey = true;
+    this.showMenu = false;
   }
 
   public logIn(): void {
     this.modalService.open(LoginComponent, { windowClass: 'modal-log' });
+  }
+
+  public toggleMenu(): void {
+    this.showMenu = !this.showMenu;
   }
 }
