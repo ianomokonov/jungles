@@ -87,6 +87,11 @@ section {
 }
 
 @media (max-width: 992px) {
+  .container {
+    &:nth-child(5) {
+      max-width: 850px;
+    }
+  }
   header {
     padding-top: 20rem;
     .content {
@@ -96,6 +101,9 @@ section {
 }
 
 @media (max-width: 767px) {
+  &:nth-child(5) {
+    padding: 0;
+  }
   header {
     background-size: 80% auto;
     padding-top: 20rem;
@@ -110,11 +118,11 @@ section {
 }
 
 @media (max-width: 576px) {
-  .container{
-    &:nth-child(3){
+  .container {
+    &:nth-child(3), &:nth-child(5) {
       padding: 0;
     }
-    &:nth-child(4){
+    &:nth-child(4) {
       padding: 0 2rem;
     }
   }

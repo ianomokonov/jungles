@@ -37,3 +37,56 @@ section.fourth {
     }
   }
 }
+
+@media (max-width: 1200px) {
+  section.fourth {
+    .content {
+      padding-left: 1rem;
+      padding-right: 1rem;
+      .left-content {
+        position: absolute;
+        right: 5rem;
+        background-image: url('../../../../assets/images/cloud4.png');
+        background-size: 100% 100%;
+      }
+      .message {
+        margin-top: 30rem;
+        width: calc(100% - 2rem);
+      }
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  section.fourth {
+    .content {
+      background-size: auto calc(100% - 8rem);
+
+      .left-content {
+        right: 1rem !important;
+      }
+      .message {
+        right: 1rem;
+        left: 1rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  section.fourth {
+    .content {
+      background-size: auto calc(100% - 12rem);
+      background-position: calc(90% + 10vw) bottom;
+      .left-content {
+        right: 0;
+        width: 15rem;
+        height: 22rem;
+        padding-bottom: 2rem;
+        p {
+          font-size: 14px !important;
+        }
+      }
+    }
+  }
+}
