@@ -5,6 +5,7 @@
   height: 100%;
   position: relative;
   background-image: url(../../../../assets/images/iPad.png);
+  background-size: 100% 110%;
   background-repeat: no-repeat;
   display: flex;
   align-items: center;
@@ -67,6 +68,48 @@
       text-transform: none;
       position: relative;
       z-index: 11;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .slider {
+    .feedback{
+      padding: 4rem 4rem 4rem;
+    }
+    & > .btn {
+      &.prev {
+        left: -1rem;
+      }
+
+      &.next {
+        right: -1rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .slider {
+    .feedback {
+      padding: 4rem 4rem 4rem;
+      .user {
+        img {
+          width: 60px;
+        }
+        p.text-b {
+          font-size: 14px;
+        }
+        span {
+          font-size: 14px;
+        }
+      }
+      h3 {
+        font-size: 16px;
+      }
+      p.text {
+        font-size: 14px;
+      }
     }
   }
 }
