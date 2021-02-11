@@ -1,0 +1,13 @@
+<div class="nav-menu">
+    <div class="container d-flex flex-row justify-content-around">
+        <span class="menu-item">О проекте</span>
+        <span class="menu-item">Упражнения</span>
+        <div class="logo">
+            <img src="../../assets/images/liana.png">
+            <img src="../../assets/images/logo.png">
+            <img *ngIf="showMonkey" src="../../assets/images/monkey_hanging.png">
+        </div>
+        <span class="menu-item">Тарифы</span>
+        <button class="button-sec" (click)="logIn()">Войти</button>
+    </div>
+</div>
