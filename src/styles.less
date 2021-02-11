@@ -124,11 +124,12 @@ html {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  min-width: 337px;
 }
 
 body {
   background-color: transparent;
-
+  min-width: 337px;
   color: @dark-green;
 }
 
@@ -214,11 +215,11 @@ app-feedback-slider {
     li {
       background-color: @grey;
       height: 6px;
-        width: 6px;
+      width: 6px;
       border-radius: 50%;
       opacity: 1;
 
-      &[aria-selected="true"] {
+      &[aria-selected='true'] {
         height: 8px;
         width: 8px;
         background-color: @orange;
@@ -231,5 +232,14 @@ app-feedback-slider {
     .carousel-item {
       height: 100%;
     }
+  }
+}
+
+@media (max-width: 576px) {
+  h1 {
+    font-size: 30px;
+  }
+  .btn{
+    padding: 10px 30px;
   }
 }
