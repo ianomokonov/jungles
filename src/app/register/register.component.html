@@ -7,24 +7,24 @@
     <form [formGroup]="regForm" class="d-flex flex-column justify-content-center">
         <div class="modal-inputs">
             <div class="form-group">
-                <input type="text" class="form-control" formControlName="FLName" id="inputFLName" placeholder="Имя Фамилия">
+                <input type="text" class="form-control" formControlName="FLName" placeholder="Имя Фамилия">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" formControlName="Email" id="inputEmail" placeholder="E-mail">
+                <input type="text" class="form-control" formControlName="Email" placeholder="E-mail">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" formControlName="Phone" id="inputPhone" placeholder="Телефон">
+                <input type="text" class="form-control" formControlName="Phone" placeholder="Телефон">
             </div>
         </div>
         <div class="reg-checks">
             <div class="form-check">
-                <input type="checkbox" value="" id="checkMailing">
+                <input type="checkbox" formControlName="CheckMailing" id="checkMailing">
                 <label class="reg-checkl" for="checkMailing">
                         Согласие на рассылку новостей курсов
                     </label>
             </div>
             <div class="form-check">
-                <input type="checkbox" value="" id="checkPersonalData">
+                <input type="checkbox" formControlName="CheckPersonalData" id="checkPersonalData">
                 <label class="reg-checkl" for="checkPersonalData">
                         Согласие на обработку персональных данных
                     </label>
