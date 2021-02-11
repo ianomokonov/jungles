@@ -1,0 +1,38 @@
+<div class="slider">
+  <ngb-carousel
+    class="h-100"
+    [animation]="false"
+    [interval]="0"
+    [showNavigationArrows]="false"
+    #carousel
+  >
+    <ng-template ngbSlide *ngFor="let feedback of feedbacks">
+      <div class="h-100 feedback">
+        <div class="user">
+          <img [src]="feedback.img" />
+          <div>
+            <p class="text-b">
+              {{ feedback.userName }}
+            </p>
+            <span class="text">{{ feedback.userChild }}</span>
+          </div>
+        </div>
+        <h3>{{ feedback.title }}</h3>
+        <p class="text" [ngClass]="{ show: feedback.show }">{{ feedback.text }}</p>
+        <button
+          class="btn link-sm"
+          *ngIf="feedback.text.length > 350"
+          (click)="feedback.show = !feedback.show"
+        >
+          {{ feedback.show ? 'Скрыть' : 'Читать далее' }}
+        </button>
+      </div>
+    </ng-template>
+  </ngb-carousel>
+  <button class="btn btn-primary prev" (click)="carousel.prev()">
+    <img src="../../../../assets/images/icons/arrow-right.svg" alt="" />
+  </button>
+  <button class="btn btn-primary next" (click)="carousel.next()">
+    <img src="../../../../assets/images/icons/arrow-right.svg" alt="" />
+  </button>
+</div>

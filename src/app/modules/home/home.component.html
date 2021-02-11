@@ -84,7 +84,9 @@
       <div class="video">
         <div class="cloud">
           <div class="d-flex">
-            <img src="../../../assets/images/Плей.svg" alt="" />
+            <button class="btn btn-primary">
+              <img src="../../../assets/images/icons/triangle.svg" alt="" />
+            </button>
             <div class="d-flex flex-column justify-content-center">
               <p class="text">Посмотрите короткое видео о нашей замечательной стране Джунгликов</p>
               <span class="text-b">1 мин 38 сек</span>
@@ -101,24 +103,19 @@
           </p>
         </div>
         <div class="message mb-3">
-          <div class="message-number">1</div>
+          <div class="message-number">2</div>
           <p class="message-content">
-            В упражнениях задействованы <b>все области образования,</b> необходимые для развития
-            ребенка
+            Ребёнок научится <b>разумному использованию гаджета</b> для обучения
           </p>
         </div>
         <div class="message mr-3">
-          <div class="message-number">1</div>
-          <p class="message-content">
-            В упражнениях задействованы <b>все области образования,</b> необходимые для развития
-            ребенка
-          </p>
+          <div class="message-number">3</div>
+          <p class="message-content">Задания в игровой форме <b>заинтересуют любого ребенка</b></p>
         </div>
         <div class="message">
-          <div class="message-number">1</div>
+          <div class="message-number">4</div>
           <p class="message-content">
-            В упражнениях задействованы <b>все области образования,</b> необходимые для развития
-            ребенка
+            Динамичное обучение <b>по 20-30 минут в день</b> заинтересует ребенка и не даст скучать
           </p>
         </div>
       </div>
@@ -201,53 +198,18 @@
     </div>
   </div>
 </section>
-<section class="first">
+<section class="fifth">
   <h2 class="section-header mb-5">
     узнайте, почему <span class="text-orange">дети так рады</span><br />
     заниматься в джунгликах
   </h2>
-  <div class="row">
-    <div class="col">
-      <div>
-        <img class="mb-4" src="../../../assets/images/книга.png" alt="" />
-        <h4>Чтение и грамота</h4>
-        <p class="text m-0">
-          Основы чтения<br />
-          и грамматики
-        </p>
-      </div>
-    </div>
-    <div class="col">
-      <div>
-        <img class="mb-4" src="../../../assets/images/лампа.png" alt="" />
-        <h4>мышление</h4>
-        <p class="text m-0">
-          Способность рассуждать,<br />
-          познавать новое
-        </p>
-      </div>
-    </div>
-    <div class="col">
-      <div>
-        <img class="mb-4" src="../../../assets/images/логика.png" alt="" />
-        <h4>логика</h4>
-        <p class="text m-0">
-          Поиск нестандартных<br />
-          решений задач
-        </p>
-      </div>
-    </div>
-    <div class="col">
-      <div>
-        <img class="mb-4" src="../../../assets/images/карандаш.png" alt="" />
-        <h4>креативность</h4>
-        <p class="text m-0">
-          Развитие фантазии<br />
-          и воображения
-        </p>
-      </div>
-    </div>
+  <div class="slider">
+    <app-feedback-slider></app-feedback-slider>
   </div>
+  <div class="cloud">
+    <p class="m-0">Посмотрите <b>отзывы родителей</b></p>
+  </div>
+  <img class="cloud-img position-absolute" src="../../../assets/images/Акварель_большая.svg" alt="" />
 </section>
 <section class="sixth">
   <h2 class="section-header mb-5">
@@ -261,11 +223,14 @@
   <div class="content">
     <div class="message no-numbers">
       <h3 class="text-center">
-        Попробуйте бесплатно пройти<br> 20 упражнений для оценки<br> качества материала
+        Попробуйте бесплатно пройти<br />
+        20 упражнений для оценки<br />
+        качества материала
       </h3>
       <a routerLink="/profile" class="btn btn-primary">НАЧАТЬ ЗАНИМАТЬСЯ</a>
       <p class="text">
-        Если вы уже начали проходить упражнения,<br> то можете
+        Если вы уже начали проходить упражнения,<br />
+        то можете
         <a class="link-sm" routerLink="/project">продолжить обучение</a>
       </p>
     </div>

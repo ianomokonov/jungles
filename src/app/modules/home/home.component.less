@@ -95,8 +95,15 @@ section {
             height: 12rem;
             padding-left: 5rem;
             padding-top: 2.5rem;
-            img {
+            .btn {
               margin-right: 1rem;
+              min-width: 5rem;
+              min-height: 2.1rem;
+              padding: 0;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              padding-left: 0.5rem;
             }
             p {
               margin-bottom: 0.4rem;
@@ -204,6 +211,21 @@ section {
     }
   }
 
+  &.fifth{
+    min-height: 50rem;
+    position: relative;
+    background-image: url('../../../assets/images/Пеликан.png');
+    background-repeat: no-repeat;
+    background-size: auto calc(100% - 30rem);
+    background-position: right 90%;
+    .slider{
+      width: 33rem;
+      height: 46rem;
+      margin-left: 3rem;
+      margin-top: 5rem;
+    }
+  }
+
   &.sixth {
     min-height: 50rem;
     position: relative;
@@ -242,12 +264,6 @@ section {
     img {
       position: absolute;
 
-      &.cloud-img {
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        z-index: 10;
-      }
 
       &.first-grass {
         left: 2rem;
@@ -258,5 +274,12 @@ section {
         bottom: 3rem;
       }
     }
+  }
+
+  .cloud-img {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
   }
 }

@@ -200,3 +200,35 @@ ul {
     margin-bottom: 0;
   }
 }
+
+app-feedback-slider {
+  * {
+    outline: none;
+  }
+  .carousel-indicators {
+    bottom: 5rem;
+    display: flex;
+    align-items: center;
+
+    li {
+      background-color: @grey;
+      height: 6px;
+        width: 6px;
+      border-radius: 50%;
+      opacity: 1;
+
+      &[aria-selected="true"] {
+        height: 8px;
+        width: 8px;
+        background-color: @orange;
+      }
+    }
+  }
+  .carousel-inner {
+    height: 100%;
+
+    .carousel-item {
+      height: 100%;
+    }
+  }
+}

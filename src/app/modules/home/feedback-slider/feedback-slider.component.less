@@ -1,0 +1,90 @@
+@import '../../../../variables.less';
+
+.slider {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-image: url(../../../../assets/images/iPad.png);
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+
+  .feedback {
+    padding: 4rem 5.5rem 4rem;
+
+    .user {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2rem;
+
+      img {
+        margin-right: 1rem;
+      }
+      p {
+        margin-bottom: 0;
+      }
+      span {
+        color: @grey;
+      }
+    }
+
+    h3 {
+      margin-bottom: 2rem;
+    }
+
+    p.text {
+      &:not(.show) {
+        display: -webkit-box;
+        -webkit-line-clamp: 10;
+        -webkit-box-orient: vertical;
+      }
+
+      max-height: 250px;
+      overflow: hidden;
+      &::-webkit-scrollbar-track {
+        border-radius: 4px;
+      }
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+      &::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        background: @light-green;
+      }
+      &:hover::-webkit-scrollbar-thumb {
+        background: @dark-green;
+      }
+
+      &.show {
+        overflow: auto;
+      }
+    }
+    .link-sm {
+      font-size: 1rem;
+      font-weight: 400;
+      padding: 0;
+      text-transform: none;
+    }
+  }
+
+  & > .btn {
+    height: 38px;
+    width: 38px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+
+    &.prev {
+      left: -3rem;
+      img {
+        transform: rotate(-180deg);
+      }
+    }
+
+    &.next {
+      right: -3rem;
+    }
+  }
+}
