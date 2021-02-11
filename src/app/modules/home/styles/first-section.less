@@ -1,13 +1,71 @@
 section.first {
-    margin-bottom: 10rem;
-    .row {
-      .col {
-        display: flex;
-        justify-content: center;
+  margin-bottom: 10rem;
+  .row {
+    .col-6 {
+      display: flex;
+      justify-content: center;
 
-        h4 {
-          text-transform: uppercase;
+      h4 {
+        text-transform: uppercase;
+      }
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  section.first {
+    .row {
+      .col-6 {
+        div {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          p {
+            font-size: 14px;
+          }
+
+          * {
+            text-align: center;
+          }
         }
       }
     }
   }
+}
+
+@media (max-width: 991px) {
+  section.first {
+    .row {
+      .col-6 {
+        div {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          p {
+            font-size: 14px;
+          }
+
+          * {
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  section.first {
+    .row {
+      .col-6 {
+        div {
+          p {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+}
