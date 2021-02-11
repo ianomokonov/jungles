@@ -4,7 +4,7 @@
         <span class="text-m" (click)="loginRed()">Войти</span>
         <span class="text-m active">Регистрация</span>
     </header>
-    <form [formGroup]="regForm">
+    <form [formGroup]="regForm" class="d-flex flex-column justify-content-center">
         <div class="modal-inputs">
             <div class="form-group">
                 <input type="text" class="form-control" formControlName="FLName" id="inputFLName" placeholder="Имя Фамилия">
