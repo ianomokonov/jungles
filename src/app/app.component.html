@@ -1,9 +1,17 @@
-<nav aria-label="breadcrumb" *ngIf="titles?.length">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item" *ngFor="let title of titles">
-      <a [routerLink]="[title.url]">{{ title.title }}</a>
-    </li>
-  </ol>
-</nav>
-<nav-menu></nav-menu>
-<router-outlet></router-outlet>
+<div class="d-flex flex-column" style="min-height: 100vh;">
+  <div>
+    <nav-menu></nav-menu>
+    <nav aria-label="breadcrumb" *ngIf="titles?.length">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item" *ngFor="let title of titles">
+          <a [routerLink]="[title.url]">{{ title.title }}</a>
+        </li>
+      </ol>
+    </nav>
+  </div>
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+
+  <app-footer></app-footer>
+</div>
