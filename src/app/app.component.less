@@ -1,3 +1,19 @@
-main{
-    flex: 1;
+@import '../variables.less';
+
+main {
+  flex: 1;
+}
+nav {
+  ol {
+    background-color: transparent;
+    color: @grey;
+    li {
+      &::before {
+        color: @grey;
+      }
+      a {
+        color: @grey;
+      }
+    }
+  }
 }

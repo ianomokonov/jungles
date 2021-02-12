@@ -1,0 +1,183 @@
+.container {
+  padding: 0;
+}
+
+.first {
+  min-height: 45rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 5rem;
+  background-image: url(../../../assets/images/tigr2.png);
+  background-repeat: no-repeat;
+  background-size: auto 22rem;
+  background-position: 30% 20%;
+  position: relative;
+  .cloud {
+    position: absolute;
+    top: 5rem;
+    left: 35rem;
+    width: 22rem;
+    padding: 3rem 3rem 3.5rem;
+    background-image: url(../../../assets/images/cloud.svg);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+  }
+  .rate {
+    position: relative;
+    overflow: visible;
+    min-width: 17.5rem;
+    &::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: url(../../../assets/images/grass_beh.svg);
+      background-repeat: no-repeat;
+      background-size: auto 80%;
+      z-index: 1;
+      background-position: center;
+    }
+
+    &:nth-of-type(1) {
+      &::before {
+        left: -50%;
+        bottom: -25%;
+        transform: rotate(180deg);
+      }
+    }
+    &:nth-of-type(2) {
+      &::before {
+        left: -10%;
+        bottom: -60%;
+        transform: rotate(115deg);
+      }
+    }
+    &:nth-of-type(3) {
+      &::before {
+        right: -30%;
+        bottom: -40%;
+        transform: rotate(80deg);
+        background-size: auto 100%;
+      }
+    }
+    .message {
+      position: relative;
+      z-index: 2;
+    }
+    &:not(:last-child) {
+      margin-right: 30px;
+    }
+    h3 {
+      font-family: Museo Cyrl !important;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 34px;
+      line-height: 41px;
+      letter-spacing: 0.02em;
+    }
+  }
+}
+
+.second {
+  .col-12 {
+    display: flex;
+    align-items: center;
+    padding-right: 5rem;
+    margin-bottom: 2rem;
+    img {
+      height: 5rem;
+      margin-right: 2rem;
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .first {
+    .rate {
+      &::before {
+        display: none;
+      }
+    }
+    .cloud {
+      left: 30rem;
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  .first {
+    min-height: 70rem;
+    .cloud {
+      left: 20rem;
+      top: 3rem;
+    }
+
+    .rate {
+      &:nth-of-type(2) {
+        margin-right: 0;
+      }
+      &:nth-of-type(3) {
+        margin-top: 30px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .first {
+    min-height: 85rem;
+    align-items: center;
+    .cloud {
+      background-image: url(../../../assets/images/cloud5.png);
+      left: auto;
+      top: 5rem;
+    }
+
+    .rate {
+      &::before {
+        display: block;
+      }
+      &:nth-of-type(1) {
+        margin-right: 0;
+        &::before {
+          left: -30%;
+          bottom: -35%;
+          transform: rotate(170deg);
+        }
+      }
+      &:nth-of-type(2) {
+        margin-right: 0;
+        &::before {
+          left: 20%;
+          bottom: -45%;
+          transform: rotate(90deg);
+        }
+      }
+      &:nth-of-type(3) {
+        &::before {
+          left: 0;
+          bottom: -60%;
+          transform: rotate(115deg);
+          background-size: auto 80%;
+        }
+      }
+      margin-top: 30px;
+    }
+  }
+
+  .second {
+    .col-12 {
+      padding-right: 15px;
+    }
+  }
+
+  h2 {
+    font-size: 25px;
+  }
+}
+
+.line-throught{
+    text-decoration: line-through;
+}

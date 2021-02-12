@@ -10,12 +10,21 @@ import { filter, map } from 'rxjs/operators';
 export class AppComponent {
   public title = 'jungles';
   public titles: { title: string; url: string }[] = [];
+  public showMonkey = false;
+  private monkeyUrls = ['/', '/tasks'];
 
   constructor(private routee: ActivatedRoute, private router: Router) {
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
-        map(() => this.routee),
+        map((event) => {
+          if (this.monkeyUrls.indexOf((event as NavigationEnd).url) > -1) {
+            this.showMonkey = true;
+          } else {
+            this.showMonkey = false;
+          }
+          return this.routee;
+        }),
         map((route: ActivatedRoute) => {
           const routes: { title: string; url: string }[] = [];
           while (route.firstChild) {
