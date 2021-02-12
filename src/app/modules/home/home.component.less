@@ -127,12 +127,14 @@ section {
       padding: 0;
     }
     &:nth-child(4) {
-      padding: 0 2rem;
+      padding: 0 15px;
     }
   }
   header {
-    padding-top: 60vw;
+    background-size: 100% auto ;
+    padding-top: 65vw;
     .content {
+      padding: 0;
       width: 100%;
       h1,
       h3 {
@@ -142,11 +144,15 @@ section {
       .btn-block {
         display: flex;
         justify-content: center;
-
+        img{
+          left: 20%
+        }
         span {
+          left: calc(20% + 3rem);
           max-width: 12rem;
         }
       }
+
     }
   }
 }
