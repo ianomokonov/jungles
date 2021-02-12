@@ -1,12 +1,14 @@
 <div class="nav-menu">
-  <div class="container d-flex flex-row justify-content-between">
+  <div class="container d-flex flex-row justify-content-around">
     <a class="menu-btn" (click)="toggleMenu()"><img src="../../assets/images/menu.svg" /></a>
     <a routerLink="/project" class="menu-item">О проекте</a>
     <a routerLink="/tasks" class="menu-item">Упражнения</a>
     <div class="logo">
-      <img src="../../assets/images/liana.png" />
-      <img src="../../assets/images/logo.png" />
-      <img *ngIf="showMonkey" src="../../assets/images/monkey_hanging.png" />
+      <a routerLink="">
+        <img src="../../assets/images/liana.png" />
+        <img src="../../assets/images/logo.png" />
+      </a>
+      <img class="menu-monkey" *ngIf="showMonkey" src="../../assets/images/monkey_hanging.png" />
     </div>
     <a routerLink="/rates" class="menu-item">Тарифы</a>
     <button class="button-sec" (click)="logIn()">Войти</button>
