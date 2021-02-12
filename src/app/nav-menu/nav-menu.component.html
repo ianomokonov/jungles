@@ -1,13 +1,34 @@
 <div class="nav-menu">
-    <div class="container d-flex flex-row justify-content-around">
-        <span class="menu-item">О проекте</span>
-        <span class="menu-item">Упражнения</span>
-        <div class="logo">
-            <img src="../../assets/images/liana.png">
-            <img src="../../assets/images/logo.png">
-            <img *ngIf="showMonkey" src="../../assets/images/monkey_hanging.png">
-        </div>
-        <span class="menu-item">Тарифы</span>
-        <button class="button-sec" (click)="logIn()">Войти</button>
+  <div class="container d-flex flex-row justify-content-between">
+    <a class="menu-btn" (click)="toggleMenu()"><img src="../../assets/images/menu.svg" /></a>
+    <a routerLink="/project" class="menu-item">О проекте</a>
+    <a routerLink="/tasks" class="menu-item">Упражнения</a>
+    <div class="logo">
+      <img src="../../assets/images/liana.png" />
+      <img src="../../assets/images/logo.png" />
+      <img *ngIf="showMonkey" src="../../assets/images/monkey_hanging.png" />
     </div>
+    <a routerLink="/rates" class="menu-item">Тарифы</a>
+    <button class="button-sec" (click)="logIn()">Войти</button>
+  </div>
+</div>
+
+<div *ngIf="showMenu" class="menu-togg">
+  <div class="menu-tc">
+    <img class="menu-close" (click)="toggleMenu()" src="../../assets/images/cross-menu.svg" />
+    <div class="menu-info">
+      <span class="menu-item">О проекте</span>
+      <span class="menu-item">Упражнения</span>
+      <span class="menu-item">Тарифы</span>
+      <button class="button-sec" (click)="logIn()">Войти</button>
+      <span class="subt">Мы в соцсетях:</span>
+      <div class="menu-icons d-flex flex-row align-items-center">
+        <img src="../../assets/images/icons/vk.svg" />
+        <img src="../../assets/images/icons/youtube.svg" />
+        <img src="../../assets/images/icons/tiktok.svg" />
+        <img src="../../assets/images/icons/facebook.svg" />
+        <img src="../../assets/images/icons/instagram.svg" />
+      </div>
+    </div>
+  </div>
 </div>

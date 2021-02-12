@@ -1,41 +1,53 @@
 <footer>
-    <div class="container d-flex flex-row justify-content-between">
-        <div class="footer-logo d-flex flex-column">
-            <img src="../../assets/images/logo.png">
-            <span class="subt">Развивающие онлайн занятия для детей от 3 до 7 лет</span>
-        </div>
-        <div class="footer-center d-flex flex-column">
-            <div class="footer-top d-flex flex-row justify-content-between">
-                <div class="footer-icons d-flex flex-row align-items-center">
-                    <img src="../../assets/images/icons/vk.svg">
-                    <img src="../../assets/images/icons/youtube.svg">
-                    <img src="../../assets/images/icons/tiktok.svg">
-                    <img src="../../assets/images/icons/facebook.svg">
-                    <img src="../../assets/images/icons/instagram.svg">
-                </div>
-                <div class="footer-nav d-flex flex-wrap">
-                    <span class="menu-item">Личный кабинет</span>
-                    <span class="menu-item">Упражнения</span>
-                    <span class="menu-item">О проекте</span>
-                    <span class="menu-item">Тарифы</span>
-                </div>
+  <div class="container h-100 py-5">
+    <div class="row mx-0 h-100">
+      <div
+        class="footer-logo col-12 col-lg-3 d-flex flex-column justify-content-center align-items-center align-items-sm-start mb-5 mb-lg-0"
+      >
+        <img src="../../assets/images/logo.png" />
+        <span class="subt">Развивающие онлайн занятия для детей от 3 до 7 лет</span>
+      </div>
+      <div class="col-12 col-lg-9 d-flex flex-column justify-content-center align-items-center align-items-sm-start">
+        <div class="row mx-0 w-100">
+          <div class="col-4 col-lg-3 socials mb-3 mb-sm-0">
+            <img class="mr-3" src="../../assets/images/icons/vk.svg" />
+            <img class="mr-3" src="../../assets/images/icons/youtube.svg" />
+            <img class="mr-3" src="../../assets/images/icons/tiktok.svg" />
+            <img class="mr-3" src="../../assets/images/icons/facebook.svg" />
+            <img src="../../assets/images/icons/instagram.svg" />
+          </div>
+          <div class="col-12 col-sm-7 col-md-5 d-flex mb-3 mb-sm-0">
+            <div class="mr-4">
+              <a routerLink="/profile" class="menu-item d-block">Личный кабинет</a>
+              <a routerLink="/tasks" class="menu-item">Упражнения</a>
             </div>
-            <div class="footer-pay d-flex flex-row align-items-center">
-                <span class="subt">Оплатить можно:</span>
-                <img src="../../assets/images/icons/master-card.svg">
-                <img src="../../assets/images/icons/visa.svg">
-                <img src="../../assets/images/icons/apple-pay.svg">
-                <img src="../../assets/images/icons/google-pay.svg">
-                <img src="../../assets/images/icons/samsung-pay.svg">
+            <div>
+              <a routerLink="/project" class="menu-item d-block">О проекте</a>
+              <a routerLink="/rates" class="menu-item">Тарифы</a>
             </div>
-        </div>
-        <div class="footer-buttons d-flex flex-column">
+          </div>
+          <div class="col">
             <button class="button-sec">Помощь</button>
-            <div class="footer-docs d-flex flex-column">
-                <a class="subt">Политика конфиденциальности</a>
-                <a class="subt">Пользовательское соглашение</a>
-                <a class="subt">Договор публичной оферты</a>
-            </div>
+          </div>
         </div>
+        <div class="row mx-0 mt-4 w-100">
+          <div class="col-12 col-md-8 footer-pay d-flex flex-column flex-sm-row mb-4 mb-md-0 align-items-start align-items-sm-center">
+            <span class="subt mr-3">Оплатить можно:</span>
+            <div class="d-flex">
+              <img class="mr-2" src="../../assets/images/icons/master-card.svg" />
+              <img class="mr-2" src="../../assets/images/icons/visa.svg" />
+              <img class="mr-2" src="../../assets/images/icons/apple-pay.svg" />
+              <img class="mr-2" src="../../assets/images/icons/google-pay.svg" />
+              <img class="mr-2" src="../../assets/images/icons/samsung-pay.svg" />
+            </div>
+          </div>
+          <div class="col-12 col-md-4 d-flex flex-column align-items-start">
+            <a class="subt link-sm mb-1">Политика конфиденциальности</a>
+            <a class="subt link-sm mb-1">Пользовательское соглашение</a>
+            <a class="subt link-sm mb-1">Договор публичной оферты</a>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </footer>

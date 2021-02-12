@@ -1,0 +1,115 @@
+@import '../../../../variables.less';
+
+.slider {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-image: url(../../../../assets/images/iPad.png);
+  background-size: 100% 110%;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  padding: 0;
+
+  .feedback {
+    padding: 4rem 5.5rem 4rem;
+
+    .user {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2rem;
+
+      img {
+        margin-right: 1rem;
+      }
+      p {
+        margin-bottom: 0;
+      }
+      span {
+        color: @grey;
+      }
+    }
+
+    h3 {
+      margin-bottom: 2rem;
+    }
+
+    p.text {
+      &:not(.show) {
+        display: -webkit-box;
+        -webkit-line-clamp: 10;
+        -webkit-box-orient: vertical;
+      }
+
+      max-height: 238px;
+      overflow: hidden;
+      &::-webkit-scrollbar-track {
+        border-radius: 4px;
+      }
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+      &::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        background: @light-green;
+      }
+      &:hover::-webkit-scrollbar-thumb {
+        background: @dark-green;
+      }
+
+      &.show {
+        overflow: auto;
+      }
+    }
+    .link-sm {
+      font-size: 1rem;
+      font-weight: 400;
+      padding: 0;
+      text-transform: none;
+      position: relative;
+      z-index: 11;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .slider {
+    .feedback{
+      padding: 4rem 4rem 4rem;
+    }
+    & > .btn {
+      &.prev {
+        left: -1rem;
+      }
+
+      &.next {
+        right: -1rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .slider {
+    .feedback {
+      padding: 4rem 4rem 4rem;
+      .user {
+        img {
+          width: 60px;
+        }
+        p.text-b {
+          font-size: 14px;
+        }
+        span {
+          font-size: 14px;
+        }
+      }
+      h3 {
+        font-size: 16px;
+      }
+      p.text {
+        font-size: 14px;
+      }
+    }
+  }
+}

@@ -1,0 +1,129 @@
+section.sixth {
+  min-height: 50rem;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  .content {
+    position: absolute;
+    bottom: 5rem;
+    width: 30rem;
+
+    .message {
+      padding: 3rem 3rem 12rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      * {
+        text-align: center;
+      }
+
+      .btn {
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+      }
+    }
+  }
+
+  // margin-right: -10rem;
+  // margin-left: -10rem;
+
+  background: url(../../../../assets/images/slon_with_mono.svg) no-repeat 20% 80%,
+    url(../../../../assets/images/tigr.svg) no-repeat 75% 70%,
+    url(../../../../assets/images/grass_beh2.png) no-repeat 15% 80%,
+    url(../../../../assets/images/grass_beh.svg) no-repeat 100% bottom;
+
+  img {
+    position: absolute;
+
+    &.first-grass {
+      left: 2rem;
+      bottom: 2rem;
+    }
+    &.second-grass {
+      right: 8rem;
+      bottom: 3rem;
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  section.sixth {
+    min-height: 60rem;
+    background: url(../../../../assets/images/slon_with_mono.svg) no-repeat 0 90% / auto 40%,
+    url(../../../../assets/images/tigr.svg) no-repeat 90% 80% / auto 30%,
+    url(../../../../assets/images/grass_beh2.png) no-repeat 15% 100%,
+    url(../../../../assets/images/grass_beh.svg) no-repeat 100% 110%;
+    .content {
+      bottom: auto;
+      top: 12rem;
+
+      .message{
+        padding-bottom: 3rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  section.sixth {
+    min-height: 70rem;
+    background: url(../../../../assets/images/slon_with_mono.svg) no-repeat 0 90% / auto 40%,
+    url(../../../../assets/images/tigr.svg) no-repeat 90% 80% / auto 20%,
+    url(../../../../assets/images/grass_beh2.png) no-repeat 15% 100% / auto 30%,
+    url(../../../../assets/images/grass_beh.svg) no-repeat 100% 110%;
+    .content {
+      bottom: auto;
+      top: 12rem;
+
+      .message{
+        padding-bottom: 3rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  section.sixth {
+    img {
+      position: absolute;
+  
+      &.first-grass {
+        left: 2rem;
+        bottom: 2rem;
+        height: 12rem;
+      }
+      &.second-grass {
+        right: 8rem;
+        bottom: 3rem;
+        height: 12rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  section.sixth {
+    min-height: 60rem;
+    .content{
+      width: 100%;
+      padding: 0 !important;
+    }
+    background: url(../../../../assets/images/slon_with_mono.svg) no-repeat 10% 95% / auto 20%,
+    url(../../../../assets/images/tigr.svg) no-repeat 80% 90% / auto 15%;
+    img {
+      position: absolute;
+  
+      &.first-grass {
+        left: 2rem;
+        bottom: 0;
+        height: 10rem;
+      }
+      &.second-grass {
+        right: 2rem;
+        bottom: 0;
+        height: 10rem;
+      }
+    }
+  }
+}

@@ -1,0 +1,53 @@
+section.third {
+  margin-bottom: 10rem;
+  .slider {
+    display: none;
+  }
+  .groups,
+  .slider {
+    .group {
+      padding-top: 7rem;
+      &:last-child {
+        .content {
+          img {
+            top: -7.5rem;
+          }
+        }
+      }
+      .content {
+        position: relative;
+        background-color: @light-grey;
+        padding: 15rem 3.5rem 3rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        img {
+          position: absolute;
+          top: -4rem;
+        }
+        h2 {
+          margin-bottom: 2rem;
+        }
+        ul {
+          margin-bottom: 2rem;
+        }
+        p {
+          margin-bottom: 2rem;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .slider {
+    display: flex !important;
+  }
+  .content{
+    padding-right: 2rem !important;
+    padding-left: 2rem !important;
+  }
+  .groups {
+    display: none;
+  }
+}

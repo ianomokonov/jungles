@@ -10,6 +10,7 @@ const routes: Routes = [
   {
     path: 'project',
     loadChildren: () => import('./modules/project/project.module').then((m) => m.ProjectModule),
+    data: { title: 'О проекте' },
   },
   {
     path: 'rates',
@@ -24,6 +25,7 @@ const routes: Routes = [
   {
     path: 'tasks',
     loadChildren: () => import('./modules/tasks/tasks.module').then((m) => m.TasksModule),
+    data: { title: 'Упражнения' },
   },
 ];
 

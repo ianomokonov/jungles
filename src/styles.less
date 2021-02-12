@@ -1,26 +1,15 @@
+@import './variables.less';
+
 /* Fonts */
 @font-face {
   font-family: Museo Cyrl;
-  src: url(./assets/fonts/museocyrl.otf);
+  src: url(./assets/fonts/Museocyrl500.ttf);
 }
 
 @font-face {
   font-family: Open Sans;
   src: url(./assets/fonts/opensans.ttf);
 }
-
-/* Colors */
-@dark-green: #2d6255;
-@green: #91c29c;
-@light-green: #e4f4e7;
-@orange: #ff952c;
-@grey: #c9c9c9;
-@light-grey: #f6fbfa;
-@blue: #7ee1e4;
-@yellow: #fccc4c;
-@brown: #5f3812;
-@light-brown: #cf7822;
-@red: #ff7676;
 
 /*  Text Styles */
 
@@ -75,6 +64,7 @@ h4 {
   color: @orange;
 }
 
+h3,
 .menu-item,
 .text-mb,
 .text-m,
@@ -116,6 +106,10 @@ h4 {
   font-size: 0.75rem;
 }
 
+.text-orange {
+  color: @orange;
+}
+
 /*  Clickable Elements Styles */
 
 .btn {
@@ -126,6 +120,7 @@ h4 {
   text-transform: uppercase;
   font-size: 1rem;
   padding: 20px 60px;
+  white-space: nowrap;
 }
 
 .btn-primary {
@@ -156,6 +151,9 @@ h4 {
 }
 
 .button-sec {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: Open Sans;
   font-weight: 600;
   font-size: 1rem;
@@ -254,5 +252,188 @@ h4 {
     box-sizing: border-box;
     border-radius: 25px;
     padding: 18px 25px;
+  }
+}
+
+html {
+  background-image: url('./assets/images/fon.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-width: 379px;
+  min-height: 100%;
+}
+
+body {
+  background-color: transparent;
+  min-width: 379px;
+  color: @dark-green;
+  min-height: 100vh;
+}
+
+ul {
+  &.check-mark {
+    list-style-image: url('./assets/images/check_mark.png');
+
+    li {
+      padding-left: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
+.section-header {
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.section-label {
+  text-align: center;
+  margin-bottom: 5rem;
+  &:extend(.text-mb);
+}
+
+.link-sm {
+  color: inherit;
+  position: relative;
+  &:hover {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  &::after {
+    content: '';
+    background-color: @dark-green;
+    height: 1px;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    left: 0;
+  }
+}
+
+.message {
+  background-color: @light-grey;
+  border: 7px solid @light-green;
+  border-radius: 12px;
+  padding: 1.5rem;
+
+  display: flex;
+  align-items: center;
+  &.no-numbers {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .message-title {
+    text-transform: uppercase;
+  }
+  .message-number {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 44px;
+    margin-right: 1.2rem;
+  }
+
+  .message-content {
+    margin-bottom: 0;
+  }
+}
+app-feedback-slider {
+  .slider {
+    & > .btn {
+      height: 38px;
+      width: 38px;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+
+      &.prev {
+        left: -3rem;
+      }
+
+      &.next {
+        right: -3rem;
+      }
+    }
+    .carousel-indicators {
+      bottom: 1.8rem;
+    }
+    .carousel-inner {
+      height: 100%;
+
+      .carousel-item {
+        height: 100%;
+      }
+    }
+  }
+}
+app-feedback-slider,
+.slider {
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  * {
+    outline: none;
+  }
+  .carousel-indicators {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    li {
+      background-color: @grey;
+      height: 6px;
+      width: 6px;
+      border-radius: 50%;
+      opacity: 1;
+
+      &[aria-selected='true'] {
+        height: 8px;
+        width: 8px;
+        background-color: @orange;
+      }
+    }
+  }
+
+  & > .btn {
+    height: 38px;
+    width: 38px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+
+    &.prev {
+      left: 0;
+      img {
+        transform: rotate(-180deg);
+      }
+    }
+
+    &.next {
+      right: 0;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  h1 {
+    font-size: 30px;
+  }
+  h2 {
+    font-size: 20px;
+  }
+  h4 {
+    font-size: 14px;
+  }
+  .section-label {
+    font-size: 14px;
+  }
+  .btn {
+    padding: 10px 30px;
   }
 }
