@@ -134,6 +134,11 @@ h3,
     box-shadow: 0px 0px 20px 8px rgba(207, 120, 34, 0.4);
     color: @brown;
   }
+
+  &:focus, &:active {
+    border-bottom: 4px solid @light-brown;
+    box-shadow: 0px 0px 20px 8px rgba(207, 120, 34, 0.4);
+  }
 }
 
 .btn-success {
@@ -148,6 +153,19 @@ h3,
     box-shadow: 0px 0px 10px 5px rgba(207, 120, 34, 0.4);
     color: #5f3812;
   }
+
+  &:focus, &:active {
+    border-bottom: 4px solid @light-brown;
+    box-shadow: 0px 0px 20px 8px rgba(207, 120, 34, 0.4);
+  }
+}
+
+.btn-slider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(180deg, #FFBB78 0%, #FF9C3A 100%);
+  color: @brown;
 }
 
 .button-sec {
