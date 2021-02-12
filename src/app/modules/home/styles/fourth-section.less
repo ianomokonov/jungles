@@ -78,14 +78,24 @@ section.fourth {
 @media (max-width: 576px) {
   section.fourth {
     margin-bottom: 15rem;
+    .section-label{
+      margin-bottom: 0;
+    }
     .content {
-      background-size: auto calc(100% - 12rem);
-      background-position: calc(90% + 10vw) bottom;
+      background-size: auto 16rem;
+      padding-top: 0;
+      background-position: -5rem 16rem;
       .left-content {
         right: 0;
-        width: 15rem;
-        height: 22rem;
+        top: 5rem;
+        width: 16rem;
+        height: 16rem;
+        padding-top: 5rem;
         padding-bottom: 2rem;
+        padding-right: 1.5rem;
+        img{
+          height: 7rem;
+        }
         p {
           font-size: 14px !important;
         }

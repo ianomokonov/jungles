@@ -27,8 +27,8 @@ section.second {
           padding-top: 2.5rem;
           .btn {
             margin-right: 1rem;
-            min-width: 5rem;
-            min-height: 2.1rem;
+            height: 5rem;
+            width: 5rem;
             padding: 0;
             display: flex;
             justify-content: center;
@@ -46,7 +46,7 @@ section.second {
           width: 20rem;
         }
       }
-      .slider{
+      .slider {
         display: none;
       }
     }
@@ -112,7 +112,7 @@ section.second {
         .messages {
           display: none !important;
         }
-        .slider{
+        .slider {
           margin-top: 10rem;
           display: flex;
         }
@@ -130,7 +130,6 @@ section.second {
     .section-body {
       background-size: 70% auto;
       .content {
-        
         .video {
           margin-left: 22rem;
           width: 2rem !important;
@@ -161,6 +160,10 @@ section.second {
 
 @media (max-width: 576px) {
   section.second {
+    .section-header {
+      padding-right: 26px;
+      padding-left: 26px;
+    }
     .section-body {
       background-size: 23rem auto;
       background-position: -10rem top;
@@ -184,6 +187,17 @@ section.second {
                 margin-bottom: 1rem;
               }
             }
+          }
+        }
+        .slider {
+          padding-right: 30px;
+          padding-left: 30px;
+
+          .prev {
+            left: 15px;
+          }
+          .next {
+            right: 15px;
           }
         }
       }

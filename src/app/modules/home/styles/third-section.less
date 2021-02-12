@@ -40,14 +40,28 @@ section.third {
 }
 
 @media (max-width: 992px) {
-  .slider {
-    display: flex !important;
-  }
-  .content{
-    padding-right: 2rem !important;
-    padding-left: 2rem !important;
-  }
-  .groups {
-    display: none;
+  section.third {
+    .slider {
+      display: flex !important;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    .group {
+      .content {
+        padding-top: 5rem !important;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+        p {
+          font-size: 14px;
+        }
+        ul{
+          margin-left: 18px;
+          margin-right: 18px;
+        }
+      }
+    }
+    .groups {
+      display: none;
+    }
   }
 }

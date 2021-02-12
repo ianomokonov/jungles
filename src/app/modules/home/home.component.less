@@ -118,28 +118,42 @@ section {
 }
 
 @media (max-width: 576px) {
+  h2 {
+    font-size: 20px;
+  }
   .container {
-    &:nth-child(3), &:nth-child(5) {
+    &:nth-child(3),
+    &:nth-child(5) {
       padding: 0;
     }
     &:nth-child(4) {
-      padding: 0 2rem;
+      padding: 0 15px;
     }
   }
   header {
-    padding-top: 60vw;
+    background-size: 100% auto;
+    padding-top: 65vw;
     .content {
+      padding: 0;
       width: 100%;
       h1,
       h3 {
         text-align: center;
       }
 
+      h3 {
+        font-size: 16px;
+        padding: 0 42px;
+      }
+
       .btn-block {
         display: flex;
         justify-content: center;
-
+        img {
+          left: 20%;
+        }
         span {
+          left: calc(20% + 3rem);
           max-width: 12rem;
         }
       }

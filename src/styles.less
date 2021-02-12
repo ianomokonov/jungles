@@ -119,7 +119,9 @@ h3,
   font-weight: 700;
   text-transform: uppercase;
   font-size: 1rem;
-  padding: 20px 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   white-space: nowrap;
 }
 
@@ -128,11 +130,18 @@ h3,
   background: linear-gradient(182.07deg, #ffc081 1.75%, #ff9b38 74.75%);
   box-shadow: 0px 5px 12px rgba(207, 120, 34, 0.4);
   color: @brown;
+  width: 353px;
+  height: 78px;
 
   &:hover {
     border-bottom: 4px solid @light-brown;
     box-shadow: 0px 0px 20px 8px rgba(207, 120, 34, 0.4);
     color: @brown;
+  }
+
+  &:focus, &:active {
+    border-bottom: 4px solid @light-brown;
+    box-shadow: 0px 0px 20px 8px rgba(207, 120, 34, 0.4);
   }
 }
 
@@ -141,6 +150,8 @@ h3,
   background: linear-gradient(0.63deg, #4b7d55 23.7%, #6da262 85.35%);
   box-shadow: 0px 5px 12px rgba(66, 103, 78, 0.4);
   color: white;
+  width: 237px;
+  height: 67px;
 
   &:hover {
     border-bottom: 4px solid @light-brown;
@@ -148,6 +159,19 @@ h3,
     box-shadow: 0px 0px 10px 5px rgba(207, 120, 34, 0.4);
     color: #5f3812;
   }
+
+  &:focus, &:active {
+    border-bottom: 4px solid @light-brown;
+    box-shadow: 0px 0px 20px 8px rgba(207, 120, 34, 0.4);
+  }
+}
+
+.btn-slider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(180deg, #FFBB78 0%, #FF9C3A 100%);
+  color: @brown;
 }
 
 .button-sec {
@@ -423,9 +447,6 @@ app-feedback-slider,
 @media (max-width: 576px) {
   h1 {
     font-size: 30px;
-  }
-  h2 {
-    font-size: 20px;
   }
   h4 {
     font-size: 14px;
