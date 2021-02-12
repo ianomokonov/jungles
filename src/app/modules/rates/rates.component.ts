@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./rates.component.less'],
 })
 export class RatesComponent {
-  public showDiscount = true;
+  public showDiscount = false;
   public discount = 0.9;
   public basePrice = 400;
   public threeMonthPrice = 320;
