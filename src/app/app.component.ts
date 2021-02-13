@@ -11,7 +11,7 @@ export class AppComponent {
   public title = 'jungles';
   public titles: { title: string; url: string }[] = [];
   public showMonkey = false;
-  private monkeyUrls = ['/', '/tasks'];
+  private monkeyUrls = ['/', '/tasks', '/project'];
 
   constructor(private routee: ActivatedRoute, private router: Router) {
     this.router.events
