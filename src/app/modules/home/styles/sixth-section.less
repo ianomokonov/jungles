@@ -1,26 +1,31 @@
 section.sixth {
   min-height: 50rem;
   position: relative;
-  display: flex;
-  justify-content: center;
-  .content {
-    position: absolute;
-    bottom: 5rem;
-    width: 30rem;
+  .container {
+    display: flex;
+    justify-content: center;
+    h2{
+      max-width: 55rem;
+    }
+    .content {
+      position: absolute;
+      bottom: 5rem;
+      width: 32rem;
 
-    .message {
-      padding: 3rem 3rem 12rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      .message {
+        padding: 3rem 4rem 12rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
 
-      * {
-        text-align: center;
-      }
+        * {
+          text-align: center;
+        }
 
-      .btn {
-        margin-top: 2rem;
-        margin-bottom: 2rem;
+        .btn {
+          margin-top: 2rem;
+          margin-bottom: 2rem;
+        }
       }
     }
   }
@@ -28,21 +33,21 @@ section.sixth {
   // margin-right: -10rem;
   // margin-left: -10rem;
 
-  background: url(../../../../assets/images/slon_with_mono.svg) no-repeat 20% 80%,
-    url(../../../../assets/images/tigr.svg) no-repeat 75% 70%,
-    url(../../../../assets/images/grass_beh2.png) no-repeat 15% 80%,
-    url(../../../../assets/images/grass_beh.svg) no-repeat 100% bottom;
+  background: url(../../../../assets/images/slon_with_mono.svg) no-repeat 13.5rem 8rem,
+    url(../../../../assets/images/tigr.svg) no-repeat 61rem 21rem,
+    url(../../../../assets/images/grass_beh2.png) no-repeat 1.8rem 17.7rem,
+    url(../../../../assets/images/grass_beh.svg) no-repeat 65rem 16rem;
 
   img {
     position: absolute;
 
     &.first-grass {
-      left: 2rem;
-      bottom: 2rem;
+      left: 3rem;
+      bottom: 5.5rem;
     }
     &.second-grass {
-      right: 8rem;
-      bottom: 3rem;
+      right: 8.5rem;
+      bottom: 6rem;
     }
   }
 }
