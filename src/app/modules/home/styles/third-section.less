@@ -1,10 +1,15 @@
 section.third {
+  .contentt {
+    display: flex;
+    justify-content: center;
+  }
   margin-bottom: 10rem;
   h2 {
     max-width: 38rem;
   }
   .slider {
     display: none;
+    max-width: 500px;
   }
   .groups {
     display: flex;
@@ -20,7 +25,7 @@ section.third {
           img {
             top: -7.5rem;
           }
-          p:nth-of-type(2){
+          p:nth-of-type(2) {
             margin-bottom: calc(3rem - 24px);
           }
         }
@@ -48,8 +53,6 @@ section.third {
           margin-bottom: 3rem;
           margin-left: -10px;
           margin-right: -15px;
-
-          
         }
       }
     }
@@ -65,11 +68,13 @@ section.third {
     }
     .group {
       .content {
-        padding-top: 5rem !important;
+        padding-top: 12rem !important;
         padding-left: 10px !important;
         padding-right: 10px !important;
         p {
           font-size: 14px;
+          margin: 0 !important;
+          margin-bottom: 2rem !important;
         }
         ul {
           margin-left: 18px;
@@ -79,6 +84,18 @@ section.third {
     }
     .groups {
       display: none;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  section.third {
+    .group {
+      .content {
+        h2{
+          font-size: 20px !important;
+        }
+      }
     }
   }
 }
