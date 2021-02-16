@@ -52,16 +52,12 @@ header {
           position: absolute;
         }
         img {
-          bottom: -4rem;
-          left: calc(30% + 1rem);
-          left: -webkit-calc(30% + 1rem);
-          left: -moz-calc(30% + 1rem);
+          bottom: -56px;
+          left: calc(30% + 16px);
         }
         span {
-          bottom: -6.5rem;
-          left: calc(30% + 4rem);
-          left: -webkit-calc(30% + 4rem);
-          left: -moz-calc(30% + 4rem);
+          bottom: -100px;
+          left: calc(30% + 65px);
           max-width: 9.5rem;
 
           text-align: start;
@@ -144,29 +140,19 @@ section {
     }
   }
   header {
-    margin-bottom: 10rem;
+    margin-bottom: 8rem;
     .container {
       background-size: 22rem auto;
       background-position: center 10%;
       padding-top: 20rem;
-      h1{
+      h1 {
         font-size: 28px;
-      }
-      &::before {
-        content: '';
-        width: 100%;
-        height: 10rem;
-        position: absolute;
-        bottom: -16rem;
-        left: 0;
-        background-image: url(../../../assets/images/lists_background.png);
-        background-repeat: no-repeat;
-        background-position: left 1rem;
       }
       .content {
         min-height: 520px;
         width: 100% !important;
         position: relative;
+
         h3 {
           padding: 0;
         }
@@ -179,13 +165,23 @@ section {
         .btn-block {
           display: flex;
           justify-content: center;
+          min-height: 80px;
+          &::before {
+            content: '';
+            width: 100vw;
+            height: 10rem;
+            position: absolute;
+            top: calc(100% + 3rem);
+            left: -15px;
+            background-image: url(../../../assets/images/lists_background.png);
+            background-repeat: no-repeat;
+            background-position: left 1rem;
+          }
           img {
             left: 20%;
           }
           span {
-            left: calc(20% + 3rem);
-            left: -webkit-calc(20% + 3rem);
-            left: -moz-calc(20% + 3rem);
+            left: calc(20% + 50px);
             max-width: 12rem;
           }
         }
