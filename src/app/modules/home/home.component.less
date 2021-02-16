@@ -12,14 +12,14 @@ header {
   margin-bottom: 12rem;
 
   .container {
-    
     padding-top: 10rem;
     padding-bottom: 40px;
 
-    &::before{
+    &::before {
       content: '';
       height: 100%;
       width: 100%;
+      min-width: 1110px;
       position: absolute;
       right: 0;
       top: 0;
@@ -30,6 +30,8 @@ header {
     }
 
     .content {
+      position: relative;
+      z-index: 10;
       width: 50%;
       display: flex;
       flex-direction: column;
@@ -85,7 +87,16 @@ section {
     z-index: 10;
   }
 }
-
+@media (max-width: 1450px) {
+  header {
+    .container {
+      &::before {
+        background-size: auto calc(100% - 20rem);
+        background-position: right 10% top 90%;
+      }
+    }
+  }
+}
 @media (max-width: 1200px) {
   header {
     padding-top: 10rem;
@@ -95,6 +106,12 @@ section {
       padding-top: 30rem;
       display: flex;
       justify-content: center;
+      background-image: url('../../../assets/images/slon.png');
+      background-repeat: no-repeat;
+
+      &::before {
+        display: none;
+      }
 
       .content {
         justify-content: center;
