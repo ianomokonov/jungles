@@ -9,14 +9,15 @@
 header {
   padding-top: 3rem;
   padding-bottom: 5rem;
-  margin-bottom: 14rem;
+  margin-bottom: 12rem;
 
   .container {
     background-image: url('../../../assets/images/slon.png');
     background-repeat: no-repeat;
-    background-size: auto calc(100% - 7rem);
+    background-size: auto calc(100% - 9rem);
     background-position: right -10% top 145%;
     padding-top: 10rem;
+    padding-bottom: 40px;
 
     .content {
       width: 50%;
@@ -51,22 +52,19 @@ header {
           position: absolute;
         }
         img {
-          top: calc(100% + 1rem);
+          bottom: -4rem;
           left: calc(30% + 1rem);
           left: -webkit-calc(30% + 1rem);
           left: -moz-calc(30% + 1rem);
-          top: -webkit-calc(100% + 1rem);
-          top: -moz-calc(100% + 1rem);
-          
         }
         span {
-          top: calc(100% + 3.5rem);
+          bottom: -6.5rem;
           left: calc(30% + 4rem);
           left: -webkit-calc(30% + 4rem);
           left: -moz-calc(30% + 4rem);
-          top: -webkit-calc(100% + 3.5rem);
-          top: -moz-calc(100% + 3.5rem);
           max-width: 9.5rem;
+
+          text-align: start;
         }
       }
     }
@@ -105,11 +103,9 @@ section {
           justify-content: center;
 
           img {
-            top: calc(100% + 1rem);
             left: 50%;
           }
           span {
-            top: calc(100% + 3.5rem);
             left: calc(50% + 3rem);
             max-width: 9.5rem;
           }
@@ -142,31 +138,35 @@ section {
 }
 
 @media (max-width: 576px) {
-  .container{
-    &:nth-child(5){
+  .container {
+    &:nth-child(5) {
       padding: 0;
     }
   }
   header {
+    margin-bottom: 10rem;
     .container {
       background-size: 22rem auto;
       background-position: center 10%;
       padding-top: 20rem;
-      
-
-      &::before{
+      h1{
+        font-size: 28px;
+      }
+      &::before {
         content: '';
         width: 100%;
         height: 10rem;
         position: absolute;
-        bottom: -20rem;
+        bottom: -16rem;
         left: 0;
         background-image: url(../../../assets/images/lists_background.png);
         background-repeat: no-repeat;
         background-position: left 1rem;
       }
       .content {
+        min-height: 520px;
         width: 100% !important;
+        position: relative;
         h3 {
           padding: 0;
         }
@@ -187,7 +187,6 @@ section {
             left: -webkit-calc(20% + 3rem);
             left: -moz-calc(20% + 3rem);
             max-width: 12rem;
-            text-align: start;
           }
         }
       }
