@@ -1,4 +1,7 @@
 section.third {
+  .section-label {
+    margin-bottom: 40px;
+  }
   .contentt {
     display: flex;
     justify-content: center;
@@ -20,10 +23,20 @@ section.third {
     .group {
       max-width: 500px;
       padding-top: 7rem;
+      &:first-child {
+        .content {
+          img {
+            height: 235px;
+            top: -2rem;
+          }
+        }
+      }
+
       &:last-child {
         .content {
           img {
-            top: -7.5rem;
+            height: 297px;
+            top: -4rem;
           }
           p:nth-of-type(2) {
             margin-bottom: calc(3rem - 24px);
@@ -41,7 +54,6 @@ section.third {
         img {
           position: absolute;
           top: -4.5rem;
-          height: 18rem;
         }
         h2 {
           margin-bottom: 2rem;
@@ -69,16 +81,20 @@ section.third {
     }
     .group {
       .content {
-        padding-top: 12rem !important;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+        padding-top: 16rem !important;
         padding-left: 10px !important;
         padding-right: 10px !important;
         p {
-          font-size: 14px;
           margin: 0 !important;
           margin-bottom: 2rem !important;
         }
         ul {
-          margin-left: 18px;
+          text-align: left;
+          margin-left: 12%;
           margin-right: 18px;
         }
       }
@@ -91,10 +107,31 @@ section.third {
 
 @media (max-width: 576px) {
   section.third {
-    .group {
-      .content {
-        h2{
-          font-size: 20px !important;
+    .slider {
+      .group {
+        padding-top: 0px;
+        &:first-child {
+          .content {
+            img {
+              height: 174.31px !important;
+              top: 16px !important;
+            }
+          }
+        }
+        &:last-child {
+          .content {
+            img {
+              height: 235px;
+              top: 16px !important;
+            }
+          }
+        }
+
+        .content {
+          padding-top: 300px !important;
+          h2 {
+            font-size: 20px !important;
+          }
         }
       }
     }
