@@ -12,12 +12,22 @@ header {
   margin-bottom: 12rem;
 
   .container {
-    background-image: url('../../../assets/images/slon.png');
-    background-repeat: no-repeat;
-    background-size: auto calc(100% - 9rem);
-    background-position: right -10% top 145%;
+    
     padding-top: 10rem;
     padding-bottom: 40px;
+
+    &::before{
+      content: '';
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      right: 0;
+      top: 0;
+      background-image: url('../../../assets/images/slon.png');
+      background-repeat: no-repeat;
+      background-size: auto calc(100% - 15rem);
+      background-position: right 10% top 110%;
+    }
 
     .content {
       width: 50%;
