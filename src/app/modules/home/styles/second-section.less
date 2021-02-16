@@ -225,13 +225,23 @@ section.second {
     .container {
       background-size: 28rem auto;
       background-position: -12.5rem 11rem;
-
-      h2 {
-        padding: 0 !important;
+      position: relative;
+      padding: 0;
+      &::before{
+        content: '';
+        width: 100%;
+        height: 10rem;
+        position: absolute;
+        bottom: -10rem;
+        right: 0;
+        background-image: url(../../../../assets/images/trava_ackground.png);
+        background-repeat: no-repeat;
+        background-position: right 1rem;
       }
-      .section-header {
-        padding-right: 26px;
-        padding-left: 26px;
+      h2 {
+        padding: 0 26px !important;
+        font-size: 20px;
+
       }
       .section-body {
         .content {
