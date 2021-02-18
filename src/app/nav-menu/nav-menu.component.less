@@ -7,18 +7,17 @@
   z-index: 100;
 
   .container {
-
     .menu-btn {
       display: none;
     }
 
     .menu-item {
       margin-top: 57px;
+      letter-spacing: 0.02em;
     }
 
     .logo {
       position: relative;
-
       a {
         z-index: 30;
         img:nth-child(1) {
@@ -47,6 +46,13 @@
     .button-sec {
       margin-top: 46px;
     }
+  }
+}
+
+@media (min-width: 1350px) {
+  .container {
+    max-width: 1200px;
+    padding: 0;
   }
 }
 

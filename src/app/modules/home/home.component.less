@@ -9,10 +9,10 @@
 header {
   padding-top: 3rem;
   padding-bottom: 5rem;
-  margin-bottom: 12rem;
+  margin-bottom: 160px;
 
   .container {
-    padding-top: 10rem;
+    padding-top: 154px;
     padding-bottom: 40px;
 
     &::before {
@@ -37,7 +37,7 @@ header {
       flex-direction: column;
       align-items: flex-start;
       h1 {
-        margin-bottom: 2rem;
+        margin-bottom: 30px;
         color: @orange;
         p {
           color: @dark-green;
@@ -47,10 +47,12 @@ header {
       h3 {
         margin-bottom: 3rem;
         line-height: 30px;
+        padding-left: 2px;
+        letter-spacing: -0.01em;
       }
 
       ul {
-        margin-bottom: 48px;
+        margin-bottom: 38px;
 
         li {
           margin-bottom: 16px;
@@ -65,15 +67,19 @@ header {
           position: absolute;
         }
         img {
-          bottom: -56px;
-          left: calc(30% + 16px);
+          bottom: -62px;
+          left: calc(30% + 13px);
         }
         span {
-          bottom: -100px;
+          bottom: -130px;
           left: calc(30% + 65px);
-          max-width: 9.5rem;
+          max-width: 168px;
 
           text-align: start;
+
+          font-weight: 300;
+          font-size: 14px;
+          line-height: 19px;
         }
       }
     }
@@ -86,6 +92,13 @@ section {
     left: 0;
     width: 100%;
     z-index: 10;
+  }
+}
+
+@media (min-width: 1350px) {
+  .container {
+    max-width: 1200px;
+    padding: 0;
   }
 }
 @media (max-width: 1450px) {
@@ -101,6 +114,9 @@ section {
 @media (max-width: 1200px) {
   header {
     padding-top: 10rem;
+    h1 {
+      font-size: 40px;
+    }
     .container {
       background-size: 65% auto;
       background-position: center top;
@@ -142,6 +158,11 @@ section {
 @media (max-width: 992px) {
   header {
     padding-top: 4rem;
+    h3{
+      br{
+        display: none;
+      }
+    }
     .container {
       background-size: 75% auto;
       padding-top: 25rem;
@@ -196,7 +217,7 @@ section {
           min-height: 80px;
           &::before {
             content: '';
-            width: 100vw;
+            width: 100%;
             height: 10rem;
             position: absolute;
             top: calc(100% + 3rem);
