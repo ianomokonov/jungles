@@ -8,8 +8,8 @@
 
 header {
   padding-top: 3rem;
-  padding-bottom: 5rem;
-  margin-bottom: 160px;
+  padding-bottom: 5.7rem;
+  margin-bottom: 150px;
 
   .container {
     padding-top: 154px;
@@ -25,7 +25,7 @@ header {
       top: 0;
       background-image: url('../../../assets/images/slon.png');
       background-repeat: no-repeat;
-      background-size: auto calc(100% - 18rem);
+      background-size: auto calc(100% - 16.6rem);
       background-position: right 14% top 98%;
     }
 
@@ -37,7 +37,7 @@ header {
       flex-direction: column;
       align-items: flex-start;
       h1 {
-        margin-bottom: 30px;
+        margin-bottom: 28px;
         color: @orange;
         p {
           color: @dark-green;
@@ -52,7 +52,7 @@ header {
       }
 
       ul {
-        margin-bottom: 38px;
+        margin-bottom: 48px;
 
         li {
           margin-bottom: 16px;
@@ -71,7 +71,7 @@ header {
           left: calc(30% + 13px);
         }
         span {
-          bottom: -130px;
+          bottom: -128px;
           left: calc(30% + 65px);
           max-width: 168px;
 
@@ -87,6 +87,8 @@ header {
 }
 
 section {
+  margin-bottom: 150px;
+  
   .cloud-img {
     bottom: 0;
     left: 0;
@@ -95,22 +97,20 @@ section {
   }
 }
 
-@media (min-width: 1350px) {
-  .container {
-    max-width: 1200px;
-    padding: 0;
-  }
+.container {
+  max-width: 1200px;
+  padding: 0;
 }
-@media (max-width: 1450px) {
-  header {
-    .container {
-      &::before {
-        background-size: auto calc(100% - 20rem);
-        background-position: right 10% top 90%;
-      }
-    }
-  }
-}
+// @media (max-width: 1450px) {
+//   header {
+//     .container {
+//       &::before {
+//         background-size: auto calc(100% - 20rem);
+//         background-position: right 10% top 90%;
+//       }
+//     }
+//   }
+// }
 @media (max-width: 1200px) {
   header {
     padding-top: 10rem;
