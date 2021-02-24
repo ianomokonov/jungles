@@ -35,7 +35,6 @@ section.third {
 
       &:last-child {
         .content {
-          padding: 15rem 2rem 4rem 3.5rem !important;
           img {
             height: 297px;
             top: -4rem;
@@ -90,7 +89,7 @@ section.third {
         padding-left: 10px !important;
         padding-right: 10px !important;
         p {
-          margin: 0 !important;
+          margin: 0 ;
           margin-bottom: 2rem !important;
         }
         ul {
@@ -109,6 +108,13 @@ section.third {
 @media (max-width: 576px) {
   section.third {
     position: relative;
+    .section-header{
+      padding: 0 40px;
+    }
+    .section-label{
+      padding: 0 40px;
+      margin-bottom: 38px;
+    }
     &::before, &::after{
       content: '';
       width: 100%;
@@ -147,8 +153,15 @@ section.third {
 
         .content {
           padding-top: 300px !important;
+          padding-left: 15px !important;
+          padding-right: 15px !important;
           h2 {
             font-size: 20px !important;
+          }
+          p{
+            margin-left: -15px;
+            margin-right: -15px;
+            font-size: 14px;
           }
         }
       }
