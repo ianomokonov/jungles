@@ -352,15 +352,48 @@ ul {
     color: inherit;
   }
 
-  &::after {
-    content: '';
-    background-color: @dark-green;
-    height: 1px;
-    position: absolute;
-    top: 100%;
-    width: 100%;
-    left: 0;
-  }
+  text-decoration: none;
+  padding-bottom: 3px;
+  background-image: -webkit-linear-gradient(
+    bottom,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 1px,
+    @dark-green 1px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0) 100px
+  );
+  background-image: -moz-linear-gradient(
+    bottom,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 1px,
+    @dark-green 1px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0) 100px
+  );
+  background-image: -ms-linear-gradient(
+    bottom,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 1px,
+    @dark-green 1px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0) 100px
+  );
+  background-image: -o-linear-gradient(
+    bottom,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 1px,
+    @dark-green 1px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0) 100px
+  );
+  background-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 1px,
+    @dark-green 1px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0) 100px
+  );
 }
 
 .message {

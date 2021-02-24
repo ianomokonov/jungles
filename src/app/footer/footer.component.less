@@ -7,8 +7,8 @@ footer {
   .container {
     padding: 0;
     max-width: 1200px;
-    
-    .socials{
+
+    .socials {
       min-width: 12rem;
     }
     .footer-logo {
@@ -24,11 +24,17 @@ footer {
     }
 
     .link-sm {
+      cursor: pointer;
       color: #7c9e94 !important;
-
-      &::after {
-        background-color: #7c9e94 !important;
-      }
+      padding-bottom: 1px;
+      background-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0) 0px,
+        rgba(0, 0, 0, 0) 1px,
+        #7c9e94 1px,
+        rgba(0, 0, 0, 0) 2px,
+        rgba(0, 0, 0, 0) 100px
+      );
     }
   }
 }
