@@ -6,6 +6,7 @@ footer {
 
   .container {
     padding: 0;
+    max-width: 1200px;
     
     .socials{
       min-width: 12rem;
@@ -27,6 +28,18 @@ footer {
 
       &::after {
         background-color: #7c9e94 !important;
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  footer {
+    .container {
+      .footer-logo {
+        span {
+          text-align: center;
+        }
       }
     }
   }

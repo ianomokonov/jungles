@@ -48,6 +48,8 @@ section.fourth {
     .content {
       padding-left: 1rem;
       padding-right: 1rem;
+      background-size: auto calc(100% - 16rem) !important;
+      background-position: 43% 40%;
       .left-content {
         margin-left: 0px;
         position: absolute;
@@ -56,8 +58,10 @@ section.fourth {
         background-size: 100% 100%;
       }
       .message {
-        margin-top: 30rem;
-        width: calc(60% - 2rem);
+        position: unset;
+        margin: 0 auto;
+        margin-top: 35rem;
+        width: 70%;
       }
     }
   }
@@ -67,7 +71,7 @@ section.fourth {
   section.fourth {
     margin-bottom: 10rem;
     .content {
-      background-size: auto calc(100% - 8rem);
+      background-size: auto calc(100% - 10rem);
 
       .left-content {
         right: 1rem !important;
@@ -80,19 +84,32 @@ section.fourth {
   }
 }
 
+@media (max-width: 767px) {
+  section.fourth {
+    .content {
+      background-size: auto calc(100% - 20rem) !important;
+      background-position: 43% 45%;
+
+      .message {
+        margin-top: 32rem;
+      }
+    }
+  }
+}
+
 @media (max-width: 576px) {
   section.fourth {
     margin-bottom: 15rem;
-    h2{
+    h2 {
       font-size: 20px;
     }
-    .section-label{
+    .section-label {
       margin-bottom: 0;
     }
     .content {
-      background-size: auto 16rem;
+      background-size: auto 20rem !important;
       padding-top: 0;
-      background-position: -5rem 16rem;
+      background-position: -6rem 10rem !important;
       .left-content {
         right: 0;
         top: 5rem;
@@ -107,6 +124,12 @@ section.fourth {
         p {
           font-size: 14px !important;
         }
+      }
+
+      .message {
+        width: 80%;
+        position: absolute;
+        margin-top: 26rem;
       }
     }
   }
