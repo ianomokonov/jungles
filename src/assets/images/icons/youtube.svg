@@ -1,9 +1,4 @@
-<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<rect width="21" height="15" fill="url(#pattern0)"/>
-<defs>
-<pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
-<use xlink:href="#image0" transform="scale(0.047619 0.0666667)"/>
-</pattern>
-<image id="image0" width="21" height="15" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAPCAYAAAALWoRrAAABCUlEQVQ4ja3UsUpDMRjF8V/rVbAFsYqbDrornaW7i6uDq5vP4+Dk4OTmMzjoA9QH0KGzFAtF0NrKBymIeO9N0bMkJIc/yfedpLF/dgJ76GEdTayksU5TvOMTr7jHU4E1nGI5A/KbWmltEzu4iNN0/wD8qeB0A7pdYYprvSwI3g5op8LwgUvcYZIJ7QS0XWOaJGjAnzOg7WZml6UyXOMW4wpfM4CNTOhcj7jCW8l+IyI1WxB6gCOsluzPihTgHEUOj7Fb450WqT6tClORXlsvzes0DtMQWyXGCPN5OmWuhtGoQYV5aUFgaBDQfgr5fyg4/bj+CDc4xMa33M5/qzLF7zRvcoxRxgeMvgA4vC4H2jykSwAAAABJRU5ErkJggg=="/>
-</defs>
+<svg width="25" height="18" viewBox="0 0 25 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M24.0986 2.69364C23.8226 1.63332 23.0093 0.798369 21.9766 0.514996C20.1051 0 12.6001 0 12.6001 0C12.6001 0 5.09505 0 3.22346 0.514996C2.19078 0.798369 1.37751 1.63332 1.10151 2.69364C0.600098 4.61535 0.600098 8.625 0.600098 8.625C0.600098 8.625 0.600098 12.6345 1.10151 14.5564C1.37751 15.6167 2.19078 16.4516 3.22346 16.7351C5.09505 17.25 12.6001 17.25 12.6001 17.25C12.6001 17.25 20.1051 17.25 21.9766 16.7351C23.0093 16.4516 23.8226 15.6167 24.0986 14.5564C24.6001 12.6345 24.6001 8.625 24.6001 8.625C24.6001 8.625 24.6001 4.61535 24.0986 2.69364Z" fill="#90ADA4"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10.6001 12V5L16.7251 8.50013L10.6001 12Z" fill="#F6FBFA"/>
 </svg>
