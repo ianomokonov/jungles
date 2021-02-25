@@ -5,9 +5,22 @@ footer {
   background-color: #f2f9f3;
 
   .container {
-    .socials{
+    padding: 0;
+    max-width: 1200px;
+
+    .footer-sm {
       min-width: 12rem;
+      
+      svg {
+        fill: #90ADA4;
+        margin-right: 20px;
+
+        &:hover {
+          fill: @orange;
+        }
+      }
     }
+
     .footer-logo {
       img {
         width: 163px;
@@ -19,9 +32,30 @@ footer {
         width: 188px;
       }
     }
-    .footer-pay{
-      img{
-        height: 24px;
+
+    .link-sm {
+      cursor: pointer;
+      color: #7c9e94 !important;
+      padding-bottom: 1px;
+      background-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0) 0px,
+        rgba(0, 0, 0, 0) 1px,
+        #7c9e94 1px,
+        rgba(0, 0, 0, 0) 2px,
+        rgba(0, 0, 0, 0) 100px
+      );
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  footer {
+    .container {
+      .footer-logo {
+        span {
+          text-align: center;
+        }
       }
     }
   }

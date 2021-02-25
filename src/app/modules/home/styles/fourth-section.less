@@ -1,15 +1,19 @@
 section.fourth {
-  margin-bottom: 5rem;
+  margin-bottom: 30px;
+  h2{
+    max-width: 54rem;
+  }
   .content {
     padding-top: 2rem;
     min-height: 40rem;
-    background-image: url('../../../../assets/images/tigr_with_colors.svg');
+    background-image: url('../../../../assets/images/tigr_with_colors.png');
     background-repeat: no-repeat;
-    background-size: auto calc(100% - 3rem);
-    background-position: center bottom;
+    background-size: auto calc(100% - 10rem);
+    background-position: 43% 68%;
     position: relative;
 
     .left-content {
+      margin-left: 60px;
       position: relative;
       background-image: url('../../../../assets/images/cloud2.png');
       background-repeat: no-repeat;
@@ -33,7 +37,7 @@ section.fourth {
     .message {
       width: 28rem;
       position: absolute;
-      right: 0;
+      right: 60px;
       top: 3rem;
     }
   }
@@ -44,15 +48,20 @@ section.fourth {
     .content {
       padding-left: 1rem;
       padding-right: 1rem;
+      background-size: auto calc(100% - 16rem) !important;
+      background-position: 43% 40%;
       .left-content {
+        margin-left: 0px;
         position: absolute;
         right: 5rem;
         background-image: url('../../../../assets/images/cloud4.png');
         background-size: 100% 100%;
       }
       .message {
-        margin-top: 30rem;
-        width: calc(100% - 2rem);
+        position: unset;
+        margin: 0 auto;
+        margin-top: 35rem;
+        width: 70%;
       }
     }
   }
@@ -62,7 +71,7 @@ section.fourth {
   section.fourth {
     margin-bottom: 10rem;
     .content {
-      background-size: auto calc(100% - 8rem);
+      background-size: auto calc(100% - 10rem);
 
       .left-content {
         right: 1rem !important;
@@ -75,16 +84,32 @@ section.fourth {
   }
 }
 
+@media (max-width: 767px) {
+  section.fourth {
+    .content {
+      background-size: auto calc(100% - 20rem) !important;
+      background-position: 43% 45%;
+
+      .message {
+        margin-top: 32rem;
+      }
+    }
+  }
+}
+
 @media (max-width: 576px) {
   section.fourth {
-    margin-bottom: 15rem;
-    .section-label{
+    margin-bottom: 180px;
+    h2 {
+      font-size: 20px;
+    }
+    .section-label {
       margin-bottom: 0;
     }
     .content {
-      background-size: auto 16rem;
+      background-size: auto 20rem !important;
       padding-top: 0;
-      background-position: -5rem 16rem;
+      background-position: -6rem 10rem !important;
       .left-content {
         right: 0;
         top: 5rem;
@@ -99,6 +124,12 @@ section.fourth {
         p {
           font-size: 14px !important;
         }
+      }
+
+      .message {
+        width: 90%;
+        position: absolute;
+        margin-top: 26rem;
       }
     }
   }

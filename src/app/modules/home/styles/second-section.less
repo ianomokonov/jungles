@@ -1,101 +1,145 @@
 section.second {
-  margin-bottom: 10rem;
-  .section-body {
-    display: flex;
-    justify-content: flex-end;
-    .content {
-      width: 57%;
-
-      .video {
-        height: 18rem;
-        width: 35rem;
-        padding-bottom: 1.5rem;
-        padding-top: 3rem;
-        background: url(../../../../assets/images/layer231.png) no-repeat -20% 270%,
-          url(../../../../assets/images/layer232.png) no-repeat 30% 20%,
-          url(../../../../assets/images/list.png) no-repeat right center,
-          url(../../../../assets/images/list2.png) no-repeat right center;
-        .cloud {
-          position: relative;
-          left: -5rem;
-          background-image: url(../../../../assets/images/cloud.svg);
-          background-repeat: no-repeat;
-          background-size: contain;
-          width: 35rem;
-          height: 12rem;
-          padding-left: 5rem;
-          padding-top: 2.5rem;
-          .btn {
-            margin-right: 1rem;
-            min-height: 5rem;
-            max-width: 5rem;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding-left: 0.5rem;
-          }
-          p {
-            margin-bottom: 0.4rem;
-          }
-        }
-      }
-
-      .messages {
-        .message {
-          width: 20rem;
-        }
-      }
-      .slider {
-        display: none;
-      }
-    }
-    min-height: 40rem;
+  .container {
+    max-width: 1600px;
     background-image: url('../../../../assets/images/giraffe.png');
     background-repeat: no-repeat;
-    background-size: auto calc(100% - 3rem);
-    background-position: left bottom;
+    background-size: auto 81%;
+    background-position: 5rem 160%;
+
+    h2 {
+      max-width: 59rem;
+    }
+
+    .section-label {
+      margin-bottom: 18px;
+    }
+
+    .section-body {
+      display: flex;
+      justify-content: flex-end;
+      .content {
+        width: 57%;
+
+        .video {
+          height: 18rem;
+          width: 35rem;
+          padding-bottom: 1.5rem;
+          padding-top: 3rem;
+          background: url(../../../../assets/images/layer231.png) no-repeat -10% 300%,
+            url(../../../../assets/images/list.png) no-repeat 22rem -1.5rem,
+            url(../../../../assets/images/list2.png) no-repeat 100% 1rem;
+          .cloud {
+            position: relative;
+            left: -5rem;
+            background-image: url(../../../../assets/images/cloud.svg);
+            background-repeat: no-repeat;
+            background-size: contain;
+            width: 35rem;
+            height: 12rem;
+            padding-left: 5rem;
+            padding-top: 2.5rem;
+            .btn {
+              margin-right: 1rem;
+              min-height: 5rem;
+              max-width: 5rem;
+              padding: 0;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              padding-left: 0.5rem;
+            }
+            p {
+              margin-bottom: 0.4rem;
+            }
+          }
+        }
+
+        .messages {
+          .message {
+            width: 20rem;
+          }
+        }
+        .slider {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1500px) {
+  section.second {
+    .container {
+      .section-body {
+        .content {
+          .video {
+            margin-left: 60px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1330px) {
+  section.second {
+    .container {
+      .section-body {
+        .content {
+          .video {
+            margin-left: 120px;
+          }
+        }
+      }
+    }
   }
 }
 
 @media (max-width: 1200px) {
   section.second {
-    .section-body {
-      background-size: 50% auto;
-      background-position: left top;
-      justify-content: center !important;
-      .content {
-        width: 100%;
-        .messages {
-          margin-top: 15rem;
+    .container {
+      background-size: auto 55%;
+      background-position: 20% 50%;
+      .section-body {
+        justify-content: center !important;
+        .content {
+          width: 100%;
+          display: flex;
           justify-content: center;
-        }
-        .video {
-          width: auto !important;
-          background: none !important;
-          margin-top: -5rem;
-          margin-left: 35rem;
-          .cloud {
-            background-image: url(../../../../assets/images/cloud4.png) !important;
-            width: 21rem;
-            padding-right: 3rem;
-            padding-left: 4rem;
-            height: 22rem !important;
+          align-items: center;
+          flex-direction: column;
+          .messages {
+            margin-top: 15rem;
+            justify-content: center;
+            padding: 100px;
+            padding-bottom: 0px;
+          }
+          .video {
+            width: auto !important;
+            background: none !important;
+            margin-left: 35rem;
+            .cloud {
+              background-image: url(../../../../assets/images/cloud4.png) !important;
+              width: 21rem;
+              padding-right: 3rem;
+              padding-left: 4rem;
+              height: 22rem !important;
 
-            .d-flex {
-              flex-direction: column;
-              align-items: center;
+              .d-flex {
+                flex-direction: column;
+                align-items: center;
 
-              .btn {
-                min-width: 5rem;
-                min-height: 5rem;
-                margin-bottom: 1rem;
-                margin-right: 0;
-              }
+                .btn {
+                  min-width: 5rem;
+                  min-height: 5rem;
+                  margin-bottom: 1rem;
+                  margin-right: 0;
+                }
 
-              p {
-                text-align: center;
-                margin-bottom: 1rem;
+                p {
+                  text-align: center;
+                  margin-bottom: 1rem;
+                }
               }
             }
           }
@@ -107,17 +151,40 @@ section.second {
 
 @media (max-width: 991px) {
   section.second {
-    .section-body {
-      .content {
-        .messages {
-          display: none !important;
-        }
-        .slider {
-          margin-top: 10rem;
-          display: flex;
-        }
-        .video {
-          margin-left: 25rem;
+    
+    .container {
+      min-height: 46rem;
+      height: 100%;
+      background-size: 57% auto;
+      background-position: 8% 68%;
+      .section-body {
+      position: relative;
+        padding-top: 2rem;
+        .content {
+          .messages {
+            display: none !important;
+          }
+          .slider {
+            margin-top: 55% !important;
+            margin: 0 auto;
+            max-width: 34rem;
+            margin-top: 10rem;
+            display: flex;
+
+            .carousel-indicators {
+              margin-top: 30px !important;
+            }
+          }
+          .video {
+            position: absolute;
+            right: 5rem !important;
+            padding: 0;
+            top: 0;
+            margin: 0;
+            .cloud {
+              left: 0;
+            }
+          }
         }
       }
     }
@@ -126,29 +193,28 @@ section.second {
 
 @media (max-width: 767px) {
   section.second {
-    margin-bottom: 0;
-    .section-body {
-      background-size: 70% auto;
-      .content {
-        .video {
-          margin-left: 22rem;
-          width: 2rem !important;
-          display: inline-block;
-          .cloud {
-            background-size: 100% 100%;
-            margin-left: 0;
-            width: 15rem;
-            height: 19rem !important;
-            margin-bottom: -5rem;
-            p {
-              font-size: 12px;
-            }
+    .container {
+      padding: 0;
+      .section-body {
+        .content {
+          .video {
+            display: inline-block;
+            .cloud {
+              background-size: 100% 100%;
+              margin-left: 0;
+              width: 15rem;
+              height: 19rem !important;
+              margin-bottom: -5rem;
+              p {
+                font-size: 12px;
+              }
 
-            .d-flex {
-              .btn {
-                min-width: 3rem;
-                min-height: 3rem;
-                margin-bottom: 1rem;
+              .d-flex {
+                .btn {
+                  min-width: 3rem;
+                  min-height: 3rem;
+                  margin-bottom: 1rem;
+                }
               }
             }
           }
@@ -160,44 +226,72 @@ section.second {
 
 @media (max-width: 576px) {
   section.second {
-    .section-header {
-      padding-right: 26px;
-      padding-left: 26px;
-    }
-    .section-body {
+    .container {
       background-size: 23rem auto;
-      background-position: -10rem top;
-      .content {
-        .video {
-          margin-left: 50vw;
-          .cloud {
-            background-size: 100% 100%;
-            margin-left: 0;
-            width: 15rem;
-            height: 19rem !important;
-            margin-bottom: -5rem;
-            p {
-              font-size: 12px;
-            }
+      background-position: -8.5rem 12rem;
+      position: relative;
+      padding: 0;
+      &::before {
+        content: '';
+        width: 100%;
+        height: 10rem;
+        position: absolute;
+        bottom: -10rem;
+        right: 0;
+        background-image: url(../../../../assets/images/trava_ackground.png);
+        background-repeat: no-repeat;
+        background-position: right 1rem;
+      }
+      h2 {
+        padding: 0 26px !important;
+        font-size: 20px;
+      }
+      .section-body {
+        .content {
+          padding-left: 0;
+          .video {
+            right: 0rem !important;
+            .cloud {
+              padding: 30px 30px 20px 45px;
+              background-size: 100% 100%;
+              margin-left: 0;
+              width: 14rem;
+              height: 14rem !important;
+              margin-bottom: -5rem;
+              p {
+                font-size: 12px;
+                margin-bottom: 10px !important;
+              }
 
-            .d-flex {
-              .btn {
-                min-width: 3rem;
-                min-height: 3rem;
-                margin-bottom: 1rem;
+              span {
+                font-size: 12px;
+              }
+
+              .d-flex {
+                .btn {
+                  width: 49px;
+                  height: 49px;
+                  margin-bottom: 1rem;
+                }
               }
             }
           }
-        }
-        .slider {
-          padding-right: 30px;
-          padding-left: 30px;
+          .slider {
+            margin-top: 405px !important;
+            height: 120px !important;
+            padding-right: 30px;
+            padding-left: 30px;
 
-          .prev {
-            left: 15px;
-          }
-          .next {
-            right: 15px;
+            .message {
+              padding: 24px auto 24px 66px;
+            }
+
+            .prev {
+              left: 15px;
+            }
+            .next {
+              right: 15px;
+            }
           }
         }
       }

@@ -1,6 +1,7 @@
 section.first {
-  margin-bottom: 10rem;
   .row {
+    max-width: 1000px;
+    margin: 0 auto;
     .col-6 {
       display: flex;
       justify-content: center;
@@ -8,27 +9,9 @@ section.first {
       h4 {
         text-transform: uppercase;
       }
-    }
-  }
-}
 
-@media (max-width: 991px) {
-  section.first {
-    .row {
-      .col-6 {
-        div {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-
-          p {
-            font-size: 14px;
-          }
-
-          * {
-            text-align: center;
-          }
-        }
+      img{
+        height: 115px;
       }
     }
   }
@@ -60,8 +43,8 @@ section.first {
   section.first {
     margin-bottom: 5rem;
     h2{
-      padding-left: 26px;
-      padding-right: 26px;
+      padding-left: 0;
+      padding-right: 0;
     }
     .row {
       .col-6 {
@@ -69,6 +52,9 @@ section.first {
           p {
             font-size: 14px;
           }
+        }
+        img {
+          height: 60px;
         }
       }
     }

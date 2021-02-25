@@ -1,12 +1,12 @@
 <div class="nav-menu">
-  <div class="container d-flex flex-row justify-content-around">
+  <div class="container d-flex flex-row justify-content-between">
     <a class="menu-btn" (click)="toggleMenu()"><img src="../../assets/images/menu.svg" /></a>
     <a routerLink="/project" class="menu-item">О проекте</a>
     <a routerLink="/tasks" class="menu-item">Упражнения</a>
     <div class="logo">
       <a routerLink="/">
         <img src="../../assets/images/liana2.png" />
-        <img src="../../assets/images/logo.png" />
+        <img src="../../assets/images/logo.svg" />
       </a>
       <img class="menu-monkey" *ngIf="showMonkey" src="../../assets/images/monkey_hanging.png" />
     </div>
@@ -19,9 +19,9 @@
   <div class="menu-tc">
     <img class="menu-close" (click)="toggleMenu()" src="../../assets/images/cross-menu.svg" />
     <div class="menu-info">
-      <span class="menu-item">О проекте</span>
-      <span class="menu-item">Упражнения</span>
-      <span class="menu-item">Тарифы</span>
+      <a (click)="toggleMenu()" routerLink="/project" class="menu-item">О проекте</a>
+      <a (click)="toggleMenu()" routerLink="/tasks" class="menu-item">Упражнения</a>
+      <a (click)="toggleMenu()" routerLink="/rates" class="menu-item">Тарифы</a>
       <button class="button-sec" (click)="logIn()">Войти</button>
       <span class="subt">Мы в соцсетях:</span>
       <div class="menu-icons d-flex flex-row align-items-center">

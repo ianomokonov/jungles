@@ -1,65 +1,79 @@
 section.sixth {
-  min-height: 50rem;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  .content {
-    position: absolute;
-    bottom: 5rem;
-    width: 30rem;
+  margin-bottom: 0px;
+  .container {
+    min-height: 50rem;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    max-width: 1600px;
+    background: url(../../../../assets/images/slon_with_mono.svg) left 19% top 8rem no-repeat,
+      right 24% top 21rem no-repeat url(../../../../assets/images/tigr.svg),
+      url(../../../../assets/images/grass_beh2.png) no-repeat 2.5% 17.7rem,
+      right 2% top 16rem url(../../../../assets/images/grass_beh.svg) no-repeat;
 
-    .message {
-      padding: 3rem 3rem 12rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    img {
+      position: absolute;
 
-      * {
-        text-align: center;
+      &.first-grass {
+        left: 3rem;
+        bottom: 5.5rem;
       }
+      &.second-grass {
+        right: 8.5rem;
+        bottom: 6rem;
+      }
+    }
+    h2 {
+      max-width: 55rem;
+    }
+    .content {
+      position: absolute;
+      bottom: 5rem;
+      width: 32rem;
 
-      .btn {
-        margin-top: 2rem;
-        margin-bottom: 2rem;
+      .message {
+        padding: 3rem 4rem 12rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        * {
+          text-align: center;
+        }
+
+        .btn {
+          margin-top: 2rem;
+          margin-bottom: 2rem;
+        }
       }
     }
   }
 
   // margin-right: -10rem;
   // margin-left: -10rem;
-
-  background: url(../../../../assets/images/slon_with_mono.svg) no-repeat 20% 80%,
-    url(../../../../assets/images/tigr.svg) no-repeat 75% 70%,
-    url(../../../../assets/images/grass_beh2.png) no-repeat 15% 80%,
-    url(../../../../assets/images/grass_beh.svg) no-repeat 100% bottom;
-
-  img {
-    position: absolute;
-
-    &.first-grass {
-      left: 2rem;
-      bottom: 2rem;
-    }
-    &.second-grass {
-      right: 8rem;
-      bottom: 3rem;
-    }
-  }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1450px) {
   section.sixth {
-    min-height: 60rem;
-    background: url(../../../../assets/images/slon_with_mono.svg) no-repeat 0 90% / auto 40%,
-      url(../../../../assets/images/tigr.svg) no-repeat 90% 80% / auto 30%,
-      url(../../../../assets/images/grass_beh2.png) no-repeat 15% 100%,
-      url(../../../../assets/images/grass_beh.svg) no-repeat 100% 110%;
-    .content {
-      bottom: auto;
-      top: 12rem;
+    .container {
+      min-height: 58rem;
+      background: url(../../../../assets/images/slon_with_mono.svg) no-repeat 6% 77% / auto 50%,
+        url(../../../../assets/images/tigr.svg) no-repeat right 15% top 75% / auto 30%,
+        url(../../../../assets/images/grass_beh2.png) no-repeat 15% 100%,
+        url(../../../../assets/images/grass_beh.svg) no-repeat right -20% top 100%;
+      .content {
+        bottom: auto;
+        top: 12rem;
 
-      .message {
-        padding-bottom: 3rem;
+        .message {
+          padding-bottom: 3rem;
+        }
+      }
+        
+      img {
+        &.second-grass {
+          right: 0rem;
+        }
       }
     }
   }
@@ -67,17 +81,22 @@ section.sixth {
 
 @media (max-width: 991px) {
   section.sixth {
-    min-height: 70rem;
-    background: url(../../../../assets/images/slon_with_mono.svg) no-repeat 0 90% / auto 40%,
-      url(../../../../assets/images/tigr.svg) no-repeat 90% 80% / auto 20%,
-      url(../../../../assets/images/grass_beh2.png) no-repeat 15% 100% / auto 30%,
-      url(../../../../assets/images/grass_beh.svg) no-repeat 100% 110%;
-    .content {
-      bottom: auto;
-      top: 12rem;
+    .container {
+      min-height: 70rem;
+      background: url(../../../../assets/images/slon_with_mono.svg) no-repeat 0 90% / auto 42%,
+        url(../../../../assets/images/tigr.svg) no-repeat 90% 80% / auto 25%,
+        url(../../../../assets/images/grass_beh2.png) no-repeat 15% 90% / auto 30%,
+        url(../../../../assets/images/grass_beh.svg) no-repeat right -20% top 90% / auto 30%;
+      .content {
+        bottom: auto;
+        top: 12rem;
 
-      .message {
-        padding-bottom: 3rem;
+        .message {
+          padding-bottom: 3rem;
+        }
+      }
+      .cloud-img{
+        bottom: 3rem;
       }
     }
   }
@@ -86,8 +105,6 @@ section.sixth {
 @media (max-width: 768px) {
   section.sixth {
     img {
-      position: absolute;
-
       &.first-grass {
         left: 2rem;
         bottom: 2rem;
@@ -104,35 +121,45 @@ section.sixth {
 
 @media (max-width: 576px) {
   section.sixth {
-    min-height: 44rem;
-    .content {
-      width: 100%;
-      padding: 0 !important;
-      top: 8rem;
-      .message {
-        padding: 1rem !important;
-        h3 {
-          font-size: 18px;
-        }
-        p {
-          font-size: 13px;
-        }
+    .container {
+      min-height: 44rem;
+      h2{
+        font-size: 20px;
       }
-    }
-    background: url(../../../../assets/images/slon_with_mono.svg) no-repeat 10% 95% / auto 12rem,
-      url(../../../../assets/images/tigr.svg) no-repeat 80% 90% / auto 10rem;
-    img {
-      position: absolute;
+      .content {
+        width: 100% !important;
 
-      &.first-grass {
-        left: 2rem;
-        bottom: 0;
-        height: 10rem;
+        padding-left: 15px;
+        padding-right: 15px;
+        top: 8rem;
+        .message {
+          padding: 1rem !important;
+          h3 {
+            font-size: 18px;
+          }
+          p {
+            font-size: 13px;
+          }
+        }
       }
-      &.second-grass {
-        right: 2rem;
-        bottom: 0;
-        height: 10rem;
+      background: url(../../../../assets/images/slon_with_mono.svg) no-repeat 10% 95% / auto 12rem,
+        url(../../../../assets/images/tigr.svg) no-repeat 80% 90% / auto 10rem;
+      img {
+        position: absolute;
+
+        &.first-grass {
+          left: 2rem;
+          bottom: 0;
+          height: 10rem;
+        }
+        &.second-grass {
+          right: 2rem;
+          bottom: 0;
+          height: 10rem;
+        }
+      }
+      .cloud-img{
+        bottom: 0rem;
       }
     }
   }
