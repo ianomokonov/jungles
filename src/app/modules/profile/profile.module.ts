@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { SharedModule } from '../shared/shared.module';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileComponent } from './profile.component';
 import { ProgressComponent } from './progress/progress.component';
@@ -14,6 +15,6 @@ import { ChildrenComponent } from './children/children.component';
     HelpComponent,
     ChildrenComponent,
   ],
-  imports: [ProfileRoutingModule],
+  imports: [ProfileRoutingModule, SharedModule],
 })
 export class ProfileModule {}

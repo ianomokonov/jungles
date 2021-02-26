@@ -1,7 +1,84 @@
-<div class="container">
-    <div class="children-parent">
-        <img src="../../../../assets/images/icons/user-parent.svg">
+<section>
+  <div class="profile">
+    <img src="../../../../assets/images/icons/user-parent.svg" />
+    <div class="profile-content">
+      <div class="profile-label">
         <span>Родитель</span>
+        <img src="../../../../assets/images/icons/pen.svg" />
+      </div>
+      <div class="profile-info">
         <h4>Марина Кравцова</h4>
+        <span class="subt">kravtsova@mail.ru</span>
+      </div>
     </div>
-</div>
+  </div>
+
+  <div *ngIf="children.length; else noData">
+    <div class="children" *ngFor="let child of children">
+      <div class="profile">
+        <img src="../../../../assets/images/icons/user-child.svg" />
+        <div class="profile-content">
+          <div class="profile-label">
+            <span>Ребёнок</span>
+            <img src="../../../../assets/images/icons/pen.svg" />
+          </div>
+          <div class="profile-info">
+            <h4>{{ child.Name }}</h4>
+            <span class="subt">{{ child.Age }} лет</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="data d-flex flex-column justify-content-start align-items-start">
+        <span>Тариф: {{ child.Fare }} месяц</span>
+        <div class="d-flex justify-content-start align-items-center">
+          <div class="d-flex flex-column justify-content-center align-items-center">
+            <img src="../../../../assets/images/payment-circle.png" />
+            <span>Дней до конца подписки</span>
+          </div>
+          <button class="btn btn-primary">Продлить тариф</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="add-btn d-flex justify-content-start align-items-center">
+      <img src="../../../../assets/images/icons/plus.svg" />
+      <span>Добавить ребёнка</span>
+    </div>
+  </div>
+
+  <ng-template #noData>
+    <div class="child-reg" *ngIf="!addChild">
+      <div
+        class="add-btn d-flex justify-content-start align-items-center"
+        (click)="toggleAddForm()"
+      >
+        <img src="../../../../assets/images/icons/plus.svg" />
+        <span>Зарегистрировать ребенка</span>
+      </div>
+      <span class="subt">Вы пока не зарегистрировали ни одного ребёнка</span>
+    </div>
+
+    <div class="child-add" *ngIf="addChild">
+      <form>
+        <!-- Тут не работает нижний марджин? -->
+        <span class="text-mb">Регистрация ребёнка</span>
+        <!-- Тут не работает нижний марджин? -->
+        <div class="d-flex justify-content-start align-items-center">
+          <img src="../../../../assets/images/icons/user-child-sm.svg" />
+          <span class="subt">Добавить фото</span>
+        </div>
+        <div class="form-group">
+          <input class="ch-input" placeholder="Имя" />
+        </div>
+        <div class="form-group">
+          <input class="ch-input" placeholder="Фамилия" />
+        </div>
+        <div class="form-group">
+          <input class="ch-input" placeholder="Дата рождения" />
+        </div>
+        <button class="btn btn-success">сохранить</button>
+      </form>
+    </div>
+  </ng-template>
+</section>
