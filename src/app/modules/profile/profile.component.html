@@ -1,2 +1,13 @@
-<p>profile works!</p>
-<router-outlet></router-outlet>
+<div class="container">
+  <div class="d-flex">
+    <nav>
+      <a class="nav-item text-mb" routerLink="/profile" routerLinkActive="active">Личный кабинет</a>
+      <a class="nav-item text-mb" routerLink="progress" routerLinkActive="active">Успехи</a>
+      <a class="nav-item text-mb" routerLink="payments" routerLinkActive="active">История оплат</a>
+      <a class="nav-item text-mb" routerLink="help" routerLinkActive="active">Помощь</a>
+    </nav>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

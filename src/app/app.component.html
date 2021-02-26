@@ -1,17 +1,17 @@
 <div class="d-flex flex-column" style="min-height: 100vh">
   <div>
     <nav-menu [showMonkey]="showMonkey"></nav-menu>
-    <div class="container mb-5">
-      <nav aria-label="breadcrumb" *ngIf="titles?.length">
-        <ol class="breadcrumb subt">
+  </div>
+  <main>
+    <div class="container my-5" *ngIf="titles?.length">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb subt px-0">
           <li class="breadcrumb-item" *ngFor="let title of titles">
             <a [routerLink]="[title.url]">{{ title.title }}</a>
           </li>
         </ol>
       </nav>
     </div>
-  </div>
-  <main>
     <router-outlet></router-outlet>
   </main>
 

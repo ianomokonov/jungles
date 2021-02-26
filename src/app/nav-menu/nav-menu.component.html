@@ -11,7 +11,7 @@
       <img class="menu-monkey" *ngIf="showMonkey" src="../../assets/images/monkey_hanging.png" />
     </div>
     <a routerLink="/rates" class="menu-item">Тарифы</a>
-    <button class="button-sec" (click)="logIn()">Войти</button>
+    <button class="button-sec" (click)="logIn()" routerLink="/profile">Войти</button>
   </div>
 </div>
 
@@ -22,7 +22,7 @@
       <a (click)="toggleMenu()" routerLink="/project" class="menu-item">О проекте</a>
       <a (click)="toggleMenu()" routerLink="/tasks" class="menu-item">Упражнения</a>
       <a (click)="toggleMenu()" routerLink="/rates" class="menu-item">Тарифы</a>
-      <button class="button-sec" (click)="logIn()">Войти</button>
+      <button class="button-sec" routerLink="/profile">Войти</button>
       <span class="subt">Мы в соцсетях:</span>
       <div class="menu-icons d-flex flex-row align-items-center">
         <img src="../../assets/images/icons/vk.svg" />
