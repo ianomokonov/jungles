@@ -1,11 +1,24 @@
 <div class="container">
   <div class="d-flex">
-    <nav>
-      <a class="nav-item text-mb" routerLink="/profile" routerLinkActive="active">Личный кабинет</a>
-      <a class="nav-item text-mb" routerLink="progress" routerLinkActive="active">Успехи</a>
-      <a class="nav-item text-mb" routerLink="payments" routerLinkActive="active">История оплат</a>
-      <a class="nav-item text-mb" routerLink="help" routerLinkActive="active">Помощь</a>
-    </nav>
+    <div>
+      <nav>
+        <a class="nav-item text-mb" routerLink="/profile" routerLinkActive="active"
+          >Личный кабинет</a
+        >
+        <a class="nav-item text-mb" routerLink="progress" routerLinkActive="active">Успехи</a>
+        <a class="nav-item text-mb" routerLink="payments" routerLinkActive="active"
+          >История оплат</a
+        >
+        <a class="nav-item text-mb" routerLink="help" routerLinkActive="active">Помощь</a>
+      </nav>
+      <div class="message d-flex flex-column justify-content-start align-items-center">
+        <span>Скидка 10%</span>
+        <span class="text mb-2">
+          Сделате пост в Instagram, о том как ваш ребёнок занимается в Джунгликах и получите скидку
+          10% при следующей оплате!
+        </span>
+      </div>
+    </div>
     <main>
       <router-outlet></router-outlet>
     </main>
