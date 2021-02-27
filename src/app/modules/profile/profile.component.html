@@ -17,6 +17,7 @@
           Сделате пост в Instagram, о том как ваш ребёнок занимается в Джунгликах и получите скидку
           10% при следующей оплате!
         </span>
+        <span (click)="openModal(content)">Подробнее</span>
       </div>
     </div>
     <main>
@@ -24,3 +25,22 @@
     </main>
   </div>
 </div>
+
+<ng-template #content repost-modal>
+  <div class="modal-body">
+    <img src="../../../assets/images/icons/cross3.svg">
+    <div class="d-flex flex-column justify-content-center align-items-center">
+      <span class="text-b text-orange modal-title" id="modal-basic-title">Скидка 10%</span>
+      <span class="text mb-2">
+        Сделате пост в Instagram, о том как ваш ребёнок занимается в Джунгликах и получите скидку
+        10% при следующей оплате!
+      </span>
+      <span class="text mb-2">
+        Ссылку на пост отправьте в раздел «Помощь» , откройте свой профиль и в течении 10
+        календарных дней ссылка будет активирована в разделе «Тарифы».
+      </span>
+      <span class="text mb-1"> - Скидка применяется только при возможности просмотра поста; </span>
+      <span class="text mb-1"> - Действительна в течении 90 календарных дней. </span>
+    </div>
+  </div>
+</ng-template>

@@ -21,6 +21,8 @@
           <div class="profile-label">
             <span>Ребёнок</span>
             <img src="../../../../assets/images/icons/pen.svg" />
+            <img src="../../../../assets/images/icons/cross2.svg" (click)="deleteChild()"/>
+            <img src="../../../../assets/images/icons/plus.svg" (click)="addChild()"/>
           </div>
           <div class="profile-info">
             <h4>{{ child.Name }}</h4>
@@ -41,14 +43,14 @@
       </div>
     </div>
 
-    <div class="add-btn d-flex justify-content-start align-items-center">
+    <div class="add-btn d-flex justify-content-start align-items-center" *ngIf="!showAddForm"  (click)="toggleAddForm()">
       <img src="../../../../assets/images/icons/plus.svg" />
       <span>Добавить ребёнка</span>
     </div>
   </div>
 
   <ng-template #noData>
-    <div class="child-reg" *ngIf="!addChild">
+    <div class="child-reg" *ngIf="!showAddForm">
       <div
         class="add-btn d-flex justify-content-start align-items-center"
         (click)="toggleAddForm()"
@@ -58,27 +60,28 @@
       </div>
       <span class="subt">Вы пока не зарегистрировали ни одного ребёнка</span>
     </div>
-
-    <div class="child-add" *ngIf="addChild">
-      <form>
-        <!-- Тут не работает нижний марджин? -->
-        <span class="text-mb">Регистрация ребёнка</span>
-        <!-- Тут не работает нижний марджин? -->
-        <div class="d-flex justify-content-start align-items-center">
-          <img src="../../../../assets/images/icons/user-child-sm.svg" />
-          <span class="subt">Добавить фото</span>
-        </div>
-        <div class="form-group">
-          <input class="ch-input" placeholder="Имя" />
-        </div>
-        <div class="form-group">
-          <input class="ch-input" placeholder="Фамилия" />
-        </div>
-        <div class="form-group">
-          <input class="ch-input" placeholder="Дата рождения" />
-        </div>
-        <button class="btn btn-success">сохранить</button>
-      </form>
-    </div>
   </ng-template>
+
+
+  <div class="child-add" *ngIf="showAddForm">
+    <form>
+      <!-- Тут не работает нижний марджин? -->
+      <span class="text-mb">Регистрация {{ countChildren() }}ребёнка</span>
+      <!-- Тут не работает нижний марджин? -->
+      <div class="d-flex justify-content-start align-items-center">
+        <img src="../../../../assets/images/icons/user-child-sm.svg" />
+        <span class="subt">Добавить фото</span>
+      </div>
+      <div class="form-group">
+        <input class="ch-input" placeholder="Имя" />
+      </div>
+      <div class="form-group">
+        <input class="ch-input" placeholder="Фамилия" />
+      </div>
+      <div class="form-group">
+        <input class="ch-input" placeholder="Дата рождения" />
+      </div>
+      <button class="btn btn-success">сохранить</button>
+    </form>
+  </div>
 </section>
