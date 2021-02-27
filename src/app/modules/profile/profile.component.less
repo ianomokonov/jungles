@@ -1,40 +1,88 @@
 @import '../../../variables.less';
 
-nav {
+.left{
   width: 270px;
-  .nav-item {
-    display: block;
+
+  nav {
     width: 100%;
-    box-shadow: 0px 0px 10px #42674e40;
-    border-radius: 30px;
-    line-height: 55px;
-    border: 2px solid transparent;
-    text-align: center;
-    margin-bottom: 15px;
-    text-decoration: none;
-
-    &.active,
-    &:hover {
-      border-color: @green;
+    margin-bottom: 30px;
+    .nav-item {
+      display: block;
+      width: 100%;
+      box-shadow: 0px 0px 10px #42674e40;
+      border-radius: 30px;
+      line-height: 55px;
+      border: 2px solid transparent;
+      text-align: center;
+      margin-bottom: 15px;
+      text-decoration: none;
+  
+      &.active,
+      &:hover {
+        border-color: @green;
+      }
+  
+      &:hover {
+        color: @dark-green;
+      }
+    }
+  }
+  
+  .message {
+    padding: 20px 26px;
+    width: 100%;
+    margin-bottom: 150px;
+    border-width: 4px;
+    height: 351px;
+    position: relative;
+    border-bottom-color: transparent;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    span:nth-child(1) {
+      color: @orange;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+  
+    .text{
+      letter-spacing: 0.02em;
+      line-height: 22px;
+      font-weight: 400;
     }
 
-    &:hover {
-      color: @dark-green;
+    button{
+      margin-top: 30px;
+      display: inline;
+      text-transform: capitalize;
+      border-radius: 0;
+      padding: 0;
+      position: relative;
+      z-index: 3;
+      box-shadow: none !important;
+    }
+
+    &::after{
+      content: '';
+      width: 265px;
+      height: 200px;
+      background-image: url(../../../assets/images/profile_tigr.png);
+      position: absolute;
+      bottom: -55px;
+      left: -72px;
+      z-index: 1;
+
+    }
+    img{
+      position: absolute;
+      bottom: -84px;
+      left: -52px;
+      width: 200%;
+      z-index: 2;
     }
   }
 }
 
-.message {
-  padding: 20px 26px;
-  width: 270px;
-  height: 351px;
-  span:nth-child(1) {
-    color: @orange;
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 10px;
-  }
-}
 
 main {
   padding-left: 80px;
