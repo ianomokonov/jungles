@@ -13,8 +13,8 @@
     </div>
   </div>
 
-  <div *ngIf="children.length; else noData">
-    <div class="children" *ngFor="let child of children">
+  <div *ngIf="profileService.children.length; else noData">
+    <div class="children" *ngFor="let child of profileService.children">
       <div class="profile">
         <img src="../../../../assets/images/icons/user-child.svg" />
         <div class="profile-content">
@@ -25,14 +25,14 @@
             <img src="../../../../assets/images/icons/plus.svg" (click)="addChild()"/>
           </div>
           <div class="profile-info">
-            <h4>{{ child.Name }}</h4>
-            <span class="subt">{{ child.Age }} лет</span>
+            <h4>{{ child.name }} {{ child.surname }}</h4>
+            <span class="subt">{{ child.age }} лет</span>
           </div>
         </div>
       </div>
 
       <div class="data d-flex flex-column justify-content-start align-items-start">
-        <span>Тариф: {{ child.Fare }} месяц</span>
+        <span>Тариф: {{ child.fare }} месяц</span>
         <div class="d-flex justify-content-start align-items-center">
           <div class="d-flex flex-column justify-content-center align-items-center">
             <img src="../../../../assets/images/payment-circle.png" />

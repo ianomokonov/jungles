@@ -1,46 +1,41 @@
-import { Component, OnInit } from '@angular/core';
-import { Child } from '../models/children.class';
+import { Component } from '@angular/core';
+import { ProfileService } from '../profile.service';
 
 @Component({
   selector: 'app-children',
   templateUrl: './children.component.html',
   styleUrls: ['./children.component.less'],
 })
-export class ChildrenComponent implements OnInit {
-  public children: Child[];
+export class ChildrenComponent {
   public childrenCount: string;
   public showAddForm: boolean;
 
-  constructor() {
-    this.children = [
-      { Id: 1, Name: 'Алина Кравцова', Age: 5, Fare: 1, LeftDays: 28, Opened: false },
-    ];
+  constructor(public profileService: ProfileService) {
     this.showAddForm = false;
   }
-
-  ngOnInit(): void {}
 
   public toggleAddForm() {
     this.showAddForm = true;
   }
 
   public deleteChild() {
-    this.children = [];
+    this.profileService.children = [];
   }
 
   public addChild() {
-    this.children.push({
-      Id: 1,
-      Name: 'Алина Кравцова',
-      Age: 5,
-      Fare: 1,
-      LeftDays: 28,
-      Opened: false,
+    this.profileService.children.push({
+      id: 1,
+      name: 'Алина',
+      surname: 'Кравцова',
+      age: 5,
+      fare: 1,
+      leftDays: 28,
+      opened: false,
     });
   }
 
   public countChildren(): string {
-    switch (this.children.length) {
+    switch (this.profileService.children.length) {
       case 1: {
         return 'второго ';
       }

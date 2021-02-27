@@ -2,7 +2,11 @@
   <div class="d-flex">
     <div class="left">
       <nav>
-        <a class="nav-item text-mb" routerLink="/profile" routerLinkActive="active"
+        <a
+          class="nav-item text-mb"
+          routerLink="/profile"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
           >Личный кабинет</a
         >
         <a class="nav-item text-mb" routerLink="progress" routerLinkActive="active">Успехи</a>
@@ -20,7 +24,7 @@
         <div class="text-right w-100">
           <button class="link-sm btn text" (click)="openModal(content)">Подробнее</button>
         </div>
-        <img src="../../../assets/images/acuarel.png" alt="">
+        <img src="../../../assets/images/acuarel.png" alt="" />
       </div>
     </div>
     <main>

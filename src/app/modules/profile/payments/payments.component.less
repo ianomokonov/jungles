@@ -1,0 +1,33 @@
+@import '../../../../variables.less';
+
+.actions {
+  padding-top: 40px;
+  .filters {
+    position: relative;
+    &::after {
+      content: '';
+      background-image: url(../../../../assets/images/icons/arrow-down.svg);
+      background-repeat: no-repeat;
+      height: 10px;
+      width: 20px;
+      background-size: contain;
+      background-position: center;
+      position: absolute;
+      right: -30px;
+      top: calc(50% - 4px);
+    }
+  }
+
+  a {
+    color: @grey;
+    text-decoration: underline;
+    margin-right: 100px;
+  }
+}
+
+.payments{
+    padding-top: 30px;
+    .payment{
+        margin-bottom: 30px;
+    }
+}

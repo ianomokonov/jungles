@@ -1,0 +1,16 @@
+<div class="profile" [ngClass]="{ shadow: showShadow }">
+  <img src="../../../../assets/images/icons/user-child.svg" />
+  <div class="profile-content">
+    <div class="profile-label">
+      <span>Ребёнок</span>
+      <ng-container *ngIf="showActions"
+        ><img src="../../../../assets/images/icons/pen.svg" />
+        <img src="../../../../assets/images/icons/cross2.svg" (click)="deleteItem()"
+      /></ng-container>
+    </div>
+    <div class="profile-info">
+      <h4>Алиса Кравцова</h4>
+      <span class="subt">5 лет</span>
+    </div>
+  </div>
+</div>

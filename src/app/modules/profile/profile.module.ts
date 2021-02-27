@@ -6,6 +6,8 @@ import { ProgressComponent } from './progress/progress.component';
 import { PaymentsComponent } from './payments/payments.component';
 import { HelpComponent } from './help/help.component';
 import { ChildrenComponent } from './children/children.component';
+import { ProfileService } from './profile.service';
+import { UserCardComponent } from './user-card/user-card.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +16,9 @@ import { ChildrenComponent } from './children/children.component';
     PaymentsComponent,
     HelpComponent,
     ChildrenComponent,
+    UserCardComponent,
   ],
   imports: [ProfileRoutingModule, SharedModule],
+  providers: [ProfileService],
 })
 export class ProfileModule {}

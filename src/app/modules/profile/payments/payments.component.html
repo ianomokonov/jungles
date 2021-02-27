@@ -1,1 +1,15 @@
-<p>payments works!</p>
+<div class="d-flex flex-wrap w-100">
+  <app-user-card class="w-50"></app-user-card>
+  <app-user-card class="w-50"></app-user-card>
+</div>
+<div class="actions d-flex justify-content-between">
+  <div class="filters text-mb">За все время</div>
+  <a class="text" href="javascript:;">Получить выписку</a>
+</div>
+<div class="payments">
+  <div class="payment" *ngFor="let payment of payments">
+    <p class="text mb-1">{{ payment.date | date: 'dd.MM.yyyy' }}</p>
+    <p class="text mb-1">{{ getFormattedSum(payment.sum) }} ₽</p>
+    <p class="text mb-1">{{ payment.comment }}</p>
+  </div>
+</div>
