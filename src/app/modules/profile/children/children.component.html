@@ -1,5 +1,5 @@
 <section>
-  <div class="profile">
+  <!-- <div class="profile">
     <img src="../../../../assets/images/icons/user-parent.svg" />
     <div class="profile-content">
       <div class="profile-label">
@@ -11,43 +11,38 @@
         <span class="subt">kravtsova@mail.ru</span>
       </div>
     </div>
+  </div> -->
+  <div class="profile">
+    <app-user-card [user]="profileService.user" [showActions]="true"></app-user-card>
   </div>
 
-  <div *ngIf="profileService.children.length; else noData">
+  <ng-container *ngIf="profileService.children.length; else noData">
     <div class="children" *ngFor="let child of profileService.children">
       <div class="profile">
-        <img src="../../../../assets/images/icons/user-child.svg" />
-        <div class="profile-content">
-          <div class="profile-label">
-            <span>Ребёнок</span>
-            <img src="../../../../assets/images/icons/pen.svg" />
-            <img src="../../../../assets/images/icons/cross2.svg" (click)="deleteChild()"/>
-            <img src="../../../../assets/images/icons/plus.svg" (click)="addChild()"/>
-          </div>
-          <div class="profile-info">
-            <h4>{{ child.name }} {{ child.surname }}</h4>
-            <span class="subt">{{ child.age }} лет</span>
-          </div>
-        </div>
+        <app-user-card [user]="child" [showActions]="true" (delete)="deleteChild()"></app-user-card>
       </div>
 
       <div class="data d-flex flex-column justify-content-start align-items-start">
         <span>Тариф: {{ child.fare }} месяц</span>
-        <div class="d-flex justify-content-start align-items-center">
+        <div class="d-flex flex-lg-row flex-column justify-content-start align-items-center">
           <div class="d-flex flex-column justify-content-center align-items-center">
             <img src="../../../../assets/images/payment-circle.png" />
-            <span>Дней до конца подписки</span>
+            <span class="mb-lg-0 mb-3">Дней до конца подписки</span>
           </div>
           <button class="btn btn-primary">Продлить тариф</button>
         </div>
       </div>
     </div>
 
-    <div class="add-btn d-flex justify-content-start align-items-center" *ngIf="!showAddForm"  (click)="toggleAddForm()">
+    <div
+      class="add-btn d-flex justify-content-start align-items-center"
+      *ngIf="!showAddForm"
+      (click)="toggleAddForm()"
+    >
       <img src="../../../../assets/images/icons/plus.svg" />
       <span>Добавить ребёнка</span>
     </div>
-  </div>
+  </ng-container>
 
   <ng-template #noData>
     <div class="child-reg" *ngIf="!showAddForm">
@@ -62,15 +57,12 @@
     </div>
   </ng-template>
 
-
   <div class="child-add" *ngIf="showAddForm">
     <form>
-      <!-- Тут не работает нижний марджин? -->
-      <span class="text-mb">Регистрация {{ countChildren() }}ребёнка</span>
-      <!-- Тут не работает нижний марджин? -->
+      <p class="text-mb">Регистрация {{ countChildren() }}ребёнка</p>
       <div class="d-flex justify-content-start align-items-center">
         <img src="../../../../assets/images/icons/user-child-sm.svg" />
-        <span class="subt">Добавить фото</span>
+        <span class="text">Добавить фото</span>
       </div>
       <div class="form-group">
         <input class="ch-input" placeholder="Имя" />

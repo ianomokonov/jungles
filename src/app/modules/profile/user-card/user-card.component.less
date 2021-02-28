@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: row;
   max-width: 480px;
-  height: 60px;
+  min-height: 60px;
   &.inactive{
     opacity: 0.5;
   }
@@ -35,6 +35,7 @@
     }
     div.profile-info {
       display: flex;
+      flex-wrap: wrap;
       align-items: baseline;
       h4 {
         margin-right: 10px;

@@ -1,7 +1,7 @@
 <div class="container">
   <div class="d-flex">
     <div class="left">
-      <nav>
+      <nav class="d-flex flex-column d-md-block align-items-center">
         <a
           class="nav-item text-mb"
           routerLink="/profile"
@@ -9,11 +9,15 @@
           [routerLinkActiveOptions]="{ exact: true }"
           >Личный кабинет</a
         >
+        <app-children class="content-mb w-100 d-block d-md-none"></app-children>
         <a class="nav-item text-mb" routerLink="progress" routerLinkActive="active">Успехи</a>
+        <!-- <app-progress class="content-mb d-block d-md-none"></app-progress> -->
         <a class="nav-item text-mb" routerLink="payments" routerLinkActive="active"
           >История оплат</a
         >
+        <!-- <app-payments class="content-mb d-block d-md-none"></app-payments> -->
         <a class="nav-item text-mb" routerLink="help" routerLinkActive="active">Помощь</a>
+        <!-- <app-help class="content-mb d-block d-md-none"></app-help> -->
       </nav>
       <div class="message green d-flex flex-column justify-content-start align-items-center">
         <span>Скидка 10%</span>
@@ -27,15 +31,15 @@
         <img src="../../../assets/images/acuarel.png" alt="" />
       </div>
     </div>
-    <main>
+    <main class="d-none d-md-block">
       <router-outlet></router-outlet>
     </main>
   </div>
 </div>
 
-<ng-template #content repost-modal>
+<ng-template #content>
   <div class="modal-body">
-    <img src="../../../assets/images/icons/cross3.svg" />
+    <img src="../../../assets/images/icons/cross3.svg" (click)="closeModal()"/>
     <div class="d-flex flex-column justify-content-center align-items-center">
       <span class="text-b text-orange modal-title" id="modal-basic-title">Скидка 10%</span>
       <p class="text mb-2">

@@ -40,7 +40,7 @@ section {
 
   .child-add {
     width: 340px;
-    height: 750px;
+    margin-bottom: 3rem;
 
     form {
       span.text-mb {
@@ -51,7 +51,7 @@ section {
         img {
           margin-right: 10px;
         }
-        .subt {
+        .text {
           color: @grey;
         }
       }
@@ -64,14 +64,11 @@ section {
 }
 
 .profile {
-  display: flex;
-  flex-direction: row;
-  max-width: 480px;
-  height: 78px;
   box-shadow: 0px 4px 9px rgba(75, 125, 85, 0.15);
   border-radius: 35px;
-  padding: 9px;
+  padding: 10px;
   margin-bottom: 40px;
+  width: 480px;
   img {
     margin-right: 11px;
   }
@@ -101,6 +98,36 @@ section {
       }
       span.subt {
         color: @grey;
+      }
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  .profile {
+    width: 320px;
+  }
+}
+
+@media (max-width: 767px) {
+  .profile {
+    width: 100%;
+  }
+  .children {
+    .data {
+      align-items: center !important;
+      width: 100% !important;
+    }
+  }
+  .add-btn {
+    justify-content: center !important;
+    width: 100% !important;
+  }
+  .child-add {
+    width: 100% !important;
+    form {
+      button.btn-success {
+        width: 100% !important;
       }
     }
   }

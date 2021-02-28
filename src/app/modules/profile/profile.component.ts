@@ -17,4 +17,8 @@ export class ProfileComponent {
       centered: true,
     });
   }
+
+  public closeModal() {
+    this.modalService.dismissAll();
+  }
 }

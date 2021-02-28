@@ -1,1 +1,43 @@
-<p>progress works!</p>
+<section>
+  <div class="d-flex flex-wrap w-100">
+    <app-user-card *ngFor="let child of profileService.children" [user]="child"></app-user-card>
+  </div>
+
+  <div class="progress-block">
+    <div class="w-100 d-flex flex-row justify-content-between align-items-start">
+      <span class="progress-header">Упражнения:</span>
+      <div ngbDropdown class="progress-selector">
+        <span class="text-mb" id="dropdownConfig" ngbDropdownToggle>Январь 2021</span>
+        <div ngbDropdownMenu aria-labelledby="dropdownConfig">
+          <button ngbDropdownItem>Январь 2021</button>
+          <button ngbDropdownItem>Декабрь 2020</button>
+          <button ngbDropdownItem>Ноябрь 2020</button>
+          <button ngbDropdownItem>Октябрь 2020</button>
+          <button ngbDropdownItem>Сентябрь 2020</button>
+          <button ngbDropdownItem>За всё время</button>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex flex-row justify-content-start">
+      <div class="d-flex flex-column justify-content-center align-items-center">
+        <img src="../../../../assets/images/progress-circle.png" />
+        <span>Блоков решено</span>
+      </div>
+      <div class="d-flex flex-column justify-content-center align-items-center">
+        <img src="../../../../assets/images/progress-circle2.png" />
+        <span>Задач решено</span>
+      </div>
+      <div class="d-flex flex-column justify-content-center align-items-center">
+        <img src="../../../../assets/images/progress-circle3.png" />
+        <span>С первой попытки</span>
+      </div>
+    </div>
+    <p class="progress-header">Награды:</p>
+    <div class="progress-rewards d-flex justify-content-start align-items-center">
+      <img src="../../../../assets/images/icons/diamond.svg" />
+      <span>10</span>
+      <img src="../../../../assets/images/icons/chest.svg" />
+      <span>0</span>
+    </div>
+  </div>
+</section>

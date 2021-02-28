@@ -90,5 +90,20 @@ main {
   width: calc(100% - 270px);
   position: relative;
   z-index: 2;
-  background: #fff;
+}
+
+@media (max-width: 767px) {
+  .left {
+    width: 100%;
+    padding-right: 0px;
+
+    .message {
+      width: calc(100% - 100px) !important;
+      margin: 0 50px 150px;
+      img {
+        width: 100%;
+        bottom: -50px;
+      }
+    }
+  }
 }
