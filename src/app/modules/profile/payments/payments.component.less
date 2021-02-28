@@ -1,5 +1,9 @@
 @import '../../../../variables.less';
-
+app-user-card {
+  width: 290px;
+  margin-right: 112px;
+  cursor: pointer;
+}
 .actions {
   padding-top: 40px;
   .filters {
@@ -18,16 +22,45 @@
     }
   }
 
-  a {
+  a.text {
     color: @grey;
     text-decoration: underline;
-    margin-right: 100px;
+    margin-right: 150px;
+
+    &::after {
+      display: none;
+    }
+  }
+  .cloud-dropdown {
+    border: none;
+    border-radius: 0;
+    background-image: url(../../../../assets/images/cloud6.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    left: -8px !important;
+    padding: 30px;
+    padding-left: 20px;
+    padding-right: 25px;
+    width: 330px;
+    height: 144px;
+    p {
+      font-size: 14px;
+      line-height: 22px;
+      letter-spacing: 0.02em;
+
+      color: @dark-green;
+      a {
+        margin-right: 0;
+        color: @dark-green;
+        text-decoration: underline;
+      }
+    }
   }
 }
 
-.payments{
-    padding-top: 30px;
-    .payment{
-        margin-bottom: 30px;
-    }
+.payments {
+  padding-top: 30px;
+  .payment {
+    margin-bottom: 30px;
+  }
 }

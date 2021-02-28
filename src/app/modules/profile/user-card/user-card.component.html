@@ -1,4 +1,4 @@
-<div class="profile" [ngClass]="{ shadow: showShadow }">
+<div class="profile" [ngClass]="{ shadow: showShadow, inactive: inactive }" *ngIf="user">
   <img src="../../../../assets/images/icons/user-child.svg" />
   <div class="profile-content">
     <div class="profile-label">
@@ -9,8 +9,8 @@
       /></ng-container>
     </div>
     <div class="profile-info">
-      <h4>Алиса Кравцова</h4>
-      <span class="subt">5 лет</span>
+      <h4>{{ user.name }} {{ user.surname }}</h4>
+      <span class="subt">{{ user.age }} {{ getAgeLabel(user.age) }}</span>
     </div>
   </div>
 </div>

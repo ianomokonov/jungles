@@ -5,5 +5,6 @@ import { Child } from './models/child.class';
 export class ProfileService {
   public children: Child[] = [
     { id: 1, name: 'Алина', surname: 'Кравцова', age: 5, fare: 1, leftDays: 28, opened: false },
+    { id: 2, name: 'Ваня', surname: 'Кравцов', age: 7, fare: 1, leftDays: 28, opened: false },
   ];
 }

@@ -1,10 +1,24 @@
 <div class="d-flex flex-wrap w-100">
-  <app-user-card class="w-50"></app-user-card>
-  <app-user-card class="w-50"></app-user-card>
+  <app-user-card
+    *ngFor="let child of profileService.children"
+    [user]="child"
+    [inactive]="child.id !== activeUserId"
+    (click)="onUserClick(child.id)"
+  ></app-user-card>
 </div>
 <div class="actions d-flex justify-content-between">
   <div class="filters text-mb">За все время</div>
-  <a class="text" href="javascript:;">Получить выписку</a>
+  <div ngbDropdown #myDrop="ngbDropdown">
+    <a class="text" href="javascript:;" ngbDropdownToggle>Получить выписку</a>
+    <div ngbDropdownMenu class="cloud-dropdown">
+      <p>
+        Для получения выписки с информацией о покупке услуг Джунгликов, напишите нам вличном
+        кабинете в разделе
+        <br />
+        <a routerLink="/profile/help">Помощь</a>
+      </p>
+    </div>
+  </div>
 </div>
 <div class="payments">
   <div class="payment" *ngFor="let payment of payments">
