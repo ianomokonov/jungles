@@ -631,7 +631,8 @@ app-feedback-slider,
   }
 }
 
-app-payments {
+app-payments,
+app-progress {
   .slider {
     .carousel-indicators {
       display: none;
@@ -641,6 +642,16 @@ app-payments {
 @media (max-width: 767px) {
   .close-btn {
     display: block;
+  }
+  .modal-discount {
+    .modal-dialog {
+      .modal-content {
+        border: 0;
+        width: 80%;
+        box-shadow: 0px 0px 20px rgba(47, 73, 21, 0.25);
+        border-radius: 10px;
+      }
+    }
   }
 }
 @media (max-width: 576px) {
@@ -742,5 +753,16 @@ app-help {
         text-decoration: none !important;
       }
     }
+  }
+}
+
+ngx-charts-advanced-pie-chart {
+  .advanced-pie-legend-wrapper {
+    display: none !important;
+    width: 0px !important;
+  }
+  .advanced-pie-legend {
+    width: 0px !important;
+    display: none !important;
   }
 }

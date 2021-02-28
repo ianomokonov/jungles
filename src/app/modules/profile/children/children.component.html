@@ -1,17 +1,4 @@
 <section>
-  <!-- <div class="profile">
-    <img src="../../../../assets/images/icons/user-parent.svg" />
-    <div class="profile-content">
-      <div class="profile-label">
-        <span>Родитель</span>
-        <img src="../../../../assets/images/icons/pen.svg" />
-      </div>
-      <div class="profile-info">
-        <h4>Марина Кравцова</h4>
-        <span class="subt">kravtsova@mail.ru</span>
-      </div>
-    </div>
-  </div> -->
   <div class="profile">
     <app-user-card [user]="profileService.user" [showActions]="true"></app-user-card>
   </div>
@@ -26,7 +13,7 @@
         <span>Тариф: {{ child.fare }} месяц</span>
         <div class="d-flex flex-lg-row flex-column justify-content-start align-items-center">
           <div class="d-flex flex-column justify-content-center align-items-center">
-            <img src="../../../../assets/images/payment-circle.png" />
+              <charts [type]="'payment'" [sizes]="[120, 120]" [data]="28" [colors]="['#ff952c', '#c9c9c9']"></charts>
             <span class="mb-lg-0 mb-3">Дней до конца подписки</span>
           </div>
           <button class="btn btn-primary">Продлить тариф</button>
