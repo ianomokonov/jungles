@@ -59,7 +59,15 @@
 
 <div class="actions d-flex justify-content-between flex-lg-nowrap flex-wrap">
   <div class="d-none backdrop" *ngIf="myDrop.isOpen()"></div>
-  <div class="filters text-mb mb-3 mb-lg-0">За все время</div>
+  <div ngbDropdown>
+    <div class="filters text-mb mb-3 mb-lg-0" ngbDropdownToggle>{{ activePeriod }}</div>
+    <div ngbDropdownMenu>
+      <button ngbDropdownItem *ngFor="let period of periods" (click)="activePeriod = period">
+        {{ period }}
+      </button>
+    </div>
+  </div>
+
   <div ngbDropdown #myDrop="ngbDropdown">
     <a class="text" href="javascript:;" ngbDropdownToggle>Получить выписку</a>
     <div ngbDropdownMenu class="cloud-dropdown">

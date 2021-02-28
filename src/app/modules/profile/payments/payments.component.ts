@@ -10,6 +10,7 @@ import { ProfileService } from '../profile.service';
 })
 export class PaymentsComponent {
   public activeUserId: number;
+  public activePeriod = 'За все время';
   public showLeftArrow = false;
   constructor(public profileService: ProfileService) {
     this.activeUserId = profileService.children[0]?.id;
@@ -30,6 +31,14 @@ export class PaymentsComponent {
       sum: 1000,
       comment: 'Тариф продлен на 60 дней',
     },
+  ];
+  public periods = [
+    'Январь 2021',
+    'Декабрь 2020',
+    'Ноябрь 2020',
+    'Октябрь 2020',
+    'Сентябрь 2020',
+    'За все время',
   ];
 
   public onUserClick(id: number): void {
