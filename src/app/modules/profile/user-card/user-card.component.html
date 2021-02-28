@@ -2,19 +2,24 @@
   <img src="../../../../assets/images/icons/user-child.svg" />
   <div class="profile-content">
     <div class="profile-label">
-      <span>{{ child? 'Ребёнок' : 'Родитель' }}</span>
+      <span>{{ child ? 'Ребёнок' : 'Родитель' }}</span>
       <ng-container *ngIf="showActions"
-        ><img src="../../../../assets/images/icons/pen.svg" (click)="editItem()"/>
+        ><img src="../../../../assets/images/icons/pen.svg" (click)="editItem()" />
         <img src="../../../../assets/images/icons/cross2.svg" (click)="deleteItem()"
       /></ng-container>
     </div>
-    <div class="profile-info">
-      <h4>{{ user.name }} {{ user.surname }}</h4>
-      <span class="subt" *ngIf="child; else email">{{ child.age }} {{ getAgeLabel(child.age) }}</span>
+    <div class="profile-info flex-column flex-sm-row">
+      <h4 class="mt-1 mt-sm-0 mb-1">{{ user.name }} {{ user.surname }}</h4>
+
+      <span class="subt"
+        ><ng-container *ngIf="child; else email"
+          >{{ child.age }} {{ getAgeLabel(child.age) }}</ng-container
+        ></span
+      >
     </div>
   </div>
 </div>
 
 <ng-template #email>
-  <span class="subt">{{ parent.mail }}</span>
+  {{ parent.mail }}
 </ng-template>

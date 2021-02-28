@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
 import { Payment } from '../models/payment';
 import { ProfileService } from '../profile.service';
 
@@ -36,5 +37,9 @@ export class PaymentsComponent {
 
   public getFormattedSum(sum: number): string {
     return new Intl.NumberFormat('ru-RU').format(sum);
+  }
+
+  public onSlide(event: NgbSlideEvent) {
+    this.onUserClick(this.profileService.children[+event.current].id);
   }
 }

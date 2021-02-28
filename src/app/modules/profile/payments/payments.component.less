@@ -1,8 +1,12 @@
 @import '../../../../variables.less';
 app-user-card {
-  width: 290px;
-  margin-right: 112px;
+  max-width: 400px;
+  width: 50%;
+  // margin-right: 112px;
   cursor: pointer;
+}
+.slider {
+  display: none;
 }
 .actions {
   padding-top: 40px;
@@ -32,6 +36,7 @@ app-user-card {
     }
   }
   .cloud-dropdown {
+    background-color: transparent;
     border: none;
     border-radius: 0;
     background-image: url(../../../../assets/images/cloud6.svg);
@@ -62,5 +67,70 @@ app-user-card {
   padding-top: 30px;
   .payment {
     margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 991px) {
+  app-user-card {
+    width: 100%;
+    max-width: unset;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .slider {
+    margin-top: 30px;
+    display: flex;
+    .profile {
+      box-shadow: 0px 4px 9px rgba(75, 125, 85, 0.15);
+      border-radius: 35px;
+      padding: 10px;
+      margin: 10px 5px;
+    }
+    .btn-slider {
+      background: transparent !important;
+
+      svg {
+        path {
+          fill: @grey;
+        }
+      }
+
+      &.next {
+        transform: rotate(-90deg);
+      }
+      &.prev {
+        transform: rotate(90deg);
+      }
+    }
+  }
+  .children {
+    display: none !important;
+  }
+  .actions {
+    a.text {
+      margin-right: 0;
+    }
+
+    .cloud-dropdown {
+      left: auto !important;
+      right: -8px !important;
+      padding-top: 45px;
+      height: 168px;
+      background-image: url(../../../../assets/images/cloud7.svg);
+      z-index: 100;
+    }
+    .backdrop {
+      display: block !important;
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      left: 0;
+      top: 0;
+      background: @green;
+      opacity: 0.4;
+      z-index: 99;
+    }
   }
 }

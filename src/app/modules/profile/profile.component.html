@@ -7,17 +7,17 @@
           routerLink="/profile"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
-          >Личный кабинет</a
+          ><span>Личный кабинет</span></a
         >
-        <app-children class="content-mb w-100 d-block d-md-none"></app-children>
-        <a class="nav-item text-mb" routerLink="progress" routerLinkActive="active">Успехи</a>
+        <app-children class="content-mb w-100"></app-children>
+        <a class="nav-item text-mb" routerLink="progress" routerLinkActive="active"><span>Успехи</span></a>
         <!-- <app-progress class="content-mb d-block d-md-none"></app-progress> -->
         <a class="nav-item text-mb" routerLink="payments" routerLinkActive="active"
-          >История оплат</a
+          ><span>История оплат</span></a
         >
-        <!-- <app-payments class="content-mb d-block d-md-none"></app-payments> -->
-        <a class="nav-item text-mb" routerLink="help" routerLinkActive="active">Помощь</a>
-        <!-- <app-help class="content-mb d-block d-md-none"></app-help> -->
+        <app-payments class="w-100 content-mb"></app-payments>
+        <a class="nav-item text-mb" routerLink="help" routerLinkActive="active"><span>Помощь</span></a>
+        <!-- <app-help class="content-mb"></app-help> -->
       </nav>
       <div class="message green d-flex flex-column justify-content-start align-items-center">
         <span>Скидка 10%</span>

@@ -1,9 +1,11 @@
 @import '../../../variables.less';
 
-.left{
+.left {
   width: 280px;
   padding-right: 10px;
-
+  .content-mb {
+    display: none;
+  }
   nav {
     width: 100%;
     margin-bottom: 30px;
@@ -17,18 +19,18 @@
       text-align: center;
       margin-bottom: 15px;
       text-decoration: none;
-  
+
       &.active,
       &:hover {
         border-color: @green;
       }
-  
+
       &:hover {
         color: @dark-green;
       }
     }
   }
-  
+
   .message {
     padding: 20px 26px;
     width: 100%;
@@ -45,14 +47,14 @@
       font-weight: 700;
       margin-bottom: 10px;
     }
-  
-    .text{
+
+    .text {
       letter-spacing: 0.02em;
       line-height: 22px;
       font-weight: 400;
     }
 
-    button{
+    button {
       margin-top: 30px;
       display: inline;
       text-transform: capitalize;
@@ -63,7 +65,7 @@
       box-shadow: none !important;
     }
 
-    &::after{
+    &::after {
       content: '';
       width: 265px;
       height: 200px;
@@ -72,9 +74,8 @@
       bottom: -55px;
       left: -72px;
       z-index: 1;
-
     }
-    img{
+    img {
       position: absolute;
       bottom: -84px;
       left: -52px;
@@ -83,7 +84,6 @@
     }
   }
 }
-
 
 main {
   padding-left: 80px;
@@ -96,7 +96,42 @@ main {
   .left {
     width: 100%;
     padding-right: 0px;
+    nav {
+      width: 100%;
+      margin-bottom: 30px;
+      .nav-item {
+        span {
+          position: relative;
+          margin-right: 30px;
+          &::after {
+            content: '';
+            width: 20px;
+            height: 10px;
+            position: absolute;
+            top: calc(50% - 4px);
+            right: -30px;
+            background-image: url(../../../assets/images/icons/arrow-down.svg);
+            background-size: 100% 100%;
+            background-position: center;
+            
+            transform: rotate(-90deg);
+          }
+        }
+        &.active {
+          & + .content-mb {
+            display: block;
+          }
 
+          span {
+            &::after {
+              
+              transform: rotate(0deg);
+              content: '';
+            }
+          }
+        }
+      }
+    }
     .message {
       width: calc(100% - 100px) !important;
       margin: 0 50px 150px;
