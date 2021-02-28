@@ -4,7 +4,7 @@
       <nav class="d-flex flex-column d-md-block align-items-center">
         <a
           class="nav-item text-mb"
-          routerLink="/profile"
+          routerLink="children"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
           ><span>Личный кабинет</span></a
@@ -17,7 +17,7 @@
         >
         <app-payments class="w-100 content-mb"></app-payments>
         <a class="nav-item text-mb" routerLink="help" routerLinkActive="active"><span>Помощь</span></a>
-        <!-- <app-help class="content-mb"></app-help> -->
+        <app-help class="content-mb w-100"></app-help>
       </nav>
       <div class="message green d-flex flex-column justify-content-start align-items-center">
         <span>Скидка 10%</span>

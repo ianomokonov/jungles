@@ -6,6 +6,10 @@ ngb-accordion {
   }
 }
 
+h4 {
+    text-transform: uppercase;
+  }
+
 .problem {
   margin-top: 20px;
   position: relative;
@@ -37,12 +41,25 @@ ngb-accordion {
 }
 
 textarea {
-    margin-top: 20px;
+  margin-top: 20px;
   background: #fcfcfc !important;
   box-shadow: 0px 3px 9px rgba(0, 0, 0, 0.1) !important;
   border: none;
   outline: none !important;
   border-radius: 0;
   margin-bottom: 30px;
+}
 
+@media (max-width: 767px) {
+  h4 {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  .btn.btn-success {
+    width: 100% !important;
+  }
 }

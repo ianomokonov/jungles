@@ -20,7 +20,7 @@ const routes: Routes = [
   {
     path: 'profile',
     loadChildren: () => import('./modules/profile/profile.module').then((m) => m.ProfileModule),
-    data: { title: 'Личный кабинет' },
+    data: { title: 'Личный кабинет', url: '/profile/children' },
   },
   {
     path: 'tasks',

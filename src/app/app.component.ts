@@ -30,12 +30,12 @@ export class AppComponent {
           while (route.firstChild) {
             // eslint-disable-next-line no-param-reassign
             route = route.firstChild;
-            const { title } = route.snapshot.data;
+            const { title, url } = route.snapshot.data;
             const { routeConfig } = route.snapshot;
             if (title && routeConfig?.path) {
               routes.push({
                 title,
-                url: `${routes.map((r) => r.url).join('/')}/${routeConfig.path}`,
+                url: url || `${routes.map((r) => r.url).join('/')}/${routeConfig.path}`,
               });
             }
           }

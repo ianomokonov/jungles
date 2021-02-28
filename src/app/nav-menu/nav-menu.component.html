@@ -13,7 +13,7 @@
     <a routerLink="/rates" class="menu-item">Тарифы</a>
     <button class="button-sec" (click)="logIn()" *ngIf="!loggedIn">Войти</button>
     <div class="menu-profile d-flex justify-content-center align-items-center" *ngIf="loggedIn">
-      <img src="../../assets/images/icons/user-child-sm.svg" routerLink="/profile">
+      <img src="../../assets/images/icons/user-child-sm.svg" routerLink="/profile/children">
       <span class="menu-item" routerLink="/profile">Алиса</span>
       <img src="../../assets/images/icons/notifications.svg" routerLink="/profile/notifications">
       <img src="../../assets/images/icons/exit.svg" (click)="logOut()">

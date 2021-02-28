@@ -129,6 +129,20 @@ h3,
   letter-spacing: 0.02em;
 }
 
+.close-btn {
+  font-size: 14px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 19px;
+  letter-spacing: 0.02em;
+  color: @grey;
+  margin-bottom: 60px;
+  font-family: Open Sans;
+  font-style: normal;
+  display: none;
+  margin-top: 30px;
+}
+
 .text-orange {
   color: @orange;
 }
@@ -599,7 +613,8 @@ app-feedback-slider,
     justify-content: center;
     align-items: center;
     position: absolute;
-    &:focus, &:active {
+    &:focus,
+    &:active {
       box-shadow: none;
     }
 
@@ -623,7 +638,11 @@ app-payments {
     }
   }
 }
-
+@media (max-width: 767px) {
+  .close-btn {
+    display: block;
+  }
+}
 @media (max-width: 576px) {
   html {
     background: none;
