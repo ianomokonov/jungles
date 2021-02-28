@@ -10,6 +10,7 @@ import { ProfileService } from '../profile.service';
 })
 export class PaymentsComponent {
   public activeUserId: number;
+  public showLeftArrow = false;
   constructor(public profileService: ProfileService) {
     this.activeUserId = profileService.children[0]?.id;
   }
@@ -41,5 +42,11 @@ export class PaymentsComponent {
 
   public onSlide(event: NgbSlideEvent) {
     this.onUserClick(this.profileService.children[+event.current].id);
+    if (+event.current === 0) {
+      this.showLeftArrow = false;
+      return;
+    }
+
+    this.showLeftArrow = true;
   }
 }
