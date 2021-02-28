@@ -177,7 +177,7 @@ h3,
   height: 67px;
 
   &:hover {
-    border-bottom: 4px solid @light-brown;
+    border-bottom: 4px solid @light-brown !important;
     background: linear-gradient(182.07deg, #ffc081 1.75%, #ff9b38 74.75%);
     box-shadow: 0px 0px 10px 5px rgba(207, 120, 34, 0.4);
     color: #5f3812;
@@ -186,8 +186,8 @@ h3,
   &:focus,
   &:active {
     outline: none;
-    border-bottom: 4px solid @light-brown;
-    box-shadow: 0px 0px 20px 8px rgba(207, 120, 34, 0.4);
+    border-bottom: 4px solid #42674e;
+    box-shadow: 0px 5px 12px rgba(66, 103, 78, 0.4);
   }
 }
 
@@ -650,6 +650,65 @@ app-feedback-slider,
     .sliderr {
       .slider {
         background-size: 100% 100%;
+      }
+    }
+  }
+}
+
+app-help {
+  ngb-accordion {
+    .card {
+      border: none;
+      margin-bottom: 15px;
+      overflow: visible !important;
+
+      &:last-child {
+        margin-bottom: 50px;
+      }
+      .card-header {
+        position: relative;
+        z-index: 2;
+        margin-bottom: 0 !important;
+        background: #e4f4e7;
+        box-shadow: 0px 3px 9px rgba(68, 103, 66, 0.1);
+        border-radius: 6px !important;
+        height: 40px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        border-bottom: none;
+
+        button {
+          padding-left: 20px;
+          height: 100%;
+          width: 100%;
+          justify-content: start;
+        }
+
+        &::after {
+          content: '';
+          background-image: url(./assets/images/icons/arrow-down.svg);
+          background-repeat: no-repeat;
+          height: 10px;
+          width: 20px;
+          background-size: contain;
+          background-position: center;
+          position: absolute;
+          right: 16px;
+          top: calc(50% - 5px);
+        }
+      }
+
+      div[role='tabpanel'] {
+        position: relative;
+        z-index: 1;
+      }
+
+      .btn {
+        outline: none !important;
+        padding: 0;
+        box-shadow: none !important;
+        text-decoration: none !important;
       }
     }
   }

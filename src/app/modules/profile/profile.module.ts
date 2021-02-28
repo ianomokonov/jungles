@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../shared/shared.module';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileComponent } from './profile.component';
@@ -19,7 +19,7 @@ import { UserCardComponent } from './user-card/user-card.component';
     ChildrenComponent,
     UserCardComponent,
   ],
-  imports: [ProfileRoutingModule, SharedModule, NgbDropdownModule],
+  imports: [ProfileRoutingModule, SharedModule, NgbDropdownModule, NgbAccordionModule],
   providers: [ProfileService],
 })
 export class ProfileModule {}
