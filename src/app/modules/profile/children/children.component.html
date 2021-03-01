@@ -11,25 +11,26 @@
 
       <div class="data d-flex flex-column justify-content-start align-items-start">
         <span>Тариф: {{ child.fare }} месяц</span>
-        <div class="d-flex flex-lg-row flex-column justify-content-start align-items-center">
+        <div
+          class="d-flex flex-lg-row flex-column justify-content-start align-items-center align-items-md-start align-items-lg-center"
+        >
           <div class="data-graph d-flex flex-column justify-content-center align-items-center">
             <app-pie-chart [percent]="50" [size]="130" [label]="'28/32'"></app-pie-chart>
             <span class="mb-lg-0 mb-3 text-muted">Дней до конца подписки</span>
           </div>
-          <button class="btn btn-primary mb-4">Продлить тариф</button>
+          <button class="btn btn-primary mb-4 mt-4 mt-md-0">Продлить тариф</button>
         </div>
       </div>
     </div>
-
-    <div
-      class="add-btn d-flex justify-content-start align-items-center"
-      *ngIf="!showAddForm"
-      (click)="toggleAddForm()"
-    >
-      <img src="../../../../assets/images/icons/plus.svg" />
-      <span>Добавить ребёнка</span>
-    </div>
   </ng-container>
+  <div
+    class="add-btn d-flex justify-content-start align-items-center mb-5"
+    *ngIf="!showAddForm"
+    (click)="toggleAddForm()"
+  >
+    <img src="../../../../assets/images/icons/plus.svg" />
+    <span>Добавить ребёнка</span>
+  </div>
 
   <ng-template #noData>
     <div class="child-reg" *ngIf="!showAddForm">

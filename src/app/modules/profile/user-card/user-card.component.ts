@@ -17,6 +17,7 @@ export class UserCardComponent {
     this.parent = user;
   }
   @Input() public showActions = false;
+  @Input() public showDelete = false;
   @Input() public inactive = false;
   @Output() public delete: EventEmitter<void> = new EventEmitter();
   @Output() public edit: EventEmitter<void> = new EventEmitter();

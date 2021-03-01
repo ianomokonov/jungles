@@ -30,8 +30,11 @@ export class AppComponent {
           while (route.firstChild) {
             // eslint-disable-next-line no-param-reassign
             route = route.firstChild;
-            const { title, url } = route.snapshot.data;
+            const { title, url, background } = route.snapshot.data;
             const { routeConfig } = route.snapshot;
+            if (background) {
+              this.setBackground(background);
+            }
             if (title && routeConfig?.path) {
               routes.push({
                 title,
@@ -55,5 +58,9 @@ export class AppComponent {
           ];
         }
       });
+  }
+
+  private setBackground(background: string) {
+    document.documentElement.style.backgroundImage = `url(${background})`;
   }
 }

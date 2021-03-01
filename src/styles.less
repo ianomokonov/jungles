@@ -367,7 +367,7 @@ html {
   background-image: url('./assets/images/fon.png');
   background-size: 100% auto;
   background-position: center top;
-  background-repeat: no-repeat;
+  background-repeat: repeat-y;
   min-width: 370px;
   min-height: 100%;
 }
@@ -644,6 +644,10 @@ app-progress {
   }
 }
 @media (max-width: 767px) {
+  
+  html {
+    background-image: none !important;
+  }
   .close-btn {
     display: block;
   }
@@ -659,9 +663,6 @@ app-progress {
   }
 }
 @media (max-width: 576px) {
-  html {
-    background: none;
-  }
   h1 {
     font-size: 30px;
   }

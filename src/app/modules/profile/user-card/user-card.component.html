@@ -5,7 +5,7 @@
       <span>{{ child ? 'Ребёнок' : 'Родитель' }}</span>
       <ng-container *ngIf="showActions"
         ><img src="../../../../assets/images/icons/pen.svg" (click)="editItem()" />
-        <img src="../../../../assets/images/icons/cross2.svg" (click)="deleteItem()"
+        <img *ngIf="showDelete" src="../../../../assets/images/icons/cross2.svg" (click)="deleteItem()"
       /></ng-container>
     </div>
     <div class="profile-info flex-column flex-sm-row">
