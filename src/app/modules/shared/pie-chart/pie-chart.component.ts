@@ -10,7 +10,7 @@ export class PieChartComponent implements AfterViewInit {
   @Input() public color = '#FF952C';
   @Input() public size = 66;
   @Input() public set percent(value: number) {
-    this.value = value / 100;
+    this.value = (value - 1) / 100;
     this.drawChart();
   }
 
