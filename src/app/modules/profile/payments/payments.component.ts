@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
 import { Payment } from '../models/payment';
+import { periods } from '../models/periods';
 import { ProfileService } from '../profile.service';
 
 @Component({
@@ -32,14 +33,7 @@ export class PaymentsComponent {
       comment: 'Тариф продлен на 60 дней',
     },
   ];
-  public periods = [
-    'Январь 2021',
-    'Декабрь 2020',
-    'Ноябрь 2020',
-    'Октябрь 2020',
-    'Сентябрь 2020',
-    'За все время',
-  ];
+  public periods = periods;
 
   public onUserClick(id: number): void {
     this.activeUserId = id;
