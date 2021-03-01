@@ -1,6 +1,7 @@
 import { Component, HostListener, TemplateRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile',
@@ -31,11 +32,13 @@ export class ProfileComponent {
     public modal: NgbActiveModal,
     private router: Router,
   ) {
-    if (window.innerWidth > 767) {
-      if (this.router.url === '/profile') {
-        this.router.navigate(['/profile/children']);
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
+      if (window.innerWidth > 767) {
+        if (this.router.url === '/profile') {
+          this.router.navigate(['/profile/children']);
+        }
       }
-    }
+    });
   }
 
   public openModal(content: TemplateRef<any>) {
