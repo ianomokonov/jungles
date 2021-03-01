@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ProfileService } from '../profile.service';
 
 @Component({
@@ -6,8 +6,6 @@ import { ProfileService } from '../profile.service';
   templateUrl: './progress.component.html',
   styleUrls: ['./progress.component.less'],
 })
-export class ProgressComponent implements OnInit {
+export class ProgressComponent {
   constructor(public profileService: ProfileService) {}
-
-  ngOnInit(): void {}
 }

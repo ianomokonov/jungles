@@ -26,7 +26,7 @@
         <span>Тариф: {{ child.fare }} месяц</span>
         <div class="d-flex flex-lg-row flex-column justify-content-start align-items-center">
           <div class="d-flex flex-column justify-content-center align-items-center">
-            <img src="../../../../assets/images/payment-circle.png" />
+            <app-pie-chart [percent]="50" [size]="130"></app-pie-chart>
             <span class="mb-lg-0 mb-3">Дней до конца подписки</span>
           </div>
           <button class="btn btn-primary">Продлить тариф</button>
