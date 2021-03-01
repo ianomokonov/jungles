@@ -13,7 +13,6 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~11.1.2",
-    "@angular/cdk": "^11.2.2",
     "@angular/common": "~11.1.2",
     "@angular/compiler": "~11.1.2",
     "@angular/core": "~11.1.2",
@@ -23,7 +22,6 @@
     "@angular/platform-browser-dynamic": "~11.1.2",
     "@angular/router": "~11.1.2",
     "@ng-bootstrap/ng-bootstrap": "^9.0.2",
-    "@swimlane/ngx-charts": "^17.0.1",
     "bootstrap": "^4.5.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
