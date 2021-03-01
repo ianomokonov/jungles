@@ -9,6 +9,7 @@ export class PieChartComponent implements AfterViewInit {
   @ViewChild('chart') public chart: ElementRef<SVGElement>;
   @Input() public color = '#FF952C';
   @Input() public size = 66;
+  @Input() public label: string;
   @Input() public set percent(value: number) {
     this.value = (value - 1) / 100;
     this.drawChart();
