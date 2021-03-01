@@ -6,6 +6,9 @@ const routes: Routes = [
     path: '',
     pathMatch: 'full',
     loadChildren: () => import('./modules/home/home.module').then((m) => m.HomeModule),
+    data: {
+      background: './assets/images/fon.png',
+    },
   },
   {
     path: 'project',

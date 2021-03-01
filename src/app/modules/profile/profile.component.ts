@@ -30,7 +30,13 @@ export class ProfileComponent {
     private modalService: NgbModal,
     public modal: NgbActiveModal,
     private router: Router,
-  ) {}
+  ) {
+    if (window.innerWidth > 767) {
+      if (this.router.url === '/profile') {
+        this.router.navigate(['/profile/children']);
+      }
+    }
+  }
 
   public openModal(content: TemplateRef<any>) {
     this.modalService.open(content, {
