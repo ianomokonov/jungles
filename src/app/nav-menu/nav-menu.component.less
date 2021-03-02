@@ -53,7 +53,7 @@
       min-width: 185px;
       text-align: end;
       img:nth-child(2) {
-        margin-right: 8px;
+        margin-right: 12px;
       }
       img {
         &:active,
@@ -62,12 +62,12 @@
         }
       }
       img:nth-child(4) {
-        margin-right: 17.33px;
+        margin-right: 12px;
       }
 
       span {
         margin-top: 0;
-        margin-right: 13.33px;
+        margin-right: 12px;
 
         &:active,
         &:focus {
@@ -106,10 +106,27 @@
       align-items: center;
       .menu-profile {
         margin-top: 0;
+        min-width: unset;
+
+        img:nth-child(2) {
+          margin-right: 8px;
+        }
+        img {
+          &:active,
+          &:focus {
+            outline: none;
+          }
+        }
+        img:nth-child(4) {
+          margin-right: 8px;
+        }
+
+        span {
+          margin-right: 8px;
+        }
       }
       .menu-btn {
         display: block;
-        margin-right: 20px;
       }
       .menu-item {
         display: none;
@@ -196,8 +213,7 @@
         }
       }
 
-      .menu-profile{
-        min-width: 90px;
+      .menu-profile {
         img:nth-child(4) {
           margin-right: 0;
         }
