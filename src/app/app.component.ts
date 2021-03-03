@@ -30,10 +30,10 @@ export class AppComponent {
           while (route.firstChild) {
             // eslint-disable-next-line no-param-reassign
             route = route.firstChild;
-            const { title, url, background } = route.snapshot.data;
+            const { title, url, style } = route.snapshot.data;
             const { routeConfig } = route.snapshot;
-            if (background) {
-              this.setBackground(background);
+            if (style) {
+              this.setStyle(style);
             }
             if (title && routeConfig?.path) {
               routes.push({
@@ -60,7 +60,10 @@ export class AppComponent {
       });
   }
 
-  private setBackground(background: string) {
-    document.documentElement.style.backgroundImage = `url(${background})`;
+  private setStyle(style: any) {
+    // Object.keys(style).forEach((key: string) => {
+    //   document.documentElement.style.setProperty(key, style[key]);
+    // });
+    document.documentElement.style.backgroundImage = style.background;
   }
 }

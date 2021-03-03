@@ -93,14 +93,19 @@ h3,
 .text,
 .subt {
   font-family: Open Sans;
-  color: @dark-green;
+  color: @dark-green !important;
 }
 
 .menu-item {
   cursor: pointer;
   font-weight: 600;
   font-size: 1rem;
+
+  &:hover {
+    text-decoration: none;
+  }
 }
+
 
 .text-mb {
   font-weight: 600;
@@ -236,6 +241,11 @@ h3,
 }
 
 /* Modal */
+
+ngb-modal-window, ngb-modal-backdrop {
+  height: 100% !important;
+  min-width: @min-width;
+}
 
 .modal-backdrop {
   background-color: #f0f0f0;
@@ -418,13 +428,13 @@ html {
   background-size: 100% auto;
   background-position: center top;
   background-repeat: repeat-y;
-  min-width: 370px;
+  min-width: @min-width;
   min-height: 100%;
 }
 
 body {
   background-color: transparent;
-  min-width: 370px;
+  min-width: @min-width;
   color: @dark-green;
   min-height: 100vh;
 }
@@ -693,6 +703,13 @@ app-progress {
     }
   }
 }
+
+@media (max-width: 1200px) {
+  html {
+    background: none !important;
+  }
+}
+
 @media (max-width: 767px) {
   html {
     background-image: none !important;
@@ -759,6 +776,10 @@ app-progress {
         }
       }
     }
+  }
+
+  .section-header {
+    margin-bottom: 12px;
   }
 }
 

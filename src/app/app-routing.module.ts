@@ -26,7 +26,12 @@ const routes: Routes = [
     data: {
       title: 'Личный кабинет',
       url: '/profile/children',
-      background: './assets/images/fon_admin.png',
+      style: {
+        background: 'url(./assets/images/fon_admin.png)',
+        // 'background-size': '100% 100%',
+        // 'background-position': 'center -200%',
+        'background-repeat': 'no-repeat',
+      },
     },
   },
   {

@@ -13,7 +13,7 @@
           [routerLinkActiveOptions]="{ exact: true }"
           ><span>Личный кабинет</span></a
         >
-        <app-children class="content-mb w-100"></app-children>
+        <app-children [isMobile]="true" class="content-mb w-100"></app-children>
         <a class="nav-item text-mb" routerLink="progress" routerLinkActive="active"><span>Успехи</span></a>
         <app-progress class="content-mb w-100"></app-progress>
         <a class="nav-item text-mb" routerLink="payments" routerLinkActive="active"
@@ -51,7 +51,7 @@
         10% при следующей оплате!
       </p>
       <span class="text mb-2">
-        Ссылку на пост отправьте в раздел <b>«Помощь»</b>, откройте свой профиль и в течении 10
+        Ссылку на пост отправьте в раздел <b>«Помощь»</b>, откройте свой профиль <span class="nobr">и в течении</span> 10
         календарных дней ссылка будет активирована в разделе <b>«Тарифы»</b>.
       </span>
       <span class="text mb-2"> - Скидка применяется только при возможности просмотра поста; </span>

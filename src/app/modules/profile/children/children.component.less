@@ -76,13 +76,18 @@ section {
   padding: 10px;
   margin-bottom: 40px;
   width: 480px;
+  border: 2px solid transparent;
 
   &:hover {
     cursor: pointer;
   }
 
   &.active {
-    border: 2px solid @green;
+    border-color: @green;
+
+    & + .data {
+      display: flex !important;
+    }
   }
 }
 

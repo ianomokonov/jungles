@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileService } from '../profile.service';
 
@@ -8,6 +8,7 @@ import { ProfileService } from '../profile.service';
   styleUrls: ['./children.component.less'],
 })
 export class ChildrenComponent implements AfterViewInit {
+  @Input() public isMobile = false;
   @ViewChild('message') public message: TemplateRef<any>;
   public childrenCount: string;
   public showAddForm: boolean;
@@ -22,7 +23,18 @@ export class ChildrenComponent implements AfterViewInit {
   }
 
   public ngAfterViewInit() {
-    this.modalOpen(this.message);
+    if (sessionStorage.getItem('openedModal')) {
+      return;
+    }
+    if (window.innerWidth > 767 && !this.isMobile) {
+      this.modalOpen(this.message);
+      sessionStorage.setItem('openedModal', 'true');
+      return;
+    }
+    if (window.innerWidth < 768 && this.isMobile) {
+      this.modalOpen(this.message);
+      sessionStorage.setItem('openedModal', 'true');
+    }
   }
 
   public modalOpen(content: TemplateRef<any>) {

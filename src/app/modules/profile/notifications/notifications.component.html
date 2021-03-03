@@ -6,7 +6,7 @@
       [ngClass]="{ nseen: !notif.seen }"
       *ngFor="let notif of notifications"
     >
-      <span class="text-b">{{ notif.text }}</span>
+      <span class="text-b d-block" [innerHTML]="notif.text"></span>
       <img src="../../../../assets/images/icons/eye.svg" />
     </div>
   </div>
