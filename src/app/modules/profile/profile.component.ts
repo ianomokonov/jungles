@@ -43,8 +43,7 @@ export class ProfileComponent {
 
   public openModal(content: TemplateRef<any>) {
     this.modalService.open(content, {
-      ariaDescribedBy: 'modal-basic-title',
-      backdropClass: 'modal-bck-discount',
+      backdropClass: 'modal-bck-green',
       windowClass: 'modal-discount',
       centered: true,
     });

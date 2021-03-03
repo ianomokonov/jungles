@@ -1,6 +1,6 @@
-export class Notification {
-  public Id: number;
-  public Text: string;
-  public Seen: boolean;
-  public SeenDate?: Date;
+export interface Notification {
+  id: number;
+  text: string;
+  seen: boolean;
+  seenDate?: Date;
 }

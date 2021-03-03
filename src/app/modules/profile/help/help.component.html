@@ -1,23 +1,32 @@
-<h4>Часто задаваемые вопросы</h4>
-<ngb-accordion #acc="ngbAccordion">
-  <ngb-panel *ngFor="let item of questions">
-    <ng-template ngbPanelTitle>
-      <span class="text-b">{{ item.question }}</span>
-    </ng-template>
-    <ng-template ngbPanelContent>
-      <p class="text mb-0">{{ item.answer }}</p>
-    </ng-template>
-  </ngb-panel>
-</ngb-accordion>
-<h4>Задать вопрос в поддержку</h4>
-<div ngbDropdown>
-  <div class="problem text-b" ngbDropdownToggle>
-    {{ currentProblem || 'Выберите тему' }}
+<section>
+  <h4>Часто задаваемые вопросы</h4>
+  <ngb-accordion #acc="ngbAccordion" [closeOthers]="true">
+    <ngb-panel *ngFor="let item of questions">
+      <ng-template ngbPanelTitle>
+        <span class="text-b">{{ item.question }}</span>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <p class="text mb-0">{{ item.answer }}</p>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+  <h4>Задать вопрос в поддержку</h4>
+  <div ngbDropdown>
+    <div class="problem text-b" ngbDropdownToggle>
+      {{ currentProblem || 'Выберите тему' }}
+    </div>
+    <div ngbDropdownMenu>
+      <button
+        ngbDropdownItem
+        class="text"
+        *ngFor="let problem of problems"
+        (click)="onSelectTopic(problem)"
+      >
+        {{ problem }}
+      </button>
+    </div>
   </div>
-  <div ngbDropdownMenu>
-    <button ngbDropdownItem class="text" *ngFor="let problem of problems" (click)="onSelectTopic(problem)">{{ problem }}</button>
-  </div>
-</div>
-<textarea placeholder="Текст сообщения" rows="5" class="form-control"></textarea>
-<button class="btn btn-success">Отправить</button>
-<span class="subt text-center close-btn" routerLink="/profile">Свернуть</span>
+  <textarea placeholder="Текст сообщения" rows="5" class="form-control"></textarea>
+  <button class="btn btn-success">Отправить</button>
+  <span class="subt text-center close-btn" routerLink="/profile">Свернуть</span>
+</section>

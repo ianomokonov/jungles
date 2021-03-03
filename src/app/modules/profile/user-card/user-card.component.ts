@@ -12,9 +12,11 @@ export class UserCardComponent {
   @Input() public set user(user: Child | User) {
     if ('age' in user) {
       this.child = user;
+      this.profilePicture = '../../../../assets/images/icons/user-child.svg';
       return;
     }
     this.parent = user;
+    this.profilePicture = '../../../../assets/images/icons/user-parent.svg';
   }
   @Input() public showActions = false;
   @Input() public showDelete = false;
@@ -23,12 +25,20 @@ export class UserCardComponent {
   @Output() public edit: EventEmitter<void> = new EventEmitter();
   public child: Child;
   public parent: User;
+  public profilePicture: string;
   public get user() {
     return this.child || this.parent;
   }
 
   public deleteItem(): void {
     this.delete.emit();
+  }
+
+  public getPhoto(): string {
+    if (this.user.profilePicture) {
+      return this.user.profilePicture;
+    }
+    return this.profilePicture;
   }
 
   public editItem(): void {

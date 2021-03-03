@@ -3,11 +3,11 @@
     <span class="notif-header">Уведомления</span>
     <div
       class="notif d-flex justify-content-between align-items-center"
-      [ngClass]="{ nseen: !notif.Seen }"
+      [ngClass]="{ nseen: !notif.seen }"
       *ngFor="let notif of notifications"
     >
-      <span class="text-b">{{ notif.Text }}</span>
-      <img class="d-none d-lg-block" src="../../../../assets/images/icons/eye.svg" />
+      <span class="text-b">{{ notif.text }}</span>
+      <img src="../../../../assets/images/icons/eye.svg" />
     </div>
   </div>
 </section>

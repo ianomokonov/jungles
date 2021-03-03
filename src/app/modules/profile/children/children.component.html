@@ -5,7 +5,11 @@
 
   <ng-container *ngIf="profileService.children.length; else noData">
     <div class="children" *ngFor="let child of profileService.children">
-      <div class="profile">
+      <div
+        class="profile"
+        (click)="setActive(child.id)"
+        [ngClass]="{ active: child.id === pickedUserId }"
+      >
         <app-user-card [user]="child" [showActions]="true" (delete)="deleteChild()"></app-user-card>
       </div>
 
@@ -18,7 +22,9 @@
             <app-pie-chart [percent]="50" [size]="130" [label]="'28/32'"></app-pie-chart>
             <span class="mb-lg-0 mb-3 text-muted">Дней до конца подписки</span>
           </div>
-          <button class="btn btn-primary mb-4 mt-4 mt-md-0">Продлить тариф</button>
+          <button class="btn btn-primary mb-4 mt-4 mt-md-0" routerLink="/rates">
+            Продлить тариф
+          </button>
         </div>
       </div>
     </div>
@@ -66,3 +72,15 @@
   </div>
 </section>
 <span class="subt text-center close-btn" routerLink="/profile">Свернуть</span>
+
+<ng-template #message>
+  <img src="../../../assets/images/icons/cross3.svg" (click)="closeModal()" />
+  <span class="text-b text-orange modal-title">Выбор профиля</span>
+  <div class="modal-body">
+    <div class="d-flex flex-column justify-content-center align-items-start">
+      <p class="text mb-0 text-align-center">
+        Перед началом выполнения упражнений, выберите профиль ребенка, так сохраняться его успехи и награды!
+      </p>
+    </div>
+  </div>
+</ng-template>

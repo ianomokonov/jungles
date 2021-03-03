@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -11,7 +12,7 @@ export class NavMenuComponent {
   public showMenu: boolean;
   public loggedIn: boolean;
 
-  constructor(private modalService: NgbModal) {
+  constructor(private modalService: NgbModal, private router: Router) {
     this.showMonkey = true;
     this.showMenu = false;
     this.loggedIn = false;
@@ -24,6 +25,7 @@ export class NavMenuComponent {
 
   public logOut(): void {
     this.loggedIn = false;
+    this.router.navigate(['']);
   }
 
   public toggleMenu(): void {
