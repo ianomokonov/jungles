@@ -34,6 +34,7 @@ const routes: Routes = [
         // 'background-position': 'center -200%',
         'background-repeat': 'no-repeat',
       },
+      class: 'profile-page',
     },
   },
   {

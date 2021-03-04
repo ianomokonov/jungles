@@ -3,6 +3,9 @@ section.fourth {
   h2{
     max-width: 54rem;
   }
+  .container{
+    padding: 0;
+  }
   .content {
     padding-top: 2rem;
     min-height: 40rem;
@@ -68,6 +71,10 @@ section.fourth {
 }
 
 @media (max-width: 991px) {
+  .container{
+    width: 100% !important;
+    max-width: unset;
+  }
   section.fourth {
     margin-bottom: 10rem;
     .content {
@@ -110,7 +117,7 @@ section.fourth {
       padding-top: 0;
       background-position: -6rem 10rem !important;
       .left-content {
-        right: 0;
+        right: 0 !important;
         top: 5rem;
         width: 16rem;
         height: 16rem;

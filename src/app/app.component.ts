@@ -25,13 +25,18 @@ export class AppComponent {
           }
           return this.routee;
         }),
+        // eslint-disable-next-line complexity
         map((route: ActivatedRoute) => {
           const routes: { title: string; url: string }[] = [];
+          let className = '';
           while (route.firstChild) {
             // eslint-disable-next-line no-param-reassign
             route = route.firstChild;
-            const { title, url, style } = route.snapshot.data;
+            const { title, url, style, class: pageClass } = route.snapshot.data;
             const { routeConfig } = route.snapshot;
+            if (pageClass) {
+              className = pageClass;
+            }
             if (style) {
               this.setStyle(style);
             }
@@ -42,6 +47,7 @@ export class AppComponent {
               });
             }
           }
+          document.body.className = className;
           return routes;
         }),
       )

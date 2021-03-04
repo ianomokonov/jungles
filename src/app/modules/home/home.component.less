@@ -13,6 +13,8 @@ header {
   .container {
     padding-top: 154px;
     padding-bottom: 40px;
+    padding-left: 0;
+    padding-right: 0;
     position: relative;
 
     &::before {
@@ -97,17 +99,12 @@ section {
   }
 }
 
-.container {
-  max-width: 1200px;
-  padding: 0;
-}
-
 @media (max-width: 1424px) {
   header {
     .container {
       &::before {
         background-size: auto calc(100% - 8rem);
-        background-position: right 0 top 123%;
+        background-position: right -47px top 123%;
         right: 0;
       }
     }
@@ -168,8 +165,8 @@ section {
   header {
     padding-top: 0;
     .container {
-      background-size: 70% auto;
-      padding-top: 50%;
+      background-size: 84% auto;
+      padding-top: 58%;
       .content {
         width: 90% !important;
       }
