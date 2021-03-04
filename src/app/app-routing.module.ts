@@ -7,7 +7,9 @@ const routes: Routes = [
     pathMatch: 'full',
     loadChildren: () => import('./modules/home/home.module').then((m) => m.HomeModule),
     data: {
-      background: './assets/images/fon.png',
+      style: {
+        background: './assets/images/fon.png',
+      },
     },
   },
   {
@@ -27,7 +29,7 @@ const routes: Routes = [
       title: 'Личный кабинет',
       url: '/profile/children',
       style: {
-        background: 'url(./assets/images/fon_admin.png)',
+        background: 'url(./assets/images/fon_admin2.png)',
         // 'background-size': '100% 100%',
         // 'background-position': 'center -200%',
         'background-repeat': 'no-repeat',

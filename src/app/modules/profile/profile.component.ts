@@ -33,7 +33,6 @@ export class ProfileComponent {
     private router: Router,
   ) {
     this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
-      console.log('redir');
       if (window.innerWidth > 767) {
         if (this.router.url === '/profile') {
           this.router.navigate(['/profile/children']);
