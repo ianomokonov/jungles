@@ -626,7 +626,8 @@ app-feedback-slider {
       }
     }
     .carousel-indicators {
-      bottom: 1.8rem;
+      bottom: 2.5rem !important;
+      top: unset !important;
     }
     .carousel-inner {
       height: 100%;
@@ -683,6 +684,8 @@ app-feedback-slider,
     display: flex;
     align-items: center;
     margin-bottom: 0.5rem;
+    bottom: unset;
+    top: calc(100% + 12px);
     li {
       background-color: @grey;
       height: 6px;

@@ -69,7 +69,7 @@ section.sixth {
           padding-bottom: 3rem;
         }
       }
-        
+
       img {
         &.second-grass {
           right: 0rem;
@@ -82,8 +82,8 @@ section.sixth {
 @media (max-width: 991px) {
   section.sixth {
     .container {
-      h2{
-        br{
+      h2 {
+        br {
           display: inline !important;
         }
       }
@@ -100,7 +100,7 @@ section.sixth {
           padding-bottom: 3rem;
         }
       }
-      .cloud-img{
+      .cloud-img {
         bottom: 3rem;
       }
     }
@@ -128,7 +128,7 @@ section.sixth {
   section.sixth {
     .container {
       min-height: 42rem;
-      h2{
+      h2 {
         font-size: 20px;
       }
       .content {
@@ -147,23 +147,38 @@ section.sixth {
           }
         }
       }
-      background: url(../../../../assets/images/slon_with_mono.png) no-repeat 10% 95% / auto 12rem,
-        url(../../../../assets/images/tigr.svg) no-repeat 80% 90% / auto 10rem;
+
+      &::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 50%;
+        bottom: 0;
+        left: 0;
+        background: url(../../../../assets/images/slon_with_mono.png) no-repeat 6% 77% / auto 82%;
+      }
+      overflow: hidden;
+      background: url('../../../../assets/images/profile_tigr.png') no-repeat 124% 97% / auto 12rem,
+        url('../../../../assets/images/grass_beh2.png') no-repeat -20% 90% / auto 30%,
+        url('../../../../assets/images/grass_beh.svg') no-repeat right -20% top 90% / auto 30%;
       img {
         position: absolute;
 
         &.first-grass {
-          left: 2rem;
+          left: -40px;
           bottom: 0;
           height: 10rem;
+          z-index: 9;
+          height: 8rem;
         }
         &.second-grass {
-          right: 2rem;
+          right: 18px;
           bottom: 0;
-          height: 10rem;
+          height: 8rem;
+          z-index: 8;
         }
       }
-      .cloud-img{
+      .cloud-img {
         bottom: 0rem;
       }
     }
