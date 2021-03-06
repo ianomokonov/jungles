@@ -8,7 +8,8 @@ const routes: Routes = [
     loadChildren: () => import('./modules/home/home.module').then((m) => m.HomeModule),
     data: {
       style: {
-        background: './assets/images/fon.png',
+        'background-image': 'url(./assets/images/fon.png)',
+        'background-size': '100% 92%',
       },
     },
   },

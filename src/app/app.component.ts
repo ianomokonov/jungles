@@ -67,9 +67,9 @@ export class AppComponent {
   }
 
   private setStyle(style: any) {
-    // Object.keys(style).forEach((key: string) => {
-    //   document.documentElement.style.setProperty(key, style[key]);
-    // });
-    document.documentElement.style.backgroundImage = style.background;
+    Object.keys(style).forEach((key: string) => {
+      document.documentElement.style.setProperty(key, style[key]);
+    });
+    // document.documentElement.style.backgroundImage = style.background;
   }
 }
