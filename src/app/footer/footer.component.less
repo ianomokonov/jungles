@@ -25,29 +25,63 @@ footer {
     }
 
     .footer-pay{
-      img{
+      img {
+        margin-right: 20px;
+        &:nth-of-type(1){
+          height: 21.79px;
+        }
         &:nth-of-type(2){
           height: 16px;
         }
       }
-      .img{
+      div.img {
+        margin-right: 20px;
         height: 22px;
-        background-image: url(../../assets/images/payments.png);
-        background-size: auto 214%;
+        background-repeat: no-repeat;
+        &:nth-of-type(1) {
+          width: 47px;
+          background-image: url(../../assets/images/icons/apple-pay2.svg);
+          background-position: center;
+          background-size: auto 97%;
 
-        &:nth-of-type(1){
-          width: 40px;
-          background-position: -14px center;
         }
-        &:nth-of-type(2){
-          width: 46px;
-          background-position: -83px center;
+
+        &:nth-of-type(2) {
+          width: 50px;
+          background-image: url(../../assets/images/icons/google-pay2.svg);
+          background-position: center 57%;
+          background-size: auto 200%;
         }
-        &:nth-of-type(3){
-          width: 41px;
-          background-position: -163px center;
+
+        &:nth-of-type(3) {
+          width: 44px;
+          background-image: url(../../assets/images/icons/samsung-pay2.svg);
+          background-position: center;
+          background-size: auto 790%;
         }
       }
+      // .img{
+      //   height: 22px;
+      //   background-image: url(../../assets/images/payments.png);
+      //   background-size: auto 214%;
+
+      //   &:nth-of-type(1){
+      //     width: 40px;
+      //     background-position: -14px center;
+      //   }
+      //   &:nth-of-type(2){
+      //     width: 46px;
+      //     background-position: -83px center;
+      //   }
+      //   &:nth-of-type(3){
+      //     width: 41px;
+      //     background-position: -163px center;
+      //   }
+
+      //   &:nth-of-type(4) {
+      //     width: 44px;
+      //   }
+      // }
 
       // .img {
       //   height: 22px;
