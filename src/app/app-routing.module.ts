@@ -30,7 +30,7 @@ const routes: Routes = [
       title: 'Личный кабинет',
       url: '/profile/children',
       style: {
-        background: 'url(./assets/images/fon_admin2.png)',
+        'background-image': 'url(./assets/images/fon_admin2.png)',
         // 'background-size': '100% 100%',
         // 'background-position': 'center -200%',
         'background-repeat': 'no-repeat',
