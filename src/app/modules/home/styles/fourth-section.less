@@ -1,18 +1,14 @@
 section.fourth {
   margin-bottom: 30px;
-  h2{
+  h2 {
     max-width: 54rem;
   }
-  .container{
+  .container {
     padding: 0;
   }
   .content {
     padding-top: 2rem;
     min-height: 40rem;
-    background-image: url('../../../../assets/images/tigr_with_colors.png');
-    background-repeat: no-repeat;
-    background-size: auto calc(100% - 10rem);
-    background-position: 43% 68%;
     position: relative;
 
     .left-content {
@@ -36,8 +32,40 @@ section.fourth {
         top: -2rem;
       }
     }
-
+    .background-content {
+      height: 40rem;
+      width: 100%;
+      top: 0;
+      left: 0;
+      position: absolute;
+      background: no-repeat url(../../../../assets/images/grass_speredi.svg) left 69% top 77% / auto
+          21%,
+        no-repeat url(../../../../assets/images/sunduk.png) left 63% top 70% / auto 22%,
+        no-repeat url(../../../../assets/images/tigr_s_kaskoy.png) left 40% top 44% / auto 62%;
+      &::before {
+        z-index: -1;
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform: scale(-1, 1);
+        opacity: 0.6;
+        background: no-repeat url(../../../../assets/images/trava_4.png) left 73% top 74% / auto 27%,
+          no-repeat url(../../../../assets/images/trava_4.png) left 45% top 67% / auto 26%;
+      }
+      &::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform: scale(-1, 1);
+        background: no-repeat url(../../../../assets/images/acuarel_big.png) left 0 top 26rem /
+            100% auto,
+          no-repeat url(../../../../assets/images/grass_speredi.svg) left 71% top 73% / auto 22%;
+      }
+    }
     .message {
+      z-index: 6;
       width: 28rem;
       position: absolute;
       right: 60px;
@@ -48,37 +76,60 @@ section.fourth {
 
 @media (max-width: 1200px) {
   section.fourth {
+    margin-bottom: 250px;
     .content {
-      padding-left: 1rem;
-      padding-right: 1rem;
-      background-size: auto calc(100% - 16rem) !important;
-      background-position: 43% 40%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .background-content {
+        background: no-repeat url(../../../../assets/images/grass_speredi.svg) left 71% top 77% /
+            auto 21%,
+          no-repeat url(../../../../assets/images/sunduk.png) left 72% top 70% / auto 22%,
+          no-repeat url(../../../../assets/images/tigr_s_kaskoy.png) left 40% top 44% / auto 62%;
+        &::before {
+          background: no-repeat url(../../../../assets/images/trava_4.png) left 84% top 74% / auto
+              27%,
+            no-repeat url(../../../../assets/images/trava_4.png) left 39% top 67% / auto 26%;
+        }
+        &::after {
+          background: no-repeat url(../../../../assets/images/acuarel_big.png) center top 28rem /
+              81% auto,
+            no-repeat url(../../../../assets/images/grass_speredi.svg) left 78% top 73% / auto 22%;
+        }
+      }
       .left-content {
         margin-left: 0px;
         position: absolute;
+        z-index: 5;
         right: 5rem;
         background-image: url('../../../../assets/images/cloud4.png');
         background-size: 100% 100%;
       }
       .message {
-        position: unset;
         margin: 0 auto;
-        margin-top: 35rem;
+        margin-top: 32rem;
         width: 70%;
+        left: auto;
+        right: auto;
       }
     }
   }
 }
 
 @media (max-width: 991px) {
-  .container{
+  .container {
     width: 100% !important;
     max-width: unset;
   }
   section.fourth {
-    margin-bottom: 10rem;
     .content {
-      background-size: auto calc(100% - 10rem);
+      .background-content {
+        &::after {
+          background: no-repeat url(../../../../assets/images/acuarel_big.png) left 0 top 26rem /
+              100% auto,
+            no-repeat url(../../../../assets/images/grass_speredi.svg) left 78% top 73% / auto 22%;
+        }
+      }
 
       .left-content {
         right: 1rem !important;
@@ -94,8 +145,22 @@ section.fourth {
 @media (max-width: 767px) {
   section.fourth {
     .content {
-      background-size: auto calc(100% - 20rem) !important;
-      background-position: 43% 45%;
+      .background-content {
+        background: no-repeat url(../../../../assets/images/grass_speredi.svg) left 71% top 77% /
+            auto 21%,
+          no-repeat url(../../../../assets/images/sunduk.png) left 72% top 70% / auto 22%,
+          no-repeat url(../../../../assets/images/tigr_s_kaskoy.png) left 30% top 44% / auto 50%;
+        &::before {
+          background: no-repeat url(../../../../assets/images/trava_4.png) left 84% top 74% / auto
+              27%,
+            no-repeat url(../../../../assets/images/trava_4.png) left 39% top 67% / auto 26%;
+        }
+        &::after {
+          background: no-repeat url(../../../../assets/images/acuarel_big.png) left 0 top 26rem /
+              100% auto,
+            no-repeat url(../../../../assets/images/grass_speredi.svg) left 78% top 73% / auto 22%;
+        }
+      }
 
       .message {
         margin-top: 32rem;
@@ -106,6 +171,7 @@ section.fourth {
 
 @media (max-width: 576px) {
   section.fourth {
+    margin-bottom: 17rem;
     h2 {
       font-size: 20px;
     }
@@ -113,29 +179,43 @@ section.fourth {
       margin-bottom: 0;
     }
     .content {
-      background-size: auto 20rem !important;
-      padding-top: 0;
-      background-position: -6rem 10rem !important;
+      padding: 0;
+      .background-content {
+        background: no-repeat url('../../../../assets/images/grass_speredi.svg') right -1% top 74% /
+            auto 17%,
+          no-repeat url('../../../../assets/images/tigr_s_kaskoy.png') left 2% top 52% / auto 40%,
+          no-repeat url('../../../../assets/images/sunduk.png') left 69% top 70% / auto 16%;
+        &::before {
+          background: no-repeat url(../../../../assets/images/trava_4.png) left 84% top 74% / auto
+              27%,
+            no-repeat url(../../../../assets/images/trava_4.png) left 39% top 67% / auto 26%;
+        }
+        &::after {
+          background: no-repeat url(../../../../assets/images/acuarel_big.png) left 0 top 28rem /
+              100% auto,
+            no-repeat url(../../../../assets/images/grass_speredi.svg) right -2rem top 73% / auto 22%;
+        }
+      }
       .left-content {
         right: 0 !important;
-        top: 5rem;
-        width: 16rem;
+        top: 6rem;
+        width: 14rem;
         height: 16rem;
         padding-top: 5rem;
         padding-bottom: 2rem;
         padding-right: 1.5rem;
-        img{
+        img {
           height: 7rem;
         }
         p {
           font-size: 14px !important;
+          letter-spacing: -0.02em;
         }
       }
 
       .message {
         width: 90%;
-        position: absolute;
-        margin-top: 26rem;
+        margin-top: 31rem;
         padding: 20px 21px;
       }
     }

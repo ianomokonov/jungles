@@ -1,5 +1,6 @@
 section.sixth {
   margin-bottom: 0px;
+  position: relative;
   .container {
     min-height: 50rem;
     position: relative;
@@ -11,9 +12,18 @@ section.sixth {
       url(../../../../assets/images/grass_beh2.png) no-repeat 2.5% 17.7rem,
       right 2% top 16rem url(../../../../assets/images/grass_beh.svg) no-repeat;
 
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: no-repeat url(../../../../assets/images/acuarel_big.png) left 0 top 36rem / 100%
+        auto;
+    }
     img {
       position: absolute;
-
       &.first-grass {
         left: 3rem;
         bottom: 5.5rem;
@@ -61,6 +71,10 @@ section.sixth {
         url(../../../../assets/images/tigr.svg) no-repeat right 15% top 75% / auto 30%,
         url(../../../../assets/images/grass_beh2.png) no-repeat 15% 100%,
         url(../../../../assets/images/grass_beh.svg) no-repeat right -20% top 100%;
+      &::after {
+        background: no-repeat url(../../../../assets/images/acuarel_big.png) left 0 top 44rem / 100%
+          auto;
+      }
       .content {
         bottom: auto;
         top: 12rem;
@@ -92,6 +106,10 @@ section.sixth {
         url(../../../../assets/images/tigr.svg) no-repeat 90% 80% / auto 25%,
         url(../../../../assets/images/grass_beh2.png) no-repeat 15% 90% / auto 30%,
         url(../../../../assets/images/grass_beh.svg) no-repeat right -20% top 90% / auto 30%;
+      &::after {
+        background: no-repeat url(../../../../assets/images/acuarel_big.png) left 0 top 57rem / 100%
+          auto;
+      }
       .content {
         bottom: auto;
         top: 12rem;
@@ -113,12 +131,12 @@ section.sixth {
       &.first-grass {
         left: 2rem;
         bottom: 2rem;
-        height: 12rem;
+        height: 10rem;
       }
       &.second-grass {
         right: 8rem;
         bottom: 3rem;
-        height: 12rem;
+        height: 8rem;
       }
     }
   }
@@ -127,7 +145,7 @@ section.sixth {
 @media (max-width: 576px) {
   section.sixth {
     .container {
-      min-height: 42rem;
+      min-height: 47rem;
       h2 {
         font-size: 20px;
       }
@@ -152,31 +170,22 @@ section.sixth {
         content: '';
         position: absolute;
         width: 100%;
-        height: 50%;
+        height: 100%;
         bottom: 0;
         left: 0;
-        background: url(../../../../assets/images/slon_with_mono.png) no-repeat 6% 77% / auto 82%;
+        background: no-repeat url('../../../../assets/images/acuarel_big.png') left 0 top 42rem /
+            100% auto,
+          no-repeat url('../../../../assets/images/grass_speredi.svg') left calc(50% - 5rem) bottom
+            9px / 19rem auto,
+          url('../../../../assets/images/slon_with_mono.png') no-repeat calc(50% - 4rem) 94% / 17rem
+            auto;
       }
       overflow: hidden;
-      background: url('../../../../assets/images/profile_tigr.png') no-repeat 124% 97% / auto 12rem,
-        url('../../../../assets/images/grass_beh2.png') no-repeat -20% 90% / auto 30%,
-        url('../../../../assets/images/grass_beh.svg') no-repeat right -20% top 90% / auto 30%;
-      img {
-        position: absolute;
-
-        &.first-grass {
-          left: -40px;
-          bottom: 0;
-          height: 10rem;
-          z-index: 9;
-          height: 8rem;
-        }
-        &.second-grass {
-          right: 18px;
-          bottom: 0;
-          height: 8rem;
-          z-index: 8;
-        }
+      background: url('../../../../assets/images/profile_tigr.png') no-repeat right calc(50% - 7rem) top 97% / auto 12rem,
+        url('../../../../assets/images/grass_beh2.png') no-repeat calc(50% - 7rem) 90% / auto 30%,
+        url('../../../../assets/images/grass_beh.svg') no-repeat right calc(50% - 9rem) top 95% / auto 30%;
+      img{
+        display: none;
       }
       .cloud-img {
         bottom: 0rem;
