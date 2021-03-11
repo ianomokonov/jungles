@@ -1,3 +1,5 @@
+import { Result } from './result.class';
+
 export interface Child {
   id: number;
   name: string;
@@ -8,4 +10,6 @@ export interface Child {
   leftDays: number;
   opened: boolean;
   active?: boolean;
+
+  results?: Result[];
 }

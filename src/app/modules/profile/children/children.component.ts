@@ -59,7 +59,7 @@ export class ChildrenComponent implements AfterViewInit {
 
   public addChild() {
     this.profileService.children.push({
-      id: 1,
+      id: 3,
       name: 'Алина',
       surname: 'Кравцова',
       age: 5,

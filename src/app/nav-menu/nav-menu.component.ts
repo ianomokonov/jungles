@@ -21,7 +21,7 @@ export class NavMenuComponent {
 
   public logIn(): void {
     this.modalService.open(LoginComponent, { windowClass: 'modal-log' });
-    // this.loggedIn = true;
+    this.loggedIn = true;
   }
 
   public logOut(): void {

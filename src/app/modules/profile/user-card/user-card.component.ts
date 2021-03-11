@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Child } from '../models/child.class';
-import { User } from '../models/user';
+import { Child } from '../../../models/child.class';
+import { User } from '../../../models/user.class';
 
 @Component({
   selector: 'app-user-card',

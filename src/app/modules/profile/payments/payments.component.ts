@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
-import { Payment } from '../models/payment';
-import { periods } from '../models/periods';
+import { Payment } from '../../../models/payment';
+import { periods } from '../../../models/periods';
 import { ProfileService } from '../profile.service';
 
 @Component({
@@ -18,16 +18,19 @@ export class PaymentsComponent {
   }
   public payments: Payment[] = [
     {
+      id: 1,
       date: new Date(),
       sum: 1000,
       comment: 'Тариф продлен на 60 дней',
     },
     {
+      id: 2,
       date: new Date(),
       sum: 1000,
       comment: 'Тариф продлен на 60 дней',
     },
     {
+      id: 3,
       date: new Date(),
       sum: 1000,
       comment: 'Тариф продлен на 60 дней',

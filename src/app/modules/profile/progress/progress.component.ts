@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
-import { periods } from '../models/periods';
+import { periods } from '../../../models/periods';
 import { ProfileService } from '../profile.service';
 
 @Component({
