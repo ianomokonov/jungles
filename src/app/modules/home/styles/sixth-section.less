@@ -34,7 +34,7 @@ section.sixth {
       }
     }
     h2 {
-      max-width: 55rem;
+      max-width: 54rem;
     }
     .content {
       position: absolute;
@@ -88,6 +88,16 @@ section.sixth {
         &.second-grass {
           right: 0rem;
         }
+      }
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  section.sixth {
+    .container {
+      h2 {
+        max-width: 44rem;
       }
     }
   }
@@ -197,9 +207,11 @@ section.sixth {
             auto;
       }
       overflow: hidden;
-      background: url('../../../../assets/images/profile_tigr.png') no-repeat right calc(50% - 7rem) top 97% / auto 12rem,
+      background: url('../../../../assets/images/profile_tigr.png') no-repeat right calc(50% - 7rem)
+          top 97% / auto 12rem,
         url('../../../../assets/images/grass_beh2.png') no-repeat calc(50% - 7rem) 90% / auto 16rem,
-        url('../../../../assets/images/grass_beh.svg') no-repeat right calc(50% - 9rem) top 95% / auto 14rem;
+        url('../../../../assets/images/grass_beh.svg') no-repeat right calc(50% - 9rem) top 95% /
+          auto 14rem;
       img {
         display: none;
       }
