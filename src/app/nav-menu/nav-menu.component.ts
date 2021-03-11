@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'nav-menu',
@@ -19,8 +20,8 @@ export class NavMenuComponent {
   }
 
   public logIn(): void {
-    // this.modalService.open(LoginComponent, { windowClass: 'modal-log' });
-    this.loggedIn = true;
+    this.modalService.open(LoginComponent, { windowClass: 'modal-log' });
+    // this.loggedIn = true;
   }
 
   public logOut(): void {

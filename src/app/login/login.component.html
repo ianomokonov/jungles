@@ -4,9 +4,9 @@
         <span class="text-m active">Войти</span>
         <span class="text-m" (click)="regRed()">Регистрация</span>
     </header>
-    <form [formGroup]="logForm">
-        <div class="modal-inputs">
-            <div class="form-group">
+    <form [formGroup]="logForm" class="d-flex flex-column align-items-center">
+        <div class="modal-inputs mb-2">
+            <div class="form-group mb-3">
                 <input type="text" class="form-control" formControlName="Email" id="inputEmail" placeholder="E-mail">
             </div>
             <div class="form-group">
@@ -14,6 +14,6 @@
                 <input type="text" class="form-control" formControlName="Password" id="inputPassword" placeholder="Пароль">
             </div>
         </div>
-        <button class="btn btn-success">ВОЙТИ</button>
+        <button class="btn btn-success w-100">ВОЙТИ</button>
     </form>
 </div>
