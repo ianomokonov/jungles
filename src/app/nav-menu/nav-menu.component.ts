@@ -1,8 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { activeChild, refreshTokenKey, userTokenKey } from '../constants';
-import { LoginComponent } from '../login/login.component';
+import { AuthComponent } from '../auth/auth.component';
+import { refreshTokenKey, userTokenKey } from '../constants';
+import { UserService } from '../services/backend/user.service';
 
 @Component({
   selector: 'nav-menu',
@@ -12,25 +13,24 @@ import { LoginComponent } from '../login/login.component';
 export class NavMenuComponent {
   @Input() public showMonkey: boolean;
   public showMenu: boolean;
-  public loggedIn = false;
-  public activeChildName: string | null;
 
-  constructor(private modalService: NgbModal, private router: Router) {
+  constructor(
+    private modalService: NgbModal,
+    private router: Router,
+    public userService: UserService,
+  ) {
     this.showMonkey = true;
     this.showMenu = false;
-    this.loggedIn = !!sessionStorage.getItem(userTokenKey);
-    this.activeChildName = sessionStorage.getItem(activeChild);
   }
 
   public logIn(): void {
-    this.modalService.open(LoginComponent, { windowClass: 'modal-auth' });
-    // this.loggedIn = true;
+    this.modalService.open(AuthComponent, { windowClass: 'modal-auth' });
   }
 
   public logOut(): void {
-    this.loggedIn = false;
     sessionStorage.removeItem(userTokenKey);
     sessionStorage.removeItem(refreshTokenKey);
+    this.userService.user = null;
     this.router.navigate(['']);
   }
 

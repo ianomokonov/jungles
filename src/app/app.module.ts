@@ -20,6 +20,7 @@ import { FooterComponent } from './footer/footer.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { UserService } from './services/backend/user.service';
+import { AuthComponent } from './auth/auth.component';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -32,6 +33,7 @@ const maskConfig: Partial<IConfig> = {
     FooterComponent,
     RegisterComponent,
     LoginComponent,
+    AuthComponent,
   ],
   imports: [
     NoopAnimationsModule,

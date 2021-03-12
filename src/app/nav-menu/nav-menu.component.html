@@ -13,20 +13,20 @@
     <a routerLink="/rates" class="menu-item">Тарифы</a>
 
     <div class="menu-profile pb-0 pb-mb-5 d-flex justify-content-end align-items-center">
-      <button class="button-sec" (click)="logIn()" [ngClass]="{ 'd-none': loggedIn }">Войти</button>
+      <button class="button-sec" (click)="logIn()" [ngClass]="{ 'd-none': userService.user }">Войти</button>
       <img
-        [ngClass]="{ 'd-none': !loggedIn }"
+        [ngClass]="{ 'd-none': !userService.user }"
         src="../../assets/images/icons/user-child-sm.svg"
         routerLink="/profile/children"
       />
-      <span [ngClass]="{ 'd-none': !loggedIn }" class="menu-item" routerLink="/profile">Алиса</span>
+      <span [ngClass]="{ 'd-none': !userService.user }" class="menu-item" routerLink="/profile">{{ userService.user?.name }}</span>
       <img
-        [ngClass]="{ 'd-none': !loggedIn }"
+        [ngClass]="{ 'd-none': !userService.user }"
         src="../../assets/images/icons/notifications.svg"
         routerLink="/profile/notifications"
       />
       <img
-        [ngClass]="{ 'd-md-block': loggedIn }"
+        [ngClass]="{ 'd-md-block': userService.user }"
         class="d-none"
         src="../../assets/images/icons/exit.svg"
         (click)="logOut()"
@@ -42,8 +42,8 @@
       <a (click)="toggleMenu()" routerLink="/project" class="menu-item">О проекте</a>
       <a (click)="toggleMenu()" routerLink="/tasks" class="menu-item">Упражнения</a>
       <a (click)="toggleMenu()" routerLink="/rates" class="menu-item">Тарифы</a>
-      <button *ngIf="!loggedIn" (click)="logIn()" class="button-sec" routerLink="/profile">Войти</button>
-      <a *ngIf="loggedIn" (click)="logOut()" class="menu-item">Выход</a>
+      <button *ngIf="!userService.user" (click)="logIn()" class="button-sec" routerLink="/profile">Войти</button>
+      <a *ngIf="userService.user" (click)="logOut()" class="menu-item">Выход</a>
       <span class="subt">Мы в соцсетях:</span>
       <div class="menu-icons d-flex align-items-center">
         <svg class="sn-icon" width="22" height="15" viewBox="0 0 22 15" xmlns="http://www.w3.org/2000/svg">
