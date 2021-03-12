@@ -7,8 +7,7 @@ import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class UserService {
-  // private baseUrl: string = environment.baseUrl;
-  private baseUrl = 'http://jungliki.com/back/back.php';
+  private baseUrl: string = environment.baseUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -29,15 +28,11 @@ export class UserService {
     return this.http.post<boolean>(`${this.baseUrl}?Key=add-user`, data);
   }
 
-  public getUser(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.baseUrl}?Key=get-tokens`).pipe(
+  public getUser(data: any[]): Observable<string[]> {
+    return this.http.post<string[]>(`${this.baseUrl}?Key=get-user`, data).pipe(
       tap((tokens: string[]) => {
         this.storeToken(tokens);
       }),
     );
-  }
-
-  public getUser2(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.baseUrl}?Key=get-test`);
   }
 }

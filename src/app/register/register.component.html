@@ -40,6 +40,18 @@
         </label>
       </div>
     </div>
-    <button class="btn btn-success w-100" (click)="regUser()">ЗАРЕГЕСТРИРОВАТЬСЯ</button>
+    <button class="btn btn-success w-100" (click)="regUser(regDone)">ЗАРЕГЕСТРИРОВАТЬСЯ</button>
   </form>
 </div>
+
+<ng-template #regDone>
+  <img class="modal-dismiss" src="../../assets/images/icons/cross.svg" (click)="modal.dismiss()" />
+  <div class="modal-block d-flex flex-column align-items-center">
+    <header class="modal-nav">
+      <span class="text-m active">Добро пожаловать!</span>
+    </header>
+    <span class="text mb-4 text-center">Вы успешно прошли регистрацию и можете начать обучение <br>прямо сейчас!</span>
+    <button class="btn btn-success w-100 mb-4" (click)="regRedir()">ЛИЧНЫЙ КАБИНЕТ</button>
+    <span class="subt text-center text-muted">Подтвердите свою регистрацию по ссылке <br>в письме на вашей почте</span>
+  </div>
+</ng-template>

@@ -29,7 +29,6 @@ export class AuthInterceptor implements HttpInterceptor {
         if (error.status === 0) {
           return of(error);
         }
-        console.log(error);
         if (
           error instanceof HttpErrorResponse &&
           error.status === 401 &&
@@ -37,7 +36,6 @@ export class AuthInterceptor implements HttpInterceptor {
         ) {
           return this.handle401Error(params, next);
         }
-        console.log(112112);
         return throwError(error);
       }),
     );
