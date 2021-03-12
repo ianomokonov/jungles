@@ -5,7 +5,7 @@ export interface User {
   name: string;
   surname: string;
   profilePicture?: string;
-  mail: string;
+  email: string;
 
   children?: Child[];
   notifications?: Notification[];

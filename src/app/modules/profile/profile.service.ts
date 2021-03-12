@@ -24,5 +24,5 @@ export class ProfileService {
       opened: false,
     },
   ];
-  public user: User = { id: 1, name: 'Марина', surname: 'Кравцова', mail: 'mail@mail.ru' };
+  public user: User = { id: 1, name: 'Марина', surname: 'Кравцова', email: 'mail@mail.ru' };
 }
