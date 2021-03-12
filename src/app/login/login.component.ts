@@ -34,20 +34,17 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  public dismissModal() {
+    this.modalService.dismissAll();
+  }
+
   public regRed() {
-    this.modal.dismiss();
+    this.dismissModal();
     this.modalService.open(RegisterComponent, { windowClass: 'modal-auth' });
   }
 
-  public restorePassOpen(content: TemplateRef<any>) {
-    this.modal.close();
-    this.modalService.open(content, {
-      windowClass: 'modal-auth',
-    });
-  }
-
-  public restorePassDone(content: TemplateRef<any>) {
-    this.modal.close();
+  public openTemplate(content: TemplateRef<any>) {
+    this.dismissModal();
     this.modalService.open(content, {
       windowClass: 'modal-auth',
     });
@@ -56,8 +53,10 @@ export class LoginComponent implements OnInit {
   public logIn() {
     sessionStorage.setItem(userTokenKey, 'dadadadadaddadadaadadad');
     sessionStorage.setItem(refreshTokenKey, 'sasasasasaasasasaasasasa');
-    this.modal.close();
-    this.router.navigate(['/profile']);
+    this.dismissModal();
+    setTimeout(() => {
+      this.router.navigate(['/profile']);
+    }, 1000);
     // this.submitted = true;
     // if (this.logForm.invalid) {
     //   return;

@@ -16,7 +16,7 @@
         />
       </div>
       <div class="form-group">
-        <span class="reg-fpass" (click)="restorePassOpen(restorePass)">Забыли пароль?</span>
+        <span class="reg-fpass" (click)="openTemplate(restorePass)">Забыли пароль?</span>
         <input
           type="text"
           class="form-control"
@@ -31,7 +31,7 @@
 </div>
 
 <ng-template #restorePass>
-  <img class="modal-dismiss" src="../../assets/images/icons/cross.svg" (click)="modal.dismiss()" />
+  <img class="modal-dismiss" src="../../assets/images/icons/cross.svg" (click)="dismissModal()" />
   <div class="modal-block">
     <header class="modal-nav">
       <span class="text-m active">Восстановление пароля</span>
@@ -49,17 +49,17 @@
           />
         </div>
       </div>
-      <!-- <button class="btn btn-success w-100" (click)="restorePassDone(restorePassDone)">ВОЙТИ</button> -->
+      <button class="btn btn-success w-100" (click)="openTemplate(restorePassDone)">ВОЙТИ</button>
     </form>
   </div>
 </ng-template>
 
 <ng-template #restorePassDone>
-  <img class="modal-dismiss" src="../../assets/images/icons/cross.svg" (click)="modal.dismiss()" />
-  <div class="modal-block">
+  <img class="modal-dismiss" src="../../assets/images/icons/cross.svg" (click)="dismissModal()" />
+  <div class="modal-block p-4 mb-4 text-center">
     <header class="modal-nav">
       <span class="text-m active">Восстановление пароля</span>
     </header>
-    <span>Письмо с сылкой на восстановление пароля направлено на указанную почту</span>
+    <span class="text">Письмо с сылкой на восстановление пароля направлено на указанную почту</span>
   </div>
 </ng-template>

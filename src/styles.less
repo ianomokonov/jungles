@@ -320,12 +320,40 @@ ngb-modal-backdrop {
           font-weight: 600;
           letter-spacing: 0.02em;
           color: @grey;
-          font-family: Open Sans;
+          font-family: Open Sans Light;
           border-radius: 25px;
           border: 1px solid @green;
           box-sizing: border-box;
           border-radius: 25px;
           padding: 18px 25px;
+        }
+        /* Modern Browsers */
+        ::placeholder {
+          @placeholder();
+        }
+        /* WebKit, Edge */
+        ::-webkit-input-placeholder {
+          @placeholder();
+        }
+
+        /* Firefox 4-18 */
+        :-moz-placeholder {
+          @placeholder();
+        }
+
+        /* Firefox 19+ */
+        ::-moz-placeholder {
+          @placeholder();
+        }
+
+        /* IE 10-11 */
+        :-ms-input-placeholder {
+          @placeholder();
+        }
+
+        /* Edge */
+        ::-ms-input-placeholder {
+          @placeholder();
         }
       }
     }
@@ -804,7 +832,7 @@ app-progress {
   .modal-auth {
     .modal-dialog {
       max-width: 335px;
-      margin: 108px auto; 
+      margin: 108px auto;
       .modal-content {
         width: 100%;
         .modal-dismiss {
