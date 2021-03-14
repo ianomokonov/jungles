@@ -1,9 +1,9 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { refreshTokenKey, userTokenKey } from '../constants';
-import { RegisterComponent } from '../register/register.component';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { takeWhile } from 'rxjs/operators';
+import { User } from '../models/user.class';
 import { UserService } from '../services/backend/user.service';
 
 @Component({
@@ -11,10 +11,11 @@ import { UserService } from '../services/backend/user.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.less'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   public logForm: FormGroup;
   public restorePassForm: FormGroup;
   public submitted = false;
+  private rxAlive = true;
 
   constructor(
     private fb: FormBuilder,
@@ -22,25 +23,27 @@ export class LoginComponent implements OnInit {
     private modalService: NgbModal,
     private userService: UserService,
     private router: Router,
+    private cdRef: ChangeDetectorRef,
   ) {
-    this.logForm = this.fb.group({
-      Email: [null, [Validators.required, Validators.email]],
-      Password: [null, Validators.required],
-    });
     this.restorePassForm = this.fb.group({
       Email: [null, [Validators.required, Validators.email]],
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.logForm = this.fb.group({
+      Email: [null, [Validators.required, Validators.email]],
+      Password: [null, Validators.required],
+    });
+    this.cdRef.detectChanges();
+  }
+
+  public ngOnDestroy(): void {
+    this.rxAlive = false;
+  }
 
   public dismissModal() {
     this.modalService.dismissAll();
-  }
-
-  public regRed() {
-    this.dismissModal();
-    this.modalService.open(RegisterComponent, { windowClass: 'modal-auth' });
   }
 
   public openTemplate(content: TemplateRef<any>) {
@@ -51,22 +54,24 @@ export class LoginComponent implements OnInit {
   }
 
   public logIn() {
-    sessionStorage.setItem(userTokenKey, 'dadadadadaddadadaadadad');
-    sessionStorage.setItem(refreshTokenKey, 'sasasasasaasasasaasasasa');
-    this.dismissModal();
-    setTimeout(() => {
-      this.router.navigate(['/profile']);
-    }, 1000);
-    // this.submitted = true;
+    this.submitted = true;
     // if (this.logForm.invalid) {
     //   return;
     // }
-    // const subscription = this.userService
-    //   .getUser(this.logForm.value)
-    //   .subscribe((token: string[]) => {
-    //     if (token) {
-    //       subscription.unsubscribe();
-    //     }
-    //   });
+    this.userService
+      .getUser(this.logForm.value)
+      .pipe(takeWhile(() => this.rxAlive))
+      .subscribe((token: string[]) => {
+        if (token) {
+          this.userService
+            .getUserInfo()
+            .pipe(takeWhile(() => this.rxAlive))
+            .subscribe((data: User) => {
+              this.userService.user = data;
+              this.router.navigate(['/profile']);
+            });
+        }
+      });
+    this.dismissModal();
   }
 }
