@@ -1,14 +1,14 @@
 <section>
   <div class="profile">
-    <app-user-card [user]="profileService.user" [showActions]="true"></app-user-card>
+    <app-user-card [user]="userService.user" [showActions]="true"></app-user-card>
   </div>
 
-  <ng-container *ngIf="profileService.children.length; else noData">
-    <div class="children" *ngFor="let child of profileService.children">
+  <ng-container *ngIf="userService.user?.children?.length; else noData">
+    <div class="children" *ngFor="let child of userService.user.children">
       <div
         class="profile"
         (click)="setActive(child.id)"
-        [ngClass]="{ active: child.id === pickedUserId }"
+        [ngClass]="{ active: child.id === userService.activeChildId }"
       >
         <app-user-card [user]="child" [showActions]="true" (delete)="deleteChild()"></app-user-card>
       </div>
@@ -31,7 +31,7 @@
   </ng-container>
   <div
     class="add-btn d-flex justify-content-start align-items-center mb-5"
-    *ngIf="!showAddForm"
+    *ngIf="userService.user?.children?.length"
     (click)="toggleAddForm()"
   >
     <img src="../../../../assets/images/icons/plus.svg" />

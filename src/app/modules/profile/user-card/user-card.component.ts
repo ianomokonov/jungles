@@ -10,6 +10,12 @@ import { User } from '../../../models/user.class';
 export class UserCardComponent {
   @Input() public showShadow = false;
   @Input() public set user(user: Child | User) {
+    if (!user) {
+      this.child = null;
+      this.parent = null;
+      this.profilePicture = null;
+      return;
+    }
     if ('age' in user) {
       this.child = user;
       this.profilePicture = '../../../../assets/images/icons/user-child.svg';

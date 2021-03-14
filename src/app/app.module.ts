@@ -21,6 +21,7 @@ import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { UserService } from './services/backend/user.service';
 import { AuthComponent } from './auth/auth.component';
+import { TokenService } from './services/backend/token.service';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -50,6 +51,7 @@ const maskConfig: Partial<IConfig> = {
     HttpClient,
     AuthGuard,
     UserService,
+    TokenService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],

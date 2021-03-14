@@ -1,12 +1,12 @@
 import { Child } from './child.class';
 
-export interface User {
-  id: number;
-  name: string;
-  surname: string;
-  profilePicture?: string;
-  email: string;
+export class User {
+  public id: number;
+  public name: string;
+  public surname: string;
+  public profilePicture?: string;
+  public email: string;
 
-  children?: Child[];
-  notifications?: Notification[];
+  public children?: Child[];
+  public notifications?: Notification[];
 }

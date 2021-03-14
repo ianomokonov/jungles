@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { takeWhile } from 'rxjs/operators';
+import { Child } from '../models/child.class';
 import { User } from '../models/user.class';
 import { UserService } from '../services/backend/user.service';
 
@@ -66,8 +67,12 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.userService
             .getUserInfo()
             .pipe(takeWhile(() => this.rxAlive))
-            .subscribe((data: User) => {
-              this.userService.user = data;
+            .subscribe((user: User) => {
+              if (user?.children) {
+                const [element] = user.children;
+                this.userService.activeChildId = element.id;
+              }
+              this.userService.user = user;
               this.router.navigate(['/profile']);
             });
         }

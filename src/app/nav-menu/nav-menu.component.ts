@@ -27,11 +27,20 @@ export class NavMenuComponent {
     this.modalService.open(AuthComponent, { windowClass: 'modal-auth' });
   }
 
-  public logOut(): void {
-    sessionStorage.removeItem(userTokenKey);
-    sessionStorage.removeItem(refreshTokenKey);
-    this.userService.user = null;
-    this.router.navigate(['']);
+  public exit(): void {
+    this.userService.logOut();
+  }
+
+  public getUserImg(): string {
+    if (this.userService.activeChild) {
+      return (
+        this.userService.activeChild.profilePicture || '../../assets/images/icons/user-child-sm.svg'
+      );
+    }
+    if (this.userService.user) {
+      return this.userService.user.profilePicture || '../../assets/images/icons/user-parent.svg';
+    }
+    return '';
   }
 
   public toggleMenu(): void {

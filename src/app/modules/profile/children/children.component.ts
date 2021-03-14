@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { UserService } from 'src/app/services/backend/user.service';
 import { ProfileService } from '../profile.service';
 
 @Component({
@@ -12,12 +13,12 @@ export class ChildrenComponent implements AfterViewInit {
   @ViewChild('message') public message: TemplateRef<any>;
   public childrenCount: string;
   public showAddForm: boolean;
-  public pickedUserId: number;
 
   constructor(
     public profileService: ProfileService,
     private modalService: NgbModal,
     public modal: NgbActiveModal,
+    public userService: UserService,
   ) {
     this.showAddForm = false;
   }
@@ -70,7 +71,7 @@ export class ChildrenComponent implements AfterViewInit {
   }
 
   public setActive(id: number) {
-    this.pickedUserId = id;
+    this.userService.activeChildId = id;
   }
 
   public countChildren(): string {

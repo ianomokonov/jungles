@@ -9,7 +9,6 @@ export interface Child {
   fare: number;
   leftDays: number;
   opened: boolean;
-  active?: boolean;
 
   results?: Result[];
 }
