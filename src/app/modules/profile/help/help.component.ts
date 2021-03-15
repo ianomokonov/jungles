@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { takeWhile } from 'rxjs/operators';
+import { DataService } from 'src/app/services/backend/data.service';
 import { Question } from '../../../models/question';
 
 @Component({
@@ -6,34 +9,59 @@ import { Question } from '../../../models/question';
   templateUrl: './help.component.html',
   styleUrls: ['./help.component.less'],
 })
-export class HelpComponent {
+export class HelpComponent implements OnDestroy {
+  private rxAlive = true;
+  public messageSent = false;
+  public messageForm: FormGroup;
   public currentProblem: string;
-  public questions: Question[] = [
-    {
-      question: 'Вопрос 1',
-      answer: 'Ответ на часто задаваемый вопрос номер 1',
-    },
-    {
-      question: 'Вопрос 2',
-      answer: 'Ответ на часто задаваемый вопрос номер 2',
-    },
-    {
-      question: 'Вопрос 3',
-      answer: 'Ответ на часто задаваемый вопрос номер 3',
-    },
-    {
-      question: 'Вопрос 4',
-      answer: 'Ответ на часто задаваемый вопрос номер 4',
-    },
-    {
-      question: 'Вопрос 5',
-      answer: 'Ответ на часто задаваемый вопрос номер 5',
-    },
-  ];
-
+  public questions: Question[];
   public problems: string[] = ['Тема 1', 'Тема 2', 'Тема 3'];
+  public submitted = false;
+
+  constructor(private dataService: DataService, private fb: FormBuilder) {
+    this.messageForm = this.fb.group({
+      Message: [null, Validators.required],
+    });
+    this.dataService
+      .getQuestions()
+      .pipe(takeWhile(() => this.rxAlive))
+      .subscribe((data: Question[]) => {
+        if (data) {
+          this.questions = data;
+        }
+      });
+  }
+
+  public ngOnDestroy() {
+    this.rxAlive = false;
+  }
 
   public onSelectTopic(problem: string) {
     this.currentProblem = problem;
+  }
+
+  public get fval() {
+    return this.messageForm.controls;
+  }
+
+  public toggleFormDisplay() {
+    this.messageSent = false;
+    this.fval.Message.setValue(null);
+    this.currentProblem = null;
+  }
+
+  public sendMsgForm() {
+    this.submitted = true;
+    if (this.messageForm.invalid) {
+      return;
+    }
+    this.dataService
+      .sendMessage(this.currentProblem, this.messageForm.value)
+      .pipe(takeWhile(() => this.rxAlive))
+      .subscribe((response: boolean) => {
+        if (response) {
+          this.messageSent = true;
+        }
+      });
   }
 }

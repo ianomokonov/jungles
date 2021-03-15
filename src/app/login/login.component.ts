@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { takeWhile } from 'rxjs/operators';
-import { Child } from '../models/child.class';
 import { User } from '../models/user.class';
 import { UserService } from '../services/backend/user.service';
 
@@ -60,7 +59,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     //   return;
     // }
     this.userService
-      .getUser(this.logForm.value)
+      .logIn(this.logForm.value)
       .pipe(takeWhile(() => this.rxAlive))
       .subscribe((token: string[]) => {
         if (token) {

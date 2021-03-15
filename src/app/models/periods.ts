@@ -1,8 +1,4 @@
-export const periods = [
-  'Январь 2021',
-  'Декабрь 2020',
-  'Ноябрь 2020',
-  'Октябрь 2020',
-  'Сентябрь 2020',
-  'За все время',
-];
+export interface Period {
+  month: string;
+  year: number;
+}

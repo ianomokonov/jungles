@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { blockAmount, tasksAmount } from 'src/app/constants';
 import { UserService } from 'src/app/services/backend/user.service';
 import { ProfileService } from '../profile.service';
 
@@ -44,6 +45,15 @@ export class ChildrenComponent implements AfterViewInit {
       windowClass: 'modal-alert',
       centered: true,
     });
+  }
+
+  public getPercentage(amount: number, type: number): number {
+    switch (type) {
+      case 0:
+        return (amount * 100) / blockAmount;
+      default:
+        return (amount * 100) / tasksAmount;
+    }
   }
 
   public closeModal() {

@@ -5,6 +5,6 @@ export interface Result {
   firstAtt: number;
   crystals: number;
   chests: number;
-  month: number;
+  month: string;
   year: number;
 }

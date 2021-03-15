@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthComponent } from '../auth/auth.component';
-import { refreshTokenKey, userTokenKey } from '../constants';
 import { UserService } from '../services/backend/user.service';
 
 @Component({

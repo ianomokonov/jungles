@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: 'http://jungliki.com/back/controller.php',
+  baseUrl: 'http://jungliki.com/back',
 };

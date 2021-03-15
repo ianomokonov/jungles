@@ -56,7 +56,7 @@
       <button *ngIf="!userService.user" (click)="logIn()" class="button-sec" routerLink="/profile">
         Войти
       </button>
-      <a *ngIf="userService.user" (click)="logOut()" class="menu-item">Выход</a>
+      <a *ngIf="userService.user" (click)="exit()" class="menu-item">Выход</a>
       <span class="subt">Мы в соцсетях:</span>
       <div class="menu-icons d-flex align-items-center">
         <svg

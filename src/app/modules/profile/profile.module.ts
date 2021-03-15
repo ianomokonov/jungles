@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { NgbAccordionModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileComponent } from './profile.component';
@@ -10,6 +11,7 @@ import { ChildrenComponent } from './children/children.component';
 import { ProfileService } from './profile.service';
 import { UserCardComponent } from './user-card/user-card.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { DataService } from '../../services/backend/data.service';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,14 @@ import { NotificationsComponent } from './notifications/notifications.component'
     UserCardComponent,
     NotificationsComponent,
   ],
-  imports: [ProfileRoutingModule, SharedModule, NgbDropdownModule, NgbAccordionModule],
-  providers: [ProfileService],
+  imports: [
+    ProfileRoutingModule,
+    SharedModule,
+    NgbDropdownModule,
+    NgbAccordionModule,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
+  providers: [ProfileService, DataService],
 })
 export class ProfileModule {}
