@@ -28,8 +28,11 @@ class DataBase
         return $res;
     }
 
-    public function genUpdateQuery($keys, $values, $t, $id)
+    public function genUpdateQuery($data, $t, $id)
     {
+        $data = (array) $data;
+        $keys = array_keys($data);
+        $values = array_values($data);
         $res = array('UPDATE ' . $t . ' SET ', array());
         for ($i = 0; $i < count($keys); $i++) {
             $res[0] = $res[0] . $keys[$i] . '=?, ';

@@ -4,6 +4,7 @@ require_once 'vendor/autoload.php';
 require_once './utils/database.php';
 require_once './utils/token.php';
 require_once './models/user.php';
+require_once './models/child.php';
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Psr7\Response as ResponseClass;
@@ -11,7 +12,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Slim\Factory\AppFactory;
 use Slim\Routing\RouteCollectorProxy;
-
+use Slim\Routing\RouteContext;
 
 $dataBase = new DataBase();
 $token = new Token();
@@ -40,11 +41,90 @@ $app->post('/sign-up', function (Request $request, Response $response) use ($dat
     return $response;
 });
 
-$app->group('/user', function (RouteCollectorProxy $group) {
-    $group->get('/userinfo', function (Request $request, Response $response) {
-        $userId = $request->getAttribute('userId');
-        $response->getBody()->write(json_encode($userId));
+$app->post('/refresh-token', function (Request $request, Response $response) use ($dataBase) {
+    try {
+        $user = new User($dataBase);
+        $response->getBody()->write(json_encode($user->refreshToken($request->getParsedBody()['token'])));
         return $response;
+    } catch (Exception $e) {
+        $response = new ResponseClass();
+        $response->getBody()->write(json_encode(array("message" => $e->getMessage())));
+        return $response->withStatus(401);
+    }
+});
+
+$app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
+    $group->group('user',  function (RouteCollectorProxy $userGroup) use ($dataBase) {
+
+        $userGroup->get('/user-info', function (Request $request, Response $response) use ($dataBase) {
+            $userId = $request->getAttribute('userId');
+            $user = new User($dataBase);
+            $response->getBody()->write(json_encode($user->read($userId)));
+            return $response;
+        });
+
+        $userGroup->put('/user-info', function (Request $request, Response $response) use ($dataBase) {
+            $userId = $request->getAttribute('userId');
+            $user = new User($dataBase);
+            $response->getBody()->write(json_encode($user->update($userId, $request->getParsedBody())));
+            return $response;
+        });
+
+        $userGroup->post('/create-child', function (Request $request, Response $response) use ($dataBase) {
+            $userId = $request->getAttribute('userId');
+            $child = new Child($dataBase);
+            $response->getBody()->write(json_encode($child->create($userId, $request->getParsedBody())));
+            return $response;
+        });
+    });
+
+    $group->group('child/{id}',  function (RouteCollectorProxy $childGroup) use ($dataBase) {
+
+        $childGroup->get('/progress', function (Request $request, Response $response) use ($dataBase) {
+            $childId = $request->getAttribute('childId');
+            $child = new Child($dataBase);
+            $query = $request->getQueryParams();
+            $result = $child->getProgress($childId, isset($query['dateFrom']) ? $query['dateFrom'] : null, isset($query['dateTo']) ? $query['dateTo'] : null);
+            $response->getBody()->write(json_encode($result));
+            return $response;
+        });
+
+        $childGroup->get('/payments', function (Request $request, Response $response) use ($dataBase) {
+            $childId = $request->getAttribute('childId');
+            $child = new Child($dataBase);
+            $result = $child->getPayments($childId, isset($query['dateFrom']) ? $query['dateFrom'] : null, isset($query['dateTo']) ? $query['dateTo'] : null);
+            $response->getBody()->write(json_encode($result));
+            return $response;
+        });
+
+        $childGroup->put('/update', function (Request $request, Response $response) use ($dataBase) {
+            $childId = $request->getAttribute('childId');
+            $child = new Child($dataBase);
+            $response->getBody()->write(json_encode($child->update($childId, $request->getParsedBody())));
+            return $response->withStatus(200);
+        });
+
+        $childGroup->put('/set-alerts-seen', function (Request $request, Response $response) use ($dataBase) {
+            $child = new Child($dataBase);
+            $response->getBody()->write(json_encode($child->setAlertsSeen($request->getParsedBody()['alertIds'])));
+            return $response->withStatus(200);
+        });
+    })->add(function (Request $request, RequestHandler $handler) use ($dataBase) {
+        $userId = $request->getAttribute('userId');
+        $routeContext = RouteContext::fromRequest($request);
+        $route = $routeContext->getRoute();
+        $childId = $route->getArgument('id');
+
+        $user = new User($dataBase);
+
+        if ($user->canUserViewChild($userId, $childId)) {
+            $request = $request->withAttribute('childId', $childId);
+            return $handler->handle($request);
+        }
+
+        $response = new ResponseClass();
+        $response->getBody()->write(json_encode(array("message" => "Отказано в просмотре ребенка")));
+        return $response->withStatus(403);
     });
 })->add(function (Request $request, RequestHandler $handler) use ($token) {
     try {
@@ -59,11 +139,6 @@ $app->group('/user', function (RouteCollectorProxy $group) {
         echo json_encode($e->getMessage());
         $response->getBody()->write(json_encode(array("message" => $e->getMessage())));
         return $response->withStatus($e->getCode());
-    }
-    if (false) {
-        $response = $handler->handle($request);
-        return $response;
-    } else {
     }
 });
 

@@ -26,3 +26,13 @@ CREATE TABLE IF NOT EXISTS child(
     
     FOREIGN KEY (userId) REFERENCES jungleUser(id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS alerts(
+    id int(10) PRIMARY KEY AUTO_INCREMENT,
+    childId int(10) NOT NULL,
+    text text NOT NULL,
+    isSeen bit DEFAULT 0,
+    createdDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (childId) REFERENCES child(id) ON DELETE CASCADE
+);
