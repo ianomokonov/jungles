@@ -1,6 +1,7 @@
 <?php
-require_once __DIR__.'/../utils/database.php';
-require_once __DIR__.'/../utils/token.php';
+require_once __DIR__ . '/../utils/database.php';
+require_once __DIR__ . '/../utils/token.php';
+require_once 'child.php';
 class User
 {
     private $dataBase;
@@ -30,10 +31,35 @@ class User
             $stmt->execute($query[1]);
         }
         $userId = $this->dataBase->db->lastInsertId();
-        if($userId != 0){
-            return $this->token->encode(array("id" => $userId));
+        if ($userId) {
+            $tokens = $this->token->encode(array("id" => $userId));
+            $this->addRefreshToken($tokens[1], $userId);
+            return $tokens;
         }
         return null;
+    }
+
+    // Получение пользовательской информации
+    public function read($userId)
+    {
+        $query = "SELECT name, surname, email, phone FROM $this->table";
+        $user = $this->dataBase->db->query($query)->fetch();
+        $child = new Child($this->dataBase);
+        $user['children'] = $child->getUserChildren($userId);
+
+        return $user;
+    }
+
+    // Получение пользовательской информации
+
+    public function update($userId, $userData)
+    {
+        $userData = $this->dataBase->stripAll((array)$userData);
+        $query = $this->dataBase->genUpdateQuery($userData, $this->table, $userId);
+        $stmt = $this->dataBase->db->prepare($query[0]);
+        if ($query[1][0] != null) {
+            $stmt->execute($query[1]);
+        }
     }
 
     public function login($email, $password)
@@ -47,13 +73,79 @@ class User
                 if (!password_verify($password, $fullUser['password'])) {
                     return false;
                 }
-                return $this->token->encode(array("id" => $fullUser['id']));
+                $tokens = $this->token->encode(array("id" => $fullUser['id']));
+                $this->addRefreshToken($tokens[1], $fullUser['id']);
+                return $tokens;
             } else {
                 return false;
             }
         } else {
             return array("message" => "Введите данные для регистрации");
         }
+    }
+
+    public function isRefreshTokenActual($token, $userId)
+    {
+        $query = "SELECT id FROM refreshTokens WHERE token = ? AND userId = ?";
+
+        // подготовка запроса 
+        $stmt = $this->dataBase->db->prepare($query);
+        // инъекция 
+        $email = htmlspecialchars(strip_tags($token));
+        $userId = htmlspecialchars(strip_tags($userId));
+        // выполняем запрос 
+        $stmt->execute(array($email, $userId));
+
+        // получаем количество строк 
+        $num = $stmt->rowCount();
+
+        if ($num > 0) {
+            return true;
+        }
+
+        return $num > 0;
+    }
+
+    public function canUserViewChild($userId, $childId)
+    {
+        $query = "SELECT id FROM child WHERE id = ? AND userId = ?";
+
+        // подготовка запроса 
+        $stmt = $this->dataBase->db->prepare($query);
+        // выполняем запрос 
+        $stmt->execute(array($childId, $userId));
+
+        // получаем количество строк 
+        $num = $stmt->rowCount();
+
+        return $num > 0;
+    }
+
+    public function addRefreshToken($tokenn, $userId)
+    {
+        $query = "INSERT INTO refreshTokens (token, userId) VALUES ('$tokenn', $userId)";
+        $this->dataBase->db->query($query);
+    }
+
+    public function removeRefreshToken($userId)
+    {
+        $query = "DELETE FROM refreshTokens WHERE userId = $userId";
+        $this->dataBase->db->query($query);
+    }
+
+    public function refreshToken($token)
+    {
+        $userId = $this->token->decode($token, true)->data->id;
+        
+        if (!$this->isRefreshTokenActual($token, $userId)) {
+            throw new Exception("Unauthorized", 401);
+        }
+
+        $this->removeRefreshToken($userId);
+
+        $tokens = $this->token->encode(array("id" => $userId));
+        $this->addRefreshToken($tokens[1], $userId);
+        return $tokens;
     }
 
     private function EmailExists(string $email)

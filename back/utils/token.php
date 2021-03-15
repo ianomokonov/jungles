@@ -1,7 +1,9 @@
 <?php
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
+
 use Firebase\JWT\JWT;
 use Firebase\JWT\ExpiredException;
+
 class Token
 {
 
@@ -27,19 +29,18 @@ class Token
             // если декодирование выполнено успешно, показать данные пользователя 
             try {
                 // декодирование jwt 
-                if($isRefresh){
+                if ($isRefresh) {
+                    
                     $decoded = JWT::decode($jwt, $this->refreshKey, array('HS256'));
                 } else {
                     $decoded = JWT::decode($jwt, $this->authKey, array('HS256'));
                 }
-                
-
                 return $decoded;
             }
 
             // если декодирование не удалось, это означает, что JWT является недействительным 
             catch (ExpiredException $e) {
-                echo json_encode($e);
+                echo json_encode($e->getMessage());
                 // сообщить пользователю отказано в доступе и показать сообщение об ошибке 
                 throw new Exception("Unauthorized", 401);
             }
@@ -55,12 +56,9 @@ class Token
 
     public function encode($data)
     {
-        
+
         $this->nbf = time();
         $this->iat = $this->iat + 10 * 60 * 60;
-        
-        echo date(DateTime::ISO8601, $this->iat);
-        echo date(DateTime::ISO8601, $this->nbf);
         $token = array(
             "iss" => $this->iss,
             "aud" => $this->aud,
@@ -69,10 +67,17 @@ class Token
             "data" => $data
         );
 
+        $refreshTokenData = array(
+            "iss" => $this->iss,
+            "aud" => $this->aud,
+            "nbf" => $this->nbf,
+            "data" => $data
+        );
+
         try {
             // декодирование jwt 
             $token = JWT::encode($token, $this->authKey);
-            $refreshToken = JWT::encode($data, $this->refreshKey);
+            $refreshToken = JWT::encode($refreshTokenData, $this->refreshKey);
             return array($token, $refreshToken);
         }
 
@@ -81,7 +86,6 @@ class Token
 
             // сообщить пользователю отказано в доступе и показать сообщение об ошибке 
             throw new Exception("Unauthorized", 401);
-            
         }
     }
 }
