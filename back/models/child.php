@@ -102,15 +102,15 @@ class Child
         return $children;
     }
 
-    public function setAlertIsSee($alertId)
+    public function setAlertsSeen($alertIds)
     {
-        $query = "UPDATE alerts SET isSeen = true WHERE id = $alertId";
+        $query = "UPDATE alerts SET isSeen = true WHERE id IN (" . implode(", ", $alertIds) . ")";
         $this->dataBase->db->query($query);
     }
 
     private function getAlerts($childId)
     {
-        $query = "SELECT id, text, isSeen, createdDate FROM alerts WHERE childId = $childId";
+        $query = "SELECT id, text, isSeen, createdDate FROM alerts WHERE childId = $childId LIMIT 20";
         $alerts = [];
         $stmt = $this->dataBase->db->query($query);
         while ($alert = $stmt->fetch()) {

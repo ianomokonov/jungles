@@ -55,7 +55,7 @@ $app->post('/refresh-token', function (Request $request, Response $response) use
 
 $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
     $group->group('user',  function (RouteCollectorProxy $userGroup) use ($dataBase) {
-        
+
         $userGroup->get('/user-info', function (Request $request, Response $response) use ($dataBase) {
             $userId = $request->getAttribute('userId');
             $user = new User($dataBase);
@@ -104,9 +104,9 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
             return $response->withStatus(200);
         });
 
-        $childGroup->put('/set-alert-seen', function (Request $request, Response $response) use ($dataBase) {
+        $childGroup->put('/set-alerts-seen', function (Request $request, Response $response) use ($dataBase) {
             $child = new Child($dataBase);
-            $response->getBody()->write(json_encode($child->setAlertIsSee($request->getParsedBody()['alertId'])));
+            $response->getBody()->write(json_encode($child->setAlertsSeen($request->getParsedBody()['alertIds'])));
             return $response->withStatus(200);
         });
     })->add(function (Request $request, RequestHandler $handler) use ($dataBase) {
