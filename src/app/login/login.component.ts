@@ -26,14 +26,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     private cdRef: ChangeDetectorRef,
   ) {
     this.restorePassForm = this.fb.group({
-      Email: [null, [Validators.required, Validators.email]],
+      email: [null, [Validators.required, Validators.email]],
     });
   }
 
   ngOnInit(): void {
     this.logForm = this.fb.group({
-      Email: [null, [Validators.required, Validators.email]],
-      Password: [null, Validators.required],
+      email: [null, [Validators.required, Validators.email]],
+      password: [null, Validators.required],
     });
     this.cdRef.detectChanges();
   }
@@ -63,15 +63,11 @@ export class LoginComponent implements OnInit, OnDestroy {
       .pipe(takeWhile(() => this.rxAlive))
       .subscribe((token: string[]) => {
         if (token) {
+          console.log(12321321321);
           this.userService
             .getUserInfo()
             .pipe(takeWhile(() => this.rxAlive))
             .subscribe((user: User) => {
-              if (user?.children) {
-                const [element] = user.children;
-                this.userService.activeChildId = element.id;
-              }
-              this.userService.user = user;
               this.router.navigate(['/profile']);
             });
         }

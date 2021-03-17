@@ -1,11 +1,12 @@
 import { Component, OnDestroy } from '@angular/core';
 import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
-import { takeWhile } from 'rxjs/operators';
+import { defaultPeriod } from 'src/app/constants';
 import { Child } from 'src/app/models/child.class';
 import { Period } from 'src/app/models/periods';
 import { UserService } from 'src/app/services/backend/user.service';
 import { Payment } from '../../../models/payment';
 import { ProfileService } from '../profile.service';
+import { getPeriods } from '../utils';
 
 @Component({
   selector: 'app-payments',
@@ -19,24 +20,16 @@ export class PaymentsComponent implements OnDestroy {
     return this.userService.user?.children?.find((child) => child.id === this.activeUserId);
   }
   public activePeriod: Period;
-  public get activePeriodPayments(): Payment[] {
-    const selectedPayments: Payment[] = [];
-    this.payments.forEach((payment) => {
-      if (payment.month === this.activePeriod.month && payment.year === this.activePeriod.year) {
-        selectedPayments.push(payment);
-      }
-    });
-    return selectedPayments;
-  }
   public periods: Period[] = [];
   public showLeftArrow = false;
+  public showRightArrow = true;
   public payments: Payment[];
 
   constructor(public profileService: ProfileService, public userService: UserService) {
-    if (this.userService.user.children) {
+    if (this.userService.user.children?.length) {
       this.activeUserId = userService.user.children[0]?.id;
-      this.setPeriodData();
-      this.getChildPayments();
+      this.periods = getPeriods();
+      this.onPeriodChange();
     }
   }
 
@@ -44,27 +37,18 @@ export class PaymentsComponent implements OnDestroy {
     this.rxAlive = false;
   }
 
-  public setPeriodData(): void {
-    this.periods = [];
-    this.periods = this.userService.getPeriods(this.activeUser);
-    this.activePeriod = this.periods[this.periods.length - 1];
-  }
-
-  public getChildPayments() {
+  public onPeriodChange(period?: Period) {
     this.userService
-      .getChildPayments(this.activeUserId)
-      .pipe(takeWhile(() => this.rxAlive))
-      .subscribe((data: Payment[]) => {
-        if (data) {
-          this.payments = data;
-        }
+      .getChildPayments(this.activeUserId, period?.dateFrom, period?.dateTo)
+      .subscribe((payments) => {
+        this.payments = payments;
       });
+    this.activePeriod = period || defaultPeriod;
   }
 
   public onUserClick(id: number): void {
     this.activeUserId = id;
-    this.setPeriodData();
-    this.getChildPayments();
+    this.onPeriodChange();
   }
 
   public getFormattedSum(sum: number): string {
@@ -72,12 +56,13 @@ export class PaymentsComponent implements OnDestroy {
   }
 
   public onSlide(event: NgbSlideEvent) {
-    this.onUserClick(this.profileService.children[+event.current].id);
+    this.onUserClick(this.userService.user?.children[+event.current].id);
     if (+event.current === 0) {
+      this.showRightArrow = true;
       this.showLeftArrow = false;
       return;
     }
-
+    this.showRightArrow = false;
     this.showLeftArrow = true;
   }
 }

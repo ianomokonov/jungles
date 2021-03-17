@@ -35,9 +35,4 @@ export class DataService {
       },
     ]);
   }
-
-  public sendMessage(theme: string, message: string): Observable<boolean> {
-    // return this.http.post<boolean>(`${this.baseUrl}/send-message`, [theme, message]);
-    return of(true);
-  }
 }

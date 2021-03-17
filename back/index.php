@@ -76,6 +76,13 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
             $response->getBody()->write(json_encode($child->create($userId, $request->getParsedBody())));
             return $response;
         });
+
+        $userGroup->post('/send-message', function (Request $request, Response $response) use ($dataBase) {
+            $userId = $request->getAttribute('userId');
+            $user = new User($dataBase);
+            $response->getBody()->write(json_encode($user->sendMessage($userId, $request->getParsedBody())));
+            return $response;
+        });
     });
 
     $group->group('child/{id}',  function (RouteCollectorProxy $childGroup) use ($dataBase) {

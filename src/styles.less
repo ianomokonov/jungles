@@ -176,6 +176,11 @@ h3,
   white-space: nowrap;
 }
 
+.btn-small {
+  width: 183px !important;
+  height: 47.56px !important;
+}
+
 .btn-primary {
   border-bottom: 4px solid @light-brown;
   background: linear-gradient(182.07deg, #ffc081 1.75%, #ff9b38 74.75%);
@@ -218,6 +223,21 @@ h3,
     outline: none;
     border-bottom: 4px solid #42674e;
     box-shadow: 0px 5px 12px rgba(66, 103, 78, 0.4);
+  }
+}
+
+.btn-failure {
+  border-bottom: 4px solid #D64B4B;
+  outline: none !important;
+  width: 141px;
+  height: 47.56px;
+  background: linear-gradient(180deg, #ff7676 0%, #d64b4b 100%);
+  box-shadow: 0px 5px 12px rgba(214, 75, 75, 0.4);
+  color: white !important;
+
+  &:focus,
+  &:active {
+    outline: none !important;
   }
 }
 
@@ -319,7 +339,6 @@ ngb-modal-backdrop {
           font-size: 14px;
           font-weight: 600;
           letter-spacing: 0.02em;
-          color: @grey;
           font-family: Open Sans Light;
           border-radius: 25px;
           border: 1px solid @green;
@@ -610,13 +629,36 @@ ul {
   }
 }
 
+.change-form {
+  width: 340px;
+  p {
+    margin-bottom: 31px;
+  }
+  .change-form-photo {
+    margin-bottom: 25px;
+
+    span {
+      cursor: pointer;
+    }
+  }
+  .change-form-delete {
+    width: 70%;
+  }
+  div.form-group {
+    margin-bottom: 20px;
+  }
+  button {
+    margin-bottom: 45px;
+  }
+}
+
 input.ch-input {
   width: 100%;
   height: 40px;
   box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
   font-family: Open Sans;
-  color: @grey;
+  color: @dark-green;
   font-size: 16px;
   padding: 9px 16px;
   border: 0;

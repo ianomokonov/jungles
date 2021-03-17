@@ -11,7 +11,7 @@
     class="slider"
     [ngClass]="{
       'pl-0': !showLeftArrow,
-      'pr-0': carousel.activeId == (profileService.children.length - 1).toString()
+      'pr-0': !showRightArrow
     }"
   >
     <ngb-carousel
@@ -25,7 +25,7 @@
       <ng-template
         [id]="i.toString()"
         ngbSlide
-        *ngFor="let child of profileService.children; let i = index"
+        *ngFor="let child of userService.user?.children; let i = index"
       >
         <div class="profile">
           <app-user-card
@@ -60,7 +60,7 @@
     <button
       class="btn btn-slider next"
       (click)="carousel.next()"
-      *ngIf="carousel.activeId !== (profileService.children.length - 1).toString()"
+      *ngIf="showRightArrow"
     >
       <svg width="15" height="9" viewBox="0 0 15 9" xmlns="http://www.w3.org/2000/svg">
         <path
@@ -86,10 +86,10 @@
   <div class="actions d-flex justify-content-between flex-lg-nowrap flex-wrap">
     <div class="d-none backdrop" *ngIf="myDrop.isOpen()"></div>
     <div ngbDropdown>
-      <div class="filters text-mb mb-3 mb-lg-0" ngbDropdownToggle>{{ activePeriod.month + ' ' + activePeriod.year.toString() }}</div>
+      <div class="filters text-mb mb-3 mb-lg-0" ngbDropdownToggle>{{ activePeriod?.label }}</div>
       <div ngbDropdownMenu>
-        <button ngbDropdownItem *ngFor="let period of periods" (click)="activePeriod = period">
-          {{ period.month + ' ' + period.year.toString() }}
+        <button ngbDropdownItem *ngFor="let period of periods" (click)="onPeriodChange(period)">
+          {{ period.label }}
         </button>
       </div>
     </div>
@@ -107,7 +107,7 @@
     </div>
   </div>
   <div class="payments">
-    <div class="payment" *ngFor="let payment of activePeriodPayments">
+    <div class="payment" *ngFor="let payment of payments">
       <p class="text mb-1">{{ payment.date | date: 'dd.MM.yyyy' }}</p>
       <p class="text mb-1">{{ getFormattedSum(payment.sum) }} ₽</p>
       <p class="text mb-1">{{ payment.comment }}</p>

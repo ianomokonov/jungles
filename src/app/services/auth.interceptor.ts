@@ -8,7 +8,7 @@ import {
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, filter, switchMap, take } from 'rxjs/operators';
-import { refreshTokenKey, userTokenKey } from '../constants';
+import { TokenService } from './backend/token.service';
 import { UserService } from './backend/user.service';
 
 @Injectable()
@@ -16,33 +16,34 @@ export class AuthInterceptor implements HttpInterceptor {
   private isRefreshing = false;
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private tokenService: TokenService) {}
 
   public intercept(req: HttpRequest<{}>, next: HttpHandler): Observable<HttpEvent<{}>> {
     let params = req;
-    const token = sessionStorage.getItem(userTokenKey);
+    const token = this.tokenService.getAuthToken();
     if (token) {
       params = this.addToken(req, token);
     }
-    return next.handle(params).pipe(
-      catchError((error) => {
-        if (error.status === 0) {
-          return of(error);
-        }
-        if (
-          error instanceof HttpErrorResponse &&
-          error.status === 401 &&
-          sessionStorage.getItem(refreshTokenKey)
-        ) {
-          return this.handle401Error(params, next);
-        }
-        return throwError(error);
-      }),
-    );
+    return next.handle(params);
+    // .pipe(
+    //   catchError((error) => {
+    //     if (error.status === 0) {
+    //       return of(error);
+    //     }
+    //     if (
+    //       error instanceof HttpErrorResponse &&
+    //       error.status === 401 &&
+    //       this.tokenService.getRefreshToken()
+    //     ) {
+    //       return this.handle401Error(params, next);
+    //     }
+    //     return throwError(error);
+    //   }),
+    // );
   }
 
   private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
-    const refreshToken = sessionStorage.getItem(refreshTokenKey);
+    const refreshToken = this.tokenService.getRefreshToken();
     if (!this.isRefreshing && refreshToken) {
       this.isRefreshing = true;
       this.refreshTokenSubject.next(null);

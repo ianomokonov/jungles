@@ -1,14 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { activeChildKey, userTokenKey } from 'src/app/constants';
+import { activeChildKey } from 'src/app/constants';
+import { ChildRequest } from 'src/app/models/add-child-request';
 import { Child } from 'src/app/models/child.class';
 import { Payment } from 'src/app/models/payment';
-import { Period } from 'src/app/models/periods';
 import { Result } from 'src/app/models/result.class';
 import { User } from 'src/app/models/user.class';
+import { dateToString } from 'src/app/modules/profile/utils';
 import { environment } from 'src/environments/environment';
 import { TokenService } from './token.service';
 
@@ -21,28 +22,25 @@ export class UserService {
     return +sessionStorage.getItem(activeChildKey);
   }
   public set activeChildId(id: number) {
+    if (!id) {
+      this.activeChild = null;
+      console.log('пидорасы блять!');
+      sessionStorage.removeItem(activeChildKey);
+      return;
+    }
     sessionStorage.setItem(activeChildKey, id.toString());
-    this.activeChild = this.user?.children?.find((child) => child.id === this.activeChildId);
+    this.activeChild = this.user?.children?.find((child) => child.id === id);
   }
 
   constructor(
     private http: HttpClient,
     private tokenService: TokenService,
     private router: Router,
-  ) {
-    if (sessionStorage.getItem(userTokenKey)) {
-      this.getUserInfo().subscribe((data) => {
-        this.user = data;
-        if (this.activeChildId) {
-          this.activeChild = this.user.children?.find((child) => child.id === this.activeChildId);
-        }
-      });
-    }
-  }
+  ) {}
 
   public refreshToken(token: string): Observable<string[]> {
     return this.http
-      .post<string[]>(`${this.baseUrl}?Key=refresh-token`, { token })
+      .post<string[]>(`${this.baseUrl}/refresh-token`, { token })
       .pipe(
         tap((tokens: string[]) => {
           this.tokenService.storeTokens(tokens);
@@ -50,33 +48,23 @@ export class UserService {
       );
   }
 
-  // ----------Общие----------
-
-  public getPeriods(user: Child): Period[] {
-    const periods: Period[] = [];
-    user.results.forEach((result: Result) => {
-      periods.push({ month: result.month, year: result.year });
-    });
-    return periods;
-  }
-
   // ----------Авторизация----------
-  public logIn(data: any[]): Observable<string[]> {
-    // return this.http.post<string[]>(`${this.baseUrl}/login`, data).pipe(
-    //   tap((tokens: string[]) => {
-    //     this.storeToken(tokens);
-    //   }),
-    // );
-    return of(['userToken', 'refreshToken']).pipe(
+  public logIn(data: any): Observable<string[]> {
+    return this.http.post<string[]>(`${this.baseUrl}/login`, data).pipe(
       tap((tokens: string[]) => {
         this.tokenService.storeTokens(tokens);
       }),
     );
+    // return of(['userToken', 'refreshToken']).pipe(
+    //   tap((tokens: string[]) => {
+    //     this.tokenService.storeTokens(tokens);
+    //   }),
+    // );
   }
 
   public logOut() {
     this.http.delete<string>(
-      `${this.baseUrl}?Key=delete-token&token=${this.tokenService.getRefreshToken()}`,
+      `${this.baseUrl}/delete-token&token=${this.tokenService.getRefreshToken()}`,
     );
     this.tokenService.removeTokens();
     sessionStorage.removeItem(activeChildKey);
@@ -87,90 +75,106 @@ export class UserService {
     }
   }
 
-  public addUser(data: any[]): Observable<[User, [string, string]]> {
-    // return this.http.post<[User, [string, string]]>(`${this.baseUrl}/add-user`, data);
-    return of([
-      { id: 2, name: 'Елена', surname: 'Кравцова', email: 'email@email.com' },
-      ['userToken', 'refreshToken'],
-    ]);
+  public addUser(data: any): Observable<string[]> {
+    return this.http.post<string[]>(`${this.baseUrl}/sign-up`, data).pipe(
+      tap((tokens: string[]) => {
+        this.tokenService.storeTokens(tokens);
+      }),
+    );
+    // return of([
+    //   { id: 2, name: 'Елена', surname: 'Кравцова', email: 'email@email.com' },
+    //   ['userToken', 'refreshToken'],
+    // ]);
   }
 
   // ----------Данные----------
 
   public getUserInfo(): Observable<User> {
-    // return this.http.get<User>(`${this.baseUrl}/get-userinfo`);
-    return of({
-      id: 1,
-      name: 'Марина',
-      surname: 'Кравцова',
-      email: 'email@email.com',
-      children: [
-        {
-          id: 1,
-          name: 'Алиса',
-          surname: 'Кравцова',
-          age: 5,
-          fare: 32,
-          leftDays: 28,
-          opened: false,
+    return this.http.get<User>(`${this.baseUrl}/user/user-info`).pipe(
+      tap((user) => {
+        this.user = user;
+        if (user?.children) {
+          if (this.activeChildId) {
+            this.activeChild = this.user?.children?.find(
+              (child) => child.id === this.activeChildId,
+            );
+            console.log(this.activeChild, user.children[0].id === this.activeChildId);
+            console.log(this.activeChildId, user.children);
+          }
+        }
+      }),
+    );
+    // return of({
+    //   id: 1,
+    //   surname: 'Кравцова',
+    //   email: 'email@email.com',
+    //   children: [
+    //     {
+    //       id: 1,
+    //       name: 'Алиса',
+    //       surname: 'Кравцова',
+    //       age: 5,
+    //       fare: 32,
+    //       leftDays: 28,
+    //       opened: false,
 
-          results: [
-            {
-              id: 1,
-              blocksDone: 2,
-              tasksDone: 27,
-              firstAtt: 11,
-              crystals: 12,
-              chests: 2,
-              month: 'Февраль',
-              year: 2021,
-            },
-            {
-              id: 2,
-              blocksDone: 3,
-              tasksDone: 26,
-              firstAtt: 2,
-              crystals: 1,
-              chests: 6,
-              month: 'Март',
-              year: 2021,
-            },
-            {
-              id: 3,
-              blocksDone: 3,
-              tasksDone: 34,
-              firstAtt: 18,
-              crystals: 20,
-              chests: 3,
-              month: 'Апрель',
-              year: 2021,
-            },
-          ],
-        },
-        {
-          id: 2,
-          name: 'Евгения',
-          surname: 'Кравцова',
-          age: 10,
-          fare: 62,
-          leftDays: 10,
-          opened: false,
+    //       results: [
+    //         {
+    //           id: 1,
+    //           blocksDone: 2,
+    //           tasksDone: 27,
+    //           firstAtt: 11,
+    //           crystals: 12,
+    //           chests: 2,
+    //           month: 'Февраль',
+    //           year: 2021,
+    //         },
+    //         {
+    //           id: 2,
+    //           blocksDone: 3,
+    //           tasksDone: 26,
+    //           firstAtt: 2,
+    //           crystals: 1,
+    //           chests: 6,
+    //           month: 'Март',
+    //           year: 2021,
+    //         },
+    //         {
+    //           id: 3,
+    //           blocksDone: 3,
+    //           tasksDone: 34,
+    //           firstAtt: 18,
+    //           crystals: 20,
+    //           chests: 3,
+    //           month: 'Апрель',
+    //           year: 2021,
+    //         },
+    //       ],
+    //     },
+    //     {
+    //       id: 2,
+    //       name: 'Евгения',
+    //       surname: 'Кравцова',
+    //       age: 10,
+    //       fare: 62,
+    //       leftDays: 10,
+    //       opened: false,
 
-          results: [
-            {
-              id: 1,
-              blocksDone: 2,
-              tasksDone: 27,
-              firstAtt: 11,
-              crystals: 12,
-              chests: 2,
-              month: 'Март',
-              year: 2021,
-            },
-          ],
-        },
-      ],
-    });
+    //       results: [
+    //         {
+    //           id: 1,
+    //           blocksDone: 2,
+    //           tasksDone: 27,
+    //           firstAtt: 11,
+    //           crystals: 12,
+    //           chests: 2,
+    //           month: 'Март',
+    //           year: 2021,
+    //         },
+    //       ],
+    //     },
+    //   ],
+    // });
     //
     // return of({
     //   id: 1,
@@ -180,33 +184,65 @@ export class UserService {
     // });
   }
 
-  public getChildPayments(childId: number): Observable<Payment[]> {
-    // return this.http.get<Payment[]>(`${this.baseUrl}?Key=get-childpay&id=${childId}`);
-    return of([
-      {
-        id: 1,
-        date: new Date(),
-        sum: 1000,
-        comment: 'Тариф продлен на 10 дней',
-        month: 'Февраль',
-        year: 2021,
-      },
-      {
-        id: 2,
-        date: new Date(),
-        sum: 1000,
-        comment: 'Тариф продлен на 20 дней',
-        month: 'Март',
-        year: 2021,
-      },
-      {
-        id: 3,
-        date: new Date(),
-        sum: 1000,
-        comment: 'Тариф продлен на 30 дней',
-        month: 'Апрель',
-        year: 2021,
-      },
-    ]);
+  public getChildPayments(childId: number, dateFrom?: Date, dateTo?: Date): Observable<Payment[]> {
+    return this.http.get<Payment[]>(
+      `${this.baseUrl}/child/${childId}/payments?dateFrom=${dateToString(dateFrom) || ''}&dateTo=${
+        dateToString(dateTo) || ''
+      }`,
+    );
+    // return of([
+    //   {
+    //     id: 1,
+    //     date: new Date(),
+    //     sum: 1000,
+    //     comment: 'Тариф продлен на 10 дней',
+    //     month: 'Февраль',
+    //     year: 2021,
+    //   },
+    //   {
+    //     id: 2,
+    //     date: new Date(),
+    //     sum: 1000,
+    //     comment: 'Тариф продлен на 20 дней',
+    //     month: 'Март',
+    //     year: 2021,
+    //   },
+    //   {
+    //     id: 3,
+    //     date: new Date(),
+    //     sum: 1000,
+    //     comment: 'Тариф продлен на 30 дней',
+    //     month: 'Апрель',
+    //     year: 2021,
+    //   },
+    // ]);
+  }
+
+  public getProgress(childId: number, dateFrom?: Date, dateTo?: Date): Observable<Result> {
+    return this.http.get<Result>(
+      `${this.baseUrl}/child/${childId}/progress?dateFrom=${dateToString(dateFrom) || ''}&dateTo=${
+        dateToString(dateTo) || ''
+      }`,
+    );
+  }
+
+  public addChild(child: ChildRequest): Observable<number> {
+    return this.http.post<number>(`${this.baseUrl}/user/create-child`, child);
+  }
+
+  public editParent(data: any[]) {
+    return this.http.put(`${this.baseUrl}/user/user-info`, data);
+  }
+
+  public editChild(id: number, data: any[]) {
+    return this.http.put(`${this.baseUrl}/child/${id}/update`, data);
+  }
+
+  public deleteChild(id: number) {
+    return this.http.delete(`${this.baseUrl}/child/${id}/delete`);
+  }
+
+  public sendMessage(theme: string, text: string) {
+    return this.http.post(`${this.baseUrl}/user/send-message`, { theme, text });
   }
 }

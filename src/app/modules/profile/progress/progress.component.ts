@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
-import { blockAmount, tasksAmount } from 'src/app/constants';
+import { blockAmount, defaultPeriod, tasksAmount } from 'src/app/constants';
 import { Child } from 'src/app/models/child.class';
 import { Period } from 'src/app/models/periods';
 import { Result } from 'src/app/models/result.class';
@@ -17,23 +17,27 @@ export class ProgressComponent {
   public get activeUser(): Child {
     return this.userService.user?.children?.find((child) => child.id === this.activeUserId);
   }
-  public get activeChildResult(): Result {
-    return this.activeUser.results.find(
-      (result) =>
-        result.month === this.activePeriod.month && result.year === this.activePeriod.year,
-    );
-  }
+  public activeChildResult: Result;
   public activePeriod: Period;
   public showLeftArrow = false;
-  public periods: Period[] = [];
+  public showRightArrow = true;
 
   constructor(public profileService: ProfileService, public userService: UserService) {
-    if (this.userService.user.children) {
+    if (this.userService.user?.children?.length) {
       this.activeUserId = userService.activeChild?.id
         ? userService.activeChild.id
-        : this.userService.user?.children[0].id;
-      this.setPeriodData();
+        : this.userService.user?.children[0]?.id;
+      this.onPeriodChange();
     }
+  }
+
+  public onPeriodChange(period?: Period) {
+    this.userService
+      .getProgress(this.activeUserId, period?.dateFrom, period?.dateTo)
+      .subscribe((result) => {
+        this.activeChildResult = result;
+      });
+    this.activePeriod = period || defaultPeriod;
   }
 
   public getPercentage(amount: number, type: number): number {
@@ -45,24 +49,19 @@ export class ProgressComponent {
     }
   }
 
-  public setPeriodData() {
-    this.periods = [];
-    this.periods = this.userService.getPeriods(this.activeUser);
-    this.activePeriod = this.periods[this.periods.length - 1];
-  }
-
   public onUserClick(id: number): void {
     this.activeUserId = id;
-    this.setPeriodData();
   }
 
   public onSlide(event: NgbSlideEvent) {
-    this.onUserClick(this.profileService.children[+event.current].id);
+    this.onUserClick(this.userService.user?.children[+event.current].id);
     if (+event.current === 0) {
+      this.showRightArrow = true;
       this.showLeftArrow = false;
       return;
     }
 
+    this.showRightArrow = false;
     this.showLeftArrow = true;
   }
 }

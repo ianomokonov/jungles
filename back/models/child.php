@@ -38,15 +38,11 @@ class Child
 
         // TODO: переделать, когда будут упражнения
         $result = array(
-            "tasks" => array(
-                "blocksCompleted" => 1,
-                "tasksCompleted" => 20,
-                "onFirstTry" => 9,
-            ),
-            "rewards" => array(
-                "cristals" => 10,
-                "chests" => 0
-            )
+            "blocksDone" => 1,
+            "tasksDone" => 20,
+            "onFirstTry" => 9,
+            "cristals" => 10,
+            "chests" => 0
         );
 
         return $result;
@@ -89,10 +85,14 @@ class Child
 
     public function getUserChildren($userId)
     {
+        $now = new DateTime();
         $query = "SELECT id, name, surname, dateOfBirth FROM $this->table WHERE userId = $userId";
         $children = [];
         $stmt = $this->dataBase->db->query($query);
         while ($child = $stmt->fetch()) {
+            $child["id"] = $child["id"] * 1;
+            $date = DateTime::createFromFormat('Y-m-d', $child["dateOfBirth"]);
+            $child["age"] = $now->diff($date)->y;
             $child["leftDays"] = 28;
             // $start = DateTime::createFromFormat('')
             $child["alerts"] = $this->getAlerts($child['id']);

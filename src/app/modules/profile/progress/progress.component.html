@@ -1,4 +1,4 @@
-<section *ngIf="userService.user.children; else noData">
+<section *ngIf="userService.user.children?.length; else noData">
   <div class="progress-cards">
     <app-user-card
       class="mb-3"
@@ -13,7 +13,7 @@
     class="slider"
     [ngClass]="{
       'pl-0': !showLeftArrow,
-      'pr-0': carousel.activeId == (userService.user?.children?.length - 1).toString()
+      'pr-0': !showRightArrow
     }"
   >
     <ngb-carousel
@@ -62,7 +62,7 @@
     <button
       class="btn btn-slider next"
       (click)="carousel.next()"
-      *ngIf="carousel.activeId !== (profileService.children.length - 1).toString()"
+      *ngIf="showRightArrow"
     >
       <svg width="15" height="9" viewBox="0 0 15 9" xmlns="http://www.w3.org/2000/svg">
         <path
@@ -91,52 +91,54 @@
       <h4 class="progress-header pt-1">Упражнения:</h4>
       <div ngbDropdown>
         <div class="progress-selector" ngbDropdownToggle>
-          <span class="text-mb" id="dropdownConfig">{{ activePeriod.month + ' ' + activePeriod.year.toString() }}</span>
+          <span class="text-mb" id="dropdownConfig">{{ activePeriod?.label }}</span>
         </div>
         <div ngbDropdownMenu aria-labelledby="dropdownConfig">
           <button
             class="text"
             ngbDropdownItem
-            *ngFor="let period of periods"
-            (click)="activePeriod = period"
+            *ngFor="let period of profileService.periods"
+            (click)="onPeriodChange(period)"
           >
-            {{ period.month + ' ' + period.year.toString() }}
+            {{ period.label }}
           </button>
         </div>
       </div>
     </div>
-    <div class="charts d-flex justify-content-start flex-wrap">
-      <div class="d-flex flex-column justify-content-center align-items-center">
-        <app-pie-chart
-          [percent]="getPercentage(activeChildResult.blocksDone, 0)"
-          [color]="'#FCCC4C'"
-          [label]="activeChildResult.blocksDone.toString()"
-        ></app-pie-chart>
-        <span class="text-mb">Блоков решено</span>
+    <ng-container *ngIf="activeChildResult">
+      <div class="charts d-flex justify-content-start flex-wrap">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <app-pie-chart
+            [percent]="getPercentage(activeChildResult.blocksDone, 0)"
+            [color]="'#FCCC4C'"
+            [label]="activeChildResult.blocksDone.toString()"
+          ></app-pie-chart>
+          <span class="text-mb">Блоков решено</span>
+        </div>
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <app-pie-chart
+            [percent]="getPercentage(activeChildResult.tasksDone, 1)"
+            [label]="activeChildResult.tasksDone.toString()"
+          ></app-pie-chart>
+          <span class="text-mb">Задач решено</span>
+        </div>
+        <div class="d-flex flex-column justify-content-center align-items-center mt-3 mt-lg-0">
+          <app-pie-chart
+            [percent]="getPercentage(activeChildResult.onFirstTry, 1)"
+            [color]="'#7EE1E4'"
+            [label]="activeChildResult.onFirstTry.toString()"
+          ></app-pie-chart>
+          <span class="text-mb">С первой попытки</span>
+        </div>
       </div>
-      <div class="d-flex flex-column justify-content-center align-items-center">
-        <app-pie-chart
-          [percent]="getPercentage(activeChildResult.tasksDone, 1)"
-          [label]="activeChildResult.tasksDone.toString()"
-        ></app-pie-chart>
-        <span class="text-mb">Задач решено</span>
+      <h4 class="progress-header mb-4">Награды:</h4>
+      <div class="progress-rewards d-flex justify-content-start align-items-center">
+        <img src="../../../../assets/images/icons/diamond.svg" />
+        <h3>{{ activeChildResult.cristals }}</h3>
+        <img src="../../../../assets/images/icons/chest.svg" />
+        <h3>{{ activeChildResult.chests }}</h3>
       </div>
-      <div class="d-flex flex-column justify-content-center align-items-center mt-3 mt-lg-0">
-        <app-pie-chart
-          [percent]="getPercentage(activeChildResult.firstAtt, 1)"
-          [color]="'#7EE1E4'"
-          [label]="activeChildResult.firstAtt.toString()"
-        ></app-pie-chart>
-        <span class="text-mb">С первой попытки</span>
-      </div>
-    </div>
-    <h4 class="progress-header mb-4">Награды:</h4>
-    <div class="progress-rewards d-flex justify-content-start align-items-center">
-      <img src="../../../../assets/images/icons/diamond.svg" />
-      <h3>{{ activeChildResult.crystals }}</h3>
-      <img src="../../../../assets/images/icons/chest.svg" />
-      <h3>{{ activeChildResult.chests }}</h3>
-    </div>
+    </ng-container>
   </div>
 </section>
 

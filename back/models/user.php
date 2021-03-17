@@ -121,6 +121,21 @@ class User
         return $num > 0;
     }
 
+    // Отправление сообщений
+
+    public function sendMessage($userId, $request)
+    {
+        $request['userId'] = $userId;
+        $query = $this->dataBase->genInsertQuery(
+            $request,
+            'messages'
+        );  
+        $stmt = $this->dataBase->db->prepare($query[0]);
+        if ($query[1][0] != null) {
+            $stmt->execute($query[1]);
+        }
+    }
+
     public function addRefreshToken($tokenn, $userId)
     {
         $query = "INSERT INTO refreshTokens (token, userId) VALUES ('$tokenn', $userId)";

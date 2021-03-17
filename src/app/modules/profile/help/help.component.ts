@@ -2,6 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { takeWhile } from 'rxjs/operators';
 import { DataService } from 'src/app/services/backend/data.service';
+import { UserService } from 'src/app/services/backend/user.service';
 import { Question } from '../../../models/question';
 
 @Component({
@@ -18,9 +19,13 @@ export class HelpComponent implements OnDestroy {
   public problems: string[] = ['Тема 1', 'Тема 2', 'Тема 3'];
   public submitted = false;
 
-  constructor(private dataService: DataService, private fb: FormBuilder) {
+  constructor(
+    private dataService: DataService,
+    private fb: FormBuilder,
+    private userService: UserService,
+  ) {
     this.messageForm = this.fb.group({
-      Message: [null, Validators.required],
+      message: [null, Validators.required],
     });
     this.dataService
       .getQuestions()
@@ -55,13 +60,11 @@ export class HelpComponent implements OnDestroy {
     if (this.messageForm.invalid) {
       return;
     }
-    this.dataService
-      .sendMessage(this.currentProblem, this.messageForm.value)
+    this.userService
+      .sendMessage(this.currentProblem, this.messageForm.getRawValue().message)
       .pipe(takeWhile(() => this.rxAlive))
-      .subscribe((response: boolean) => {
-        if (response) {
-          this.messageSent = true;
-        }
+      .subscribe(() => {
+        this.messageSent = true;
       });
   }
 }

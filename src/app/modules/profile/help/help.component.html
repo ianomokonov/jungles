@@ -31,8 +31,8 @@
       placeholder="Текст сообщения"
       rows="5"
       class="form-control"
-      formControlName="Message"
-      [ngClass]="{ invalid:  submitted && fval.Message?.errors}"
+      formControlName="message"
+      [ngClass]="{ invalid:  submitted && fval.message?.errors}"
     ></textarea>
     <button class="btn btn-success" (click)="sendMsgForm()">Отправить</button>
   </form>

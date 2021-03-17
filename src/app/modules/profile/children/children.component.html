@@ -1,6 +1,25 @@
 <section>
-  <div class="profile">
-    <app-user-card [user]="userService.user" [showActions]="true"></app-user-card>
+  <div class="profile" *ngIf="!showParentEditForm">
+    <app-user-card [user]="userService.user" [showActions]="true" (edit)="onEditParent()"></app-user-card>
+  </div>
+  <div *ngIf="showParentEditForm" class="change-form">
+    <form [formGroup]="changeParentForm">
+      <p class="text-mb">Редактирование профиля родителя</p>
+      <div class="change-form-photo d-flex justify-content-start align-items-center">
+        <img src="../../../../assets/images/icons/user-child-sm.svg" class="mr-3"/>
+        <span class="text text-muted">Добавить фото</span>
+      </div>
+      <div class="form-group">
+        <input class="ch-input" formControlName="name" />
+      </div>
+      <div class="form-group">
+        <input class="ch-input" formControlName="surname" />
+      </div>
+      <div class="form-group">
+        <input type="email" class="ch-input" formControlName="email" />
+      </div>
+      <button class="btn btn-small btn-success" (click)="editParent()">сохранить</button>
+    </form>
   </div>
 
   <ng-container *ngIf="userService.user?.children?.length; else noData">
@@ -8,12 +27,37 @@
       <div
         class="profile"
         (click)="setActive(child.id)"
-        [ngClass]="{ active: child.id === userService.activeChildId }"
+        [ngClass]="{ active: child.id == userService.activeChildId }"
+        *ngIf="!child.editing"
       >
-        <app-user-card [user]="child" [showActions]="true" (delete)="deleteChild()"></app-user-card>
+        <app-user-card [user]="child" [showActions]="true" (edit)="onEditChild(child)"></app-user-card>
       </div>
 
-      <div class="data d-none flex-column justify-content-start align-items-start">
+      <div *ngIf="child.editing" class="change-form">
+        <form [formGroup]="changeChildForm">
+          <p class="text-mb mb-4">Редактирование профиля ребёнка</p>
+          <div class="change-form-photo d-flex justify-content-start align-items-center mb-4">
+            <img src="../../../../assets/images/icons/user-child-sm.svg" class="mr-3"/>
+            <span class="text text-muted">Добавить фото</span>
+          </div>
+          <div class="form-group">
+            <input class="ch-input" formControlName="name" />
+          </div>
+          <div class="form-group">
+            <input class="ch-input" formControlName="surname" />
+          </div>
+          <div class="form-group">
+            <input type="date" class="ch-input" formControlName="dateOfBirth" />
+          </div>
+          <div class="change-form-delete d-flex align-items-start mb-4" (click)="openDeleteChildModal(child, delChild)">
+            <img src="../../../../assets/images/icons/delete.svg" class="mr-1">
+            <span class="subt text-muted">Удалить данные о ребёнке (прогресс будет потерян)</span>
+          </div>
+          <button class="btn btn-small btn-success mb-5" (click)="editChild(child)">сохранить</button>
+        </form>
+      </div>
+
+      <div class="data d-none flex-column justify-content-start align-items-start" *ngIf="!child.editing">
         <span>Тариф: {{ child.fare }} месяц</span>
         <div
           class="d-flex flex-lg-row flex-column justify-content-start align-items-center align-items-md-start align-items-lg-center"
@@ -51,23 +95,29 @@
     </div>
   </ng-template>
 
-  <div class="child-add" *ngIf="showAddForm">
-    <form>
+  <div class="change-form" *ngIf="showAddForm">
+    <form [formGroup]="addChildForm">
       <p class="text-mb">Регистрация {{ countChildren() }}ребёнка</p>
-      <div class="d-flex justify-content-start align-items-center">
-        <img src="../../../../assets/images/icons/user-child-sm.svg" />
-        <span class="text">Добавить фото</span>
+      <div class="change-form-photo d-flex justify-content-start align-items-center">
+        <img src="../../../../assets/images/icons/user-child-sm.svg" class="mr-3"/>
+        <span class="text text-muted">Добавить фото</span>
       </div>
       <div class="form-group">
-        <input class="ch-input" placeholder="Имя" />
+        <input class="ch-input" placeholder="Имя" formControlName="name" />
       </div>
       <div class="form-group">
-        <input class="ch-input" placeholder="Фамилия" />
+        <input class="ch-input" placeholder="Фамилия" formControlName="surname" />
       </div>
       <div class="form-group">
-        <input class="ch-input" placeholder="Дата рождения" />
+        <label class="text text-muted mb-2">Дата рождения</label>
+        <input
+          type="date"
+          class="ch-input"
+          placeholder="Дата рождения"
+          formControlName="dateOfBirth"
+        />
       </div>
-      <button class="btn btn-success">сохранить</button>
+      <button class="btn btn-small btn-success" (click)="addChild()">сохранить</button>
     </form>
   </div>
 </section>
@@ -79,8 +129,17 @@
   <div class="modal-body">
     <div class="d-flex flex-column justify-content-center align-items-start">
       <p class="text mb-0 text-align-center">
-        Перед началом выполнения упражнений, выберите профиль ребенка, так сохраняться его успехи и награды!
+        Перед началом выполнения упражнений, выберите профиль ребенка, так сохраняться его успехи и
+        награды!
       </p>
     </div>
+  </div>
+</ng-template>
+
+<ng-template #delChild>
+  <div class="modal-block text-center d-flex flex-column align-items-center">
+    <span class="text-mb mb-4">Подтвердите удаление профиля ребёнка</span>
+    <button class="btn btn-failure mb-4" (click)="deleteChild()">Удалить</button>
+    <span class="text-muted text" (click)="closeModal()">Отмена</span>
   </div>
 </ng-template>

@@ -25,11 +25,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private router: Router,
   ) {
     this.regForm = this.fb.group({
-      FLName: [null, Validators.required],
-      Email: [null, [Validators.required, Validators.email]],
-      Phone: [null, Validators.required],
-      CheckMailing: [null],
-      CheckPersonalData: [null],
+      nameSurname: [null, Validators.required],
+      email: [null, [Validators.required, Validators.email]],
+      password: [null, Validators.required],
+      phone: [null],
+      canSendNews: [null],
+      checkPersonalData: [null, Validators.requiredTrue],
     });
   }
 
@@ -44,8 +45,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.modalService.open(LoginComponent, { windowClass: 'modal-auth' });
   }
 
-  public get fval() {
-    return this.regForm.controls;
+  public get formValue() {
+    return this.regForm.getRawValue();
   }
 
   public dismissModal() {
@@ -57,23 +58,28 @@ export class RegisterComponent implements OnInit, OnDestroy {
     // if (this.regForm.invalid) {
     //   return;
     // }
+    const { formValue } = this;
+    const request = {
+      name: formValue.nameSurname.split(' ')[0],
+      surname: formValue.nameSurname.split(' ')[1],
+      email: formValue.email,
+      password: formValue.password,
+      phone: formValue.phone,
+      canSendNews: formValue.canSendNews,
+    };
     this.userService
-      .addUser(this.regForm.value)
+      .addUser(request)
       .pipe(takeWhile(() => this.rxAlive))
-      .subscribe((data: [User, [string, string]]) => {
-        if (data) {
-          const [user, ,] = data;
-          this.userService.user = user;
-          this.modal.close();
-          this.modalService.open(content, {
-            windowClass: 'modal-auth',
-          });
-        }
+      .subscribe(() => {
+        this.modal.close();
+        this.modalService.open(content, {
+          windowClass: 'modal-auth',
+        });
       });
   }
 
   public regRedir() {
     this.modal.close();
-    this.router.navigate(['/profile']);
+    this.router.navigate(['profile']);
   }
 }

@@ -1,4 +1,7 @@
 export interface Period {
-  month: string;
-  year: number;
+  dateFrom?: Date;
+  dateTo?: Date;
+  label: string;
+  month?: string;
+  year?: number;
 }

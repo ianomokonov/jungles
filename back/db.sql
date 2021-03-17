@@ -36,3 +36,13 @@ CREATE TABLE IF NOT EXISTS alerts(
 
     FOREIGN KEY (childId) REFERENCES child(id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS messages(
+    id int(10) PRIMARY KEY AUTO_INCREMENT,
+    userId int(10) NOT NULL,
+    theme varchar(255) NOT NULL,
+    text text NOT NULL,
+    createdDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (userId) REFERENCES jungleuser(id) ON DELETE CASCADE
+);

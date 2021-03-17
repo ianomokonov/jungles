@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthComponent } from '../auth/auth.component';
+import { TokenService } from '../services/backend/token.service';
 import { UserService } from '../services/backend/user.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { UserService } from '../services/backend/user.service';
   templateUrl: './nav-menu.component.html',
   styleUrls: ['./nav-menu.component.less'],
 })
-export class NavMenuComponent {
+export class NavMenuComponent implements OnInit {
   @Input() public showMonkey: boolean;
   public showMenu: boolean;
 
@@ -17,9 +18,16 @@ export class NavMenuComponent {
     private modalService: NgbModal,
     private router: Router,
     public userService: UserService,
+    private tokenService: TokenService,
   ) {
     this.showMonkey = true;
     this.showMenu = false;
+  }
+
+  ngOnInit() {
+    if (this.tokenService.getAuthToken()) {
+      this.userService.getUserInfo().subscribe();
+    }
   }
 
   public logIn(): void {
