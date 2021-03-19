@@ -41,8 +41,8 @@ export class UserCardComponent {
   }
 
   public getPhoto(): string {
-    if (this.user.profilePicture) {
-      return this.user.profilePicture;
+    if (this.user.image) {
+      return this.user.image;
     }
     return this.profilePicture;
   }

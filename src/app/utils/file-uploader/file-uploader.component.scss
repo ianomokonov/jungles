@@ -1,0 +1,26 @@
+.file-inputs {
+  display: none;
+}
+img {
+  width: 40px;
+  height: 40px;
+}
+
+span {
+  cursor: pointer;
+}
+
+:host {
+  &.ng-invalid.ng-dirty {
+    button {
+      $danger: #dc3545;
+      border-color: $danger;
+      color: $danger;
+
+      &:hover {
+        background-color: $danger;
+        color: white;
+      }
+    }
+  }
+}

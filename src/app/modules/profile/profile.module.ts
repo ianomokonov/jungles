@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { NgbAccordionModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FileUploaderComponent } from 'src/app/utils/file-uploader/file-uploader.component';
 import { SharedModule } from '../shared/shared.module';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileComponent } from './profile.component';
@@ -22,6 +23,7 @@ import { DataService } from '../../services/backend/data.service';
     ChildrenComponent,
     UserCardComponent,
     NotificationsComponent,
+    FileUploaderComponent,
   ],
   imports: [
     ProfileRoutingModule,

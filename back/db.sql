@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS jungleUser(
     isAdmin bit DEFAULT 0,
     name varchar(255) NOT NULL,
     surname varchar(255) NUll,
+    image varchar(255) NULL,
     email varchar(255) NOT NULL,
     phone varchar (20),
     canSendNews bit DEFAULT 0,

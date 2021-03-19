@@ -24,7 +24,6 @@ export class UserService {
   public set activeChildId(id: number) {
     if (!id) {
       this.activeChild = null;
-      console.log('пидорасы блять!');
       sessionStorage.removeItem(activeChildKey);
       return;
     }
@@ -87,7 +86,7 @@ export class UserService {
     // ]);
   }
 
-  // ----------Данные----------
+  // ----------Родитель----------
 
   public getUserInfo(): Observable<User> {
     return this.http.get<User>(`${this.baseUrl}/user/user-info`).pipe(
@@ -98,8 +97,6 @@ export class UserService {
             this.activeChild = this.user?.children?.find(
               (child) => child.id === this.activeChildId,
             );
-            console.log(this.activeChild, user.children[0].id === this.activeChildId);
-            console.log(this.activeChildId, user.children);
           }
         }
       }),
@@ -184,6 +181,28 @@ export class UserService {
     // });
   }
 
+  public editParent(data: any[]) {
+    return this.http.put(`${this.baseUrl}/user/user-info`, data);
+  }
+
+  public uploadParentImg(data): Observable<string> {
+    return this.http.post<string>(`${this.baseUrl}/user/?`, data);
+  }
+
+  // ----------Ребёнок----------
+
+  public addChild(child: ChildRequest): Observable<number> {
+    return this.http.post<number>(`${this.baseUrl}/user/create-child`, child);
+  }
+
+  public editChild(id: number, data: any[]) {
+    return this.http.put(`${this.baseUrl}/child/${id}/update`, data);
+  }
+
+  public deleteChild(id: number) {
+    return this.http.delete(`${this.baseUrl}/child/${id}/delete`);
+  }
+
   public getChildPayments(childId: number, dateFrom?: Date, dateTo?: Date): Observable<Payment[]> {
     return this.http.get<Payment[]>(
       `${this.baseUrl}/child/${childId}/payments?dateFrom=${dateToString(dateFrom) || ''}&dateTo=${
@@ -226,20 +245,8 @@ export class UserService {
     );
   }
 
-  public addChild(child: ChildRequest): Observable<number> {
-    return this.http.post<number>(`${this.baseUrl}/user/create-child`, child);
-  }
-
-  public editParent(data: any[]) {
-    return this.http.put(`${this.baseUrl}/user/user-info`, data);
-  }
-
-  public editChild(id: number, data: any[]) {
-    return this.http.put(`${this.baseUrl}/child/${id}/update`, data);
-  }
-
-  public deleteChild(id: number) {
-    return this.http.delete(`${this.baseUrl}/child/${id}/delete`);
+  public setAlertsSeen(childId: number, alertIds: number[]) {
+    return this.http.put(`${this.baseUrl}/child/${childId}/set-alerts-seen`, alertIds);
   }
 
   public sendMessage(theme: string, text: string) {

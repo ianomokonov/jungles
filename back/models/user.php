@@ -1,18 +1,21 @@
 <?php
 require_once __DIR__ . '/../utils/database.php';
 require_once __DIR__ . '/../utils/token.php';
+require_once __DIR__ . '/../utils/filesUpload.php';
 require_once 'child.php';
 class User
 {
     private $dataBase;
     private $table = 'jungleUser';
     private $token;
+    private $upload;
 
     // конструктор класса User 
     public function __construct(DataBase $dataBase)
     {
         $this->dataBase = $dataBase;
         $this->token = new Token();
+        $this->upload = new FilesUpload();
     }
 
     public function create($userData)
@@ -42,7 +45,7 @@ class User
     // Получение пользовательской информации
     public function read($userId)
     {
-        $query = "SELECT name, surname, email, phone FROM $this->table";
+        $query = "SELECT name, surname, image, email, phone FROM $this->table";
         $user = $this->dataBase->db->query($query)->fetch();
         $child = new Child($this->dataBase);
         $user['children'] = $child->getUserChildren($userId);
@@ -55,6 +58,10 @@ class User
     public function update($userId, $userData)
     {
         $userData = $this->dataBase->stripAll((array)$userData);
+        if ($userData['image']) {
+            // Загрузка фото
+            $userData['image'] = $this->upload->upload(($userData['image']), '../assets/images/profileImages/', $userId);
+        }
         $query = $this->dataBase->genUpdateQuery($userData, $this->table, $userId);
         $stmt = $this->dataBase->db->prepare($query[0]);
         if ($query[1][0] != null) {

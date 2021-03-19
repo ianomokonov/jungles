@@ -1,14 +1,19 @@
 <section>
   <div class="profile" *ngIf="!showParentEditForm">
-    <app-user-card [user]="userService.user" [showActions]="true" (edit)="onEditParent()"></app-user-card>
+    <app-user-card
+      [user]="userService.user"
+      [showActions]="true"
+      (edit)="onEditParent()"
+    ></app-user-card>
   </div>
   <div *ngIf="showParentEditForm" class="change-form">
     <form [formGroup]="changeParentForm">
       <p class="text-mb">Редактирование профиля родителя</p>
-      <div class="change-form-photo d-flex justify-content-start align-items-center">
-        <img src="../../../../assets/images/icons/user-child-sm.svg" class="mr-3"/>
-        <span class="text text-muted">Добавить фото</span>
+      <div *ngIf="!isUploadFileShown(changeParentForm)" class="change-form-photo d-flex justify-content-start align-items-center">
+        <img [src]="changeParentForm.get('image').value" />
+        <span class="remove-img" (click)="removeImg(changeParentForm)">&times;</span>
       </div>
+      <file-uploader *ngIf="isUploadFileShown(changeParentForm)" formControlName="image" [type]=1></file-uploader>
       <div class="form-group">
         <input class="ch-input" formControlName="name" />
       </div>
@@ -30,16 +35,21 @@
         [ngClass]="{ active: child.id == userService.activeChildId }"
         *ngIf="!child.editing"
       >
-        <app-user-card [user]="child" [showActions]="true" (edit)="onEditChild(child)"></app-user-card>
+        <app-user-card
+          [user]="child"
+          [showActions]="true"
+          (edit)="onEditChild(child)"
+        ></app-user-card>
       </div>
 
       <div *ngIf="child.editing" class="change-form">
         <form [formGroup]="changeChildForm">
           <p class="text-mb mb-4">Редактирование профиля ребёнка</p>
-          <div class="change-form-photo d-flex justify-content-start align-items-center mb-4">
-            <img src="../../../../assets/images/icons/user-child-sm.svg" class="mr-3"/>
-            <span class="text text-muted">Добавить фото</span>
+          <div *ngIf="!isUploadFileShown(changeChildForm)" class="change-form-photo d-flex justify-content-start align-items-center">
+            <img [src]="changeChildForm.get('image').value" />
+            <span class="remove-img" (click)="removeImg(changeChildForm)">&times;</span>
           </div>
+          <file-uploader *ngIf="isUploadFileShown(changeChildForm)" formControlName="image" [type]=0></file-uploader>
           <div class="form-group">
             <input class="ch-input" formControlName="name" />
           </div>
@@ -49,15 +59,23 @@
           <div class="form-group">
             <input type="date" class="ch-input" formControlName="dateOfBirth" />
           </div>
-          <div class="change-form-delete d-flex align-items-start mb-4" (click)="openDeleteChildModal(child, delChild)">
-            <img src="../../../../assets/images/icons/delete.svg" class="mr-1">
+          <div
+            class="change-form-delete d-flex align-items-start mb-4"
+            (click)="openDeleteChildModal(child, delChild)"
+          >
+            <img src="../../../../assets/images/icons/delete.svg" class="mr-1" />
             <span class="subt text-muted">Удалить данные о ребёнке (прогресс будет потерян)</span>
           </div>
-          <button class="btn btn-small btn-success mb-5" (click)="editChild(child)">сохранить</button>
+          <button class="btn btn-small btn-success mb-5" (click)="editChild(child)">
+            сохранить
+          </button>
         </form>
       </div>
 
-      <div class="data d-none flex-column justify-content-start align-items-start" *ngIf="!child.editing">
+      <div
+        class="data d-none flex-column justify-content-start align-items-start"
+        *ngIf="!child.editing"
+      >
         <span>Тариф: {{ child.fare }} месяц</span>
         <div
           class="d-flex flex-lg-row flex-column justify-content-start align-items-center align-items-md-start align-items-lg-center"
@@ -98,10 +116,11 @@
   <div class="change-form" *ngIf="showAddForm">
     <form [formGroup]="addChildForm">
       <p class="text-mb">Регистрация {{ countChildren() }}ребёнка</p>
-      <div class="change-form-photo d-flex justify-content-start align-items-center">
-        <img src="../../../../assets/images/icons/user-child-sm.svg" class="mr-3"/>
-        <span class="text text-muted">Добавить фото</span>
+      <div *ngIf="!isUploadFileShown(addChildForm)" class="change-form-photo d-flex justify-content-start align-items-center">
+        <img [src]="addChildForm.get('image').value" />
+        <span class="remove-img" (click)="removeImg(addChildForm)">&times;</span>
       </div>
+      <file-uploader *ngIf="isUploadFileShown(addChildForm)" formControlName="image" [type]=0></file-uploader>
       <div class="form-group">
         <input class="ch-input" placeholder="Имя" formControlName="name" />
       </div>
@@ -116,6 +135,15 @@
           placeholder="Дата рождения"
           formControlName="dateOfBirth"
         />
+      </div>
+      <div *ngIf="submitted && addChildForm.invalid" class="mb-2">
+        <span class="subt text-muted mb-2" *ngIf="dateOfBirth.errors?.required">
+          Введите данные в формате ДД.ММ.ГГГГ
+        </span>
+        <div *ngIf="!addChildForm.getRawValue()">
+          <img src="../../../../assets/images/icons/error.svg" />
+          <span class="subt"> Необходимо ввести данные для сохранения профиля </span>
+        </div>
       </div>
       <button class="btn btn-small btn-success" (click)="addChild()">сохранить</button>
     </form>

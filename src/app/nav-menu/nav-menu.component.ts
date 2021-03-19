@@ -40,12 +40,10 @@ export class NavMenuComponent implements OnInit {
 
   public getUserImg(): string {
     if (this.userService.activeChild) {
-      return (
-        this.userService.activeChild.profilePicture || '../../assets/images/icons/user-child-sm.svg'
-      );
+      return this.userService.activeChild.image || '../../assets/images/icons/user-child-sm.svg';
     }
     if (this.userService.user) {
-      return this.userService.user.profilePicture || '../../assets/images/icons/user-parent.svg';
+      return this.userService.user.image || '../../assets/images/icons/user-parent.svg';
     }
     return '';
   }

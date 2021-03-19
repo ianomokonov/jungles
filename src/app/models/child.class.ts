@@ -1,10 +1,11 @@
+import { Alert } from './alert.class';
 import { Result } from './result.class';
 
 export interface Child {
   id: number;
   name: string;
   surname: string;
-  profilePicture?: string;
+  image?: string;
   age: number;
   dateOfBirth?: Date;
   fare: number;
@@ -13,4 +14,5 @@ export interface Child {
 
   editing: boolean;
   results?: Result[];
+  alerts?: Alert[];
 }

@@ -23,6 +23,7 @@ export class ChildrenComponent implements AfterViewInit {
   public activeChild: ChildRequest;
   public showParentEditForm = false;
   private onDeleteChildId: number;
+  public submitted = false;
 
   constructor(
     public profileService: ProfileService,
@@ -34,16 +35,19 @@ export class ChildrenComponent implements AfterViewInit {
     this.showAddForm = false;
     this.addChildForm = this.fb.group({
       name: [null, Validators.required],
+      image: [null],
       surname: [null, Validators.required],
       dateOfBirth: [null, Validators.required],
     });
     this.changeParentForm = this.fb.group({
       name: [userService.user?.name, Validators.required],
+      image: [userService.user?.image],
       surname: [userService.user?.surname, Validators.required],
       email: [userService.user?.email, Validators.required],
     });
     this.changeChildForm = this.fb.group({
       name: [null, Validators.required],
+      image: [userService.user?.image],
       surname: [null, Validators.required],
       dateOfBirth: [null, Validators.required],
     });
@@ -72,7 +76,15 @@ export class ChildrenComponent implements AfterViewInit {
     });
   }
 
+  public get dateOfBirth() {
+    return this.changeChildForm.get('dateOfBirth');
+  }
+
   public addChild() {
+    this.submitted = true;
+    if (this.addChildForm.invalid) {
+      return;
+    }
     this.userService.addChild(this.addChildForm.value).subscribe((response) => {
       if (response) {
         this.userService.getUserInfo().subscribe(() => {
@@ -102,7 +114,11 @@ export class ChildrenComponent implements AfterViewInit {
   }
 
   public editParent() {
-    this.userService.editParent(this.changeParentForm.getRawValue()).subscribe(() => {
+    if (this.changeParentForm.invalid) {
+      return;
+    }
+    const newParentInfo = this.changeParentForm.getRawValue();
+    this.userService.editParent(newParentInfo).subscribe(() => {
       this.showParentEditForm = false;
       this.userService.getUserInfo().subscribe(() => {});
     });
@@ -148,7 +164,6 @@ export class ChildrenComponent implements AfterViewInit {
   }
 
   public setActive(id: number) {
-    console.log(id);
     this.userService.activeChildId = id;
   }
 
@@ -164,5 +179,15 @@ export class ChildrenComponent implements AfterViewInit {
         return ' ';
       }
     }
+  }
+
+  public removeImg(form: FormGroup) {
+    form.get('image').setValue(null);
+  }
+
+  public isUploadFileShown(form: FormGroup) {
+    const { value } = form.get('image');
+
+    return !value || value instanceof File;
   }
 }
