@@ -23,7 +23,7 @@
         Войти
       </button>
       <img
-      class="profile-img"
+        class="profile-img"
         [ngClass]="{ 'd-none': !userService.user }"
         [src]="getUserImg()"
         routerLink="/profile/children"
@@ -31,11 +31,17 @@
       <span [ngClass]="{ 'd-none': !userService.user }" class="menu-item" routerLink="/profile">{{
         userService.activeChild ? userService.activeChild?.name : userService.user?.name
       }}</span>
-      <img
-        [ngClass]="{ 'd-none': !userService.user }"
-        src="../../assets/images/icons/notifications.svg"
-        routerLink="/profile/notifications"
-      />
+      <div class="alert">
+        <img
+          [ngClass]="{ 'd-none': !userService.user }"
+          src="../../assets/images/icons/notifications.svg"
+          routerLink="/profile/notifications"
+        />
+        <div *ngIf="getAlertsCount()" class="alert-new">
+          <img src="../../assets/images/icons/ellipse.svg">
+          <span>{{ getAlertsCount() }}</span>
+        </div>
+      </div>
       <img
         [ngClass]="{ 'd-lg-block': userService.user }"
         class="d-none"

@@ -48,6 +48,19 @@ export class NavMenuComponent implements OnInit {
     return '';
   }
 
+  public getAlertsCount() {
+    if (this.userService.activeChild) {
+      let alertCount = 0;
+      this.userService.activeChild.alerts.forEach((alert) => {
+        if (!alert.isSeen) {
+          alertCount++;
+        }
+      });
+      return alertCount;
+    }
+    return null;
+  }
+
   public toggleMenu(): void {
     this.showMenu = !this.showMenu;
   }
