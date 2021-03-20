@@ -42,7 +42,7 @@
         ></app-user-card>
       </div>
 
-      <div *ngIf="child.editing" class="change-form">
+      <div *ngIf="editingChildId == child.id" class="change-form">
         <form [formGroup]="changeChildForm">
           <p class="text-mb mb-4">Редактирование профиля ребёнка</p>
           <div *ngIf="!isUploadFileShown(changeChildForm)" class="change-form-photo d-flex justify-content-start align-items-center">

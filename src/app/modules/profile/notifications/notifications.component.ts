@@ -10,26 +10,34 @@ import { UserService } from 'src/app/services/backend/user.service';
 export class NotificationsComponent implements OnInit, OnDestroy {
   public alerts: Alert[];
 
-  constructor(private userService: UserService) {
+  constructor(public userService: UserService) {
     this.alerts = [];
   }
 
   ngOnInit(): void {
     if (this.userService.activeChild) {
       this.alerts = this.userService.activeChild.alerts;
+      const notSeenIds: number[] = [];
+      this.alerts.forEach((alert) => {
+        if (!alert.isSeen) {
+          notSeenIds.push(alert.id);
+        }
+      });
+      if (notSeenIds.length) {
+        this.userService
+          .setAlertsSeen(this.userService.activeChildId, notSeenIds)
+          .subscribe(() => {});
+      }
     }
   }
 
   public ngOnDestroy() {
     if (this.alerts.length) {
-      this.userService.activeChild.alerts.forEach((alert) => {
-        alert.seen = true;
-      });
-      const seenIds: number[] = [];
-      this.alerts.forEach((alert) => {
-        seenIds.push(alert.id);
-      });
-      this.userService.setAlertsSeen(this.userService.activeChildId, seenIds).subscribe(() => {});
+      if (this.userService.activeChild.alerts.find((alert) => alert.isSeen === false)) {
+        this.userService.activeChild.alerts.forEach((alert) => {
+          alert.isSeen = true;
+        });
+      }
     }
   }
 }

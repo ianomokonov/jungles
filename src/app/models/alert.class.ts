@@ -1,6 +1,6 @@
 export interface Alert {
   id: number;
   text: string;
-  seen: boolean;
+  isSeen: boolean;
   seenDate?: Date;
 }

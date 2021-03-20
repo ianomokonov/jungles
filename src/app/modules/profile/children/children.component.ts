@@ -21,6 +21,7 @@ export class ChildrenComponent implements AfterViewInit {
   public changeParentForm: FormGroup;
   public changeChildForm: FormGroup;
   public activeChild: ChildRequest;
+  public editingChildId: number;
   public showParentEditForm = false;
   private onDeleteChildId: number;
   public submitted = false;
@@ -99,8 +100,8 @@ export class ChildrenComponent implements AfterViewInit {
   }
 
   public onEditChild(childTemp: Child) {
+    this.editingChildId = childTemp.id;
     const child = childTemp;
-    child.editing = true;
     this.activeChild = {
       name: child.name,
       surname: child.surname,
