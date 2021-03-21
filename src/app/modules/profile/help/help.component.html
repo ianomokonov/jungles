@@ -3,10 +3,10 @@
   <ngb-accordion #acc="ngbAccordion" [closeOthers]="true">
     <ngb-panel *ngFor="let item of questions">
       <ng-template ngbPanelTitle>
-        <span class="text-b">{{ item.question }}</span>
+        <span class="text-b" [innerHTML]="item.question"></span>
       </ng-template>
       <ng-template ngbPanelContent>
-        <p class="text mb-0">{{ item.answer }}</p>
+        <p class="text mb-0" [innerHTML]="item.answer"></p>
       </ng-template>
     </ngb-panel>
   </ngb-accordion>
