@@ -46,7 +46,7 @@
         <form [formGroup]="changeChildForm">
           <p class="text-mb mb-4">Редактирование профиля ребёнка</p>
           <div *ngIf="!isUploadFileShown(changeChildForm)" class="change-form-photo d-flex justify-content-start align-items-center">
-            <img [src]="changeChildForm.get('image').value" />
+            <img class="rounded-circle" [src]="changeChildForm.get('image').value" />
             <span class="remove-img" (click)="removeImg(changeChildForm)">&times;</span>
           </div>
           <file-uploader *ngIf="isUploadFileShown(changeChildForm)" formControlName="image" [type]=0></file-uploader>

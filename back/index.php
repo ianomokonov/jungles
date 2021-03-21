@@ -73,7 +73,12 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
         $userGroup->post('/create-child', function (Request $request, Response $response) use ($dataBase) {
             $userId = $request->getAttribute('userId');
             $child = new Child($dataBase);
-            $response->getBody()->write(json_encode($child->create($userId, $request->getParsedBody())));
+            if(isset($_FILES['image'])){
+                $response->getBody()->write(json_encode($child->create($userId, $request->getParsedBody(), $_FILES['image'])));
+            } else {
+                $response->getBody()->write(json_encode($child->create($userId, $request->getParsedBody())));
+            }
+            
             return $response;
         });
 

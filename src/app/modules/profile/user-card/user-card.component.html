@@ -1,5 +1,5 @@
 <div class="profile" [ngClass]="{ shadow: showShadow, inactive: inactive }" *ngIf="user">
-  <img src="{{ getPhoto() }}"/>
+  <img class="profile-img rounded-circle" [src]="getPhoto()"/>
   <div class="profile-content">
     <div class="profile-label">
       <span>{{ child ? 'Ребёнок' : 'Родитель' }}</span>

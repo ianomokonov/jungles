@@ -48,7 +48,7 @@ export class ChildrenComponent implements AfterViewInit {
     });
     this.changeChildForm = this.fb.group({
       name: [null, Validators.required],
-      image: [userService.user?.image],
+      image: [userService.activeChild?.image],
       surname: [null, Validators.required],
       dateOfBirth: [null, Validators.required],
     });
@@ -86,7 +86,12 @@ export class ChildrenComponent implements AfterViewInit {
     if (this.addChildForm.invalid) {
       return;
     }
-    this.userService.addChild(this.addChildForm.value).subscribe((response) => {
+    const formData = new FormData();
+    const formValue = this.addChildForm.getRawValue();
+    Object.keys(formValue).forEach((key) => {
+      formData.set(key, formValue[key]);
+    });
+    this.userService.addChild(formData).subscribe((response) => {
       if (response) {
         this.userService.getUserInfo().subscribe(() => {
           this.showAddForm = false;

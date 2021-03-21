@@ -1,6 +1,6 @@
 <div class="d-flex align-items-center mb-3">
   <div [ngClass]="{ 'd-none': !value }">
-    <img class="file-img" #image />
+    <img class="file-img rounded-circle" #image />
   </div>
   
   <img *ngIf="type == 0 && !value" src="../../../assets/images/icons/user-child-sm.svg" />

@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { mergeMap, tap } from 'rxjs/operators';
 import { activeChildKey } from 'src/app/constants';
-import { ChildRequest } from 'src/app/models/add-child-request';
 import { Child } from 'src/app/models/child.class';
 import { Payment } from 'src/app/models/payment';
 import { Result } from 'src/app/models/result.class';
@@ -197,7 +196,7 @@ export class UserService {
 
   // ----------Ребёнок----------
 
-  public addChild(child: ChildRequest): Observable<number> {
+  public addChild(child: FormData): Observable<number> {
     return this.http.post<number>(`${this.baseUrl}/user/create-child`, child);
   }
 

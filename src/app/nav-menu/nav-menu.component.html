@@ -23,7 +23,7 @@
         Войти
       </button>
       <img
-        class="profile-img"
+        class="profile-img rounded-circle"
         [ngClass]="{ 'd-none': !userService.user }"
         [src]="getUserImg()"
         routerLink="/profile/children"

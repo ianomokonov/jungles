@@ -1,4 +1,4 @@
-<section *ngIf="userService.user.children; else noData">
+<section *ngIf="userService.user.children?.length; else noData">
   <div class="children d-flex flex-wrap w-100">
     <app-user-card
       *ngFor="let child of userService.user.children"

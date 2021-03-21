@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS child(
     id int(10) PRIMARY KEY AUTO_INCREMENT,
     userId int(10) NOT NULL,
     name varchar(255) NOT NULL,
+    image varchar(255) NULL,
     surname varchar(255) NUll,
     dateOfBirth date NOT NULL,
     

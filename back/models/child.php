@@ -1,22 +1,31 @@
 <?php
 require_once __DIR__ . '/../utils/database.php';
 require_once __DIR__ . '/../utils/token.php';
+require_once __DIR__ . '/../utils/filesUpload.php';
 class Child
 {
     private $dataBase;
     private $table = 'child';
     private $token;
+    private $fileUploader;
 
     // конструктор класса User 
     public function __construct(DataBase $dataBase)
     {
         $this->dataBase = $dataBase;
+        $this->fileUploader = new FilesUpload();
         $this->token = new Token();
     }
 
-    public function create($userId, $data)
+    public function create($userId, $data, $image = '')
     {
+
         $data = $this->dataBase->stripAll((array)$data);
+        if ($image != '') {
+            $data['image'] = $this->fileUploader->upload($image, 'ChildrenImages', uniqid());
+        } else {
+            unset($data['image']);
+        }
         $data['userId'] = $userId;
         // Вставляем запрос 
         $query = $this->dataBase->genInsertQuery(
@@ -86,7 +95,7 @@ class Child
     public function getUserChildren($userId)
     {
         $now = new DateTime();
-        $query = "SELECT id, name, surname, dateOfBirth FROM $this->table WHERE userId = $userId";
+        $query = "SELECT id, name, surname, dateOfBirth, image FROM $this->table WHERE userId = $userId";
         $children = [];
         $stmt = $this->dataBase->db->query($query);
         while ($child = $stmt->fetch()) {
