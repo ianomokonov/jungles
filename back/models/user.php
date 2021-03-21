@@ -8,14 +8,14 @@ class User
     private $dataBase;
     private $table = 'jungleUser';
     private $token;
-    private $upload;
+    private $fileUploader;
 
     // конструктор класса User 
     public function __construct(DataBase $dataBase)
     {
         $this->dataBase = $dataBase;
         $this->token = new Token();
-        $this->upload = new FilesUpload();
+        $this->fileUploader = new FilesUpload();
     }
 
     public function create($userData)
@@ -55,18 +55,32 @@ class User
 
     // Получение пользовательской информации
 
-    public function update($userId, $userData)
+    public function update($userId, $userData, $image = null)
     {
         $userData = $this->dataBase->stripAll((array)$userData);
-        if ($userData['image']) {
-            // Загрузка фото
-            $userData['image'] = $this->upload->upload(($userData['image']), '../assets/images/profileImages/', $userId);
+        if ($image != null) {
+            $userImage = $this->getUserImage($userId);
+            if ($userImage) {
+                $this->fileUploader->removeFile($userImage);
+            }
+            $userData['image'] = $this->fileUploader->upload($image, 'UserImages', uniqid());
+        }
+        if (isset($userData['image']) && $userData['image'] == 'null') {
+            $userData['image'] = '';
         }
         $query = $this->dataBase->genUpdateQuery($userData, $this->table, $userId);
         $stmt = $this->dataBase->db->prepare($query[0]);
         if ($query[1][0] != null) {
             $stmt->execute($query[1]);
         }
+    }
+
+    public function getUserImage($userId)
+    {
+        $query = "SELECT image FROM $this->table WHERE id = $userId";
+        $stmt = $this->dataBase->db->query($query);
+
+        return $stmt->fetch()['image'];
     }
 
     public function login($email, $password)

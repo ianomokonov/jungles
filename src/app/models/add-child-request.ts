@@ -1,6 +1,6 @@
 export interface ChildRequest {
   name: string;
   surname: string;
-  profilePicture?: string;
+  image?: string;
   date: Date;
 }

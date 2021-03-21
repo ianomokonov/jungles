@@ -21,7 +21,6 @@ export class ChildrenComponent implements AfterViewInit {
   public changeParentForm: FormGroup;
   public changeChildForm: FormGroup;
   public activeChild: ChildRequest;
-  public editingChildId: number;
   public showParentEditForm = false;
   private onDeleteChildId: number;
   public submitted = false;
@@ -86,12 +85,8 @@ export class ChildrenComponent implements AfterViewInit {
     if (this.addChildForm.invalid) {
       return;
     }
-    const formData = new FormData();
     const formValue = this.addChildForm.getRawValue();
-    Object.keys(formValue).forEach((key) => {
-      formData.set(key, formValue[key]);
-    });
-    this.userService.addChild(formData).subscribe((response) => {
+    this.userService.addChild(this.getFormData(formValue)).subscribe((response) => {
       if (response) {
         this.userService.getUserInfo().subscribe(() => {
           this.showAddForm = false;
@@ -102,17 +97,25 @@ export class ChildrenComponent implements AfterViewInit {
 
   public onEditParent() {
     this.showParentEditForm = true;
+    this.changeParentForm.patchValue({
+      image: this.userService.user.image,
+      name: this.userService.user.name,
+      surname: this.userService.user.surname,
+      email: this.userService.user.email,
+    });
   }
 
   public onEditChild(childTemp: Child) {
-    this.editingChildId = childTemp.id;
     const child = childTemp;
+    child.editing = true;
     this.activeChild = {
+      image: child.image,
       name: child.name,
       surname: child.surname,
       date: child.dateOfBirth,
     };
     this.changeChildForm.patchValue({
+      image: this.activeChild.image,
       name: this.activeChild.name,
       surname: this.activeChild.surname,
       dateOfBirth: this.activeChild.date,
@@ -124,16 +127,21 @@ export class ChildrenComponent implements AfterViewInit {
       return;
     }
     const newParentInfo = this.changeParentForm.getRawValue();
-    this.userService.editParent(newParentInfo).subscribe(() => {
+    this.userService.editParent(this.getFormData(newParentInfo)).subscribe(() => {
       this.showParentEditForm = false;
       this.userService.getUserInfo().subscribe(() => {});
     });
   }
 
   public editChild(childTemp: Child) {
+    if (this.changeChildForm.invalid) {
+      return;
+    }
     const child = childTemp;
-    this.userService.editChild(child.id, this.changeChildForm.getRawValue()).subscribe(() => {
+    const formValue = this.changeChildForm.getRawValue();
+    this.userService.editChild(child.id, this.getFormData(formValue)).subscribe(() => {
       child.editing = false;
+
       this.userService.getUserInfo().subscribe(() => {});
     });
   }
@@ -195,5 +203,13 @@ export class ChildrenComponent implements AfterViewInit {
     const { value } = form.get('image');
 
     return !value || value instanceof File;
+  }
+
+  private getFormData(data: any) {
+    const formData = new FormData();
+    Object.keys(data).forEach((key) => {
+      formData.set(key, data[key]);
+    });
+    return formData;
   }
 }

@@ -82,14 +82,33 @@ class Child
         return $result;
     }
 
-    public function update($id, $data)
+    public function update($id, $data, $image = null)
     {
         $data = $this->dataBase->stripAll((array)$data);
+        if ($image != null) {
+            $childImage = $this->getChildImage($id);
+            if ($childImage) {
+                $this->fileUploader->removeFile($childImage);
+            }
+            $data['image'] = $this->fileUploader->upload($image, 'ChildrenImages', uniqid());
+        }
+        if (isset($data['image']) && $data['image'] == 'null') {
+            $data['image'] = '';
+        }
         $query = $this->dataBase->genUpdateQuery($data, $this->table, $id);
         $stmt = $this->dataBase->db->prepare($query[0]);
         if ($query[1][0] != null) {
             $stmt->execute($query[1]);
         }
+        return true;
+    }
+
+    public function getChildImage($childId)
+    {
+        $query = "SELECT image FROM $this->table WHERE id = $childId";
+        $stmt = $this->dataBase->db->query($query);
+
+        return $stmt->fetch()['image'];
     }
 
     public function getUserChildren($userId)

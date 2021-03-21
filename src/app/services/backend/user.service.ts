@@ -186,8 +186,8 @@ export class UserService {
     // });
   }
 
-  public editParent(data: any[]) {
-    return this.http.put(`${this.baseUrl}/user/user-info`, data);
+  public editParent(data: FormData) {
+    return this.http.post(`${this.baseUrl}/user/update-user-info`, data);
   }
 
   public uploadParentImg(data): Observable<string> {
@@ -200,8 +200,8 @@ export class UserService {
     return this.http.post<number>(`${this.baseUrl}/user/create-child`, child);
   }
 
-  public editChild(id: number, data: any[]) {
-    return this.http.put(`${this.baseUrl}/child/${id}/update`, data);
+  public editChild(id: number, data: FormData) {
+    return this.http.post(`${this.baseUrl}/child/${id}/update`, data);
   }
 
   public deleteChild(id: number) {

@@ -63,22 +63,27 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
             return $response;
         });
 
-        $userGroup->put('/user-info', function (Request $request, Response $response) use ($dataBase) {
+        $userGroup->post('/update-user-info', function (Request $request, Response $response) use ($dataBase) {
             $userId = $request->getAttribute('userId');
             $user = new User($dataBase);
-            $response->getBody()->write(json_encode($user->update($userId, $request->getParsedBody())));
+            if (isset($_FILES['image'])) {
+                $response->getBody()->write(json_encode($user->update($userId, $request->getParsedBody(), $_FILES['image'])));
+            } else {
+                $response->getBody()->write(json_encode($user->update($userId, $request->getParsedBody())));
+            }
+
             return $response;
         });
 
         $userGroup->post('/create-child', function (Request $request, Response $response) use ($dataBase) {
             $userId = $request->getAttribute('userId');
             $child = new Child($dataBase);
-            if(isset($_FILES['image'])){
+            if (isset($_FILES['image'])) {
                 $response->getBody()->write(json_encode($child->create($userId, $request->getParsedBody(), $_FILES['image'])));
             } else {
                 $response->getBody()->write(json_encode($child->create($userId, $request->getParsedBody())));
             }
-            
+
             return $response;
         });
 
@@ -109,10 +114,14 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
             return $response;
         });
 
-        $childGroup->put('/update', function (Request $request, Response $response) use ($dataBase) {
+        $childGroup->post('/update', function (Request $request, Response $response) use ($dataBase) {
             $childId = $request->getAttribute('childId');
             $child = new Child($dataBase);
-            $response->getBody()->write(json_encode($child->update($childId, $request->getParsedBody())));
+            if (isset($_FILES['image'])) {
+                $response->getBody()->write(json_encode($child->update($childId, $request->getParsedBody(), $_FILES['image'])));
+            } else {
+                $response->getBody()->write(json_encode($child->update($childId, $request->getParsedBody())));
+            }
             return $response->withStatus(200);
         });
 
