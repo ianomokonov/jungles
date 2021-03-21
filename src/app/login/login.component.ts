@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { takeWhile } from 'rxjs/operators';
-import { User } from '../models/user.class';
 import { UserService } from '../services/backend/user.service';
 
 @Component({
@@ -55,22 +54,14 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public logIn() {
     this.submitted = true;
-    // if (this.logForm.invalid) {
-    //   return;
-    // }
+    if (this.logForm.invalid) {
+      return;
+    }
     this.userService
       .logIn(this.logForm.value)
       .pipe(takeWhile(() => this.rxAlive))
-      .subscribe((token: string[]) => {
-        if (token) {
-          console.log(12321321321);
-          this.userService
-            .getUserInfo()
-            .pipe(takeWhile(() => this.rxAlive))
-            .subscribe((user: User) => {
-              this.router.navigate(['/profile']);
-            });
-        }
+      .subscribe(() => {
+        this.router.navigate(['/profile']);
       });
     this.dismissModal();
   }

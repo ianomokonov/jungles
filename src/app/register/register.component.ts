@@ -1,10 +1,9 @@
-import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnDestroy, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { takeWhile } from 'rxjs/operators';
 import { LoginComponent } from '../login/login.component';
-import { User } from '../models/user.class';
 import { UserService } from '../services/backend/user.service';
 
 @Component({
@@ -12,7 +11,7 @@ import { UserService } from '../services/backend/user.service';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.less'],
 })
-export class RegisterComponent implements OnInit, OnDestroy {
+export class RegisterComponent implements OnDestroy {
   public regForm: FormGroup;
   public submitted = false;
   private rxAlive = true;
@@ -34,8 +33,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {}
-
   public ngOnDestroy(): void {
     this.rxAlive = false;
   }
@@ -55,9 +52,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   public regUser(content: TemplateRef<any>): void {
     this.submitted = true;
-    // if (this.regForm.invalid) {
-    //   return;
-    // }
+    if (this.regForm.invalid) {
+      return;
+    }
     const { formValue } = this;
     const request = {
       name: formValue.nameSurname.split(' ')[0],
@@ -79,7 +76,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   public regRedir() {
-    this.modal.close();
-    this.router.navigate(['profile']);
+    this.dismissModal();
+    this.router.navigate(['/profile/children']);
   }
 }

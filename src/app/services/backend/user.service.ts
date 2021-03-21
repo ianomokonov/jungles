@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { mergeMap, tap } from 'rxjs/operators';
 import { activeChildKey } from 'src/app/constants';
 import { ChildRequest } from 'src/app/models/add-child-request';
 import { Child } from 'src/app/models/child.class';
@@ -48,10 +48,13 @@ export class UserService {
   }
 
   // ----------Авторизация----------
-  public logIn(data: any): Observable<string[]> {
+  public logIn(data: any): Observable<User> {
     return this.http.post<string[]>(`${this.baseUrl}/login`, data).pipe(
       tap((tokens: string[]) => {
         this.tokenService.storeTokens(tokens);
+      }),
+      mergeMap(() => {
+        return this.getUserInfo();
       }),
     );
     // return of(['userToken', 'refreshToken']).pipe(
@@ -74,10 +77,13 @@ export class UserService {
     }
   }
 
-  public addUser(data: any): Observable<string[]> {
+  public addUser(data: any): Observable<User> {
     return this.http.post<string[]>(`${this.baseUrl}/sign-up`, data).pipe(
       tap((tokens: string[]) => {
         this.tokenService.storeTokens(tokens);
+      }),
+      mergeMap(() => {
+        return this.getUserInfo();
       }),
     );
     // return of([

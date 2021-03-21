@@ -45,7 +45,7 @@ class User
     // Получение пользовательской информации
     public function read($userId)
     {
-        $query = "SELECT name, surname, image, email, phone FROM $this->table";
+        $query = "SELECT name, surname, image, email, phone FROM $this->table WHERE id='$userId'";
         $user = $this->dataBase->db->query($query)->fetch();
         $child = new Child($this->dataBase);
         $user['children'] = $child->getUserChildren($userId);
@@ -75,7 +75,6 @@ class User
             $sth = $this->dataBase->db->prepare("SELECT id, password FROM " . $this->table . " WHERE email = ? LIMIT 1");
             $sth->execute(array($email));
             $fullUser = $sth->fetch();
-
             if ($fullUser) {
                 if (!password_verify($password, $fullUser['password'])) {
                     return false;
@@ -136,7 +135,7 @@ class User
         $query = $this->dataBase->genInsertQuery(
             $request,
             'messages'
-        );  
+        );
         $stmt = $this->dataBase->db->prepare($query[0]);
         if ($query[1][0] != null) {
             $stmt->execute($query[1]);
@@ -158,7 +157,7 @@ class User
     public function refreshToken($token)
     {
         $userId = $this->token->decode($token, true)->data->id;
-        
+
         if (!$this->isRefreshTokenActual($token, $userId)) {
             throw new Exception("Unauthorized", 401);
         }
