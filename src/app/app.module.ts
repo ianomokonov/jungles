@@ -23,6 +23,7 @@ import { UserService } from './services/backend/user.service';
 import { AuthComponent } from './auth/auth.component';
 import { TokenService } from './services/backend/token.service';
 import { CheckboxComponent } from './utils/checkbox/checkbox.component';
+import { UpdatePasswordComponent } from './update-password/update-password.component';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -37,6 +38,7 @@ const maskConfig: Partial<IConfig> = {
     LoginComponent,
     AuthComponent,
     CheckboxComponent,
+    UpdatePasswordComponent,
   ],
   imports: [
     NoopAnimationsModule,

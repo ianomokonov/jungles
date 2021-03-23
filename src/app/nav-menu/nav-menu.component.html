@@ -28,14 +28,13 @@
         [src]="getUserImg()"
         routerLink="/profile/children"
       />
-      <span [ngClass]="{ 'd-none': !userService.user }" class="menu-item" routerLink="/profile">{{
+      <span [ngClass]="{ 'd-none': !userService.user }" class="menu-item profile-name" routerLink="/profile">{{
         userService.activeChild ? userService.activeChild?.name : userService.user?.name
       }}</span>
-      <div class="alert">
+      <div class="alert"  routerLink="/profile/notifications">
         <img
           [ngClass]="{ 'd-none': !userService.user }"
           src="../../assets/images/icons/notifications.svg"
-          routerLink="/profile/notifications"
         />
         <div *ngIf="getAlertsCount()" class="alert-new">
           <img src="../../assets/images/icons/ellipse.svg" />

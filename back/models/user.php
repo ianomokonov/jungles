@@ -142,6 +142,18 @@ class User
         return $num > 0;
     }
 
+    // Обновление пароля
+    public function updatePassword($userId, $password)
+    {
+        if ($userId) {
+            $password = password_hash($password, PASSWORD_BCRYPT);
+            $query = "UPDATE $this->table SET password = '$password' WHERE id=$userId";
+            $stmt = $this->dataBase->db->query($query);
+        } else {
+            return array("message" => "Токен неверен");
+        }
+    }
+
     // Отправление сообщений
 
     public function sendMessage($userId, $request)
@@ -187,13 +199,14 @@ class User
     public function getUpdateLink($email)
     {
         $userId = $this->EmailExists($email);
+        $path = 'logs.txt';
 
         if (!$userId) {
             throw new Exception("Bad request", 400);
         }
 
         $tokens = $this->token->encode(array("id" => $userId));
-        $url = $this->baseUrl . "?updatePassword=" . urlencode($tokens[0]);
+        $url = $this->baseUrl . "/update?updatePassword=" . urlencode($tokens[0]);
         $subject = "Изменение пароля для jungliki.com";
 
         $message = "<h2>Чтобы изменить пароль перейдите по ссылке <a href='$url'>$url</a>!</h2>";
@@ -201,6 +214,7 @@ class User
         $headers  = "Content-type: text/html; charset=utf-8 \r\n";
 
         mail($email, $subject, $message, $headers);
+        file_put_contents($path, PHP_EOL. $email." ".date("m.d.y H:i:s"), FILE_APPEND);
         return true;
     }
 

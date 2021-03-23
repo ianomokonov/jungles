@@ -53,7 +53,7 @@ export class NavMenuComponent implements OnInit {
       let alertCount = 0;
       this.userService.activeChild.alerts.forEach((alert) => {
         if (!alert.isSeen) {
-          alertCount++;
+          alertCount += 1;
         }
       });
       return alertCount;

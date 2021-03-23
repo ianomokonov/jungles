@@ -65,6 +65,7 @@ export class HelpComponent implements OnDestroy {
       .pipe(takeWhile(() => this.rxAlive))
       .subscribe(() => {
         this.messageSent = true;
+        this.messageForm.reset();
       });
   }
 }

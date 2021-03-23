@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './services/auth.guard';
+import { UpdatePasswordComponent } from './update-password/update-password.component';
 
 const routes: Routes = [
   {
@@ -44,6 +45,10 @@ const routes: Routes = [
     path: 'tasks',
     loadChildren: () => import('./modules/tasks/tasks.module').then((m) => m.TasksModule),
     data: { title: 'Упражнения' },
+  },
+  {
+    path: 'update',
+    component: UpdatePasswordComponent,
   },
 ];
 

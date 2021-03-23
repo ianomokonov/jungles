@@ -54,6 +54,10 @@ export class UserService {
     return this.http.post<boolean>(`${this.baseUrl}/update-password`, { email });
   }
 
+  public setNewPassword(password: string) {
+    return this.http.post(`${this.baseUrl}/user/update-password`, { password });
+  }
+
   // ----------Авторизация----------
   public logIn(data: any): Observable<User> {
     return this.http.post<string[]>(`${this.baseUrl}/login`, data).pipe(
@@ -64,11 +68,6 @@ export class UserService {
         return this.getUserInfo();
       }),
     );
-    // return of(['userToken', 'refreshToken']).pipe(
-    //   tap((tokens: string[]) => {
-    //     this.tokenService.storeTokens(tokens);
-    //   }),
-    // );
   }
 
   public logOut() {
@@ -93,10 +92,6 @@ export class UserService {
         return this.getUserInfo();
       }),
     );
-    // return of([
-    //   { id: 2, name: 'Елена', surname: 'Кравцова', email: 'email@email.com' },
-    //   ['userToken', 'refreshToken'],
-    // ]);
   }
 
   // ----------Родитель----------
@@ -114,84 +109,6 @@ export class UserService {
         }
       }),
     );
-    // return of({
-    //   id: 1,
-    //   surname: 'Кравцова',
-    //   email: 'email@email.com',
-    //   children: [
-    //     {
-    //       id: 1,
-    //       name: 'Алиса',
-    //       surname: 'Кравцова',
-    //       age: 5,
-    //       fare: 32,
-    //       leftDays: 28,
-    //       opened: false,
-
-    //       results: [
-    //         {
-    //           id: 1,
-    //           blocksDone: 2,
-    //           tasksDone: 27,
-    //           firstAtt: 11,
-    //           crystals: 12,
-    //           chests: 2,
-    //           month: 'Февраль',
-    //           year: 2021,
-    //         },
-    //         {
-    //           id: 2,
-    //           blocksDone: 3,
-    //           tasksDone: 26,
-    //           firstAtt: 2,
-    //           crystals: 1,
-    //           chests: 6,
-    //           month: 'Март',
-    //           year: 2021,
-    //         },
-    //         {
-    //           id: 3,
-    //           blocksDone: 3,
-    //           tasksDone: 34,
-    //           firstAtt: 18,
-    //           crystals: 20,
-    //           chests: 3,
-    //           month: 'Апрель',
-    //           year: 2021,
-    //         },
-    //       ],
-    //     },
-    //     {
-    //       id: 2,
-    //       name: 'Евгения',
-    //       surname: 'Кравцова',
-    //       age: 10,
-    //       fare: 62,
-    //       leftDays: 10,
-    //       opened: false,
-
-    //       results: [
-    //         {
-    //           id: 1,
-    //           blocksDone: 2,
-    //           tasksDone: 27,
-    //           firstAtt: 11,
-    //           crystals: 12,
-    //           chests: 2,
-    //           month: 'Март',
-    //           year: 2021,
-    //         },
-    //       ],
-    //     },
-    //   ],
-    // });
-    //
-    // return of({
-    //   id: 1,
-    //   name: 'Марина',
-    //   surname: 'Кравцова',
-    //   email: 'email@email.com',
-    // });
   }
 
   public editParent(data: FormData) {
@@ -222,32 +139,6 @@ export class UserService {
         dateToString(dateTo) || ''
       }`,
     );
-    // return of([
-    //   {
-    //     id: 1,
-    //     date: new Date(),
-    //     sum: 1000,
-    //     comment: 'Тариф продлен на 10 дней',
-    //     month: 'Февраль',
-    //     year: 2021,
-    //   },
-    //   {
-    //     id: 2,
-    //     date: new Date(),
-    //     sum: 1000,
-    //     comment: 'Тариф продлен на 20 дней',
-    //     month: 'Март',
-    //     year: 2021,
-    //   },
-    //   {
-    //     id: 3,
-    //     date: new Date(),
-    //     sum: 1000,
-    //     comment: 'Тариф продлен на 30 дней',
-    //     month: 'Апрель',
-    //     year: 2021,
-    //   },
-    // ]);
   }
 
   public getProgress(childId: number, dateFrom?: Date, dateTo?: Date): Observable<Result> {
@@ -259,7 +150,7 @@ export class UserService {
   }
 
   public setAlertsSeen(childId: number, alertIds: number[]) {
-    return this.http.put(`${this.baseUrl}/child/${childId}/set-alerts-seen`, alertIds);
+    return this.http.put(`${this.baseUrl}/child/${childId}/set-alerts-seen`, { alertIds });
   }
 
   public sendMessage(theme: string, text: string) {

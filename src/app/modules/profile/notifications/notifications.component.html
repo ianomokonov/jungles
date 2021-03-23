@@ -1,33 +1,35 @@
 <section *ngIf="userService.activeChild; else noData">
   <div class="d-flex flex-column justify-content-start align-items-start">
     <span class="notif-header">Уведомления</span>
-    <div
-      class="notif d-flex justify-content-between align-items-center"
-      [ngClass]="{ nseen: !alert.isSeen }"
-      *ngFor="let alert of alerts"
-    >
-      <span class="text-b d-block" [innerHTML]="alert.text"></span>
-      <img src="../../../../assets/images/icons/eye.svg" />
-    </div>
+    <ng-container *ngIf="userService.activeChild?.alerts?.length; else noAlerts">
+      <div
+        class="notif d-flex justify-content-between align-items-center"
+        [ngClass]="{ nseen: !alert.isSeen }"
+        *ngFor="let alert of alerts"
+      >
+        <span class="text-b d-block" [innerHTML]="alert.text"></span>
+        <img src="../../../../assets/images/icons/eye.svg" />
+      </div>
+    </ng-container>
   </div>
 </section>
 
 <ng-template #noData>
-  <span *ngIf="!userService.user?.children?.length; else noActive"
+  <span *ngIf="!userService.user?.children?.length; else noActive" class="text-muted"
     >Вы пока не добавили детей. Сделать это можно в
     <a routerLink="/profile/children" class="text-orange">личном кабинете</a></span
   >
-  <ng-template #noActive>
-    <span>Вы не выбрали активного ребёнка. Сделать это можно в
-      <a routerLink="/profile/children" class="text-orange">личном кабинете</a>
-    </span>
-  </ng-template>
 </ng-template>
 
 <ng-template #noActive>
-  <span>Вы не выбрали активного ребёнка. Сделать это можно в
+  <span class="text-muted"
+    >Вы не выбрали активного ребёнка. Сделать это можно в
     <a routerLink="/profile/children" class="text-orange">личном кабинете</a>
   </span>
+</ng-template>
+
+<ng-template #noAlerts>
+  <span class="text-muted">Уведомления отсутствуют</span>
 </ng-template>
 
 <span class="subt text-center close-btn" routerLink="/profile">Свернуть</span>

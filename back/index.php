@@ -1,4 +1,7 @@
 <?php
+header("Access-Control-Allow-Origin: https://info-ecology.com/back/controller.php");
+header("Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token , Authorization");
 
 require_once 'vendor/autoload.php';
 require_once './utils/database.php';
@@ -103,6 +106,13 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
             $userId = $request->getAttribute('userId');
             $user = new User($dataBase);
             $response->getBody()->write(json_encode($user->sendMessage($userId, $request->getParsedBody())));
+            return $response;
+        });
+
+        $userGroup->post('/update-password', function (Request $request, Response $response) use ($dataBase) {
+            $userId = $request->getAttribute('userId');
+            $user = new User($dataBase);
+            $response->getBody()->write(json_encode($user->updatePassword($userId, $request->getParsedBody()['password'])));
             return $response;
         });
     });
