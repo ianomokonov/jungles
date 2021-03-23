@@ -6,7 +6,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from '../login/login.component';
 import { RegisterComponent } from '../register/register.component';
 
@@ -23,6 +23,7 @@ export class AuthComponent implements AfterViewInit {
     private componentFactoryResolver: ComponentFactoryResolver,
     private cdRef: ChangeDetectorRef,
     public modal: NgbActiveModal,
+    public modalService: NgbModal,
   ) {}
 
   public ngAfterViewInit(): void {
@@ -43,7 +44,11 @@ export class AuthComponent implements AfterViewInit {
     this.isLogin = true;
     this.content.clear();
     const loginComponent = this.componentFactoryResolver.resolveComponentFactory(LoginComponent);
-    this.content.createComponent(loginComponent);
+    const component = this.content.createComponent(loginComponent);
+    component.instance.enter.subscribe(() => {
+      this.modalService.dismissAll();
+      this.modalService.open(AuthComponent, { windowClass: 'modal-auth' });
+    });
     this.cdRef.detectChanges();
   }
 }
