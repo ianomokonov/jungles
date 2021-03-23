@@ -80,6 +80,29 @@
     </button>
   </div>
 
+  <div class="children-drop mb-4" ngbDropdown *ngIf="userService.user.children.length > 1">
+    <div class="drop-toggle" ngbDropdownToggle>
+      <div class="profile-wrap">
+        <app-user-card class="mb-3" [user]="userService.activeChild"> </app-user-card>
+      </div>
+    </div>
+    <div class="drop-data" ngbDropdownMenu>
+      <div class="profile-wrap" *ngFor="let child of userService.user?.children" ngbDropdownItem>
+        <app-user-card
+        class="mb-3"
+        [user]="child"
+        (click)="onUserClick(child.id)"
+      ></app-user-card>
+      </div>
+    </div>
+  </div>
+
+  <div class="children-drop" *ngIf="userService.user.children.length == 1">
+    <div class="profile-wrap">
+      <app-user-card class="mb-3" [user]="userService.activeChild"> </app-user-card>
+    </div>
+  </div>
+
   <div class="actions d-flex justify-content-between flex-lg-nowrap flex-wrap">
     <div class="d-none backdrop" *ngIf="myDrop.isOpen()"></div>
     <div ngbDropdown>

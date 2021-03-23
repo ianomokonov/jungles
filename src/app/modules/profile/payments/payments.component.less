@@ -1,4 +1,6 @@
 @import '../../../../variables.less';
+@import '../child-dropdown.less';
+
 app-user-card {
   max-width: 400px;
   width: 50%;
@@ -68,6 +70,12 @@ app-user-card {
   padding-top: 30px;
   .payment {
     margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .children {
+    display: none !important;
   }
 }
 

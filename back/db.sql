@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS messages(
     userId int(10) NOT NULL,
     theme varchar(255) NOT NULL,
     text text NOT NULL,
-    createdDate DATETIME DEFAULT CURRENT_TIMESTAMP,
-
-    FOREIGN KEY (userId) REFERENCES jungleuser(id) ON DELETE CASCADE
+    createdDate DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+ALTER TABLE `messages` ADD FOREIGN KEY (`userId`) REFERENCES `jungleUser`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
