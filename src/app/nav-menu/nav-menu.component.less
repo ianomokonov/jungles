@@ -134,7 +134,39 @@
   }
 }
 
-@media (max-width: 991px) {
+@media (min-width: 768px) and (max-width: 991px) {
+  .nav-menu {
+    .container {
+      max-width: 90%;
+      padding: 0;
+      a.menu-item {
+        font-size: 14px;
+        margin-top: -4px;
+      }
+      .menu-profile {
+        margin-top: 0;
+      }
+      .logo {
+        a {
+          img:nth-child(1) {
+            width: 207px;
+            height: 101px;
+          }
+
+          img:nth-child(2) {
+            position: absolute;
+            width: 106px;
+            height: 20px;
+            top: 40px;
+            left: 50px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
   .nav-menu {
     background-color: #e4f4e7;
     .container {

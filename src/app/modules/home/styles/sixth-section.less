@@ -96,11 +96,6 @@ section.sixth {
 @media (max-width: 991px) {
   section.sixth {
     .container {
-      h2 {
-        br {
-          display: inline !important;
-        }
-      }
       min-height: 70rem;
       background: url(../../../../assets/images/slon_with_mono.svg) no-repeat 0 90% / auto 42%,
         url(../../../../assets/images/tigr.svg) no-repeat 90% 78% / auto 23%,
@@ -164,6 +159,7 @@ section.sixth {
       min-height: 47rem;
       h2 {
         font-size: 20px;
+        max-width: 370px;
       }
       .content {
         width: 100% !important;
@@ -197,9 +193,11 @@ section.sixth {
             auto;
       }
       overflow: hidden;
-      background: url('../../../../assets/images/profile_tigr.png') no-repeat right calc(50% - 7rem) top 97% / auto 12rem,
+      background: url('../../../../assets/images/profile_tigr.png') no-repeat right calc(50% - 7rem)
+          top 97% / auto 12rem,
         url('../../../../assets/images/grass_beh2.png') no-repeat calc(50% - 7rem) 90% / auto 16rem,
-        url('../../../../assets/images/grass_beh.svg') no-repeat right calc(50% - 9rem) top 95% / auto 14rem;
+        url('../../../../assets/images/grass_beh.svg') no-repeat right calc(50% - 9rem) top 95% /
+          auto 14rem;
       img {
         display: none;
       }

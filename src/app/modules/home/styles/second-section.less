@@ -156,23 +156,22 @@ section.second {
       min-height: 0;
       height: 100%;
       background-size: 57% auto;
-      background-position: 8% 68%;
+      background-position: 8% 36%;
       .section-body {
-      position: relative;
+        position: relative;
         padding-top: 2rem;
         .content {
           .messages {
-            display: none !important;
-          }
-          .slider {
-            margin-top: 55% !important;
-            margin: 0 auto;
-            max-width: 34rem;
-            margin-top: 10rem;
-            display: flex;
-
-            .carousel-indicators {
-              margin-top: 30px !important;
+            margin-top: 24rem;
+            padding: 100px 60px 0;
+            .message {
+              width: 50%;
+              .message-content {
+                font-size: 14px;
+              }
+              &:nth-child(odd) {
+                width: calc(50% - 1rem);
+              }
             }
           }
           .video {
@@ -195,8 +194,23 @@ section.second {
   section.second {
     .container {
       padding: 0;
+      background-position: 8% 63%;
       .section-body {
         .content {
+          .messages {
+            display: none !important;
+          }
+          .slider {
+            margin-top: 55% !important;
+            margin: 0 auto;
+            max-width: 34rem;
+            margin-top: 10rem;
+            display: flex;
+
+            .carousel-indicators {
+              margin-top: 30px !important;
+            }
+          }
           .video {
             display: inline-block;
             .cloud {
@@ -245,7 +259,6 @@ section.second {
       }
       h2 {
         padding: 0 10px !important;
-        font-size: 20px;
       }
       .section-body {
         .content {
@@ -278,7 +291,7 @@ section.second {
             }
           }
           .slider {
-            margin-top: 360px !important;
+            margin-top: 380px !important;
             height: 120px !important;
             padding-right: 30px;
             padding-left: 30px;
