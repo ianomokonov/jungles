@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
 import { blockAmount, defaultPeriod, tasksAmount } from 'src/app/constants';
-import { Child } from 'src/app/models/child.class';
 import { Period } from 'src/app/models/periods';
 import { Result } from 'src/app/models/result.class';
 import { UserService } from 'src/app/services/backend/user.service';
@@ -13,10 +12,6 @@ import { ProfileService } from '../profile.service';
   styleUrls: ['./progress.component.less'],
 })
 export class ProgressComponent {
-  public activeUserId: number;
-  public get activeUser(): Child {
-    return this.userService.user?.children?.find((child) => child.id === this.activeUserId);
-  }
   public activeChildResult: Result;
   public activePeriod: Period;
   public showLeftArrow = false;
@@ -24,16 +19,16 @@ export class ProgressComponent {
 
   constructor(public profileService: ProfileService, public userService: UserService) {
     if (this.userService.user?.children?.length) {
-      this.activeUserId = userService.activeChild?.id
-        ? userService.activeChild.id
-        : this.userService.user?.children[0]?.id;
+      if (!userService.activeChild) {
+        this.userService.setActive(this.userService.user?.children[0]?.id);
+      }
       this.onPeriodChange();
     }
   }
 
   public onPeriodChange(period?: Period) {
     this.userService
-      .getProgress(this.activeUserId, period?.dateFrom, period?.dateTo)
+      .getProgress(this.userService.activeChild.id, period?.dateFrom, period?.dateTo)
       .subscribe((result) => {
         this.activeChildResult = result;
       });
@@ -50,7 +45,7 @@ export class ProgressComponent {
   }
 
   public onUserClick(id: number): void {
-    this.activeUserId = id;
+    this.userService.setActive(id);
   }
 
   public onSlide(event: NgbSlideEvent) {

@@ -36,6 +36,10 @@ export class UserService {
     private router: Router,
   ) {}
 
+  public setActive(id: number) {
+    this.activeChildId = id;
+  }
+
   public refreshToken(token: string): Observable<string[]> {
     return this.http
       .post<string[]>(`${this.baseUrl}/refresh-token`, { token })

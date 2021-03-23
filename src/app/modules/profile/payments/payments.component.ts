@@ -1,7 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
 import { defaultPeriod } from 'src/app/constants';
-import { Child } from 'src/app/models/child.class';
 import { Period } from 'src/app/models/periods';
 import { UserService } from 'src/app/services/backend/user.service';
 import { Payment } from '../../../models/payment';
@@ -15,10 +14,6 @@ import { getPeriods } from '../utils';
 })
 export class PaymentsComponent implements OnDestroy {
   private rxAlive = true;
-  public activeUserId: number;
-  public get activeUser(): Child {
-    return this.userService.user?.children?.find((child) => child.id === this.activeUserId);
-  }
   public activePeriod: Period;
   public periods: Period[] = [];
   public showLeftArrow = false;
@@ -27,7 +22,9 @@ export class PaymentsComponent implements OnDestroy {
 
   constructor(public profileService: ProfileService, public userService: UserService) {
     if (this.userService.user.children?.length) {
-      this.activeUserId = userService.user.children[0]?.id;
+      if (!userService.activeChild) {
+        userService.setActive(userService.user.children[0]?.id);
+      }
       this.periods = getPeriods();
       this.onPeriodChange();
     }
@@ -39,7 +36,7 @@ export class PaymentsComponent implements OnDestroy {
 
   public onPeriodChange(period?: Period) {
     this.userService
-      .getChildPayments(this.activeUserId, period?.dateFrom, period?.dateTo)
+      .getChildPayments(this.userService.activeChild?.id, period?.dateFrom, period?.dateTo)
       .subscribe((payments) => {
         this.payments = payments;
       });
@@ -47,7 +44,7 @@ export class PaymentsComponent implements OnDestroy {
   }
 
   public onUserClick(id: number): void {
-    this.activeUserId = id;
+    this.userService.setActive(id);
     this.onPeriodChange();
   }
 

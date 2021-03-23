@@ -1,0 +1,49 @@
+@import '../../../variables.less';
+.form-check {
+  padding: 0;
+  .checkbox {
+    margin-right: 8px;
+    input:checked ~ .input{
+        &::after{
+            display: block;
+        }
+    }
+    .input {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border: 1px solid @dark-green;
+      border-radius: 2px;
+      position: relative;
+
+      &::after {
+        content: '';
+        display: none;
+        position: absolute;
+        width: 14px;
+        height: 12px;
+        background-image: url(../../../assets/images/icons/check.svg);
+        background-repeat: no-repeat;
+        left: -1px;
+        bottom: 0;
+      }
+    }
+  }
+
+  label {
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    font-size: 14px;
+    color: @grey;
+    font-family: Open Sans Light;
+
+    &.active{
+        color: @dark-green;
+        font-weight: normal;
+    }
+  }
+
+  &.disabled {
+    opacity: 0.5;
+  }
+}

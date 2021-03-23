@@ -31,7 +31,7 @@
     <div class="children" *ngFor="let child of userService.user.children">
       <div
         class="profile"
-        (click)="setActive(child.id)"
+        (click)="userService.setActive(child.id)"
         [ngClass]="{ active: child.id == userService.activeChildId }"
         *ngIf="!child.editing"
       >

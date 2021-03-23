@@ -156,7 +156,8 @@ export class ChildrenComponent implements AfterViewInit {
 
   public deleteChild() {
     this.userService.deleteChild(this.onDeleteChildId).subscribe(() => {
-      this.modal.dismiss();
+      this.modalService.dismissAll();
+      this.userService.getUserInfo().subscribe(() => {});
     });
   }
 
@@ -175,10 +176,6 @@ export class ChildrenComponent implements AfterViewInit {
 
   public toggleAddForm() {
     this.showAddForm = true;
-  }
-
-  public setActive(id: number) {
-    this.userService.activeChildId = id;
   }
 
   public countChildren(): string {

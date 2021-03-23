@@ -28,8 +28,7 @@ export class RegisterComponent implements OnDestroy {
       email: [null, [Validators.required, Validators.email]],
       password: [null, Validators.required],
       phone: [null],
-      canSendNews: [null],
-      checkPersonalData: [null, Validators.requiredTrue],
+      checkUserAgreement: [null, Validators.requiredTrue],
     });
   }
 
@@ -62,7 +61,6 @@ export class RegisterComponent implements OnDestroy {
       email: formValue.email,
       password: formValue.password,
       phone: formValue.phone,
-      canSendNews: formValue.canSendNews,
     };
     this.userService
       .addUser(request)

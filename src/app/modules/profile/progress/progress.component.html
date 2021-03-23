@@ -4,7 +4,7 @@
       class="mb-3"
       *ngFor="let child of userService.user?.children"
       [user]="child"
-      [inactive]="child.id !== activeUserId"
+      [inactive]="child.id !== userService.activeChild?.id"
       (click)="onUserClick(child.id)"
     ></app-user-card>
   </div>
@@ -32,7 +32,7 @@
         <div class="profile">
           <app-user-card
             [user]="child"
-            [inactive]="child.id !== activeUserId"
+            [inactive]="child.id !== userService.activeChild?.id"
             (click)="onUserClick(child.id)"
           ></app-user-card>
         </div>
@@ -59,11 +59,7 @@
         />
       </svg>
     </button>
-    <button
-      class="btn btn-slider next"
-      (click)="carousel.next()"
-      *ngIf="showRightArrow"
-    >
+    <button class="btn btn-slider next" (click)="carousel.next()" *ngIf="showRightArrow">
       <svg width="15" height="9" viewBox="0 0 15 9" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M7.00028 8.00003C6.76662 8.00049 6.54019 7.91911 6.36028 7.77003

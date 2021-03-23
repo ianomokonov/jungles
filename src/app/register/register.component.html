@@ -1,7 +1,12 @@
-<form [formGroup]="regForm" class="d-flex flex-column align-items-center">
+<form [formGroup]="regForm">
   <div class="modal-inputs">
     <div class="form-group">
-      <input type="text" class="form-control" formControlName="nameSurname" placeholder="Имя Фамилия" />
+      <input
+        type="text"
+        class="form-control"
+        formControlName="nameSurname"
+        placeholder="Имя Фамилия"
+      />
     </div>
     <div class="form-group">
       <input type="text" class="form-control" formControlName="email" placeholder="E-mail" />
@@ -21,18 +26,12 @@
     </div>
   </div>
   <div class="reg-checks">
-    <div class="form-check">
-      <input type="checkbox" formControlName="canSendNews" id="checkMailing" />
-      <label class="reg-checkl" for="checkMailing"> Согласие на рассылку новостей курсов </label>
-    </div>
-    <div class="form-check">
-      <input type="checkbox" formControlName="checkPersonalData" id="checkPersonalData" />
-      <label class="reg-checkl" for="checkPersonalData">
-        Согласие на обработку персональных данных
-      </label>
-    </div>
+    <app-checkbox
+      formControlName="checkUserAgreement"
+      [label]="'Я принимаю условия <a class=\'link-sm\'>пользовательского соглашения</a>'"
+    ></app-checkbox>
   </div>
-  <button class="btn btn-success w-100" (click)="regUser(regDone)">ЗАРЕГЕСТРИРОВАТЬСЯ</button>
+  <button class="btn btn-success w-100" (click)="regUser(regDone)">Зарегистрироваться</button>
 </form>
 
 <ng-template #regDone>
