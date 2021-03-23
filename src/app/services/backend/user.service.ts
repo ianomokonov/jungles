@@ -50,6 +50,10 @@ export class UserService {
       );
   }
 
+  public refreshPassword(email: string): Observable<boolean> {
+    return this.http.post<boolean>(`${this.baseUrl}/update-password`, { email });
+  }
+
   // ----------Авторизация----------
   public logIn(data: any): Observable<User> {
     return this.http.post<string[]>(`${this.baseUrl}/login`, data).pipe(

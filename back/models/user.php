@@ -9,6 +9,7 @@ class User
     private $table = 'jungleUser';
     private $token;
     private $fileUploader;
+    private $baseUrl = 'http://localhost:4200';
 
     // конструктор класса User 
     public function __construct(DataBase $dataBase)
@@ -183,9 +184,29 @@ class User
         return $tokens;
     }
 
+    public function getUpdateLink($email)
+    {
+        $userId = $this->EmailExists($email);
+
+        if (!$userId) {
+            throw new Exception("Bad request", 400);
+        }
+
+        $tokens = $this->token->encode(array("id" => $userId));
+        $url = $this->baseUrl . "?updatePassword=" . urlencode($tokens[0]);
+        $subject = "Изменение пароля для jungliki.com";
+
+        $message = "<h2>Чтобы изменить пароль перейдите по ссылке <a href='$url'>$url</a>!</h2>";
+
+        $headers  = "Content-type: text/html; charset=utf-8 \r\n";
+
+        mail($email, $subject, $message, $headers);
+        return true;
+    }
+
     private function EmailExists(string $email)
     {
-        $query = "SELECT id FROM " . $this->table . "WHERE email = ?";
+        $query = "SELECT id FROM " . $this->table . " WHERE email = ?";
 
         // подготовка запроса 
         $stmt = $this->dataBase->db->prepare($query);

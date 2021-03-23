@@ -53,6 +53,18 @@ $app->post('/refresh-token', function (Request $request, Response $response) use
     }
 });
 
+$app->post('/update-password', function (Request $request, Response $response) use ($dataBase) {
+    try {
+        $user = new User($dataBase);
+        $response->getBody()->write(json_encode($user->getUpdateLink($request->getParsedBody()['email'])));
+        return $response;
+    } catch (Exception $e) {
+        $response = new ResponseClass();
+        $response->getBody()->write(json_encode(array("message" => $e->getMessage())));
+        return $response->withStatus(500);
+    }
+});
+
 $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
     $group->group('user',  function (RouteCollectorProxy $userGroup) use ($dataBase) {
 

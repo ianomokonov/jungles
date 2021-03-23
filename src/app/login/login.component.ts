@@ -57,6 +57,24 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.enter.emit();
   }
 
+  public restorePassword(content: TemplateRef<any>) {
+    if (this.restorePassForm.invalid) {
+      this.restorePassForm.markAllAsTouched();
+      return;
+    }
+    this.userService.refreshPassword(this.restorePassForm.getRawValue().email).subscribe(
+      () => {
+        this.dismissModal();
+        this.modalService.open(content, {
+          windowClass: 'modal-auth',
+        });
+      },
+      () => {
+        alert('Такого пользователя не существует');
+      },
+    );
+  }
+
   public openTemplate(content: TemplateRef<any>) {
     this.dismissModal();
     this.modalService.open(content, {
