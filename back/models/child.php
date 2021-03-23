@@ -103,6 +103,16 @@ class Child
         return true;
     }
 
+    public function delete($id)
+    {
+        $childImage = $this->getChildImage($id);
+        if ($childImage) {
+            $this->fileUploader->removeFile($childImage);
+        }
+        $this->dataBase->db->query("DELETE FROM $this->table WHERE id = $id");
+        return true;
+    }
+
     public function getChildImage($childId)
     {
         $query = "SELECT image FROM $this->table WHERE id = $childId";

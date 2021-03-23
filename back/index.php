@@ -125,6 +125,13 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
             return $response->withStatus(200);
         });
 
+        $childGroup->delete('/delete', function (Request $request, Response $response) use ($dataBase) {
+            $childId = $request->getAttribute('childId');
+            $child = new Child($dataBase);
+            $response->getBody()->write(json_encode($child->delete($childId)));
+            return $response->withStatus(200);
+        });
+
         $childGroup->put('/set-alerts-seen', function (Request $request, Response $response) use ($dataBase) {
             $child = new Child($dataBase);
             $response->getBody()->write(json_encode($child->setAlertsSeen($request->getParsedBody()['alertIds'])));
