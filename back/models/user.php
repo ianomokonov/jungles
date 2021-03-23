@@ -9,7 +9,8 @@ class User
     private $table = 'jungleUser';
     private $token;
     private $fileUploader;
-    private $baseUrl = 'http://localhost:4200';
+    // private $baseUrl = 'http://localhost:4200';
+    private $baseUrl = 'http://jungliki.com';
 
     // конструктор класса User 
     public function __construct(DataBase $dataBase)
