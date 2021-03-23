@@ -8,15 +8,10 @@
         placeholder="Имя Фамилия"
       />
     </div>
-    <div class="form-group">
-      <input type="text" class="form-control" formControlName="email" placeholder="E-mail" />
-    </div>
-    <div class="form-group">
-      <input type="password" class="form-control" formControlName="password" placeholder="Пароль" />
-    </div>
+
     <div class="form-group">
       <input
-        type="text"
+        type="phone"
         class="form-control"
         formControlName="phone"
         placeholder="+7 (XXX) XXX - XX - XX"
@@ -24,6 +19,28 @@
         prefix="+7 "
       />
     </div>
+    <div class="form-group">
+      <input
+        class="form-control"
+        formControlName="email"
+        placeholder="E-mail"
+        autocomplete="on"
+        autocompletetype="email"
+      />
+    </div>
+
+    <div class="form-group password-field">
+      <input type="password" class="form-control" formControlName="password" placeholder="Пароль" />
+      
+      <img
+        *ngIf="regForm.get('password').touched && regForm.get('password').invalid"
+        src="../../assets/images/icons/invalid.svg"
+        alt=""
+      />
+    </div>
+    <span class="subt text-muted" *ngIf="regForm.get('password').touched && regForm.get('password').invalid"
+      >Пароль должен содержать минимум 8 символов и включать латинские буквы и цифры
+    </span>
   </div>
   <div class="reg-checks">
     <app-checkbox

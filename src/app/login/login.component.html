@@ -32,7 +32,7 @@
     <form [formGroup]="restorePassForm" class="d-flex flex-column align-items-center">
       <div class="modal-inputs mb-2">
         <div class="form-group">
-          <span class="reg-fpass">Вход</span>
+          <span class="reg-fpass" (click)="onEnterClick()">Вход</span>
           <input
             type="text"
             class="form-control"
@@ -42,7 +42,7 @@
           />
         </div>
       </div>
-      <button class="btn btn-success w-100" (click)="openTemplate(restorePassDone)">ВОЙТИ</button>
+      <button class="btn btn-success w-100" (click)="restorePassword(restorePassDone)">ВОЙТИ</button>
     </form>
   </div>
 </ng-template>

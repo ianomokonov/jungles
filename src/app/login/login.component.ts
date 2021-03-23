@@ -1,4 +1,11 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -15,6 +22,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public restorePassForm: FormGroup;
   public submitted = false;
   private rxAlive = true;
+  public enter: EventEmitter<void> = new EventEmitter();
 
   constructor(
     private fb: FormBuilder,
@@ -43,6 +51,28 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public dismissModal() {
     this.modalService.dismissAll();
+  }
+
+  public onEnterClick() {
+    this.enter.emit();
+  }
+
+  public restorePassword(content: TemplateRef<any>) {
+    if (this.restorePassForm.invalid) {
+      this.restorePassForm.markAllAsTouched();
+      return;
+    }
+    this.userService.refreshPassword(this.restorePassForm.getRawValue().email).subscribe(
+      () => {
+        this.dismissModal();
+        this.modalService.open(content, {
+          windowClass: 'modal-auth',
+        });
+      },
+      () => {
+        alert('Такого пользователя не существует');
+      },
+    );
   }
 
   public openTemplate(content: TemplateRef<any>) {

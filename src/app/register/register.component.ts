@@ -26,7 +26,7 @@ export class RegisterComponent implements OnDestroy {
     this.regForm = this.fb.group({
       nameSurname: [null, Validators.required],
       email: [null, [Validators.required, Validators.email]],
-      password: [null, Validators.required],
+      password: [null, [Validators.required, Validators.pattern('[a-zA-Z0-9]{8,}')]],
       phone: [null],
       checkUserAgreement: [null, Validators.requiredTrue],
     });
@@ -34,11 +34,6 @@ export class RegisterComponent implements OnDestroy {
 
   public ngOnDestroy(): void {
     this.rxAlive = false;
-  }
-
-  public loginRed(): void {
-    this.modal.dismiss();
-    this.modalService.open(LoginComponent, { windowClass: 'modal-auth' });
   }
 
   public get formValue() {
@@ -52,8 +47,10 @@ export class RegisterComponent implements OnDestroy {
   public regUser(content: TemplateRef<any>): void {
     this.submitted = true;
     if (this.regForm.invalid) {
+      this.regForm.markAllAsTouched();
       return;
     }
+
     const { formValue } = this;
     const request = {
       name: formValue.nameSurname.split(' ')[0],
