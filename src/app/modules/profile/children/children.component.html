@@ -97,7 +97,9 @@
         >
           <span>Тариф: {{ child.fare }} месяц</span>
           <div class="d-flex flex-column flex-lg-row align-items-center">
-            <div class="data-graph mr-lg-3 d-flex flex-column justify-content-center align-items-center">
+            <div
+              class="data-graph mr-lg-3 d-flex flex-column justify-content-center align-items-center"
+            >
               <app-pie-chart [percent]="50" [size]="130" [label]="'28/32'"></app-pie-chart>
               <span class="mb-lg-0 mb-3 text-muted">Дней до конца подписки</span>
             </div>
@@ -152,25 +154,42 @@
       <div class="form-group">
         <input class="ch-input" placeholder="Фамилия" formControlName="surname" />
       </div>
-      <div class="form-group">
+      <div class="form-group mb-1">
         <label class="text text-muted mb-2">Дата рождения</label>
-        <input
-          type="date"
-          class="ch-input"
-          placeholder="Дата рождения"
-          formControlName="dateOfBirth"
-        />
-      </div>
-      <div *ngIf="submitted && addChildForm.invalid" class="mb-2">
-        <span class="subt text-muted mb-2" *ngIf="dateOfBirth.errors?.required">
-          Введите данные в формате ДД.ММ.ГГГГ
-        </span>
-        <div *ngIf="!addChildForm.getRawValue()">
-          <img src="../../../../assets/images/icons/error.svg" />
-          <span class="subt"> Необходимо ввести данные для сохранения профиля </span>
+        <div class="d-flex">
+          <input
+            type="date"
+            class="ch-input mr-2"
+            placeholder="00.00.0000"
+            formControlName="dateOfBirth"
+          />
+          <img
+            *ngIf="
+              addChildForm.get('dateOfBirth').touched && addChildForm.get('dateOfBirth').invalid
+            "
+            src="../../assets/images/icons/invalid.svg"
+            alt=""
+          />
         </div>
       </div>
-      <button class="btn btn-small btn-success" (click)="addChild()">сохранить</button>
+      <span
+        class="subt text-muted"
+        *ngIf="!submitted && addChildForm.get('dateOfBirth').touched && addChildForm.get('dateOfBirth').invalid"
+        >Введите данные в формате ДД.ММ.ГГГГ
+      </span>
+      <div
+      class="mt-4 error-msg d-flex align-items-start"
+        *ngIf="
+          submitted &&
+          (!addChildForm.get('name').value ||
+            !addChildForm.get('surname').value ||
+            !addChildForm.get('dateOfBirth').value)
+        "
+      >
+        <img src="../../assets/images/icons/invalid.svg" alt="" class="mr-2 pt-1"/>
+        <span class="text-red subt"> Необходимо ввести данные для сохранения профиля </span>
+      </div>
+      <button class="btn btn-small btn-success mt-4" (click)="addChild()">сохранить</button>
     </form>
   </div>
 </section>

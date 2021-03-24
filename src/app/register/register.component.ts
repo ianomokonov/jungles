@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { takeWhile } from 'rxjs/operators';
-import { LoginComponent } from '../login/login.component';
 import { UserService } from '../services/backend/user.service';
 
 @Component({

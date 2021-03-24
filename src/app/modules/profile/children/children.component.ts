@@ -1,10 +1,11 @@
-import { AfterViewInit, Component, Input, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { blockAmount, tasksAmount } from 'src/app/constants';
 import { ChildRequest } from 'src/app/models/add-child-request';
 import { Child } from 'src/app/models/child.class';
 import { UserService } from 'src/app/services/backend/user.service';
+// import { DateValidator } from 'src/app/validators/date.validator';
 import { ProfileService } from '../profile.service';
 
 @Component({
@@ -12,11 +13,11 @@ import { ProfileService } from '../profile.service';
   templateUrl: './children.component.html',
   styleUrls: ['./children.component.less'],
 })
-export class ChildrenComponent implements AfterViewInit {
+export class ChildrenComponent implements AfterViewInit, OnDestroy {
   @Input() public isMobile = false;
   @ViewChild('message') public message: TemplateRef<any>;
   public childrenCount: string;
-  public showAddForm: boolean;
+  public showAddForm = false;
   public addChildForm: FormGroup;
   public changeParentForm: FormGroup;
   public changeChildForm: FormGroup;
@@ -68,6 +69,17 @@ export class ChildrenComponent implements AfterViewInit {
     }
   }
 
+  public ngOnDestroy() {
+    this.addChildForm.reset();
+    this.changeChildForm.reset();
+    this.changeParentForm.reset();
+    this.showAddForm = false;
+    this.showParentEditForm = false;
+    this.userService.user?.children.forEach((child) => {
+      child.editing = false;
+    });
+  }
+
   public modalOpen(content: TemplateRef<any>) {
     this.modalService.open(content, {
       backdropClass: 'modal-bck-green',
@@ -83,6 +95,7 @@ export class ChildrenComponent implements AfterViewInit {
   public addChild() {
     this.submitted = true;
     if (this.addChildForm.invalid) {
+      this.addChildForm.markAllAsTouched();
       return;
     }
     const formValue = this.addChildForm.getRawValue();
@@ -124,6 +137,7 @@ export class ChildrenComponent implements AfterViewInit {
 
   public editParent() {
     if (this.changeParentForm.invalid) {
+      this.changeParentForm.markAllAsTouched();
       return;
     }
     const newParentInfo = this.changeParentForm.getRawValue();
@@ -135,6 +149,7 @@ export class ChildrenComponent implements AfterViewInit {
 
   public editChild(childTemp: Child) {
     if (this.changeChildForm.invalid) {
+      this.changeChildForm.markAllAsTouched();
       return;
     }
     const child = childTemp;

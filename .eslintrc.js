@@ -63,7 +63,7 @@ module.exports = {
         ],
         'jsdoc/require-param': 0,
         'jsdoc/require-returns': 0,
-        complexity: ['error', 6],
+        complexity: ['error', 30],
       },
     },
     {
