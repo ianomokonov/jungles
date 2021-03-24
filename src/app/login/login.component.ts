@@ -92,7 +92,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       .pipe(takeWhile(() => this.rxAlive))
       .subscribe(() => {
         this.router.navigate(['/profile']);
+        this.dismissModal();
       });
-    this.dismissModal();
   }
 }

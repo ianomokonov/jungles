@@ -186,7 +186,6 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
         return $response;
     } catch (Exception $e) {
         $response = new ResponseClass();
-        echo json_encode($e->getMessage());
         $response->getBody()->write(json_encode(array("message" => $e->getMessage())));
         return $response->withStatus($e->getCode());
     }
