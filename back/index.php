@@ -40,8 +40,13 @@ $app->post('/login', function (Request $request, Response $response) use ($dataB
 
 $app->post('/sign-up', function (Request $request, Response $response) use ($dataBase) {
     $user = new User($dataBase);
-    $response->getBody()->write(json_encode($user->create((object) $request->getParsedBody())));
-    return $response;
+    try {
+        $response->getBody()->write(json_encode($user->create((object) $request->getParsedBody())));
+        return $response;
+    } catch (Exception $e) {
+        $response->getBody()->write(json_encode(array("message" => "пользователь уже существует")));
+        return $response->withStatus(401);
+    }
 });
 
 $app->post('/refresh-token', function (Request $request, Response $response) use ($dataBase) {

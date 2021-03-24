@@ -24,6 +24,9 @@ class User
     {
         $userData = $this->dataBase->stripAll((array)$userData);
         $userData['password'] = password_hash($userData['password'], PASSWORD_BCRYPT);
+        if ($this->EmailExists($userData['email'])) {
+            throw new Exception('Пользователь уже существует');
+        }
         // Вставляем запрос 
         $query = $this->dataBase->genInsertQuery(
             $userData,
@@ -215,7 +218,7 @@ class User
         $headers  = "Content-type: text/html; charset=utf-8 \r\n";
 
         mail($email, $subject, $message, $headers);
-        file_put_contents($path, PHP_EOL. $email." ".date("m.d.y H:i:s"), FILE_APPEND);
+        file_put_contents($path, PHP_EOL . $email . " " . date("m.d.y H:i:s"), FILE_APPEND);
         return true;
     }
 

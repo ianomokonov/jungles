@@ -40,6 +40,11 @@ export class UserService {
     this.activeChildId = id;
   }
 
+  public changeInputType(input: any) {
+    const elem = input;
+    elem.type = input.type === 'password' ? 'text' : 'password';
+  }
+
   public refreshToken(token: string): Observable<string[]> {
     return this.http
       .post<string[]>(`${this.baseUrl}/refresh-token`, { token })

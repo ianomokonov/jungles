@@ -1,5 +1,5 @@
 <form [formGroup]="regForm">
-  <div class="modal-inputs">
+  <div class="modal-inputs w-100">
     <div class="form-group">
       <input
         type="text"
@@ -31,15 +31,30 @@
     </div>
 
     <div class="form-group password-field">
-      <input type="password" class="form-control" formControlName="password" placeholder="Пароль" />
-      
-      <img
-        *ngIf="regForm.get('password').touched && regForm.get('password').invalid"
-        src="../../assets/images/icons/invalid.svg"
-        alt=""
+      <input
+        #passInput
+        type="password"
+        class="form-control"
+        formControlName="password"
+        placeholder="Пароль"
       />
+      <div class="password-icons flex-row-reverse align-items-center jusstify-content-start">
+        <img
+          class="password-switch"
+          src="../../assets/images/icons/eye.svg"
+          (click)="userService.changeInputType(passInput)"
+        />
+        <img
+          class="password-error"
+          *ngIf="regForm.get('password').touched && regForm.get('password').invalid"
+          src="../../assets/images/icons/invalid.svg"
+          alt=""
+        />
+      </div>
     </div>
-    <span class="subt text-muted" *ngIf="regForm.get('password').touched && regForm.get('password').invalid"
+    <span
+      class="subt text-muted"
+      *ngIf="regForm.get('password').touched && regForm.get('password').invalid"
       >Пароль должен содержать минимум 8 символов и включать латинские буквы и цифры
     </span>
   </div>

@@ -14,12 +14,13 @@ export class RegisterComponent implements OnDestroy {
   public regForm: FormGroup;
   public submitted = false;
   private rxAlive = true;
+  public passIsShown = false;
 
   constructor(
     private fb: FormBuilder,
     public modal: NgbActiveModal,
     private modalService: NgbModal,
-    private userService: UserService,
+    public userService: UserService,
     private router: Router,
   ) {
     this.regForm = this.fb.group({
@@ -61,12 +62,17 @@ export class RegisterComponent implements OnDestroy {
     this.userService
       .addUser(request)
       .pipe(takeWhile(() => this.rxAlive))
-      .subscribe(() => {
-        this.modal.close();
-        this.modalService.open(content, {
-          windowClass: 'modal-auth',
-        });
-      });
+      .subscribe(
+        () => {
+          this.modal.close();
+          this.modalService.open(content, {
+            windowClass: 'modal-auth',
+          });
+        },
+        () => {
+          alert('Пользователь уже существует');
+        },
+      );
   }
 
   public regRedir() {

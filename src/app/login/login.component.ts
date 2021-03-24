@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     public modal: NgbActiveModal,
     private modalService: NgbModal,
-    private userService: UserService,
+    public userService: UserService,
     private router: Router,
     private cdRef: ChangeDetectorRef,
   ) {
