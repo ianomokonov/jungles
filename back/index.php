@@ -33,7 +33,7 @@ $app->post('/login', function (Request $request, Response $response) use ($dataB
         $response->getBody()->write(json_encode($user->login($requestData['email'], $requestData['password'])));
         return $response;
     } catch (Exception $e) {
-        $response->getBody()->write(json_encode(array("message" => "пользователь не найден")));
+        $response->getBody()->write(json_encode(array("message" => "Пользователь не найден")));
         return $response->withStatus(401);
     }
 });
@@ -44,7 +44,7 @@ $app->post('/sign-up', function (Request $request, Response $response) use ($dat
         $response->getBody()->write(json_encode($user->create((object) $request->getParsedBody())));
         return $response;
     } catch (Exception $e) {
-        $response->getBody()->write(json_encode(array("message" => "пользователь уже существует")));
+        $response->getBody()->write(json_encode(array("message" => "Пользователь уже существует")));
         return $response->withStatus(401);
     }
 });

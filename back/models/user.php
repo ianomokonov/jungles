@@ -99,13 +99,13 @@ class User
             $fullUser = $sth->fetch();
             if ($fullUser) {
                 if (!password_verify($password, $fullUser['password'])) {
-                    return false;
+                    throw new Exception("User not found", 404);
                 }
                 $tokens = $this->token->encode(array("id" => $fullUser['id']));
                 $this->addRefreshToken($tokens[1], $fullUser['id']);
                 return $tokens;
             } else {
-                return false;
+                throw new Exception("User not found", 404);
             }
         } else {
             return array("message" => "Введите данные для регистрации");

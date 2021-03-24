@@ -7,6 +7,7 @@
         formControlName="email"
         id="inputEmail"
         placeholder="E-mail"
+        (mousedown)="resetLogError()"
       />
     </div>
     <div class="form-group password-field d-flex flex-column jusstify-content-end align-items-end">
@@ -19,6 +20,7 @@
           formControlName="password"
           id="inputPassword"
           placeholder="Пароль"
+          (mousedown)="resetLogError()"
         />
         <img
           class="password-switch"
@@ -26,6 +28,10 @@
           (click)="userService.changeInputType(passInput)"
         />
       </div>
+    </div>
+    <div class="mt-4 error-msg d-flex align-items-start" *ngIf="showLogError">
+      <img src="../../assets/images/icons/invalid.svg" alt="" class="mr-2 pt-1" />
+      <span class="text-red subt">Пользователь с указанными данными не найден</span>
     </div>
   </div>
   <button class="btn btn-success w-100" (click)="logIn()">ВОЙТИ</button>

@@ -20,6 +20,7 @@ import { UserService } from '../services/backend/user.service';
 export class LoginComponent implements OnInit, OnDestroy {
   public logForm: FormGroup;
   public restorePassForm: FormGroup;
+  public showLogError = false;
   public submitted = false;
   private rxAlive = true;
   public enter: EventEmitter<void> = new EventEmitter();
@@ -62,17 +63,12 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.restorePassForm.markAllAsTouched();
       return;
     }
-    this.userService.refreshPassword(this.restorePassForm.getRawValue().email).subscribe(
-      () => {
-        this.dismissModal();
-        this.modalService.open(content, {
-          windowClass: 'modal-auth',
-        });
-      },
-      () => {
-        alert('Такого пользователя не существует');
-      },
-    );
+    this.userService.refreshPassword(this.restorePassForm.getRawValue().email).subscribe(() => {
+      this.dismissModal();
+      this.modalService.open(content, {
+        windowClass: 'modal-auth',
+      });
+    });
   }
 
   public openTemplate(content: TemplateRef<any>) {
@@ -83,6 +79,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public logIn() {
+    this.showLogError = false;
     this.submitted = true;
     if (this.logForm.invalid) {
       return;
@@ -90,9 +87,20 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.userService
       .logIn(this.logForm.value)
       .pipe(takeWhile(() => this.rxAlive))
-      .subscribe(() => {
-        this.router.navigate(['/profile']);
-        this.dismissModal();
-      });
+      .subscribe(
+        () => {
+          this.router.navigate(['/profile']);
+          this.dismissModal();
+        },
+        () => {
+          this.showLogError = true;
+          this.submitted = false;
+          this.logForm.get('password').setValue('');
+        },
+      );
+  }
+
+  public resetLogError() {
+    this.showLogError = false;
   }
 }
