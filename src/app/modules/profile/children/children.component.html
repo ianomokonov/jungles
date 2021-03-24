@@ -22,13 +22,13 @@
         [type]="1"
       ></file-uploader>
       <div class="form-group">
-        <input class="ch-input" formControlName="name" />
+        <input class="ch-input form-control" formControlName="name" />
       </div>
       <div class="form-group">
-        <input class="ch-input" formControlName="surname" />
+        <input class="ch-input form-control" formControlName="surname" />
       </div>
       <div class="form-group">
-        <input type="email" class="ch-input" formControlName="email" />
+        <input type="email" class="ch-input form-control" formControlName="email" />
       </div>
       <button class="btn btn-small btn-success" (click)="editParent()">сохранить</button>
     </form>
@@ -67,13 +67,13 @@
             [type]="0"
           ></file-uploader>
           <div class="form-group">
-            <input class="ch-input" formControlName="name" />
+            <input class="ch-input form-control" formControlName="name" />
           </div>
           <div class="form-group">
-            <input class="ch-input" formControlName="surname" />
+            <input class="ch-input form-control" formControlName="surname" />
           </div>
           <div class="form-group">
-            <input type="date" class="ch-input" formControlName="dateOfBirth" />
+            <input type="date" class="ch-input form-control" formControlName="dateOfBirth" />
           </div>
           <div
             class="change-form-delete d-flex align-items-start mb-4"
@@ -149,17 +149,17 @@
         [type]="0"
       ></file-uploader>
       <div class="form-group">
-        <input class="ch-input" placeholder="Имя" formControlName="name" />
+        <input class="ch-input form-control" placeholder="Имя" formControlName="name" />
       </div>
       <div class="form-group">
-        <input class="ch-input" placeholder="Фамилия" formControlName="surname" />
+        <input class="ch-input form-control" placeholder="Фамилия" formControlName="surname" />
       </div>
       <div class="form-group mb-1">
         <label class="text text-muted mb-2 d-block">Дата рождения</label>
         <div class="d-flex">
           <input
             type="date"
-            class="ch-input mr-2"
+            class="ch-input form-control mr-2"
             placeholder="00.00.0000"
             formControlName="dateOfBirth"
           />
