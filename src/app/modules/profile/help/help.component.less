@@ -1,6 +1,7 @@
 ngb-accordion {
   span.text-b {
     line-height: 22px;
+    font-weight: 600;
     text-transform: none !important;
   }
 }
@@ -70,6 +71,15 @@ section {
     }
     .btn.btn-success {
       width: 100% !important;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  ngb-accordion {
+    span.text-b {
+      font-weight: 600;
+      font-size: 16px;
     }
   }
 }
