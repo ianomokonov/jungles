@@ -1,5 +1,7 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEvent } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker-view-model';
 import { takeWhile } from 'rxjs/operators';
 import { DataService } from 'src/app/services/backend/data.service';
 import { UserService } from 'src/app/services/backend/user.service';
@@ -11,6 +13,7 @@ import { Question } from '../../../models/question';
   styleUrls: ['./help.component.less'],
 })
 export class HelpComponent implements OnDestroy {
+  @ViewChild('top') private topPosition: ElementRef;
   private rxAlive = true;
   public messageSent = false;
   public messageForm: FormGroup;
@@ -23,6 +26,7 @@ export class HelpComponent implements OnDestroy {
     private dataService: DataService,
     private fb: FormBuilder,
     private userService: UserService,
+    private router: Router,
   ) {
     this.messageForm = this.fb.group({
       message: [null, Validators.required],
@@ -35,6 +39,11 @@ export class HelpComponent implements OnDestroy {
           this.questions = data;
         }
       });
+    this.router.events.subscribe((event: any) => {
+      if (event instanceof NavigationEnd) {
+        this.topPosition.nativeElement.scrollIntoView({ block: 'start' });
+      }
+    });
   }
 
   public ngOnDestroy() {

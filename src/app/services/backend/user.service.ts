@@ -18,15 +18,15 @@ export class UserService {
   public user: User;
   public activeChild: Child;
   public get activeChildId(): number {
-    return +sessionStorage.getItem(activeChildKey);
+    return +localStorage.getItem(activeChildKey);
   }
   public set activeChildId(id: number) {
     if (!id) {
       this.activeChild = null;
-      sessionStorage.removeItem(activeChildKey);
+      localStorage.removeItem(activeChildKey);
       return;
     }
-    sessionStorage.setItem(activeChildKey, id.toString());
+    localStorage.setItem(activeChildKey, id.toString());
     this.activeChild = this.user?.children?.find((child) => child.id === id);
   }
 
@@ -80,7 +80,7 @@ export class UserService {
       `${this.baseUrl}/delete-token&token=${this.tokenService.getRefreshToken()}`,
     );
     this.tokenService.removeTokens();
-    sessionStorage.removeItem(activeChildKey);
+    localStorage.removeItem(activeChildKey);
     this.activeChild = null;
     this.user = null;
     if (this.router.url.indexOf('profile') > -1 || this.router.url.indexOf('tasks') > -1) {
