@@ -9,7 +9,6 @@ import { ProgressComponent } from './progress/progress.component';
 import { PaymentsComponent } from './payments/payments.component';
 import { HelpComponent } from './help/help.component';
 import { ChildrenComponent } from './children/children.component';
-import { ProfileService } from './profile.service';
 import { UserCardComponent } from './user-card/user-card.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { DataService } from '../../services/backend/data.service';
@@ -33,6 +32,6 @@ import { DataService } from '../../services/backend/data.service';
     ReactiveFormsModule,
     FormsModule,
   ],
-  providers: [ProfileService, DataService],
+  providers: [DataService],
 })
 export class ProfileModule {}

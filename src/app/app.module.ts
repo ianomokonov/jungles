@@ -24,6 +24,7 @@ import { AuthComponent } from './auth/auth.component';
 import { TokenService } from './services/backend/token.service';
 import { CheckboxComponent } from './utils/checkbox/checkbox.component';
 import { UpdatePasswordComponent } from './update-password/update-password.component';
+import { ProfileService } from './modules/profile/profile.service';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -55,6 +56,7 @@ const maskConfig: Partial<IConfig> = {
     HttpClient,
     AuthGuard,
     UserService,
+    ProfileService,
     TokenService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],

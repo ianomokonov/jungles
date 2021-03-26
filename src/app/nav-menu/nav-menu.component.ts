@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthComponent } from '../auth/auth.component';
+import { ProfileService } from '../modules/profile/profile.service';
 import { TokenService } from '../services/backend/token.service';
 import { UserService } from '../services/backend/user.service';
 
@@ -16,12 +16,15 @@ export class NavMenuComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
-    private router: Router,
     public userService: UserService,
+    private profileService: ProfileService,
     private tokenService: TokenService,
   ) {
     this.showMonkey = true;
     this.showMenu = false;
+    profileService.openRegForm$.subscribe(() => {
+      this.logIn(false);
+    });
   }
 
   ngOnInit() {
@@ -30,8 +33,9 @@ export class NavMenuComponent implements OnInit {
     }
   }
 
-  public logIn(): void {
-    this.modalService.open(AuthComponent, { windowClass: 'modal-auth' });
+  public logIn(isLogin = true): void {
+    const modal = this.modalService.open(AuthComponent, { windowClass: 'modal-auth' });
+    modal.componentInstance.isLogin = isLogin;
   }
 
   public exit(): void {

@@ -27,7 +27,11 @@ export class AuthComponent implements AfterViewInit {
   ) {}
 
   public ngAfterViewInit(): void {
-    this.onLoginClick();
+    if (this.isLogin) {
+      this.onLoginClick();
+      return;
+    }
+    this.onSignUpClick();
   }
 
   public onSignUpClick() {

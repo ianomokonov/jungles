@@ -158,7 +158,7 @@ h3,
 }
 
 .text-orange {
-  color: @orange;
+  color: @orange !important;
 }
 
 .text-red {
@@ -824,6 +824,30 @@ app-progress {
   html {
     background: none !important;
   }
+  .modal-auth {
+    .modal-dialog {
+      max-width: 335px;
+      margin: 108px auto;
+      .modal-content {
+        width: 100%;
+        .modal-dismiss {
+          right: 12px;
+          top: 13px;
+          width: 17px;
+          height: 18px;
+        }
+        .modal-block {
+          padding: 40px 10px;
+
+          .modal-inputs {
+            input {
+              width: 315px;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 @media (max-width: 767px) {
@@ -881,31 +905,6 @@ app-progress {
     .sliderr {
       .slider {
         background-size: 100% 100%;
-      }
-    }
-  }
-
-  .modal-auth {
-    .modal-dialog {
-      max-width: 335px;
-      margin: 108px auto;
-      .modal-content {
-        width: 100%;
-        .modal-dismiss {
-          right: 12px;
-          top: 13px;
-          width: 17px;
-          height: 18px;
-        }
-        .modal-block {
-          padding: 40px 10px;
-
-          .modal-inputs {
-            input {
-              width: 315px;
-            }
-          }
-        }
       }
     }
   }
