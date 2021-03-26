@@ -8,7 +8,7 @@ section.sixth {
     justify-content: center;
     max-width: 1600px;
     background: url(../../../../assets/images/slon_with_mono.svg) left 19% top 8rem no-repeat,
-      right 24% top 21rem no-repeat url(../../../../assets/images/tigr.svg),
+      right 24% top 21rem / auto 35% no-repeat url(../../../../assets/images/tigr.png),
       url(../../../../assets/images/grass_beh2.png) no-repeat 2.5% 17.7rem,
       right 2% top 16rem url(../../../../assets/images/grass_beh.svg) no-repeat;
 
@@ -29,7 +29,8 @@ section.sixth {
         bottom: 5.5rem;
       }
       &.second-grass {
-        right: 8.5rem;
+        height: 16rem;
+        right: 10.5rem;
         bottom: 6rem;
       }
     }
@@ -73,27 +74,21 @@ section.sixth {
 @media (max-width: 1450px) {
   section.sixth {
     .container {
-      min-height: 58rem;
+      min-height: 54rem;
       background: url(../../../../assets/images/slon_with_mono.svg) no-repeat 6% 77% / auto 50%,
-        url(../../../../assets/images/tigr.svg) no-repeat right 15% top 75% / auto 30%,
+        url(../../../../assets/images/tigr.png) no-repeat right 15% top 75% / auto 30%,
         url(../../../../assets/images/grass_beh2.png) no-repeat 1% 85%,
         url(../../../../assets/images/grass_beh.svg) no-repeat right -20% top 100%;
       &::after {
-        background: no-repeat url(../../../../assets/images/acuarel_big.png) left 0 top 45rem / 100%
+        background: no-repeat url(../../../../assets/images/acuarel_big.png) left 0 top 41rem / 100%
           auto;
       }
       .content {
         bottom: auto;
-        top: 12rem;
+        top: 10rem;
 
         .message {
           padding-bottom: 3rem;
-        }
-      }
-
-      img {
-        &.second-grass {
-          right: 0rem;
         }
       }
 
@@ -101,7 +96,8 @@ section.sixth {
         height: 270px;
       }
       .second-grass {
-        height: 270px;
+        height: 250px !important;
+        right: 0rem !important;
       }
     }
   }
@@ -111,9 +107,9 @@ section.sixth {
   section.sixth {
     .container {
       background: url(../../../../assets/images/slon_with_mono.svg) no-repeat 2% 77% / auto 50%,
-        url(../../../../assets/images/tigr.svg) no-repeat right 11% top 74% / auto 30%,
+        url(../../../../assets/images/tigr.png) no-repeat right 11% top 74% / auto 30%,
         url(../../../../assets/images/grass_beh2.png) no-repeat 1% 85%,
-        url(../../../../assets/images/grass_beh.svg) no-repeat right -20% top 100%;
+        url(../../../../assets/images/grass_beh.svg) no-repeat right -33% top 100%;
 
         .second-grass {
           height: 250px;
