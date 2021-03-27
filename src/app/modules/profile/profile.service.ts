@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Child } from './models/child.class';
-import { User } from './models/user';
+import { Subject } from 'rxjs';
+import { Period } from 'src/app/models/periods';
+import { getPeriods } from './utils';
 
 @Injectable()
 export class ProfileService {
-  public children: Child[] = [
-    { id: 1, name: 'Алина', surname: 'Кравцова', age: 5, fare: 1, leftDays: 28, opened: false },
-    { id: 2, name: 'Ваня', surname: 'Кравцов', age: 7, fare: 1, leftDays: 28, opened: false },
-  ];
-  public user: User = { id: 1, name: 'Марина', surname: 'Кравцова', mail: 'mail@mail.ru' };
+  public periods: Period[] = [];
+  public openRegForm$: Subject<void> = new Subject();
+
+  constructor() {
+    this.periods = getPeriods();
+  }
 }

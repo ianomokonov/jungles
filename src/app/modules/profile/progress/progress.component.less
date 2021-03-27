@@ -1,4 +1,5 @@
 @import '../../../../variables.less';
+@import '../child-dropdown.less';
 
 section {
   width: 100%;
@@ -20,7 +21,7 @@ section {
   }
 
   .progress-block {
-    .head{
+    .head {
       padding-bottom: 30px;
     }
     .progress-header {
@@ -80,6 +81,7 @@ section {
     .charts {
       margin-bottom: 50px;
       span {
+        text-align: center;
         margin-top: 10px;
       }
       & > div {
@@ -90,7 +92,7 @@ section {
     }
     .progress-rewards {
       display: flex;
-      justify-content: start;
+      justify-content: flex-start;
       align-items: center;
       img {
         margin-right: 10px;
@@ -104,6 +106,22 @@ section {
 
 @media (max-width: 1200px) {
   section {
+    .progress-cards {
+      display: none;
+    }
+  }
+
+  .chart {
+    width: 90px !important;
+
+    span {
+      text-align: center;
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  section {
     app-user-card {
       width: 100%;
       max-width: unset;
@@ -114,10 +132,6 @@ section {
 
 @media (max-width: 767px) {
   section {
-    .progress-cards {
-      display: none;
-    }
-
     .slider {
       margin-bottom: 29px;
       width: 100%;
@@ -171,8 +185,8 @@ section {
     }
 
     .charts {
-      & > div {
-        width: 100%;
+      .chart {
+        width: 100% !important;
         margin-right: 0 !important;
         margin-bottom: 60px !important;
         margin-top: 0 !important;

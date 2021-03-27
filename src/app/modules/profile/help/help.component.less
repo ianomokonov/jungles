@@ -1,14 +1,15 @@
 ngb-accordion {
-  ngb-panel {
-    .text-b {
-      line-height: 22px;
-    }
+  span.text-b {
+    line-height: 22px;
+    font-weight: 600;
+    text-transform: none !important;
   }
 }
 
 section {
   h4 {
     text-transform: uppercase;
+    margin-bottom: 20px;
   }
 
   .problem {
@@ -45,11 +46,16 @@ section {
     margin-top: 20px;
     background: #fcfcfc !important;
     box-shadow: 0px 3px 9px rgba(0, 0, 0, 0.1) !important;
-    border: none;
+    border: 1px solid transparent;
     outline: none !important;
     border-radius: 0;
     margin-bottom: 30px;
     resize: none;
+
+    &.invalid {
+      border: 1px solid red;
+      border-radius: 6px;
+    }
   }
 }
 
@@ -65,6 +71,15 @@ section {
     }
     .btn.btn-success {
       width: 100% !important;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  ngb-accordion {
+    span.text-b {
+      font-weight: 600;
+      font-size: 16px;
     }
   }
 }

@@ -52,10 +52,23 @@
       margin-top: 50px;
       min-width: 185px;
       text-align: end;
+
+      .profile-img {
+        width: 40px;
+        height: 40px;
+      }
+
       img:nth-child(2) {
         margin-right: 12px;
       }
       img {
+        cursor: pointer;
+
+        &.menu-profileicon {
+          width: 40px;
+          height: 40px;
+        }
+
         &:active,
         &:focus {
           outline: none;
@@ -72,6 +85,36 @@
         &:active,
         &:focus {
           outline: none;
+        }
+      }
+
+      .alert {
+        padding: 0;
+        margin: 0;
+        margin-right: 10px;
+        position: relative;
+
+        .alert-new {
+          top: 0;
+          right: 10px;
+          position: absolute;
+
+          img {
+            position: absolute;
+            top: -2px;
+            right: -13px;
+          }
+
+          span {
+            position: absolute;
+            top: -2px;
+            right: -20px;
+            font-family: Open Sans;
+            font-size: 12px;
+            line-height: 16px;
+            letter-spacing: 0.02em;
+            color: white;
+          }
         }
       }
     }
@@ -91,7 +134,49 @@
   }
 }
 
-@media (max-width: 991px) {
+@media (min-width: 768px) and (max-width: 991px) {
+  .nav-menu {
+    .container {
+      max-width: 90%;
+      padding: 0;
+      a.menu-item {
+        font-size: 14px;
+        margin-top: -4px;
+      }
+      .menu-profile {
+        margin-top: 0;
+
+        .button-sec {
+          font-size: 14px;
+          width: 90px;
+          height: 37px;
+        }
+
+        .profile-name {
+          font-size: 14px;
+        }
+      }
+      .logo {
+        a {
+          img:nth-child(1) {
+            width: 207px;
+            height: 101px;
+          }
+
+          img:nth-child(2) {
+            position: absolute;
+            width: 106px;
+            height: 20px;
+            top: 40px;
+            left: 50px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
   .nav-menu {
     background-color: #e4f4e7;
     .container {

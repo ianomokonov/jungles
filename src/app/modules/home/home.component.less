@@ -113,12 +113,15 @@ section {
 }
 
 @media (max-width: 1200px) {
-  h2{
-    font-size: 28px;
+  h2 {
+    font-size: 26px;
+  }
+  section{
+    margin-bottom: 116px;
   }
   header {
     padding-top: 6rem;
-
+    margin-bottom: 100px;
     .container {
       padding-top: 0;
       .content {
@@ -145,12 +148,56 @@ section {
         background-size: auto 100%;
         right: 5px;
         border-radius: 90px;
+        border-top-right-radius: 0;
       }
     }
   }
 }
 
-@media (max-width: 991px) {
+@media (min-width: 768px) and (max-width: 991px) {
+  header {
+    padding-top: 40px;
+    .container {
+      max-width: 90%;
+      &::before {
+        right: -5vw;
+        left: auto;
+        background-image: url(../../../assets/images/main_slon_tablet.png);
+
+        background-position: right calc(-100px + 10vw) top 19%;
+        background-size: auto 86%;
+      }
+
+      .content {
+        width: 60%;
+        h1 {
+          font-size: 38px;
+        }
+        h3 {
+          width: 75%;
+        }
+
+        ul {
+          li {
+            font-size: 14px;
+          }
+        }
+
+        .btn-block {
+          .btn {
+            width: 315px;
+            height: 74px;
+          }
+          span {
+            max-width: 230px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
   header {
     padding-top: 0;
     .container {
@@ -197,6 +244,9 @@ section {
 }
 
 @media (max-width: 576px) {
+  h2.section-header {
+    font-size: 18px !important;
+  }
   header {
     padding-bottom: 0px;
     margin-bottom: 130px;
@@ -216,7 +266,7 @@ section {
         }
         h3 {
           padding: 0;
-          max-width: 300px;
+          max-width: 3700px;
           line-height: 22px;
           font-weight: 700;
           font-family: Open Sans Bold;

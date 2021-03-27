@@ -1,19 +1,76 @@
-<img class="modal-dismiss" src="../../assets/images/icons/cross.svg" (click)="modal.dismiss()">
-<div class="modal-block">
+<form [formGroup]="logForm" class="d-flex flex-column align-items-center">
+  <div class="modal-inputs w-100 mb-2">
+    <div class="form-group mb-3">
+      <input
+        type="text"
+        class="form-control"
+        formControlName="email"
+        id="inputEmail"
+        placeholder="E-mail"
+        (mousedown)="resetLogError()"
+      />
+    </div>
+    <div class="form-group password-field d-flex flex-column jusstify-content-end align-items-end">
+      <span class="reg-fpass" (click)="openTemplate(restorePass)">Забыли пароль?</span>
+      <div class="w-100">
+        <input
+          #passInput
+          type="password"
+          class="form-control"
+          formControlName="password"
+          id="inputPassword"
+          placeholder="Пароль"
+          (mousedown)="resetLogError()"
+        />
+        <img
+          class="password-switch"
+          src="../../assets/images/icons/eye.svg"
+          (click)="userService.changeInputType(passInput)"
+        />
+      </div>
+    </div>
+    <div class="mt-4 error-msg d-flex align-items-start" *ngIf="showLogError">
+      <img src="../../assets/images/icons/invalid.svg" alt="" class="mr-2 pt-1" />
+      <span class="text-red subt">Пользователь с указанными данными не найден</span>
+    </div>
+  </div>
+  <button class="btn btn-success w-100" (click)="logIn()">ВОЙТИ</button>
+</form>
+
+<ng-template #restorePass>
+  <img class="modal-dismiss" src="../../assets/images/icons/cross.svg" (click)="dismissModal()" />
+  <div class="modal-block">
     <header class="modal-nav">
-        <span class="text-m active">Войти</span>
-        <span class="text-m" (click)="regRed()">Регистрация</span>
+      <span class="text-m active">Восстановление пароля</span>
     </header>
-    <form [formGroup]="logForm">
-        <div class="modal-inputs">
-            <div class="form-group">
-                <input type="text" class="form-control" formControlName="Email" id="inputEmail" placeholder="E-mail">
-            </div>
-            <div class="form-group">
-                <span class="reg-fpass">Забыли пароль?</span>
-                <input type="text" class="form-control" formControlName="Password" id="inputPassword" placeholder="Пароль">
-            </div>
+    <form [formGroup]="restorePassForm" class="w-100 d-flex flex-column align-items-center">
+      <div class="modal-inputs w-100 mb-2">
+        <div class="form-group">
+          <span class="reg-fpass" (click)="onEnterClick()">Вход</span>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="email"
+            id="inputEmail"
+            placeholder="E-mail"
+          />
         </div>
-        <button class="btn btn-success">ВОЙТИ</button>
+      </div>
+      <button class="btn btn-success w-100" (click)="restorePassword(restorePassDone)">
+        ВОЙТИ
+      </button>
     </form>
-</div>
+  </div>
+</ng-template>
+
+<ng-template #restorePassDone>
+  <img class="modal-dismiss" src="../../assets/images/icons/cross.svg" (click)="dismissModal()" />
+  <div class="modal-block p-4 mb-4 text-center">
+    <header class="modal-nav">
+      <span class="text-m active">Восстановление пароля</span>
+    </header>
+    <span class="text"
+      >Письмо с сcылкой на восстановление пароля направлено на указанную почту</span
+    >
+  </div>
+</ng-template>

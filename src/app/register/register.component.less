@@ -1,24 +1,26 @@
 @import '../../styles.less';
 
 form {
-  .reg-checks {
+  .subt {
+    line-height: 18px;
     margin-bottom: 20px;
-    .form-check {
-      padding: 0;
-
-      input {
-        width: 12px;
-        height: 12px;
-        border: 1px solid @grey;
-        margin-right: 4px;
-      }
-
-      label {
-        letter-spacing: -0.02em;
-        font-weight: 400;
-        font-size: 14px;
-        color: @grey;
+    display: block;
+  }
+  .password-field {
+    position: relative;
+    display: flex;
+    align-items: center;
+    .password-icons {
+      right: 15px;
+      position: absolute;
+      .password-error {
+        margin-left: 10px;
+        height: 14px;
+        width: 14px;
       }
     }
+  }
+  .reg-checks {
+    margin-bottom: 20px;
   }
 }

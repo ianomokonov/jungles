@@ -13,7 +13,7 @@ section {
         margin-bottom: 26px;
       }
       .data-graph {
-        margin-right: 65px;
+        width: 100%;
         span.text-muted {
           margin-top: 8px;
         }
@@ -70,24 +70,44 @@ section {
   }
 }
 
-.profile {
-  box-shadow: 0px 4px 9px rgba(75, 125, 85, 0.15);
-  border-radius: 35px;
-  padding: 10px;
-  margin-bottom: 40px;
-  width: 480px;
-  border: 2px solid transparent;
+.error-msg {
+  width: 198px;
+}
 
-  &:hover {
-    cursor: pointer;
+.change-form-photo {
+  img {
+    height: 40px;
+    width: 40px;
   }
+}
 
-  &.active {
-    border-color: @green;
+.change-form {
+  p {
+    margin-bottom: 31px;
+  }
+  .change-form-photo {
+    margin-bottom: 25px;
 
-    & + .data {
-      display: flex !important;
+    span {
+      cursor: pointer;
     }
+  }
+  .change-form-delete {
+    width: 220px;
+    img,
+    span {
+      cursor: pointer;
+    }
+  }
+  div.form-group {
+    margin-bottom: 20px;
+
+    .ch-input {
+      width: 334px;
+    }
+  }
+  button {
+    margin-bottom: 45px;
   }
 }
 

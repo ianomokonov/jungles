@@ -1,31 +1,68 @@
-import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AuthComponent } from '../auth/auth.component';
+import { ProfileService } from '../modules/profile/profile.service';
+import { TokenService } from '../services/backend/token.service';
+import { UserService } from '../services/backend/user.service';
 
 @Component({
   selector: 'nav-menu',
   templateUrl: './nav-menu.component.html',
   styleUrls: ['./nav-menu.component.less'],
 })
-export class NavMenuComponent {
+export class NavMenuComponent implements OnInit {
   @Input() public showMonkey: boolean;
   public showMenu: boolean;
-  public loggedIn: boolean;
 
-  constructor(private modalService: NgbModal, private router: Router) {
+  constructor(
+    private modalService: NgbModal,
+    public userService: UserService,
+    private profileService: ProfileService,
+    private tokenService: TokenService,
+  ) {
     this.showMonkey = true;
     this.showMenu = false;
-    this.loggedIn = false;
+    profileService.openRegForm$.subscribe(() => {
+      this.logIn(false);
+    });
   }
 
-  public logIn(): void {
-    // this.modalService.open(LoginComponent, { windowClass: 'modal-log' });
-    this.loggedIn = true;
+  ngOnInit() {
+    if (this.tokenService.getAuthToken()) {
+      this.userService.getUserInfo().subscribe();
+    }
   }
 
-  public logOut(): void {
-    this.loggedIn = false;
-    this.router.navigate(['']);
+  public logIn(isLogin = true): void {
+    const modal = this.modalService.open(AuthComponent, { windowClass: 'modal-auth' });
+    modal.componentInstance.isLogin = isLogin;
+  }
+
+  public exit(): void {
+    this.userService.logOut();
+  }
+
+  public getUserImg(): string {
+    if (this.userService.activeChild) {
+      return this.userService.activeChild.image || '../../assets/images/icons/user-child-sm.svg';
+    }
+    if (this.userService.user) {
+      return this.userService.user.image || '../../assets/images/icons/user-parent.svg';
+    }
+    return '';
+  }
+
+  public getAlertsCount() {
+    if (this.userService.activeChild) {
+      let alertCount = 0;
+      this.userService.activeChild.alerts.forEach((alert) => {
+        if (!alert.isSeen) {
+          alertCount += 1;
+        }
+      });
+      return alertCount;
+    }
+    return null;
   }
 
   public toggleMenu(): void {

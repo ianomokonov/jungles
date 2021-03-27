@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="userService.user">
   <div class="d-flex">
     <div class="left">
       <nav class="d-flex flex-column d-md-block align-items-center">
@@ -26,7 +26,7 @@
       <div class="message green d-flex flex-column justify-content-start align-items-center">
         <span>Скидка 10%</span>
         <span class="text mb-2">
-          Сделате пост в Instagram, о том как ваш ребёнок занимается в Джунгликах и получите скидку
+          Сделайте пост в Instagram, о том как ваш ребёнок занимается в Джунгликах и получите скидку
           10% при следующей оплате!
         </span>
         <div class="text-right w-100">
@@ -47,7 +47,7 @@
   <div class="modal-body">
     <div class="d-flex flex-column justify-content-center align-items-start">
       <p class="text mb-2">
-        Сделате пост в Instagram, о том как ваш ребёнок занимается в Джунгликах и получите скидку
+        Сделайте пост в Instagram, о том как ваш ребёнок занимается в Джунгликах и получите скидку
         10% при следующей оплате!
       </p>
       <span class="text mb-2">

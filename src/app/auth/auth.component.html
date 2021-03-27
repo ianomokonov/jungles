@@ -1,0 +1,9 @@
+<img class="modal-dismiss" src="../../assets/images/icons/cross.svg" (click)="modal.dismiss()">
+<div class="modal-block">
+  <header class="modal-nav">
+    <span class="text-m" (click)="onLoginClick()" [ngClass]="{ active: isLogin}">Войти</span>
+    <span class="text-m" (click)="onSignUpClick()" [ngClass]="{ active: !isLogin}">Регистрация</span>
+  </header>
+  <div #content>
+  </div>
+</div>

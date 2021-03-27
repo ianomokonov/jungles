@@ -10,6 +10,7 @@ footer {
 
     .footer-sm {
       min-width: 12rem;
+      height: 30px;
     }
 
     .footer-logo {
@@ -25,13 +26,15 @@ footer {
       }
     }
 
-    .footer-pay{
+    .footer-pay {
+      margin-left: 25%;
+      padding: 0;
       img {
         margin-right: 20px;
-        &:nth-of-type(1){
+        &:nth-of-type(1) {
           height: 21.79px;
         }
-        &:nth-of-type(2){
+        &:nth-of-type(2) {
           height: 16px;
         }
       }
@@ -44,7 +47,6 @@ footer {
           background-image: url(../../assets/images/icons/apple-pay2.svg);
           background-position: center;
           background-size: auto 97%;
-
         }
 
         &:nth-of-type(2) {
@@ -61,52 +63,6 @@ footer {
           background-size: auto 790%;
         }
       }
-      // .img{
-      //   height: 22px;
-      //   background-image: url(../../assets/images/payments.png);
-      //   background-size: auto 214%;
-
-      //   &:nth-of-type(1){
-      //     width: 40px;
-      //     background-position: -14px center;
-      //   }
-      //   &:nth-of-type(2){
-      //     width: 46px;
-      //     background-position: -83px center;
-      //   }
-      //   &:nth-of-type(3){
-      //     width: 41px;
-      //     background-position: -163px center;
-      //   }
-
-      //   &:nth-of-type(4) {
-      //     width: 44px;
-      //   }
-      // }
-
-      // .img {
-      //   height: 22px;
-      //   background-image: url(../../assets/images/payments.png);
-      //   background-size: auto 174%;
-      //   background-repeat: no-repeat;
-
-      //   &:nth-of-type(1) {
-      //     width: 54px;
-      //     background-image: url(../../assets/images/apple_pay.webp);
-      //     background-size: auto 100%;
-      //   }
-      //   &:nth-of-type(2) {
-      //     width: 54px;
-      //     background-image: url(../../assets/images/Gpay.svg);
-      //     background-size: auto 213%;
-      //     background-position: center;
-      //   }
-      //   &:nth-of-type(3) {
-      //     width: 50px;
-      //     background-position: -188px center;
-      //     background-size: auto 247%;
-      //   }
-      // }
     }
 
     .link-sm {
@@ -125,18 +81,44 @@ footer {
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 991px) {
   footer {
     .container {
+      max-width: 90%;
+
+      .footer-pay {
+        margin-left: 0;
+        order: 5;
+        margin-top: 1rem;
+        span {
+          display: none;
+        }
+        img,
+        div.img {
+          margin-right: 10px !important;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  footer {
+    .container {
+      max-width: 320px;
       .footer-sm {
         width: 100%;
         order: 3;
       }
 
       .footer-logo {
+        width: 100%;
         span {
           text-align: center;
         }
+      }
+      .footer-pay{
+        margin-left: 0 !important;
       }
     }
   }

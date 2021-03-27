@@ -2,6 +2,7 @@ import { Component, HostListener, TemplateRef } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { filter } from 'rxjs/operators';
+import { UserService } from 'src/app/services/backend/user.service';
 
 @Component({
   selector: 'app-profile',
@@ -31,6 +32,7 @@ export class ProfileComponent {
     private modalService: NgbModal,
     public modal: NgbActiveModal,
     private router: Router,
+    public userService: UserService,
   ) {
     this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
       if (window.innerWidth > 767) {

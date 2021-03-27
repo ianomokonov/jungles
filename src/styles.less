@@ -1,6 +1,7 @@
 @import './variables.less';
 
-/* Fonts */
+/*---------Fonts---------*/
+
 @font-face {
   font-family: Museo Cyrl;
   src: url(./assets/fonts/MuseoCyrl700.otf);
@@ -26,7 +27,7 @@
   src: url(./assets/fonts/opensanslight.ttf);
 }
 
-/*  Text Styles */
+/*---------Text Styles---------*/
 
 h1 {
   font-family: Museo Cyrl Bold;
@@ -49,27 +50,27 @@ h4,
 
 h1 {
   font-weight: 700;
-  font-size: 2.75rem;
+  font-size: 44px;
 }
 
 h2 {
   font-weight: 600;
-  font-size: 2.25rem;
+  font-size: 36px;
 }
 
 h3 {
   font-weight: 600;
-  font-size: 1.375rem;
+  font-size: 22px;
 }
 
 h4 {
   font-weight: 600;
-  font-size: 1.25rem;
+  font-size: 20px;
 }
 
 .price {
   font-weight: 400;
-  font-size: 1.25rem;
+  font-size: 20px;
 }
 
 .price-old {
@@ -81,7 +82,7 @@ h4 {
 
 .price-new {
   font-weight: 600;
-  font-size: 1.5rem;
+  font-size: 24px;
   color: @orange;
 }
 
@@ -97,39 +98,44 @@ h3,
 }
 
 .menu-item {
+  outline: 0;
   cursor: pointer;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 16px;
 
   &:hover {
     text-decoration: none;
+  }
+
+  &:focus {
+    border-bottom: 2px solid @orange;
   }
 }
 
 .text-mb {
   font-weight: 600;
-  font-size: 1.125rem;
+  font-size: 18px;
 }
 
 .text-m {
   font-weight: 400;
-  font-size: 1.125rem;
+  font-size: 18px;
 }
 
 .text-b {
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 16px;
 }
 
 .text {
   font-weight: 400;
-  font-size: 1rem;
+  font-size: 16px;
   letter-spacing: 0.02em;
 }
 
 .subt {
   font-weight: 400;
-  font-size: 0.75rem;
+  font-size: 12px;
   letter-spacing: 0.02em;
 }
 
@@ -152,10 +158,14 @@ h3,
 }
 
 .text-orange {
-  color: @orange;
+  color: @orange !important;
 }
 
-/*  Clickable Elements Styles */
+.text-red {
+  color: @red !important;
+}
+
+/*---------Clickable Elements Styles---------*/
 
 .btn {
   border: 0;
@@ -168,6 +178,11 @@ h3,
   justify-content: center;
   align-items: center;
   white-space: nowrap;
+}
+
+.btn-small {
+  width: 183px !important;
+  height: 47.56px !important;
 }
 
 .btn-primary {
@@ -215,6 +230,22 @@ h3,
   }
 }
 
+.btn-failure {
+  border-bottom: 4px solid #d64b4b;
+  outline: none !important;
+  width: 141px;
+  height: 47.56px;
+  background: linear-gradient(180deg, #ff7676 0%, #d64b4b 100%);
+  box-shadow: 0px 5px 12px rgba(214, 75, 75, 0.4);
+  color: white !important;
+
+  &:focus,
+  &:active {
+    outline: none !important;
+    box-shadow: 0px 5px 12px rgba(214, 75, 75, 0.4);
+  }
+}
+
 .btn-slider {
   display: flex;
   justify-content: center;
@@ -239,7 +270,49 @@ h3,
   color: @dark-green;
 }
 
-/* Modal */
+.sn-icon {
+  fill: #90ada4;
+  margin-right: 20px;
+
+  &:hover {
+    fill: @orange;
+  }
+}
+
+.profile-wrap {
+  box-shadow: 0px 4px 9px rgba(75, 125, 85, 0.15);
+  border-radius: 35px;
+  padding: 10px;
+  margin-bottom: 40px;
+  max-width: 480px;
+  border: 2px solid transparent;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &.active {
+    border-color: @green;
+
+    & + .data {
+      display: flex !important;
+    }
+  }
+}
+
+.form-control {
+  &.ng-invalid.ng-touched {
+    border-color: @red !important;
+  }
+}
+
+.password-switch {
+  height: 17px !important;
+  width: 17px !important;
+  cursor: pointer;
+}
+
+/*---------Modal---------*/
 
 ngb-modal-window,
 ngb-modal-backdrop {
@@ -252,14 +325,19 @@ ngb-modal-backdrop {
   opacity: 0.75;
 }
 
-.modal-reg {
+.modal-bck-green {
+  background-color: @green;
+  opacity: 0.4;
+}
+
+.modal-auth {
   .modal-dialog {
-    margin-top: 50px;
+    max-width: 440px;
+    margin-top: 100px;
 
     .modal-content {
       border: 0;
       width: 402px;
-      height: 492px;
       box-shadow: 0px 0px 20px rgba(47, 73, 21, 0.25);
       border-radius: 10px;
 
@@ -271,72 +349,70 @@ ngb-modal-backdrop {
         width: 27px;
         height: 27px;
       }
-    }
-  }
-}
 
-.modal-log {
-  .modal-dialog {
-    margin-top: 50px;
-  }
+      .modal-nav {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        margin-bottom: 30px;
 
-  .modal-content {
-    border: 0;
-    width: 402px;
-    height: 370, 28px;
-    box-shadow: 0px 0px 20px rgba(47, 73, 21, 0.25);
-    border-radius: 10px;
+        span {
+          cursor: pointer;
 
-    .modal-dismiss {
-      cursor: pointer;
-      position: absolute;
-      top: -27px;
-      right: -33px;
-      width: 27px;
-      height: 27px;
+          &.active {
+            font-weight: 700;
+          }
+        }
+      }
+
+      .modal-inputs {
+        input {
+          height: 55px;
+          font-size: 14px;
+          font-weight: 600;
+          letter-spacing: 0.02em;
+          font-family: Open Sans Light;
+          border-radius: 25px;
+          border: 1px solid @green;
+          box-sizing: border-box;
+          border-radius: 25px;
+          padding: 18px 25px;
+        }
+        /* Modern Browsers */
+        ::placeholder {
+          @placeholder();
+        }
+        /* WebKit, Edge */
+        ::-webkit-input-placeholder {
+          @placeholder();
+        }
+
+        /* Firefox 4-18 */
+        :-moz-placeholder {
+          @placeholder();
+        }
+
+        /* Firefox 19+ */
+        ::-moz-placeholder {
+          @placeholder();
+        }
+
+        /* IE 10-11 */
+        :-ms-input-placeholder {
+          @placeholder();
+        }
+
+        /* Edge */
+        ::-ms-input-placeholder {
+          @placeholder();
+        }
+      }
     }
   }
 }
 
 .modal-block {
-  margin: 0 auto;
   padding: 40px;
-}
-
-.modal-nav {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  margin-bottom: 30px;
-
-  span {
-    cursor: pointer;
-
-    &.active {
-      font-weight: 700;
-    }
-  }
-}
-
-.modal-inputs {
-  input {
-    width: 322px;
-    height: 55px;
-    font-size: 14px;
-    font-weight: 600;
-    color: @grey;
-    font-family: Open Sans;
-    border-radius: 25px;
-    border: 1px solid @green;
-    box-sizing: border-box;
-    border-radius: 25px;
-    padding: 18px 25px;
-  }
-}
-
-.modal-bck-green {
-  background-color: @green;
-  opacity: 0.4;
 }
 
 .modal-discount {
@@ -412,16 +488,7 @@ ngb-modal-backdrop {
   }
 }
 
-.sn-icon {
-  fill: #90ada4;
-  margin-right: 20px;
-
-  &:hover {
-    fill: @orange;
-  }
-}
-
-/*  Main Styles */
+/*---------Main Styles---------*/
 
 html {
   background-image: url('./assets/images/fon.png');
@@ -437,6 +504,12 @@ body {
   min-width: @min-width;
   color: @dark-green;
   min-height: 100vh;
+}
+
+* {
+  &:focus {
+    outline: none;
+  }
 }
 
 ul {
@@ -587,21 +660,28 @@ ul {
   }
 }
 
-input.ch-input {
-  width: 100%;
-  height: 40px;
-  box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.1);
-  border-radius: 20px;
-  font-family: Open Sans;
-  color: @grey;
-  font-size: 16px;
-  padding: 9px 16px;
-  border: 0;
-
-  &::placeholder {
+input,
+span {
+  &.ch-input {
+    width: 100%;
+    height: 40px;
+    box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
     font-family: Open Sans;
-    color: @grey;
+    color: @dark-green;
     font-size: 16px;
+    padding: 9px 16px;
+    border-color: white;
+
+    &::placeholder {
+      font-family: Open Sans;
+      color: @grey;
+      font-size: 16px;
+    }
+
+    &.ng-invalid.ng-touched {
+      box-shadow: 0px 2px 7px rgba(255, 118, 118, 0.6);
+    }
   }
 }
 
@@ -740,9 +820,33 @@ app-progress {
   }
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1200px) {
   html {
     background: none !important;
+  }
+  .modal-auth {
+    .modal-dialog {
+      max-width: 335px;
+      margin: 108px auto;
+      .modal-content {
+        width: 100%;
+        .modal-dismiss {
+          right: 12px;
+          top: 13px;
+          width: 17px;
+          height: 18px;
+        }
+        .modal-block {
+          padding: 40px 10px;
+
+          .modal-inputs {
+            input {
+              width: 315px;
+            }
+          }
+        }
+      }
+    }
   }
 }
 
@@ -762,6 +866,7 @@ app-progress {
   }
 }
 @media (max-width: 576px) {
+  /*---------Fonts---------*/
   h1 {
     font-size: 30px;
   }
@@ -785,7 +890,6 @@ app-progress {
   }
   .text-b {
     font-size: 14px;
-    font-family: Open Sans Bold;
   }
   .message {
     .message-number {
@@ -838,7 +942,7 @@ app-help {
         background: #e4f4e7;
         box-shadow: 0px 3px 9px rgba(68, 103, 66, 0.1);
         border-radius: 6px !important;
-        height: 40px;
+        min-height: 40px;
         padding: 0;
         display: flex;
         align-items: center;
@@ -846,9 +950,15 @@ app-help {
 
         button {
           padding-left: 20px;
-          height: 100%;
           width: 100%;
+          height: auto;
           justify-content: start;
+
+          span {
+            padding-right: 40px;
+            text-align: left;
+            white-space: normal;
+          }
         }
 
         &::after {

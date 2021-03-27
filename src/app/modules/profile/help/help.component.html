@@ -1,32 +1,48 @@
-<section>
+<section #topPosition>
   <h4>Часто задаваемые вопросы</h4>
   <ngb-accordion #acc="ngbAccordion" [closeOthers]="true">
     <ngb-panel *ngFor="let item of questions">
       <ng-template ngbPanelTitle>
-        <span class="text-b">{{ item.question }}</span>
+        <span class="text-b py-2" [innerHTML]="item.question"></span>
       </ng-template>
       <ng-template ngbPanelContent>
-        <p class="text mb-0">{{ item.answer }}</p>
+        <p class="text mb-0" [innerHTML]="item.answer"></p>
       </ng-template>
     </ngb-panel>
   </ngb-accordion>
   <h4>Задать вопрос в поддержку</h4>
-  <div ngbDropdown>
-    <div class="problem text-b" ngbDropdownToggle>
-      {{ currentProblem || 'Выберите тему' }}
+  <form [formGroup]="messageForm" *ngIf="!messageSent">
+    <div ngbDropdown>
+      <div class="problem text-b" ngbDropdownToggle>
+        {{ currentProblem || 'Выберите тему' }}
+      </div>
+      <div ngbDropdownMenu>
+        <button
+          ngbDropdownItem
+          class="text"
+          *ngFor="let problem of problems"
+          (click)="onSelectTopic(problem)"
+        >
+          {{ problem }}
+        </button>
+      </div>
     </div>
-    <div ngbDropdownMenu>
-      <button
-        ngbDropdownItem
-        class="text"
-        *ngFor="let problem of problems"
-        (click)="onSelectTopic(problem)"
-      >
-        {{ problem }}
-      </button>
-    </div>
+    <textarea
+      placeholder="Текст сообщения"
+      rows="5"
+      class="form-control"
+      formControlName="message"
+      [ngClass]="{ invalid:  submitted && fval.message?.errors}"
+    ></textarea>
+    <button class="btn btn-success" (click)="sendMsgForm()">Отправить</button>
+  </form>
+  <div *ngIf="messageSent">
+    <p class="text mt-4">Спасибо за обращение!</p>
+    <p class="text mb-4">
+      Наши менеджеры обработают его в течении 10 календарных дней и направят ответ на вашу
+      электронную почту, указанную в профиле.
+    </p>
+    <button class="btn btn-success" (click)="toggleFormDisplay()">ОТПРАВИТЬ ЕЩЁ</button>
   </div>
-  <textarea placeholder="Текст сообщения" rows="5" class="form-control"></textarea>
-  <button class="btn btn-success">Отправить</button>
   <span class="subt text-center close-btn" routerLink="/profile">Свернуть</span>
 </section>
