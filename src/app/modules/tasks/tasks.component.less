@@ -165,7 +165,7 @@
     height: 716px;
     &::after {
       content: '';
-      background: url(../../../assets/images/tasks_tigr.png) right 0 bottom 90px / 52% auto
+      background: url(../../../assets/images/tasks_tigr.png) left 78% bottom 90px / 52% auto
         no-repeat;
       right: 0;
       top: auto;
@@ -175,7 +175,7 @@
     .cloud {
       top: 86px;
       right: auto;
-      left: 50%;
+      left: 42%;
     }
   }
 }
@@ -184,6 +184,14 @@
   .container {
     max-width: 768px;
     padding: 0 20px;
+    .grid {
+      margin-top: -80px;
+    }
+    .achives {
+      span {
+        font-size: 26px;
+      }
+    }
     .sign-up {
       &::before {
         background: url(../../../assets/images/tigr_s_kaskoy_full.png) no-repeat left 10px top 0 /
@@ -223,7 +231,57 @@
 
 @media (max-width: 767px) {
   .container {
-    max-width: 100%;
+    width: 100%;
+    max-width: 540px;
+
+    .text-muted {
+      font-size: 14px;
+    }
+    .stats {
+      .achives {
+        width: 80px;
+        padding: 0 12px;
+        span {
+          font-size: 16px;
+        }
+        &.cristals {
+          text-align: end;
+
+          &::before {
+            height: 60px;
+            width: 51px;
+            left: -15px;
+
+          }
+        }
+
+        &.chest {
+          text-align: end;
+
+          &::before {
+            width: 75px;
+            height: 50px;
+            left: -20px;
+            right: auto;
+          }
+        }
+      }
+      .col-6 {
+        margin-top: 0 !important;
+        &:nth-child(3) {
+          order: 4;
+          margin-top: 26px !important;
+        }
+        &:nth-child(2) {
+          order: 3;
+          margin-top: 26px !important;
+          flex-direction: row-reverse;
+          span {
+            margin-left: 0.25rem;
+          }
+        }
+      }
+    }
     .next-tasks {
       height: 484px;
       .cloud {
@@ -253,7 +311,6 @@
         line-height: 19px;
 
         letter-spacing: 0.02em;
-
       }
     }
     .sign-up {
