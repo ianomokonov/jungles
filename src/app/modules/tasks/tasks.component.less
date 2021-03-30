@@ -1,0 +1,143 @@
+@import '../../../variables.less';
+
+.second-row {
+  margin-top: 50px;
+}
+.achives {
+  background: @light-grey;
+  box-shadow: 0px 2px 4px 1px rgba(45, 98, 85, 0.25);
+  border-radius: 30px;
+  width: 124px;
+  padding: 5px 20px;
+  position: relative;
+  span {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 41px;
+    letter-spacing: -0.01em;
+
+    color: @dark-green;
+  }
+
+  &.cristals {
+    text-align: end;
+
+    &::before {
+      content: '';
+      height: 77px;
+      width: 64px;
+      background-image: url(../../../assets/images/icons/diamond.svg);
+      background-repeat: no-repeat;
+      background-size: auto 100%;
+      position: absolute;
+      left: -10px;
+      bottom: 0;
+    }
+  }
+
+  &.chest {
+    text-align: start;
+
+    &::before {
+      content: '';
+      width: 77px;
+      height: 62px;
+      background-image: url(../../../assets/images/icons/chest.svg);
+      background-repeat: no-repeat;
+      background-size: auto 100%;
+      position: absolute;
+      right: -10px;
+      bottom: -2px;
+    }
+  }
+}
+
+.grid {
+  margin-top: -20px;
+}
+
+.main-chest {
+  position: relative;
+  margin-top: 80px;
+  img {
+    height: 383px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .bg {
+    position: absolute;
+    width: 397px;
+    height: 254px;
+    z-index: 1;
+    top: -42px;
+    background: @light-green;
+    filter: blur(72px);
+  }
+}
+
+.next-tasks {
+  display: flex;
+  justify-content: center;
+  height: 364px;
+  position: relative;
+  margin-bottom: 20px;
+  align-items: start;
+  .btn-outline-success {
+    text-transform: none;
+    font-weight: 600;
+    font-style: 16px;
+    line-height: 22px;
+    padding: 14px 73px;
+  }
+  .cloud {
+    position: absolute;
+    width: 307px;
+    height: 230px;
+    padding: 30px 37px;
+    top: -270px;
+    right: 0;
+    background: url(../../../assets/images/tasks_cloud.svg) no-repeat 0 0 / 100% 100%;
+  }
+  &::after {
+    content: '';
+    background: url(../../../assets/images/tasks_tigr.png) right 0 top 0 / auto 100% no-repeat;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    right: -124px;
+    top: -68px;
+  }
+}
+
+.sign-up {
+  height: 504px;
+  background: url(../../../assets/images/tigr_s_kaskoy_full.png) no-repeat left calc(50% - 42px) top
+    0 / auto 100%;
+  margin-top: 160px;
+  position: relative;
+  .cloud {
+    position: absolute;
+    width: 409px;
+    height: 214px;
+    padding: 23px 49px;
+    top: -125px;
+    left: 52%;
+    background: url(../../../assets/images/tasks_sign_up_cloud.png) no-repeat 0 0 / 100% 100%;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 30px;
+    letter-spacing: -0.01em;
+  }
+  .btn {
+    position: absolute;
+    left: calc(50% + 64px);
+    top: 100px;
+
+    padding: 22px 52px !important;
+    width: unset;
+  }
+}

@@ -1,1 +1,51 @@
-<p>tasks works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-6 d-flex justify-content-start align-items-center">
+      <app-pie-chart [percent]="20" [color]="'#FF952C'" [label]="'4'"></app-pie-chart>
+      <span class="text-muted ml-1"
+        >Упражений<br />
+        сегодня</span
+      >
+    </div>
+    <div class="col-6 d-flex justify-content-end align-items-center">
+      <span class="text-muted mr-1"
+        >Упражений<br />
+        с 1 попытки</span
+      >
+      <app-pie-chart [percent]="20" [color]="'#7EE1E4'" [label]="'4'"></app-pie-chart>
+    </div>
+    <div class="col-6 d-flex justify-content-start align-items-center second-row">
+      <div class="achives cristals">
+        <span>60</span>
+      </div>
+    </div>
+    <div class="col-6 d-flex justify-content-end align-items-center second-row">
+      <div class="achives chest">
+        <span>0</span>
+      </div>
+    </div>
+  </div>
+  <div class="grid">
+    <app-grid></app-grid>
+  </div>
+  <ng-container *ngIf="userService.activeChild"
+    ><div class="d-flex justify-content-center main-chest">
+      <img src="../../../assets/images/tasks_chest.png" />
+      <div class="bg"></div>
+    </div>
+    <div class="next-tasks">
+      <button class="btn btn-outline-success">Показать ещё 20 упражнений</button>
+      <div class="cloud text">
+        Рекомендуем <b>проходить</b> <br />не более <b>20 упражнений</b> <br />в день для лучшего
+        усвоения информации!
+      </div>
+    </div>
+  </ng-container>
+  <div class="sign-up" *ngIf="!userService.activeChild">
+    <div class="cloud">
+      Первый сундучек уже готов! <br />А вы не зарегистрированы? <br />Пора зарегистрироваться
+      <br />и оплатить подписку
+    </div>
+    <button class="btn btn-success" (click)="signUp()">зарегистрироваться</button>
+  </div>
+</div>
