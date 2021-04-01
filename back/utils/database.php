@@ -48,8 +48,20 @@ class DataBase
     {
         for ($i = 0; $i < count(array_keys((array)$object)); $i++) {
             $object[array_keys((array)$object)[$i]] = htmlspecialchars(strip_tags($object[array_keys((array)$object)[$i]]));
+            if (gettype($object[array_keys((array)$object)[$i]]) == 'string' && strpos(array_keys((array)$object)[$i], 'date') === false && strpos(array_keys((array)$object)[$i], 'image') === false) {
+                $object[array_keys((array)$object)[$i]] = json_encode($object[array_keys((array)$object)[$i]]);
+            }
         }
+        return $object;
+    }
 
+    public function decode($object)
+    {
+        for ($i = 0; $i < count(array_keys((array)$object)); $i++) {
+            if (gettype($object[array_keys((array)$object)[$i]]) == 'string' && strpos(array_keys((array)$object)[$i], 'date') === false && strpos(array_keys((array)$object)[$i], 'image') === false) {
+                $object[array_keys((array)$object)[$i]] = json_decode($object[array_keys((array)$object)[$i]]);
+            }
+        }
         return $object;
     }
 }

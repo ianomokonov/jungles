@@ -22,12 +22,15 @@ class User
 
     public function create($userData)
     {
+        $password = htmlspecialchars(strip_tags($userData->password));
+        unset($userData->password);
         $userData = $this->dataBase->stripAll((array)$userData);
-        $userData['password'] = password_hash($userData['password'], PASSWORD_BCRYPT);
+        $password = password_hash($password, PASSWORD_BCRYPT);
         if ($this->EmailExists($userData['email'])) {
             throw new Exception('Пользователь уже существует');
         }
-        // Вставляем запрос 
+        // Вставляем запрос
+        $userData['password'] = json_encode($password); 
         $query = $this->dataBase->genInsertQuery(
             $userData,
             $this->table
@@ -51,7 +54,7 @@ class User
     public function read($userId)
     {
         $query = "SELECT name, surname, image, email, phone FROM $this->table WHERE id='$userId'";
-        $user = $this->dataBase->db->query($query)->fetch();
+        $user = $this->dataBase->decode($this->dataBase->db->query($query)->fetch());
         // if($user == true){
         //     throw new Exception("User not found", 404);
         // }
@@ -95,8 +98,8 @@ class User
     {
         if ($email != null) {
             $sth = $this->dataBase->db->prepare("SELECT id, password FROM " . $this->table . " WHERE email = ? LIMIT 1");
-            $sth->execute(array($email));
-            $fullUser = $sth->fetch();
+            $sth->execute(array(json_encode($email)));
+            $fullUser = $this->dataBase->decode($sth->fetch());
             if ($fullUser) {
                 if (!password_verify($password, $fullUser['password'])) {
                     throw new Exception("User not found", 404);
@@ -119,10 +122,10 @@ class User
         // подготовка запроса 
         $stmt = $this->dataBase->db->prepare($query);
         // инъекция 
-        $email = htmlspecialchars(strip_tags($token));
+        $token = htmlspecialchars(strip_tags($token));
         $userId = htmlspecialchars(strip_tags($userId));
         // выполняем запрос 
-        $stmt->execute(array($email, $userId));
+        $stmt->execute(array($token, $userId));
 
         // получаем количество строк 
         $num = $stmt->rowCount();
@@ -153,7 +156,7 @@ class User
     public function updatePassword($userId, $password)
     {
         if ($userId) {
-            $password = password_hash($password, PASSWORD_BCRYPT);
+            $password = json_encode(password_hash($password, PASSWORD_BCRYPT));
             $query = "UPDATE $this->table SET password = '$password' WHERE id=$userId";
             $stmt = $this->dataBase->db->query($query);
         } else {
@@ -165,6 +168,7 @@ class User
 
     public function sendMessage($userId, $request)
     {
+        $request = $this->dataBase->stripAll($request);
         $request['userId'] = $userId;
         $query = $this->dataBase->genInsertQuery(
             $request,
@@ -232,7 +236,7 @@ class User
         // подготовка запроса 
         $stmt = $this->dataBase->db->prepare($query);
         // инъекция 
-        $email = htmlspecialchars(strip_tags($email));
+        $email = json_encode(htmlspecialchars(strip_tags($email)));
         // выполняем запрос 
         $stmt->execute(array($email));
 
