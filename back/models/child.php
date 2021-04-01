@@ -90,7 +90,7 @@ class Child
             if ($childImage) {
                 $this->fileUploader->removeFile($childImage);
             }
-            $data['image'] = $this->fileUploader->upload($image, 'ChildrenImages', uniqid());
+            $data['image'] = json_encode($this->fileUploader->upload($image, 'ChildrenImages', uniqid()));
         }
         if (isset($data['image']) && $data['image'] == 'null') {
             $data['image'] = '';
@@ -128,6 +128,7 @@ class Child
         $children = [];
         $stmt = $this->dataBase->db->query($query);
         while ($child = $stmt->fetch()) {
+            $child = $this->dataBase->decode($child);
             $child["id"] = $child["id"] * 1;
             $date = DateTime::createFromFormat('Y-m-d', $child["dateOfBirth"]);
             $child["age"] = $now->diff($date)->y;

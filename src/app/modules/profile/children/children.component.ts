@@ -104,6 +104,7 @@ export class ChildrenComponent implements AfterViewInit, OnDestroy {
         this.userService.getUserInfo().subscribe(() => {
           this.showAddForm = false;
         });
+        this.addChildForm.reset();
       }
     });
   }
