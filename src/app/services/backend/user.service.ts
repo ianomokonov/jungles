@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { mergeMap, tap } from 'rxjs/operators';
-import { activeChildKey } from 'src/app/constants';
+import { activeChildKey, modalOpenedKey } from 'src/app/constants';
 import { Child } from 'src/app/models/child.class';
 import { Payment } from 'src/app/models/payment';
 import { Result } from 'src/app/models/result.class';
@@ -77,16 +77,19 @@ export class UserService {
   }
 
   public logOut() {
-    this.http.delete<string>(
-      `${this.baseUrl}/delete-token&token=${this.tokenService.getRefreshToken()}`,
-    );
-    this.tokenService.removeTokens();
-    localStorage.removeItem(activeChildKey);
-    this.activeChild = null;
-    this.user = null;
-    if (this.router.url.indexOf('profile') > -1 || this.router.url.indexOf('tasks') > -1) {
-      this.router.navigate(['/']);
-    }
+    this.http
+      .delete<string>(`${this.baseUrl}/delete-token&token=${this.tokenService.getRefreshToken()}`)
+      .pipe(
+        tap(() => {
+          this.tokenService.removeTokens();
+          sessionStorage.removeItem(modalOpenedKey);
+          this.activeChildId = null;
+          this.user = null;
+          if (this.router.url.indexOf('profile') > -1 || this.router.url.indexOf('tasks') > -1) {
+            this.router.navigate(['/']);
+          }
+        }),
+      );
   }
 
   public addUser(data: any): Observable<User> {

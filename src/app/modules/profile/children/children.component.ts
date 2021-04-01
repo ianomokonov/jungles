@@ -1,9 +1,11 @@
 import { AfterViewInit, Component, Input, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { blockAmount, tasksAmount } from 'src/app/constants';
+import { takeWhile } from 'rxjs/operators';
+import { blockAmount, modalOpenedKey, tasksAmount } from 'src/app/constants';
 import { ChildRequest } from 'src/app/models/add-child-request';
 import { Child } from 'src/app/models/child.class';
+import { TokenService } from 'src/app/services/backend/token.service';
 import { UserService } from 'src/app/services/backend/user.service';
 // import { DateValidator } from 'src/app/validators/date.validator';
 import { ProfileService } from '../profile.service';
@@ -25,6 +27,7 @@ export class ChildrenComponent implements AfterViewInit, OnDestroy {
   public showParentEditForm = false;
   private onDeleteChildId: number;
   public submitted = false;
+  private rxAlive = true;
 
   constructor(
     public profileService: ProfileService,
@@ -32,6 +35,7 @@ export class ChildrenComponent implements AfterViewInit, OnDestroy {
     public modal: NgbActiveModal,
     public userService: UserService,
     private fb: FormBuilder,
+    private tokenService: TokenService,
   ) {
     this.showAddForm = false;
     this.addChildForm = this.fb.group({
@@ -55,17 +59,24 @@ export class ChildrenComponent implements AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit() {
-    if (sessionStorage.getItem('openedModal')) {
+    if (sessionStorage.getItem(modalOpenedKey)) {
       return;
     }
-    if (window.innerWidth > 767 && !this.isMobile) {
-      this.modalOpen(this.message);
-      sessionStorage.setItem('openedModal', 'true');
-      return;
-    }
-    if (window.innerWidth < 768 && this.isMobile) {
-      this.modalOpen(this.message);
-      sessionStorage.setItem('openedModal', 'true');
+    if (this.tokenService.getAuthToken()) {
+      this.userService.userLoaded$.pipe(takeWhile(() => this.rxAlive)).subscribe((user) => {
+        if (!user || this.userService.activeChild) {
+          return;
+        }
+        if (window.innerWidth > 767 && !this.isMobile) {
+          this.modalOpen(this.message);
+          sessionStorage.setItem(modalOpenedKey, 'true');
+          return;
+        }
+        if (window.innerWidth < 768 && this.isMobile) {
+          this.modalOpen(this.message);
+          sessionStorage.setItem(modalOpenedKey, 'true');
+        }
+      });
     }
   }
 
@@ -75,9 +86,11 @@ export class ChildrenComponent implements AfterViewInit, OnDestroy {
     this.changeParentForm.reset();
     this.showAddForm = false;
     this.showParentEditForm = false;
-    this.userService.user?.children.forEach((child) => {
+    this.userService.user?.children.forEach((childTemp) => {
+      const child = childTemp;
       child.editing = false;
     });
+    this.rxAlive = false;
   }
 
   public modalOpen(content: TemplateRef<any>) {
