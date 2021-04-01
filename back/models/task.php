@@ -34,7 +34,11 @@ class Task
                 )
             )
             AND ca.lastUpdateDate >= CURDATE()";
-        $todayAnswers = $this->dataBase->db->query($query)->fetchAll();
+        $todayAnswers = [];
+        $stmt = $this->dataBase->db->query($query);
+        while ($todayAnswer = $stmt->fetch()) {
+            $todayAnswers[] = $this->dataBase->decode($todayAnswer);
+        }
         $result = array(
             "todayAnswersCount" => count($todayAnswers),
             "firstTryCount" => count(array_filter($todayAnswers, function ($v) {
@@ -59,7 +63,7 @@ class Task
         $stmt = $this->dataBase->db->query($query);
         $tasks = [];
         while ($task = $stmt->fetch()) {
-            
+            $task = $this->dataBase->decode($task);
             $task['id'] = $task['id'] * 1;
             $task['type'] = $task['type'] * 1;
             $task['questions'] = $this->getQuestions($task['id'], $childId);
@@ -80,6 +84,7 @@ class Task
         $stmt = $this->dataBase->db->query($query);
         $questions = [];
         while ($question = $stmt->fetch()) {
+            $question = $this->dataBase->decode($question);
             $question['id'] = $question['id'] * 1;
             $question['type'] = $question['type'] * 1;
             $question['cristalCount'] = $question['cristalCount'] * 1;
@@ -103,6 +108,7 @@ class Task
 
         $answers = [];
         while ($answer = $stmt->fetch()) {
+            $answer = $this->dataBase->decode($answer);
             $answer['id'] = $answer['id'] * 1;
             $answers[] = $answer;
         }
@@ -124,6 +130,7 @@ class Task
         $stmt = $this->dataBase->db->query($query);
         $answers = [];
         while ($answer = $stmt->fetch()) {
+            $answer = $this->dataBase->decode($answer);
             $answer['isCorrect'] = $answer['isCorrect'] == '1';
             $answer['id'] = $answer['id'] * 1;
             $answers[] = $answer;
