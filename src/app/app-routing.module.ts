@@ -44,7 +44,14 @@ const routes: Routes = [
   {
     path: 'tasks',
     loadChildren: () => import('./modules/tasks/tasks.module').then((m) => m.TasksModule),
-    data: { title: 'Упражнения' },
+    data: {
+      title: 'Упражнения',
+      style: {
+        'background-image': 'url(./assets/images/tasks_bg.png)',
+        'background-size': '100% auto',
+      },
+      class: 'tasks-page',
+    },
   },
   {
     path: 'update',

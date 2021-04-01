@@ -178,6 +178,8 @@ h3,
   justify-content: center;
   align-items: center;
   white-space: nowrap;
+
+  outline: none !important;
 }
 
 .btn-small {
@@ -227,6 +229,18 @@ h3,
     outline: none;
     border-bottom: 4px solid #42674e;
     box-shadow: 0px 5px 12px rgba(66, 103, 78, 0.4);
+  }
+}
+
+.btn-outline-success {
+  border: 1px solid @dark-green;
+  color: @dark-green;
+
+  &:focus,
+  &:active,
+  &:hover {
+    color: white;
+    background-color: @dark-green;
   }
 }
 
@@ -732,6 +746,17 @@ app-feedback-slider {
   html {
     background-size: 100% auto !important;
     background-repeat: repeat-y;
+    .tasks-page {
+      .nav-menu {
+        .container {
+          .logo {
+            .menu-monkey {
+              display: block !important;
+            }
+          }
+        }
+      }
+    }
   }
 }
 

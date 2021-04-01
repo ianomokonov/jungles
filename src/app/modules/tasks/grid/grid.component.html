@@ -1,0 +1,15 @@
+<div class="container d-flex justify-content-center flex-wrap">
+  <ng-container *ngFor="let task of tasks; let index = index">
+    <div class="task-container d-flex justify-content-center">
+      <div
+        class="task"
+        [ngClass]="{ active: index === 0, 'task-lg': index === 0, solved: index === 5 }"
+      >
+        <img class="task-img" src="../../../../assets/images/book.png" />
+        <span class="task-label">Грамота</span>
+        <span class="points d-none">+10</span>
+      </div>
+    </div>
+    <div class="break" *ngIf="isBreakShown(index)"></div>
+  </ng-container>
+</div>
