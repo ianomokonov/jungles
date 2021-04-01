@@ -89,7 +89,9 @@ class Task
             $question['type'] = $question['type'] * 1;
             $question['cristalCount'] = $question['cristalCount'] * 1;
             $question['answers'] = $this->getAnswers($question['id']);
-            $question['childAnswers'] = $this->getChildAnswers($question['id'], $childId);
+            if ($childId) {
+                $question['childAnswers'] = $this->getChildAnswers($question['id'], $childId);
+            }
             $questions[] = $question;
         }
 

@@ -77,8 +77,10 @@ export class UserService {
   }
 
   public logOut() {
-    this.http
-      .delete<string>(`${this.baseUrl}/delete-token&token=${this.tokenService.getRefreshToken()}`)
+    return this.http
+      .post<string>(`${this.baseUrl}/user/delete-token`, {
+        token: this.tokenService.getRefreshToken(),
+      })
       .pipe(
         tap(() => {
           this.tokenService.removeTokens();

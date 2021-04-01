@@ -39,7 +39,7 @@ export class NavMenuComponent implements OnInit {
   }
 
   public exit(): void {
-    this.userService.logOut();
+    this.userService.logOut().subscribe();
   }
 
   public getUserImg(): string {

@@ -121,6 +121,13 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
             $response->getBody()->write(json_encode($user->updatePassword($userId, $request->getParsedBody()['password'])));
             return $response;
         });
+
+        $userGroup->post('/delete-token', function (Request $request, Response $response) use ($dataBase) {
+            $userId = $request->getAttribute('userId');
+            $user = new User($dataBase);
+            $response->getBody()->write(json_encode($user->removeRefreshToken($userId)));
+            return $response;
+        });
     });
 
     $group->group('child/{id}',  function (RouteCollectorProxy $childGroup) use ($dataBase) {
