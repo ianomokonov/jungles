@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-grid',
@@ -6,13 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./grid.component.less'],
 })
 export class GridComponent {
-  public tasks = [];
+  @Input() public tasks = [];
   private breakIndexes: number[] = [0, 3, 5, 8, 12, 14, 17];
   private breakIndexesSm: number[] = [0, 2, 3, 5, 6, 8, 9, 11, 12, 14, 15, 17, 18, 19];
-
-  constructor() {
-    this.tasks.length = 20;
-  }
 
   public isBreakShown(index: number) {
     const width = window.innerWidth;

@@ -8,7 +8,14 @@ import { ProfileService } from '../profile/profile.service';
   styleUrls: ['./tasks.component.less'],
 })
 export class TasksComponent {
-  constructor(public userService: UserService, private profileService: ProfileService) {}
+  public tasks = [];
+  public showBackDrop = false;
+  constructor(public userService: UserService, private profileService: ProfileService) {
+    this.tasks.length = 20;
+    if (!this.tasks[0]?.isDone) {
+      this.showBackDrop = true;
+    }
+  }
 
   public signUp() {
     this.profileService.openRegForm$.next();
