@@ -14,7 +14,6 @@ CREATE TABLE IF NOT EXISTS refreshTokens(
     id int(10) PRIMARY KEY AUTO_INCREMENT,
     userId int(10) NOT NULL,
     token varchar(255) NOT NULL,
-
     FOREIGN KEY (userId) REFERENCES jungleUser(id) ON DELETE CASCADE
 );
 
@@ -25,8 +24,52 @@ CREATE TABLE IF NOT EXISTS child(
     image varchar(255) NULL,
     surname varchar(255) NUll,
     dateOfBirth date NOT NULL,
-    
     FOREIGN KEY (userId) REFERENCES jungleUser(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS task(
+    id int(10) PRIMARY KEY AUTO_INCREMENT,
+    type int(10) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS question(
+    id int(10) PRIMARY KEY AUTO_INCREMENT,
+    taskId int(10) NOT NULL,
+    type int(10) NOT NULL,
+    name varchar(255) NOT NULL,
+    image varchar(255) NULL,
+    cristalCount int(10) NOT NULL,
+    FOREIGN KEY (taskId) REFERENCES task(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS variant(
+    id int(10) PRIMARY KEY AUTO_INCREMENT,
+    questionId int(10) NOT NULL,
+    name varchar(255) NOT NULL,
+    FOREIGN KEY (questionId) REFERENCES question(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS answer(
+    id int(10) PRIMARY KEY AUTO_INCREMENT,
+    questionId int(10) NOT NULL,
+    name varchar(255) NOT NULL,
+    image varchar(255) NULL,
+    isCorrect bit DEFAULT 0,
+    correctVariantId int(10) NULL,
+    FOREIGN KEY (questionId) REFERENCES question(id) ON DELETE CASCADE,
+    FOREIGN KEY (correctVariantId) REFERENCES variant(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS childAnswer(
+    id int(10) PRIMARY KEY AUTO_INCREMENT,
+    childId int(10) NOT NULL,
+    answerId int(10) NOT NULL,
+    variantId int(10) NULL,
+    isFirstTime bit DEFAULT 1,
+    lastUpdateDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (childId) REFERENCES child(id) ON DELETE CASCADE,
+    FOREIGN KEY (answerId) REFERENCES answer(id) ON DELETE CASCADE,
+    FOREIGN KEY (variantId) REFERENCES variant(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS alerts(
@@ -35,7 +78,6 @@ CREATE TABLE IF NOT EXISTS alerts(
     text text NOT NULL,
     isSeen bit DEFAULT 0,
     createdDate DATETIME DEFAULT CURRENT_TIMESTAMP,
-
     FOREIGN KEY (childId) REFERENCES child(id) ON DELETE CASCADE
 );
 
@@ -47,4 +89,25 @@ CREATE TABLE IF NOT EXISTS messages(
     createdDate DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-ALTER TABLE `messages` ADD FOREIGN KEY (`userId`) REFERENCES `jungleUser`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE
+    `messages`
+ADD
+    FOREIGN KEY (`userId`) REFERENCES `jungleUser`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+SELECT
+    ca.isFirstTime,
+    q.cristalCount
+FROM
+    childAnswer ca
+    JOIN answer a ON ca.answerId = a.id
+    JOIN question q ON a.questionId = q.id
+WHERE
+    ca.childId = 1
+    AND (
+        a.isCorrect
+        OR (
+            a.correctVariantId IS NOT NULL
+            AND a.correctVariantId = ca.variantId
+        )
+    )
+    AND ca.lastUpdateDate >= CURDATE()

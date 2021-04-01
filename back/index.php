@@ -8,6 +8,7 @@ require_once './utils/database.php';
 require_once './utils/token.php';
 require_once './models/user.php';
 require_once './models/child.php';
+require_once './models/task.php';
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Psr7\Response as ResponseClass;
@@ -164,6 +165,23 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
             $response->getBody()->write(json_encode($child->setAlertsSeen($request->getParsedBody()['alertIds'])));
             return $response->withStatus(200);
         });
+
+        $childGroup->group('/tasks',  function (RouteCollectorProxy $taskGroup) use ($dataBase) {
+            $taskGroup->get('/get-tasks-info', function (Request $request, Response $response) use ($dataBase) {
+                $childId = $request->getAttribute('childId');
+                $task = new Task($dataBase);
+                $response->getBody()->write(json_encode($task->getTasksInfo($childId)));
+                return $response;
+            });
+
+            $taskGroup->get('/get-tasks', function (Request $request, Response $response) use ($dataBase) {
+                $childId = $request->getAttribute('childId');
+                $task = new Task($dataBase);
+                $response->getBody()->write(json_encode($task->getTasks($childId, 0, 20)));
+                return $response;
+            });
+        });
+
     })->add(function (Request $request, RequestHandler $handler) use ($dataBase) {
         $userId = $request->getAttribute('userId');
         $routeContext = RouteContext::fromRequest($request);
