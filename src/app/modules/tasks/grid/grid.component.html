@@ -3,10 +3,14 @@
     <div class="task-container d-flex justify-content-center">
       <div
         class="task"
-        [ngClass]="{ active: index === 0, 'task-lg': index === 0, solved: index === 5 }"
+        [ngClass]="{
+          active: task.isActive,
+          'task-lg': index === 0 && task.isActive,
+          solved: task.isSolved
+        }"
       >
-        <img class="task-img" src="../../../../assets/images/book.png" />
-        <span class="task-label">Грамота</span>
+        <img class="task-img" [src]="'../../../../assets/images/' + (task.type | taskImage)" />
+        <span class="task-label">{{ task.type | taskLabel }}</span>
         <span class="points d-none">+10</span>
       </div>
     </div>

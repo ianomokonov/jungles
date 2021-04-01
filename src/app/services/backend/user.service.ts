@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { mergeMap, tap } from 'rxjs/operators';
 import { activeChildKey } from 'src/app/constants';
 import { Child } from 'src/app/models/child.class';
@@ -16,6 +16,7 @@ import { TokenService } from './token.service';
 export class UserService {
   private baseUrl: string = environment.baseUrl;
   public user: User;
+  public userLoaded$: BehaviorSubject<User> = new BehaviorSubject(null);
   public activeChild: Child;
   public get activeChildId(): number {
     return +localStorage.getItem(activeChildKey);
@@ -112,6 +113,7 @@ export class UserService {
             );
           }
         }
+        this.userLoaded$.next(this.user);
       }),
     );
   }

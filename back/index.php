@@ -177,11 +177,10 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
             $taskGroup->get('/get-tasks', function (Request $request, Response $response) use ($dataBase) {
                 $childId = $request->getAttribute('childId');
                 $task = new Task($dataBase);
-                $response->getBody()->write(json_encode($task->getTasks($childId, 0, 20)));
+                $response->getBody()->write(json_encode($task->getTasks($childId, $request->getQueryParams()['offset'], $request->getQueryParams()['count'])));
                 return $response;
             });
         });
-
     })->add(function (Request $request, RequestHandler $handler) use ($dataBase) {
         $userId = $request->getAttribute('userId');
         $routeContext = RouteContext::fromRequest($request);

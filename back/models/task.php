@@ -59,8 +59,11 @@ class Task
         $stmt = $this->dataBase->db->query($query);
         $tasks = [];
         while ($task = $stmt->fetch()) {
+            
+            $task['id'] = $task['id'] * 1;
+            $task['type'] = $task['type'] * 1;
             $task['questions'] = $this->getQuestions($task['id'], $childId);
-            $tasks[] = $tasks;
+            $tasks[] = $task;
         }
 
         return $tasks;
@@ -77,6 +80,9 @@ class Task
         $stmt = $this->dataBase->db->query($query);
         $questions = [];
         while ($question = $stmt->fetch()) {
+            $question['id'] = $question['id'] * 1;
+            $question['type'] = $question['type'] * 1;
+            $question['cristalCount'] = $question['cristalCount'] * 1;
             $question['answers'] = $this->getAnswers($question['id']);
             $question['childAnswers'] = $this->getChildAnswers($question['id'], $childId);
             $questions[] = $question;
@@ -95,13 +101,19 @@ class Task
             a.questionId = $questionId";
         $stmt = $this->dataBase->db->query($query);
 
-        return $stmt->fetchAll();
+        $answers = [];
+        while ($answer = $stmt->fetch()) {
+            $answer['id'] = $answer['id'] * 1;
+            $answers[] = $answer;
+        }
+
+        return $answers;
     }
 
     public function getChildAnswers($questionId, $childId)
     {
         $query = "SELECT
-        ca.Id,
+        ca.id,
         a.isCorrect,
         (a.correctVariantId = ca.variantId) as isCorrectVariant
         FROM
@@ -110,7 +122,13 @@ class Task
         WHERE 
             a.questionId = $questionId AND ca.childId = $childId";
         $stmt = $this->dataBase->db->query($query);
+        $answers = [];
+        while ($answer = $stmt->fetch()) {
+            $answer['isCorrect'] = $answer['isCorrect'] == '1';
+            $answer['id'] = $answer['id'] * 1;
+            $answers[] = $answer;
+        }
 
-        return $stmt->fetchAll();
+        return $answers;
     }
 }

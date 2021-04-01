@@ -25,3 +25,5 @@ export const defaultPeriod: Period = { label: 'За всё время' };
 // Временные значения количества и количества заданий (всего)
 export const blockAmount = 6;
 export const tasksAmount = 40;
+
+export const tasksPerPage = 20;
