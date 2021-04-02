@@ -1,10 +1,15 @@
 import { Period } from './models/periods';
 
+// Токены
 export const refreshTokenKey = 'refreshToken';
 export const userTokenKey = 'userToken';
-export const activeChildKey = 'activeChildId';
 export const invalidTokenError = 'Invalid Token';
+
+export const activeChildKey = 'activeChildId';
 export const modalOpenedKey = 'openedModal';
+// Задачи и ответы
+export const userTasksKey = 'userTasks';
+export const userTasksInfoKey = 'userTasksInfo';
 
 export const months = [
   'Январь',

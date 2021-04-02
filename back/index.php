@@ -50,6 +50,18 @@ $app->post('/sign-up', function (Request $request, Response $response) use ($dat
     }
 });
 
+$app->get('/get-tasks', function (Request $request, Response $response) use ($dataBase) {
+    $task = new Task($dataBase);
+    try {
+        $response->getBody()->write(json_encode($task->getTasks(null, 0, 20)));
+        return $response;
+    } catch (Exception $e) {
+        $response = new ResponseClass();
+        $response->getBody()->write(json_encode(array("message" => $e->getMessage())));
+        return $response->withStatus(500);
+    }
+});
+
 $app->post('/refresh-token', function (Request $request, Response $response) use ($dataBase) {
     try {
         $user = new User($dataBase);
