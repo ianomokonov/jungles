@@ -1,12 +1,17 @@
 import { Answer } from './answer';
+import { AnswerType } from './answer-type';
 import { ChildAnswer } from './child-answer';
+import { Variant } from './variant';
 
 export interface TaskQuestion {
   id: number;
   name: string;
-  taskId: number;
+  taskId?: number;
   cristalsCount: number;
-  image: string;
+  image?: string;
   answers: Answer[];
   childAnswers: ChildAnswer[];
+  variants?: Variant[];
+
+  type: AnswerType;
 }
