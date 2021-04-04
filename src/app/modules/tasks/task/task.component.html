@@ -1,31 +1,37 @@
 <div class="backdrop"></div>
 <div class="container d-flex">
-  <div class="close-task-btn"><img src="../../assets/images/icons/cross.svg" /></div>
+  <div class="close-task-btn" routerLink="/tasks">
+    <img src="../../assets/images/icons/cross.svg" />
+  </div>
   <div class="task-container">
-    <ul ngbNav #nav="ngbNav" class="nav-tabs row m-0 question-menu">
-      <li
-        ngbNavItem
-        class="question-menu-item col p-0"
-        *ngFor="let question of questions; let index = index"
-      >
-        <a ngbNavLink>{{ index + 1 }}</a>
-        <ng-template ngbNavContent>
-          <ng-container [ngSwitch]="question.type">
-            <ng-container *ngSwitchCase="answerType.Choice">
-              <ng-container
-                *ngTemplateOutlet="choice; context: { question: question }"
-              ></ng-container>
+    <ng-container *ngIf="task"
+      ><ul ngbNav #nav="ngbNav" class="nav-tabs row m-0 question-menu">
+        <li
+          ngbNavItem
+          class="question-menu-item col p-0"
+          *ngFor="let question of task?.questions; let index = index"
+        >
+          <a ngbNavLink [ngClass]="{ done: question.isDone, failed: question.isFailed }">{{
+            index + 1
+          }}</a>
+          <ng-template ngbNavContent>
+            <ng-container [ngSwitch]="question.type">
+              <ng-container *ngSwitchCase="answerType.Choice">
+                <ng-container
+                  *ngTemplateOutlet="choice; context: { question: question }"
+                ></ng-container>
+              </ng-container>
+              <ng-container *ngSwitchCase="answerType.Variants">
+                <ng-container
+                  *ngTemplateOutlet="variants; context: { question: question }"
+                ></ng-container>
+              </ng-container>
             </ng-container>
-            <ng-container *ngSwitchCase="answerType.Variants">
-              <ng-container
-                *ngTemplateOutlet="variants; context: { question: question }"
-              ></ng-container>
-            </ng-container>
-          </ng-container>
-        </ng-template>
-      </li>
-    </ul>
-    <div [ngbNavOutlet]="nav"></div>
+          </ng-template>
+        </li>
+      </ul>
+      <div [ngbNavOutlet]="nav"></div
+    ></ng-container>
   </div>
   <div class="stats">
     <div class="achives chest">
@@ -58,9 +64,20 @@
     </div>
     <div class="answer-container">
       <div class="answers">
-        <div class="answer text-b" *ngFor="let answer of question.answers">{{ answer.name }}</div>
+        <div
+          class="answer text-b"
+          [ngClass]="{
+            active: choosedAnswerId == answer.id,
+            correct: answer.isCorrect,
+            incorrect: answer.isIncorrect
+          }"
+          *ngFor="let answer of question.answers"
+          (click)="choose(answer.id, question.isDone)"
+        >
+          {{ answer.name }}
+        </div>
       </div>
-      <ng-container *ngTemplateOutlet="btns"></ng-container>
+      <ng-container *ngTemplateOutlet="btns; context: { type: question.type, isDone: question.isDone }"></ng-container>
     </div>
   </div>
 </ng-template>
@@ -105,10 +122,10 @@
   </div>
 </ng-template>
 
-<ng-template #btns>
+<ng-template #btns let-type="type" let-isDone="isDone">
   <div class="btns">
     <button class="btn btn-outline-success">Помощь</button>
-    <button class="btn btn-success">Принять ответ</button>
+    <button class="btn btn-success" (click)="checkAnswer(type)" [disabled]="isDone">Принять ответ</button>
     <button class="btn btn-outline-success">Звук</button>
   </div>
 </ng-template>

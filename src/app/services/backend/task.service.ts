@@ -37,4 +37,21 @@ export class TaskService {
   public getUnregTasks(): Observable<Task[]> {
     return this.http.get<Task[]>(`${this.baseUrl}/get-tasks`);
   }
+
+  public getTask(id: number, childId: number): Observable<Task> {
+    return this.http.get<Task>(`${this.baseUrl}/child/${childId}/tasks/${id}`);
+  }
+
+  public checkAnswer(id: number, childId: number): Observable<boolean> {
+    return this.http.post<boolean>(`${this.baseUrl}/child/${childId}/tasks/check-answer`, { id });
+  }
+
+  public checkVariants(
+    answers: { id: number; variantId: number }[],
+  ): Observable<{ id: number; variantId: number; isCorrect: boolean }[]> {
+    return this.http.post<{ id: number; variantId: number; isCorrect: boolean }[]>(
+      `${this.baseUrl}/tasks/check-answer-variants`,
+      answers,
+    );
+  }
 }

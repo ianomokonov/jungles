@@ -57,8 +57,19 @@
           letter-spacing: -0.01em;
           &.active {
             background-color: @orange;
+          }
 
+          &.done,
+          &.failed,
+          &.active {
             color: #ffffff;
+          }
+
+          &.done {
+            background-color: @green !important;
+          }
+          &.failed {
+            background-color: @red !important;
           }
         }
       }
@@ -132,7 +143,13 @@
           margin-right: 20px;
 
           &.active {
-            border-color: @orange;
+            border-color: @orange !important;
+          }
+          &.correct {
+            border-color: @green;
+          }
+          &.incorrect {
+            border-color: @red;
           }
         }
         .variants {

@@ -12,6 +12,8 @@ export interface TaskQuestion {
   answers: Answer[];
   childAnswers: ChildAnswer[];
   variants?: Variant[];
+  isDone?: boolean;
+  isFailed?: boolean;
 
   type: AnswerType;
 }

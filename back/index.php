@@ -199,6 +199,27 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
                 $response->getBody()->write(json_encode($task->getTasks($childId, $request->getQueryParams()['offset'], $request->getQueryParams()['count'])));
                 return $response;
             });
+            $taskGroup->get('/{taskId}', function (Request $request, Response $response) use ($dataBase) {
+                $routeContext = RouteContext::fromRequest($request);
+                $childId = $request->getAttribute('childId');
+                $route = $routeContext->getRoute();
+                $taskId = $route->getArgument('taskId');
+                $task = new Task($dataBase);
+                $response->getBody()->write(json_encode($task->getTasks($childId, 0, 1, $taskId)[0]));
+                return $response;
+            });
+            $taskGroup->post('/check-answer', function (Request $request, Response $response) use ($dataBase) {
+                $task = new Task($dataBase);
+                $childId = $request->getAttribute('childId');
+                $response->getBody()->write(json_encode($task->checkAnswer($request->getParsedBody(), $childId)));
+                return $response;
+            });
+            $taskGroup->post('/check-answer-variants', function (Request $request, Response $response) use ($dataBase) {
+                $task = new Task($dataBase);
+                $childId = $request->getAttribute('childId');
+                $response->getBody()->write(json_encode($task->checkAnswerVariants($request->getParsedBody(), $childId)));
+                return $response;
+            });
         });
     })->add(function (Request $request, RequestHandler $handler) use ($dataBase) {
         $userId = $request->getAttribute('userId');

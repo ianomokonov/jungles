@@ -53,13 +53,21 @@ class Task
         return $result;
     }
 
-    public function getTasks($childId, $offset, $count)
+    public function getTasks($childId, $offset, $count, $taskId = null)
     {
+
         $query = "SELECT
         *
         FROM
             task t
         LIMIT $offset, $count";
+        if ($taskId) {
+            $query = "SELECT
+            *
+            FROM
+                task
+            WHERE id = $taskId";
+        }
         $stmt = $this->dataBase->db->query($query);
         $tasks = [];
         while ($task = $stmt->fetch()) {
@@ -69,7 +77,6 @@ class Task
             $task['questions'] = $this->getQuestions($task['id'], $childId);
             $tasks[] = $task;
         }
-
         return $tasks;
     }
 
@@ -98,6 +105,41 @@ class Task
         return $questions;
     }
 
+    public function checkAnswer($answer, $childId)
+    {
+        $inserQuery = "INSERT INTO childAnswer (childId, answerId) VALUES (?,?)";
+        $insertStmt = $this->dataBase->db->prepare($inserQuery);
+        $insertStmt->execute(array($childId, $answer['id']));
+        $query = "SELECT
+        isCorrect
+        FROM
+            answer a
+        WHERE 
+            a.id = ".$answer['id'];
+        $stmt = $this->dataBase->db->query($query);
+        return $stmt->fetch()['isCorrect'] == '1';
+    }
+
+    public function checkAnswerVariants($answers, $childId)
+    {
+
+        foreach ($answers as $answer){
+            $inserQuery = "INSERT INTO childAnswer (childId, answerId, variantId) VALUES (?,?,?)";
+            $insertStmt = $this->dataBase->db->prepare($inserQuery);
+            $insertStmt->execute(array($childId, $answer['id'], $answer['variantId']));
+            $query = "SELECT
+                correctVariantId
+                FROM
+                    answer a
+                WHERE 
+                    a.id = ".$answer['id'];
+            $stmt = $this->dataBase->db->query($query);
+            $answer->isCorrect = $stmt->fetch()['correctVariantId'] == $answer['variantId'];
+        }
+
+        return $answers;
+    }
+
     public function getAnswers($questionId)
     {
         $query = "SELECT
@@ -123,6 +165,7 @@ class Task
         $query = "SELECT
         ca.id,
         a.isCorrect,
+        a.id as answerId,
         (a.correctVariantId = ca.variantId) as isCorrectVariant
         FROM
             childAnswer ca
@@ -135,6 +178,7 @@ class Task
             $answer = $this->dataBase->decode($answer);
             $answer['isCorrect'] = $answer['isCorrect'] == '1';
             $answer['id'] = $answer['id'] * 1;
+            $answer['answerId'] = $answer['answerId'] * 1;
             $answers[] = $answer;
         }
 
