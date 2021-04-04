@@ -3,6 +3,7 @@
     <div class="task-container d-flex justify-content-center">
       <div
         class="task"
+        [routerLink]="[task.id]"
         [ngClass]="{
           active: task.isActive,
           'task-lg': index === 0 && task.isActive,
