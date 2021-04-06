@@ -42,8 +42,11 @@ export class TaskService {
     return this.http.get<Task>(`${this.baseUrl}/child/${childId}/tasks/${id}`);
   }
 
-  public checkAnswer(id: number, childId: number): Observable<boolean> {
-    return this.http.post<boolean>(`${this.baseUrl}/child/${childId}/tasks/check-answer`, { id });
+  public checkAnswer(id: number, childId: number, childAnswerId?: number): Observable<boolean> {
+    return this.http.post<boolean>(`${this.baseUrl}/child/${childId}/tasks/check-answer`, {
+      id,
+      childAnswerId,
+    });
   }
 
   public checkVariants(

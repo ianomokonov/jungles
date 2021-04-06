@@ -7,13 +7,14 @@ export interface TaskQuestion {
   id: number;
   name: string;
   taskId?: number;
-  cristalsCount: number;
+  cristalCount: number;
   image?: string;
   answers: Answer[];
   childAnswers: ChildAnswer[];
   variants?: Variant[];
   isDone?: boolean;
   isFailed?: boolean;
+  tryCount?: number;
 
   type: AnswerType;
 }

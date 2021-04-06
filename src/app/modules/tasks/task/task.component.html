@@ -5,25 +5,31 @@
   </div>
   <div class="task-container">
     <ng-container *ngIf="task"
-      ><ul ngbNav #nav="ngbNav" class="nav-tabs row m-0 question-menu">
+      ><ul
+        ngbNav
+        #nav="ngbNav"
+        class="nav-tabs row m-0 question-menu"
+        [(activeId)]="activeQuestion.id"
+      >
         <li
-          ngbNavItem
+          [ngbNavItem]="question.id"
+          [disabled]="question.id !== activeQuestion.id"
           class="question-menu-item col p-0"
           *ngFor="let question of task?.questions; let index = index"
         >
           <a ngbNavLink [ngClass]="{ done: question.isDone, failed: question.isFailed }">{{
-            index + 1
+            getQuestionName(question, index + 1)
           }}</a>
           <ng-template ngbNavContent>
             <ng-container [ngSwitch]="question.type">
               <ng-container *ngSwitchCase="answerType.Choice">
                 <ng-container
-                  *ngTemplateOutlet="choice; context: { question: question }"
+                  *ngTemplateOutlet="choice; context: { $implicit: question }"
                 ></ng-container>
               </ng-container>
               <ng-container *ngSwitchCase="answerType.Variants">
                 <ng-container
-                  *ngTemplateOutlet="variants; context: { question: question }"
+                  *ngTemplateOutlet="variants; context: { $implicit: question }"
                 ></ng-container>
               </ng-container>
             </ng-container>
@@ -33,34 +39,58 @@
       <div [ngbNavOutlet]="nav"></div
     ></ng-container>
   </div>
-  <div class="stats">
+  <div class="stats" *ngIf="tasksInfo">
     <div class="achives chest">
-      <span>0</span>
+      <span>{{ tasksInfo.chests }}</span>
     </div>
     <div class="achives cristals">
-      <span>20</span>
+      <span>{{ tasksInfo.cristals }}</span>
     </div>
     <div class="d-flex align-items-center">
-      <app-pie-chart [percent]="(6 / 20) * 100" [color]="'#FF952C'" [label]="'6'"></app-pie-chart>
+      <app-pie-chart
+        [percent]="(tasksInfo.todayAnswersCount / 20) * 100"
+        [color]="'#FF952C'"
+        [label]="tasksInfo.todayAnswersCount.toString()"
+      ></app-pie-chart>
       <span class="ml-1"
         >Упражений<br />
         сегодня</span
       >
     </div>
     <div class="d-flex align-items-center">
-      <app-pie-chart [percent]="(6 / 6) * 100" [color]="'#7EE1E4'" [label]="'6'"></app-pie-chart>
+      <app-pie-chart
+        [percent]="(tasksInfo.firstTryCount / tasksInfo.todayAnswersCount) * 100"
+        [color]="'#7EE1E4'"
+        [label]="tasksInfo.firstTryCount.toString()"
+      ></app-pie-chart>
       <span class="ml-1"
         >Упражений<br />
         с 1 попытки</span
       >
     </div>
+    <div
+      class="d-flex align-items-center"
+      *ngIf="activeQuestion?.tryCount && !activeQuestion.isDone"
+    >
+      <span class="try-count">{{ activeQuestion?.tryCount }}</span>
+      <span class="ml-1"
+        >Количество<br />
+        попыток</span
+      >
+    </div>
   </div>
 </div>
 
-<ng-template #choice let-question="question">
+<ng-template #choice let-question>
   <div class="question-container question-choice">
     <div class="question">
-      {{ question.name }}
+      <ng-container
+        *ngTemplateOutlet="
+          showCurrentAnswer ? taskCompleted : questionName;
+          context: { $implicit: question }
+        "
+      >
+      </ng-container>
     </div>
     <div class="answer-container">
       <div class="answers">
@@ -77,11 +107,13 @@
           {{ answer.name }}
         </div>
       </div>
-      <ng-container *ngTemplateOutlet="btns; context: { type: question.type, isDone: question.isDone }"></ng-container>
+      <ng-container
+        *ngTemplateOutlet="btns; context: { type: question.type, isDone: question.isDone }"
+      ></ng-container>
     </div>
   </div>
 </ng-template>
-<ng-template #variants let-question="question">
+<ng-template #variants let-question>
   <div class="question-container question-variants">
     <div class="question">
       {{ question.name }}
@@ -124,8 +156,50 @@
 
 <ng-template #btns let-type="type" let-isDone="isDone">
   <div class="btns">
-    <button class="btn btn-outline-success">Помощь</button>
-    <button class="btn btn-success" (click)="checkAnswer(type)" [disabled]="isDone">Принять ответ</button>
-    <button class="btn btn-outline-success">Звук</button>
+    <button class="btn btn-outline-success" *ngIf="!showCurrentAnswer">Помощь</button>
+    <button
+      class="btn btn-success"
+      *ngIf="!showCurrentAnswer; else goOn"
+      (click)="checkAnswer(type)"
+      [disabled]="isDone"
+    >
+      Принять ответ
+    </button>
+    <ng-template #goOn
+      ><button class="btn btn-primary" (click)="nextQuestion()" *ngIf="isDone">Продолжить</button>
+      <button class="btn btn-outline-success main-btn" (click)="solveAgain()" *ngIf="!isDone">
+        Решать ещё раз
+      </button>
+    </ng-template>
+
+    <button class="btn btn-outline-success" *ngIf="!showCurrentAnswer">Звук</button>
+  </div>
+</ng-template>
+
+<ng-template #cristals let-label="label" let-isDone="isDone">
+  <div class="cristals-result d-flex align-items-center" [ngClass]="{ failed: !isDone }">
+    <span class="d-block mt-3 mr-1">{{ isDone ? '+' : '-' }} {{ label }}</span>
+    <img src="../../../../assets/images/icons/diamond.svg" alt="" />
+  </div>
+</ng-template>
+
+<ng-template #taskCompleted let-question>
+  <ng-container
+    *ngTemplateOutlet="
+      question.isDone || question.tryCount % 3 == 0 ? cristals : tryAgain;
+      context: { label: question.isDone ? question.cristalCount : 1, isDone: question.isDone }
+    "
+  >
+  </ng-container>
+</ng-template>
+
+<ng-template #questionName let-question>
+  {{ question.name }}
+</ng-template>
+
+<ng-template #tryAgain>
+  <div class="try-again">
+    <img src="../../../../assets/images/failed_task_tigr.png" alt="" />
+    <span class="d-block text">Попробуй решить упражнение по другому</span>
   </div>
 </ng-template>

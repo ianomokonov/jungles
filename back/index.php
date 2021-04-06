@@ -249,7 +249,10 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
     } catch (Exception $e) {
         $response = new ResponseClass();
         $response->getBody()->write(json_encode(array("message" => $e->getMessage())));
-        return $response->withStatus($e->getCode());
+        if($e->getCode() && $e->getCode() != 0){
+            return $response->withStatus($e->getCode());
+        }
+        return $response->withStatus(500);
     }
 });
 

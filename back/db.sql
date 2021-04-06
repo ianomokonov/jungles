@@ -20,6 +20,8 @@ CREATE TABLE IF NOT EXISTS refreshTokens(
 CREATE TABLE IF NOT EXISTS child(
     id int(10) PRIMARY KEY AUTO_INCREMENT,
     userId int(10) NOT NULL,
+    cristalCount int(10) DEFAULT 0,
+    chestCount int(10) DEFAULT 0,
     name varchar(255) NOT NULL,
     image varchar(255) NULL,
     surname varchar(255) NUll,
@@ -65,7 +67,7 @@ CREATE TABLE IF NOT EXISTS childAnswer(
     childId int(10) NOT NULL,
     answerId int(10) NOT NULL,
     variantId int(10) NULL,
-    isFirstTime bit DEFAULT 1,
+    tryCount int(1) DEFAULT 1,
     lastUpdateDate DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (childId) REFERENCES child(id) ON DELETE CASCADE,
     FOREIGN KEY (answerId) REFERENCES answer(id) ON DELETE CASCADE,
@@ -94,20 +96,35 @@ ALTER TABLE
 ADD
     FOREIGN KEY (`userId`) REFERENCES `jungleUser`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
-SELECT
-    ca.isFirstTime,
-    q.cristalCount
-FROM
-    childAnswer ca
-    JOIN answer a ON ca.answerId = a.id
-    JOIN question q ON a.questionId = q.id
-WHERE
-    ca.childId = 1
-    AND (
-        a.isCorrect
-        OR (
-            a.correctVariantId IS NOT NULL
-            AND a.correctVariantId = ca.variantId
-        )
-    )
-    AND ca.lastUpdateDate >= CURDATE()
+DROP TRIGGER IF EXISTS upd_child_answer;
+
+-- DELIMITER $$
+
+--     CREATE TRIGGER upd_child_answer BEFORE UPDATE ON `childAnswer`
+--     FOR EACH ROW BEGIN
+--       IF (OLD.tryCount = 3) THEN
+--             SET NEW.tryCount = 1;
+--       ELSE
+--             SET NEW.tryCount = OLD.tryCount + 1;
+--       END IF;
+--     END$$
+
+-- DELIMITER ;
+
+-- SELECT
+--     ca.tryCount,
+--     q.cristalCount
+-- FROM
+--     childAnswer ca
+--     JOIN answer a ON ca.answerId = a.id
+--     JOIN question q ON a.questionId = q.id
+-- WHERE
+--     ca.childId = 1
+--     AND (
+--         a.isCorrect
+--         OR (
+--             a.correctVariantId IS NOT NULL
+--             AND a.correctVariantId = ca.variantId
+--         )
+--     )
+--     AND ca.lastUpdateDate >= CURDATE()

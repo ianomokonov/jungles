@@ -103,6 +103,27 @@ class Child
         return true;
     }
 
+    public function addCristals($id, $cristals)
+    {
+        $query = "UPDATE child SET cristalCount=cristalCount + $cristals WHERE id=$id";
+        $this->dataBase->db->query($query);
+        return true;
+    }
+
+    public function removeCristals($id, $cristals)
+    {
+        $query = "UPDATE child SET cristalCount=cristalCount - $cristals WHERE id=$id";
+        $this->dataBase->db->query($query);
+        return true;
+    }
+
+    public function addChest($id, $chests)
+    {
+        $query = "UPDATE child SET chestCount=chestCount + $chests WHERE id=$id";
+        $this->dataBase->db->query($query);
+        return true;
+    }
+
     public function delete($id)
     {
         $childImage = $this->getChildImage($id);
@@ -145,6 +166,21 @@ class Child
     {
         $query = "UPDATE alerts SET isSeen = true WHERE id IN (" . implode(", ", $alertIds) . ")";
         $this->dataBase->db->query($query);
+    }
+
+    public function getChild($id)
+    {
+        $query = "SELECT
+        *
+        FROM
+            child
+        WHERE 
+            id = $id";
+        $stmt = $this->dataBase->db->query($query);
+        $child = $stmt->fetch();
+        $child['cristalCount'] = $child['cristalCount'] * 1;
+        $child['chestCount'] = $child['chestCount'] * 1;
+        return $child;
     }
 
     private function getAlerts($childId)

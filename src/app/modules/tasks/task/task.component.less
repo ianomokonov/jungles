@@ -90,6 +90,39 @@
         letter-spacing: 0.02em;
         text-transform: uppercase;
         color: @dark-green;
+
+        .cristals-result {
+          &.failed {
+            color: @red;
+          }
+        }
+
+        .try-again {
+          display: flex;
+          justify-content: center;
+          position: relative;
+          margin-top: 10%;
+          img {
+            height: 306px;
+            width: unset;
+            margin-right: 180px;
+          }
+
+          span {
+            position: absolute;
+            width: 290px;
+            height: 146px;
+            left: 58%;
+            top: -70px;
+            padding: 30px 20px 60px 34px;
+            background: no-repeat url(../../../../assets/images/failed_task_cloud.svg) center / 100%
+              100%;
+            font-size: 18px;
+            line-height: 25px;
+            text-transform: none;
+            font-weight: normal;
+          }
+        }
       }
 
       &.question-variants {
@@ -182,11 +215,15 @@
           justify-content: center;
           align-items: center;
           padding-bottom: 24px;
-          .btn-success {
+          .btn-success,
+          .btn-primary,
+          .main-btn {
             margin: 0 100px;
+            width: 245px;
+            height: 58px;
           }
 
-          .btn-outline-success {
+          .btn-outline-success:not(.main-btn) {
             line-height: 50px;
             min-width: 120px;
             height: 50px;
@@ -220,6 +257,33 @@
       &:not(:last-child) {
         margin-bottom: 38px;
       }
+    }
+
+    .try-count {
+      position: relative;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      /* orang */
+
+      background: @orange;
+      box-shadow: 0px 2px 4px 1px rgba(45, 98, 85, 0.2);
+      border-radius: 50%;
+
+      font-family: Museo Cyrl;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 30px;
+      line-height: 36px;
+      /* identical to box height */
+
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+
+      color: #ffffff;
     }
   }
 }
