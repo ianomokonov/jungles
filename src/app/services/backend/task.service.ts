@@ -17,7 +17,7 @@ export class TaskService {
 
   public getUnregTasksInfo(): TasksInfo {
     if (!JSON.parse(sessionStorage.getItem(userTasksInfoKey))) {
-      const info = { chests: 0, todayAnswersCount: 0, firstTryCount: 0, cristals: 0 };
+      const info = { chests: 0, answersCount: 0, firstTryCount: 0, cristals: 0 };
       sessionStorage.setItem(userTasksInfoKey, JSON.stringify(info));
       return info;
     }

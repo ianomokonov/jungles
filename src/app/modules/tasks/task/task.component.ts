@@ -128,7 +128,7 @@ export class TaskComponent {
   }
 
   public getQuestionName(question: TaskQuestion, index: number): string {
-    if (!this.showCurrentAnswer || question.id === this.activeQuestion.id) {
+    if (!this.showCurrentAnswer || question.id !== this.activeQuestion.id) {
       return index.toString();
     }
 
@@ -201,7 +201,7 @@ export class TaskComponent {
           this.activeQuestion = question;
 
           if (question.isDone) {
-            this.router.navigate(['/tasks']);
+            this.showCurrentAnswer = true;
           }
         }
       });

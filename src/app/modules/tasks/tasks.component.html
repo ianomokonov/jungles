@@ -7,9 +7,9 @@
   <div class="row stats" *ngIf="info">
     <div class="col-6 d-flex justify-content-start align-items-center">
       <app-pie-chart
-        [percent]="(info.todayAnswersCount / 20) * 100"
+        [percent]="(info.answersCount / 20) * 100"
         [color]="'#FF952C'"
-        [label]="info.todayAnswersCount.toString()"
+        [label]="info.answersCount.toString()"
       ></app-pie-chart>
       <span class="text-muted ml-1"
         >Упражений<br />
@@ -22,7 +22,7 @@
         с 1 попытки</span
       >
       <app-pie-chart
-        [percent]="(info.firstTryCount / info.todayAnswersCount) * 100"
+        [percent]="(info.firstTryCount / info.answersCount) * 100"
         [color]="'#7EE1E4'"
         [label]="info.firstTryCount.toString()"
       ></app-pie-chart>

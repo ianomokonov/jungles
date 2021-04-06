@@ -48,9 +48,9 @@
     </div>
     <div class="d-flex align-items-center">
       <app-pie-chart
-        [percent]="(tasksInfo.todayAnswersCount / 20) * 100"
+        [percent]="(tasksInfo.answersCount / 20) * 100"
         [color]="'#FF952C'"
-        [label]="tasksInfo.todayAnswersCount.toString()"
+        [label]="tasksInfo.answersCount.toString()"
       ></app-pie-chart>
       <span class="ml-1"
         >Упражений<br />
@@ -59,7 +59,7 @@
     </div>
     <div class="d-flex align-items-center">
       <app-pie-chart
-        [percent]="(tasksInfo.firstTryCount / tasksInfo.todayAnswersCount) * 100"
+        [percent]="(tasksInfo.firstTryCount / tasksInfo.answersCount) * 100"
         [color]="'#7EE1E4'"
         [label]="tasksInfo.firstTryCount.toString()"
       ></app-pie-chart>
@@ -165,7 +165,7 @@
           </div>
         </div>
       </div>
-      <ng-container *ngTemplateOutlet="btns"></ng-container>
+      <ng-container *ngTemplateOutlet="btns; context: { type: question.type, isDone: question.isDone }"></ng-container>
     </div>
   </div>
 </ng-template>

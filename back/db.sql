@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS question(
     type int(10) NOT NULL,
     name varchar(255) NOT NULL,
     image varchar(255) NULL,
-    cristalCount int(10) NOT NULL,
+    cristalCount int(10) NOT NULL DEFAULT 1,
     FOREIGN KEY (taskId) REFERENCES task(id) ON DELETE CASCADE
 );
 

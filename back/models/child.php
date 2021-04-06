@@ -45,13 +45,14 @@ class Child
     public function getProgress($id, $dateFrom = null, $dateTo = null)
     {
 
-        // TODO: переделать, когда будут упражнения
+        $task = new Task($this->dataBase);
+        $info = $task->getTasksInfo($id, $dateFrom, $dateTo);
         $result = array(
-            "blocksDone" => 1,
-            "tasksDone" => 20,
-            "onFirstTry" => 9,
-            "cristals" => 10,
-            "chests" => 0
+            "blocksDone" => $info['blocksCount'],
+            "tasksDone" => $info['answersCount'],
+            "onFirstTry" => $info['firstTryCount'],
+            "cristals" => $info['cristals'],
+            "chests" => $info['chests']
         );
 
         return $result;

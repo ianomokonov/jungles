@@ -18,7 +18,7 @@ class Task
     }
 
     // Получение информации о задач
-    public function getTasksInfo($childId)
+    public function getTasksInfo($childId, $dateFrom = null, $dateTo = null)
     {
         $child = $this->child->getChild($childId);
         $query = "SELECT
@@ -35,15 +35,23 @@ class Task
                     a.correctVariantId IS NOT NULL
                     AND a.correctVariantId = ca.variantId
                 )
-            )
-            AND ca.lastUpdateDate >= CURDATE()";
+            )";
+
+        if ($dateFrom) {
+            $query = $query . " AND ca.lastUpdateDate >= '$dateFrom'";
+        }
+        if ($dateTo) {
+            $query = $query . " AND ca.lastUpdateDate <= '$dateTo'";
+        }
+        $query = $query." GROUP BY q.id";
         $todayAnswers = [];
         $stmt = $this->dataBase->db->query($query);
         while ($todayAnswer = $stmt->fetch()) {
             $todayAnswers[] = $this->dataBase->decode($todayAnswer);
         }
         $result = array(
-            "todayAnswersCount" => count($todayAnswers),
+            "answersCount" => count($todayAnswers),
+            "blocksCount" => intdiv(count($todayAnswers), 3),
             "firstTryCount" => count(array_filter($todayAnswers, function ($v) {
                 return $v['tryCount'] == '1';
             })),
@@ -149,9 +157,9 @@ class Task
 
     public function checkAnswerVariants($answers, $childId)
     {
-
+        $tryCount = 0;
+        $result = [];
         foreach ($answers as $answer) {
-            $tryCount = 0;
             if (isset($answer['childAnswerId']) && $answer['childAnswerId']) {
                 $tryCount = $this->getChildAnswer($answer['childAnswerId'])['tryCount'] + 1;
                 $updateQuery = "UPDATE childAnswer SET answerId=?, tryCount=?, variantId=?, lastUpdateDate=now() WHERE id=?";
@@ -171,9 +179,20 @@ class Task
                     a.id = " . $answer['id'];
             $stmt = $this->dataBase->db->query($query);
             $answer['isCorrect'] = $stmt->fetch()['correctVariantId'] == $answer['variantId'];
+            $result[] = $answer;
         }
 
-        return $answers;
+        $isCorrect = count(array_filter($result, function ($v) {
+            return !$v['isCorrect'];
+        })) == 0;
+
+        if ($isCorrect) {
+            $cristalCount = $this->getQuestionByAnswerId($answers[0]['id'])['cristalCount'];
+            $this->child->addCristals($childId, $cristalCount);
+        } else if ($tryCount !== 0 && $tryCount % 3 == 0) {
+            $this->child->removeCristals($childId, 1);
+        }
+        return $result;
     }
 
     public function getAnswers($questionId)

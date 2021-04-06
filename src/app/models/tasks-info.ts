@@ -1,6 +1,6 @@
 export interface TasksInfo {
   chests: number;
-  todayAnswersCount: number;
+  answersCount: number;
   firstTryCount: number;
   cristals: number;
 }

@@ -189,7 +189,7 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
             $taskGroup->get('/get-tasks-info', function (Request $request, Response $response) use ($dataBase) {
                 $childId = $request->getAttribute('childId');
                 $task = new Task($dataBase);
-                $response->getBody()->write(json_encode($task->getTasksInfo($childId)));
+                $response->getBody()->write(json_encode($task->getTasksInfo($childId, date("Y-m-d"))));
                 return $response;
             });
 
