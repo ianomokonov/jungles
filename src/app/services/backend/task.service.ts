@@ -50,10 +50,11 @@ export class TaskService {
   }
 
   public checkVariants(
-    answers: { id: number; variantId: number }[],
+    answers: { id: number; variantId: number; childAnswerId?: number }[],
+    childId: number,
   ): Observable<{ id: number; variantId: number; isCorrect: boolean }[]> {
     return this.http.post<{ id: number; variantId: number; isCorrect: boolean }[]>(
-      `${this.baseUrl}/tasks/check-answer-variants`,
+      `${this.baseUrl}/child/${childId}/tasks/check-answer-variants`,
       answers,
     );
   }

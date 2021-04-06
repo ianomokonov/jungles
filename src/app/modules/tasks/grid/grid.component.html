@@ -1,7 +1,8 @@
 <div class="container d-flex justify-content-center flex-wrap">
   <ng-container *ngFor="let task of tasks; let index = index">
     <div class="task-container d-flex justify-content-center">
-      <div
+      <button
+        [disabled]="!task.isActive"
         class="task"
         [routerLink]="[task.id]"
         [ngClass]="{
@@ -13,7 +14,7 @@
         <img class="task-img" [src]="'../../../../assets/images/' + (task.type | taskImage)" />
         <span class="task-label">{{ task.type | taskLabel }}</span>
         <span class="points d-none">+10</span>
-      </div>
+      </button>
     </div>
     <div class="break" *ngIf="isBreakShown(index)"></div>
   </ng-container>

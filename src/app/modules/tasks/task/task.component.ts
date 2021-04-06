@@ -45,7 +45,8 @@ export class TaskComponent {
     }
   }
 
-  public drop(event: CdkDragDrop<Answer[]>) {
+  public drop(eventTemp: CdkDragDrop<Answer[]>) {
+    const event = eventTemp;
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -55,6 +56,8 @@ export class TaskComponent {
         event.previousIndex,
         event.currentIndex,
       );
+      event.container.data[event.currentIndex].isCorrect = false;
+      event.container.data[event.currentIndex].isIncorrect = false;
     }
   }
 
@@ -67,10 +70,6 @@ export class TaskComponent {
 
   public solveAgain() {
     this.showCurrentAnswer = null;
-  }
-
-  public onQuestionChanged(event) {
-    console.log(event);
   }
 
   public nextQuestion() {
@@ -86,7 +85,8 @@ export class TaskComponent {
   }
 
   public checkAnswer(type: AnswerType) {
-    if (!this.choosedAnswerId) {
+    if (!this.choosedAnswerId && this.activeQuestion.answers?.length) {
+      // eslint-disable-next-line no-alert
       alert('Выберите ответ!');
       return;
     }
@@ -104,11 +104,31 @@ export class TaskComponent {
           this.choosedAnswerId = null;
           this.getTask(this.task.id);
         });
+
+      return;
     }
+
+    const variants = [];
+
+    this.activeQuestion.variants.forEach((v) => {
+      variants.push(
+        ...v.answers.map((a) => ({
+          id: a.id,
+          variantId: v.id,
+          childAnswerId:
+            this.activeQuestion.childAnswers?.find((ca) => ca.answerId === a.id)?.id || undefined,
+        })),
+      );
+    });
+
+    this.taskService.checkVariants(variants, this.userService.activeChild?.id).subscribe(() => {
+      this.showCurrentAnswer = true;
+      this.getTask(this.task.id);
+    });
   }
 
   public getQuestionName(question: TaskQuestion, index: number): string {
-    if (!this.showCurrentAnswer) {
+    if (!this.showCurrentAnswer || question.id === this.activeQuestion.id) {
       return index.toString();
     }
 
@@ -132,27 +152,57 @@ export class TaskComponent {
       this.taskService.getTasksInfo(this.userService.activeChild?.id),
     ]).subscribe(([task, info]) => {
       this.tasksInfo = info;
-      task.questions.forEach((questionTemp) => {
+      task.questions.forEach((questionTemp, index) => {
         const question = questionTemp;
-        question.childAnswers.forEach((answer) => {
-          const questionAnswer = question.answers.find((a) => a.id === answer.answerId);
-          if (answer.isCorrect) {
+        question.variants.forEach((variantTemp) => {
+          const variant = variantTemp;
+          variant.answers = [];
+        });
+        if (!question.childAnswers?.length) {
+          if (!this.activeQuestion) {
+            this.activeQuestion = correctQuestion || question;
+          }
+          return;
+        }
+        let hasErrors = false;
+        question.childAnswers.forEach((childAnswerTemp) => {
+          const childAnswer = childAnswerTemp;
+          const questionAnswerIndex = question.answers.findIndex(
+            (a) => a.id === childAnswer.answerId,
+          );
+          const questionAnswer = question.answers[questionAnswerIndex];
+          const answerVariant = question.variants.find((v) => v.id === childAnswer.variantId);
+          if (childAnswer.isCorrect) {
             questionAnswer.isCorrect = true;
-            question.isDone = true;
-            if (this.showCurrentAnswer) {
-              correctQuestion = question;
-            }
-            return;
+          } else {
+            questionAnswer.isIncorrect = true;
           }
 
-          if (!this.activeQuestion) {
-            this.activeQuestion = question;
+          if (answerVariant) {
+            answerVariant.answers.push(questionAnswer);
+            question.answers.splice(questionAnswerIndex, 1);
           }
-          questionAnswer.isIncorrect = true;
-          question.isFailed = true;
+          if (!hasErrors) {
+            hasErrors = !childAnswer.isCorrect;
+          }
         });
-        if (!question.isDone && !this.activeQuestion) {
-          this.activeQuestion = correctQuestion || question;
+
+        if (hasErrors && !this.activeQuestion) {
+          this.activeQuestion = question;
+        }
+        if (!hasErrors && this.showCurrentAnswer) {
+          correctQuestion = question;
+        }
+
+        question.isDone = !hasErrors;
+        question.isFailed = hasErrors;
+
+        if (index === task.questions.length - 1 && !this.activeQuestion) {
+          this.activeQuestion = question;
+
+          if (question.isDone) {
+            this.router.navigate(['/tasks']);
+          }
         }
       });
       this.task = task;

@@ -128,7 +128,15 @@
         [cdkDropListData]="question.answers"
         (cdkDropListDropped)="drop($event)"
       >
-        <div class="answer text-b" *ngFor="let answer of question.answers" cdkDrag>
+        <div
+          class="answer text-b"
+          [ngClass]="{
+            correct: answer.isCorrect,
+            incorrect: answer.isIncorrect
+          }"
+          *ngFor="let answer of question.answers"
+          cdkDrag
+        >
           {{ answer.name }}
         </div>
       </div>
@@ -143,7 +151,15 @@
             [cdkDropListData]="variant.answers"
             (cdkDropListDropped)="drop($event)"
           >
-            <div class="answer text-b" *ngFor="let answer of variant.answers" cdkDrag>
+            <div
+              class="answer text-b"
+              [ngClass]="{
+                correct: answer.isCorrect,
+                incorrect: answer.isIncorrect
+              }"
+              *ngFor="let answer of variant.answers"
+              cdkDrag
+            >
               {{ answer.name }}
             </div>
           </div>

@@ -102,6 +102,7 @@ class Task
             $question['type'] = $question['type'] * 1;
             $question['cristalCount'] = $question['cristalCount'] * 1;
             $question['answers'] = $this->getAnswers($question['id']);
+            $question['variants'] = $this->getVariants($question['id']);
             $question['tryCount'] = 0;
             if ($childId) {
                 $question['childAnswers'] = $this->getChildAnswers($question['id'], $childId);
@@ -121,7 +122,7 @@ class Task
         $tryCount = 0;
         if (isset($answer['childAnswerId']) && $answer['childAnswerId']) {
             $tryCount = $this->getChildAnswer($answer['childAnswerId'])['tryCount'] + 1;
-            $updateQuery = "UPDATE childAnswer SET answerId=?, tryCount=? WHERE id=?";
+            $updateQuery = "UPDATE childAnswer SET answerId=?, tryCount=?, lastUpdateDate=now() WHERE id=?";
             $updateStmt = $this->dataBase->db->prepare($updateQuery);
             $updateStmt->execute(array($answer['id'], $tryCount, $answer['childAnswerId']));
         } else {
@@ -150,9 +151,18 @@ class Task
     {
 
         foreach ($answers as $answer) {
-            $inserQuery = "INSERT INTO childAnswer (childId, answerId, variantId) VALUES (?,?,?)";
-            $insertStmt = $this->dataBase->db->prepare($inserQuery);
-            $insertStmt->execute(array($childId, $answer['id'], $answer['variantId']));
+            $tryCount = 0;
+            if (isset($answer['childAnswerId']) && $answer['childAnswerId']) {
+                $tryCount = $this->getChildAnswer($answer['childAnswerId'])['tryCount'] + 1;
+                $updateQuery = "UPDATE childAnswer SET answerId=?, tryCount=?, variantId=?, lastUpdateDate=now() WHERE id=?";
+                $updateStmt = $this->dataBase->db->prepare($updateQuery);
+                $updateStmt->execute(array($answer['id'], $tryCount, $answer['variantId'], $answer['childAnswerId']));
+            } else {
+                $inserQuery = "INSERT INTO childAnswer (childId, answerId, variantId) VALUES (?,?,?)";
+                $insertStmt = $this->dataBase->db->prepare($inserQuery);
+                $insertStmt->execute(array($childId, $answer['id'], $answer['variantId']));
+            }
+
             $query = "SELECT
                 correctVariantId
                 FROM
@@ -160,7 +170,7 @@ class Task
                 WHERE 
                     a.id = " . $answer['id'];
             $stmt = $this->dataBase->db->query($query);
-            $answer->isCorrect = $stmt->fetch()['correctVariantId'] == $answer['variantId'];
+            $answer['isCorrect'] = $stmt->fetch()['correctVariantId'] == $answer['variantId'];
         }
 
         return $answers;
@@ -186,6 +196,26 @@ class Task
         return $answers;
     }
 
+    public function getVariants($questionId)
+    {
+        $query = "SELECT
+        id, name
+        FROM
+            variant v
+        WHERE 
+            v.questionId = $questionId";
+        $stmt = $this->dataBase->db->query($query);
+
+        $variants = [];
+        while ($variant = $stmt->fetch()) {
+            $variant = $this->dataBase->decode($variant);
+            $variant['id'] = $variant['id'] * 1;
+            $variants[] = $variant;
+        }
+
+        return $variants;
+    }
+
     public function getChildAnswers($questionId, $childId)
     {
         $query = "SELECT
@@ -193,7 +223,8 @@ class Task
         ca.tryCount,
         a.isCorrect,
         a.id as answerId,
-        (a.correctVariantId = ca.variantId) as isCorrectVariant
+        a.correctVariantId,
+        ca.variantId
         FROM
             childAnswer ca
             JOIN answer a ON a.id = ca.answerId
@@ -206,6 +237,11 @@ class Task
             $answer['isCorrect'] = $answer['isCorrect'] == '1';
             $answer['tryCount'] = $answer['tryCount'] * 1;
             $answer['id'] = $answer['id'] * 1;
+            if ($answer['correctVariantId']) {
+                $answer['isCorrect'] = $answer['correctVariantId'] == $answer['variantId'];
+            }
+
+            unset($answer['correctVariantId']);
             $answer['answerId'] = $answer['answerId'] * 1;
             $answers[] = $answer;
         }
