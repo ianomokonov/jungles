@@ -24,6 +24,7 @@
     "@angular/router": "~11.1.2",
     "@ng-bootstrap/ng-bootstrap": "^9.0.2",
     "bootstrap": "^4.5.0",
+    "nanoid": "^3.1.22",
     "ngx-mask": "^11.1.4",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

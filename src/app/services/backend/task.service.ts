@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { tasksPerPage, userTasksInfoKey } from 'src/app/constants';
+import { tap } from 'rxjs/operators';
+import { tasksPerPage, userTasksInfoKey, childAnswersKey } from 'src/app/constants';
 import { Task } from 'src/app/models/task';
 import { TasksInfo } from 'src/app/models/tasks-info';
 import { environment } from 'src/environments/environment';
+import { nanoid } from 'nanoid';
 
 @Injectable()
 export class TaskService {
@@ -47,6 +49,29 @@ export class TaskService {
   }
 
   public checkAnswer(id: number, childId: number, childAnswerId?: number): Observable<boolean> {
+    if (!childId) {
+      return this.http
+        .post<boolean>(`${this.baseUrl}/check-answer`, {
+          id,
+        })
+        .pipe(
+          tap((result) => {
+            if (result && sessionStorage.getItem(childAnswersKey)) {
+              const answers = JSON.parse(sessionStorage.getItem(childAnswersKey));
+              if (childAnswerId) {
+                const answer = answers.find((a) => a.id === childAnswerId);
+                answer.answerId = id;
+                answer.tryCount += 1;
+                answer.isCorrect = result;
+              } else {
+                answers.push({ id: nanoid(11), answerId: id, tryCount: 1, isCorrect: result });
+              }
+
+              sessionStorage.setItem(childAnswersKey, JSON.stringify(answers));
+            }
+          }),
+        );
+    }
     return this.http.post<boolean>(`${this.baseUrl}/child/${childId}/tasks/check-answer`, {
       id,
       childAnswerId,
@@ -57,6 +82,12 @@ export class TaskService {
     answers: { id: number; variantId: number; childAnswerId?: number }[],
     childId: number,
   ): Observable<{ id: number; variantId: number; isCorrect: boolean }[]> {
+    if (!childId) {
+      return this.http.post<{ id: number; variantId: number; isCorrect: boolean }[]>(
+        `${this.baseUrl}/check-answer-variants`,
+        answers,
+      );
+    }
     return this.http.post<{ id: number; variantId: number; isCorrect: boolean }[]>(
       `${this.baseUrl}/child/${childId}/tasks/check-answer-variants`,
       answers,

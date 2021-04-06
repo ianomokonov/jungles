@@ -43,7 +43,7 @@ class Task
         if ($dateTo) {
             $query = $query . " AND ca.lastUpdateDate <= '$dateTo'";
         }
-        $query = $query." GROUP BY q.id";
+        $query = $query . " GROUP BY q.id";
         $todayAnswers = [];
         $stmt = $this->dataBase->db->query($query);
         while ($todayAnswer = $stmt->fetch()) {
@@ -125,6 +125,22 @@ class Task
         return $questions;
     }
 
+    public function isCorrectAnswer($id, $variantId = null)
+    {
+        $query = "SELECT
+        isCorrect, correctVariantId
+        FROM
+            answer a
+        WHERE 
+            a.id = " . $id;
+        $stmt = $this->dataBase->db->query($query);
+        $answer =  $stmt->fetch();
+        if ($variantId) {
+            return $answer['correctVariantId'] == $variantId;
+        }
+        return $answer['isCorrect'] == '1';
+    }
+
     public function checkAnswer($answer, $childId)
     {
         $tryCount = 0;
@@ -138,14 +154,8 @@ class Task
             $insertStmt = $this->dataBase->db->prepare($insertQuery);
             $insertStmt->execute(array($childId, $answer['id']));
         }
-        $query = "SELECT
-        isCorrect
-        FROM
-            answer a
-        WHERE 
-            a.id = " . $answer['id'];
-        $stmt = $this->dataBase->db->query($query);
-        $isCorrect = $stmt->fetch()['isCorrect'] == '1';
+        
+        $isCorrect = $this->isCorrectAnswer($answer['id']);
         if ($isCorrect) {
             $cristalCount = $this->getQuestionByAnswerId($answer['id'])['cristalCount'];
             $this->child->addCristals($childId, $cristalCount);
@@ -171,14 +181,7 @@ class Task
                 $insertStmt->execute(array($childId, $answer['id'], $answer['variantId']));
             }
 
-            $query = "SELECT
-                correctVariantId
-                FROM
-                    answer a
-                WHERE 
-                    a.id = " . $answer['id'];
-            $stmt = $this->dataBase->db->query($query);
-            $answer['isCorrect'] = $stmt->fetch()['correctVariantId'] == $answer['variantId'];
+            $answer['isCorrect'] = $this->isCorrectAnswer($answer['id'], $answer['variantId']);
             $result[] = $answer;
         }
 

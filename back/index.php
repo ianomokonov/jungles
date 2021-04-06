@@ -77,6 +77,35 @@ $app->get('/tasks/{id}', function (Request $request, Response $response) use ($d
     }
 });
 
+$app->post('/check-answer', function (Request $request, Response $response) use ($dataBase) {
+    $task = new Task($dataBase);
+    try {
+        $response->getBody()->write(json_encode($task->isCorrectAnswer($request->getParsedBody()['id'])));
+        return $response;
+    } catch (Exception $e) {
+        $response = new ResponseClass();
+        $response->getBody()->write(json_encode(array("message" => $e->getMessage())));
+        return $response->withStatus(500);
+    }
+});
+
+$app->post('/check-answer-variants', function (Request $request, Response $response) use ($dataBase) {
+    $task = new Task($dataBase);
+    try {
+        $result = [];
+        foreach ($request->getParsedBody() as $answer) {
+            $answer['isCorrect'] = $task->isCorrectAnswer($answer['id'], $answer['variantId']);
+            $result[] = $answer;
+        }
+        $response->getBody()->write(json_encode($result));
+        return $response;
+    } catch (Exception $e) {
+        $response = new ResponseClass();
+        $response->getBody()->write(json_encode(array("message" => $e->getMessage())));
+        return $response->withStatus(500);
+    }
+});
+
 $app->post('/refresh-token', function (Request $request, Response $response) use ($dataBase) {
     try {
         $user = new User($dataBase);
