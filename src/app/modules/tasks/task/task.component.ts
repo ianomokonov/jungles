@@ -1,7 +1,7 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { Answer } from 'src/app/models/answer';
 import { AnswerType } from 'src/app/models/answer-type';
 import { Task } from 'src/app/models/task';
@@ -42,7 +42,13 @@ export class TaskComponent {
           }
         });
       });
+      return;
     }
+    this.activatedRoute.params.subscribe((params) => {
+      if (params.id) {
+        this.getTask(params.id);
+      }
+    });
   }
 
   public drop(eventTemp: CdkDragDrop<Answer[]>) {
@@ -147,10 +153,7 @@ export class TaskComponent {
     this.task = null;
     this.activeQuestion = null;
     let correctQuestion = null;
-    forkJoin([
-      this.taskService.getTask(id, this.userService.activeChild?.id),
-      this.taskService.getTasksInfo(this.userService.activeChild?.id),
-    ]).subscribe(([task, info]) => {
+    forkJoin(this.getTaskRequests(id)).subscribe(([task, info]) => {
       this.tasksInfo = info;
       task.questions.forEach((questionTemp, index) => {
         const question = questionTemp;
@@ -207,5 +210,16 @@ export class TaskComponent {
       });
       this.task = task;
     });
+  }
+
+  private getTaskRequests(id: number): [Observable<Task>, Observable<TasksInfo>] {
+    if (this.userService.activeChild?.id) {
+      return [
+        this.taskService.getTask(id, this.userService.activeChild?.id),
+        this.taskService.getTasksInfo(this.userService.activeChild?.id),
+      ];
+    }
+
+    return [this.taskService.getUnregTask(id), this.taskService.getUnregTasksInfo()];
   }
 }

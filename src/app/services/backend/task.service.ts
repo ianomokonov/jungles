@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { tasksPerPage, userTasksInfoKey } from 'src/app/constants';
 import { Task } from 'src/app/models/task';
 import { TasksInfo } from 'src/app/models/tasks-info';
@@ -15,13 +15,13 @@ export class TaskService {
     return this.http.get<TasksInfo>(`${this.baseUrl}/child/${childId}/tasks/get-tasks-info`);
   }
 
-  public getUnregTasksInfo(): TasksInfo {
+  public getUnregTasksInfo(): Observable<TasksInfo> {
     if (!JSON.parse(sessionStorage.getItem(userTasksInfoKey))) {
       const info = { chests: 0, answersCount: 0, firstTryCount: 0, cristals: 0 };
       sessionStorage.setItem(userTasksInfoKey, JSON.stringify(info));
-      return info;
+      return of(info);
     }
-    return JSON.parse(sessionStorage.getItem(userTasksInfoKey));
+    return of(JSON.parse(sessionStorage.getItem(userTasksInfoKey)));
   }
 
   public getTasks(
@@ -35,11 +35,15 @@ export class TaskService {
   }
 
   public getUnregTasks(): Observable<Task[]> {
-    return this.http.get<Task[]>(`${this.baseUrl}/get-tasks`);
+    return this.http.get<Task[]>(`${this.baseUrl}/tasks`);
   }
 
   public getTask(id: number, childId: number): Observable<Task> {
     return this.http.get<Task>(`${this.baseUrl}/child/${childId}/tasks/${id}`);
+  }
+
+  public getUnregTask(id: number): Observable<Task> {
+    return this.http.get<Task>(`${this.baseUrl}/tasks/${id}`);
   }
 
   public checkAnswer(id: number, childId: number, childAnswerId?: number): Observable<boolean> {

@@ -50,10 +50,25 @@ $app->post('/sign-up', function (Request $request, Response $response) use ($dat
     }
 });
 
-$app->get('/get-tasks', function (Request $request, Response $response) use ($dataBase) {
+$app->get('/tasks', function (Request $request, Response $response) use ($dataBase) {
     $task = new Task($dataBase);
     try {
         $response->getBody()->write(json_encode($task->getTasks(null, 0, 20)));
+        return $response;
+    } catch (Exception $e) {
+        $response = new ResponseClass();
+        $response->getBody()->write(json_encode(array("message" => $e->getMessage())));
+        return $response->withStatus(500);
+    }
+});
+
+$app->get('/tasks/{id}', function (Request $request, Response $response) use ($dataBase) {
+    $task = new Task($dataBase);
+    try {
+        $routeContext = RouteContext::fromRequest($request);
+        $route = $routeContext->getRoute();
+        $taskId = $route->getArgument('taskId');
+        $response->getBody()->write(json_encode($task->getTasks(null, 0, 1, $taskId)[0]));
         return $response;
     } catch (Exception $e) {
         $response = new ResponseClass();
@@ -249,7 +264,7 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
     } catch (Exception $e) {
         $response = new ResponseClass();
         $response->getBody()->write(json_encode(array("message" => $e->getMessage())));
-        if($e->getCode() && $e->getCode() != 0){
+        if ($e->getCode() && $e->getCode() != 0) {
             return $response->withStatus($e->getCode());
         }
         return $response->withStatus(500);
