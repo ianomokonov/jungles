@@ -5,7 +5,7 @@ export interface Task {
   id: number;
   type: TaskType;
   questions: TaskQuestion[];
+  allSolved?: boolean;
   isActive?: boolean;
-  isSolved?: boolean;
   isSolvedIncorrectly?: boolean;
 }

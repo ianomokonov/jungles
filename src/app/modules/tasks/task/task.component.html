@@ -1,0 +1,229 @@
+<div class="backdrop"></div>
+<div class="container d-flex">
+  <div class="close-task-btn" routerLink="/tasks">
+    <img src="../../assets/images/icons/cross.svg" />
+  </div>
+  <div class="task-container">
+    <ng-container *ngIf="task"
+      ><ul
+        ngbNav
+        #nav="ngbNav"
+        class="nav-tabs row m-0 question-menu"
+        [(activeId)]="activeQuestion.id"
+      >
+        <li
+          [ngbNavItem]="question.id"
+          [disabled]="question.id !== activeQuestion.id"
+          class="question-menu-item col p-0"
+          *ngFor="let question of task?.questions; let index = index"
+        >
+          <a ngbNavLink [ngClass]="{ done: question.isDone, failed: question.isFailed }">{{
+            getQuestionName(question, index + 1)
+          }}</a>
+          <ng-template ngbNavContent>
+            <ng-container [ngSwitch]="question.type">
+              <ng-container *ngSwitchCase="answerType.Choice">
+                <ng-container
+                  *ngTemplateOutlet="choice; context: { $implicit: question }"
+                ></ng-container>
+              </ng-container>
+              <ng-container *ngSwitchCase="answerType.Variants">
+                <ng-container
+                  *ngTemplateOutlet="variants; context: { $implicit: question }"
+                ></ng-container>
+              </ng-container>
+            </ng-container>
+          </ng-template>
+        </li>
+      </ul>
+      <div [ngbNavOutlet]="nav"></div
+    ></ng-container>
+  </div>
+  <div class="stats" *ngIf="tasksInfo">
+    <div class="achives chest">
+      <span>{{ tasksInfo.chests }}</span>
+    </div>
+    <div class="achives cristals">
+      <span>{{ tasksInfo.cristals }}</span>
+    </div>
+    <div class="d-flex align-items-center">
+      <app-pie-chart
+        [percent]="(tasksInfo.answersCount / 20) * 100"
+        [color]="'#FF952C'"
+        [label]="tasksInfo.answersCount.toString()"
+      ></app-pie-chart>
+      <span class="ml-1"
+        >Упражений<br />
+        сегодня</span
+      >
+    </div>
+    <div class="d-flex align-items-center">
+      <app-pie-chart
+        [percent]="(tasksInfo.firstTryCount / tasksInfo.answersCount) * 100"
+        [color]="'#7EE1E4'"
+        [label]="tasksInfo.firstTryCount.toString()"
+      ></app-pie-chart>
+      <span class="ml-1"
+        >Упражений<br />
+        с 1 попытки</span
+      >
+    </div>
+    <div
+      class="d-flex align-items-center"
+      *ngIf="activeQuestion?.tryCount && !activeQuestion.isDone"
+    >
+      <span class="try-count">{{ activeQuestion?.tryCount }}</span>
+      <span class="ml-1"
+        >Количество<br />
+        попыток</span
+      >
+    </div>
+  </div>
+</div>
+
+<ng-template #choice let-question>
+  <div class="question-container question-choice">
+    <div class="question">
+      <ng-container
+        *ngTemplateOutlet="
+          showCurrentAnswer ? taskCompleted : questionName;
+          context: { $implicit: question }
+        "
+      >
+      </ng-container>
+    </div>
+    <div class="answer-container">
+      <div class="answers">
+        <div
+          class="answer text-b"
+          [ngClass]="{
+            active: choosedAnswerId == answer.id,
+            correct: answer.isCorrect,
+            incorrect: answer.isIncorrect
+          }"
+          *ngFor="let answer of question.answers"
+          (click)="choose(answer.id, question.isDone)"
+        >
+          {{ answer.name }}
+        </div>
+      </div>
+      <ng-container
+        *ngTemplateOutlet="btns; context: { type: question.type, isDone: question.isDone }"
+      ></ng-container>
+    </div>
+  </div>
+</ng-template>
+<ng-template #variants let-question>
+  <div class="question-container question-variants">
+    <div class="question">
+      <ng-container
+        *ngTemplateOutlet="
+          showCurrentAnswer ? taskCompleted : questionName;
+          context: { $implicit: question }
+        "
+      >
+      </ng-container>
+    </div>
+    <div class="answer-container" cdkDropListGroup>
+      <div
+        class="answers"
+        [id]="'answers'"
+        cdkDropList
+        cdkDropListOrientation="horizontal"
+        cdkDropListSortingDisabled
+        [cdkDropListData]="question.answers"
+        (cdkDropListDropped)="drop($event)"
+      >
+        <div
+          class="answer text-b"
+          [ngClass]="{
+            correct: answer.isCorrect,
+            incorrect: answer.isIncorrect
+          }"
+          *ngFor="let answer of question.answers"
+          cdkDrag
+        >
+          {{ answer.name }}
+        </div>
+      </div>
+      <div class="variants row">
+        <div class="col" *ngFor="let variant of question.variants">
+          <span class="d-block variant-label text-b">{{ variant.name }}</span>
+          <div
+            class="variant"
+            cdkDropList
+            [id]="'variant-' + variant.id"
+            cdkDropListSortingDisabled
+            [cdkDropListData]="variant.answers"
+            (cdkDropListDropped)="drop($event)"
+          >
+            <div
+              class="answer text-b"
+              [ngClass]="{
+                correct: answer.isCorrect,
+                incorrect: answer.isIncorrect
+              }"
+              *ngFor="let answer of variant.answers"
+              cdkDrag
+            >
+              {{ answer.name }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-container
+        *ngTemplateOutlet="btns; context: { type: question.type, isDone: question.isDone }"
+      ></ng-container>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #btns let-type="type" let-isDone="isDone">
+  <div class="btns">
+    <button class="btn btn-outline-success" *ngIf="!showCurrentAnswer">Помощь</button>
+    <button
+      class="btn btn-success"
+      *ngIf="!showCurrentAnswer; else goOn"
+      (click)="checkAnswer(type)"
+      [disabled]="isDone"
+    >
+      Принять ответ
+    </button>
+    <ng-template #goOn
+      ><button class="btn btn-primary" (click)="nextQuestion()" *ngIf="isDone">Продолжить</button>
+      <button class="btn btn-outline-success main-btn" (click)="solveAgain()" *ngIf="!isDone">
+        Решать ещё раз
+      </button>
+    </ng-template>
+
+    <button class="btn btn-outline-success" *ngIf="!showCurrentAnswer">Звук</button>
+  </div>
+</ng-template>
+
+<ng-template #cristals let-label="label" let-isDone="isDone">
+  <div class="cristals-result d-flex align-items-center" [ngClass]="{ failed: !isDone }">
+    <span class="d-block mt-3 mr-1">{{ isDone ? '+' : '-' }} {{ label }}</span>
+    <img src="../../../../assets/images/icons/diamond.svg" alt="" />
+  </div>
+</ng-template>
+
+<ng-template #taskCompleted let-question>
+  <ng-container
+    *ngTemplateOutlet="
+      question.isDone || question.tryCount % 3 == 0 ? cristals : tryAgain;
+      context: { label: question.isDone ? question.cristalCount : 1, isDone: question.isDone }
+    "
+  >
+  </ng-container>
+</ng-template>
+
+<ng-template #questionName let-question>
+  {{ question.name }}
+</ng-template>
+
+<ng-template #tryAgain>
+  <div class="try-again">
+    <img src="../../../../assets/images/failed_task_tigr.png" alt="" />
+    <span class="d-block text">Попробуй решить упражнение по другому</span>
+  </div>
+</ng-template>

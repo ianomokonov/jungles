@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
-import { userTasksKey } from 'src/app/constants';
 import { Task } from 'src/app/models/task';
 import { TasksInfo } from 'src/app/models/tasks-info';
 import { TaskService } from 'src/app/services/backend/task.service';
@@ -34,57 +33,46 @@ export class TasksComponent implements OnInit, OnDestroy {
         if (!user) {
           return;
         }
-        forkJoin([
-          this.tasksService.getTasksInfo(this.userService.activeChild.id),
-          this.tasksService.getTasks(this.userService.activeChild.id),
-        ]).subscribe(([info, tasks]) => {
-          this.info = info;
-          this.tasks = tasks;
-          this.tasks = this.tasksSort(this.tasks);
-        });
+        this.initTasks();
       });
-    } else {
-      this.info = this.tasksService.getUnregTasksInfo();
-      if (!JSON.parse(sessionStorage.getItem(userTasksKey))) {
-        this.tasksService
-          .getUnregTasks()
-          .pipe(takeWhile(() => this.rxAlive))
-          .subscribe((tasks) => {
-            this.tasks = tasks;
-            this.tasks = this.tasksSort(this.tasks);
-            sessionStorage.setItem(userTasksKey, JSON.stringify(this.tasks));
-          });
-      } else {
-        this.tasks = JSON.parse(sessionStorage.getItem(userTasksKey));
-        this.tasks = this.tasksSort(this.tasks);
-        sessionStorage.setItem(userTasksKey, JSON.stringify(this.tasks));
-      }
+      return;
     }
+    this.initTasks();
   }
 
-  public tasksSort(tasks: Task[]): Task[] {
+  public initTasks() {
+    forkJoin(this.getTaskRequests()).subscribe(([info, tasks]) => {
+      this.info = info;
+      this.tasks = tasks;
+      this.setActive(this.tasks);
+    });
+  }
+
+  private getTaskRequests(): [Observable<TasksInfo>, Observable<Task[]>] {
+    if (this.userService.activeChild?.id) {
+      return [
+        this.tasksService.getTasksInfo(this.userService.activeChild.id),
+        this.tasksService.getTasks(this.userService.activeChild.id),
+      ];
+    }
+
+    return [this.tasksService.getUnregTasksInfo(), this.tasksService.getUnregTasks()];
+  }
+
+  public setActive(tasks: Task[]): void {
     let activeFound = false;
     if (tasks) {
       tasks.forEach((taskTemp) => {
         const task = taskTemp;
-        task.isSolved = !task.questions?.some((question) => {
-          if (!question.childAnswers?.length) {
-            return true;
-          }
-          return question.childAnswers.some(
-            (answer) => !answer.isCorrect && !answer.isCorrectVariant,
-          );
-        });
-        if (!activeFound && !task.isSolved) {
+        if (!activeFound && !task.allSolved) {
           task.isActive = true;
           activeFound = true;
         }
       });
-      if (!tasks[0]?.isSolved) {
+      if (!tasks[0]?.allSolved) {
         this.showBackDrop = true;
       }
     }
-    return tasks;
   }
 
   public signUp() {

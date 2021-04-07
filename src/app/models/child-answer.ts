@@ -1,5 +1,7 @@
 export interface ChildAnswer {
   id: number;
   isCorrect: boolean;
-  isCorrectVariant: boolean;
+  answerId: number;
+  variantId?: number;
+  tryCount: number;
 }

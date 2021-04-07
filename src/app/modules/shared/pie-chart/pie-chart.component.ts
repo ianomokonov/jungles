@@ -11,7 +11,7 @@ export class PieChartComponent implements AfterViewInit {
   @Input() public size = 66;
   @Input() public label: string;
   @Input() public set percent(value: number) {
-    this.value = (value - 1) / 100;
+    this.value = value ? (value - 1) / 100 : 0;
     this.drawChart();
   }
 

@@ -46,6 +46,7 @@ export class ProgressComponent {
 
   public onUserClick(id: number): void {
     this.userService.setActive(id);
+    this.onPeriodChange(this.activePeriod);
   }
 
   public onSlide(event: NgbSlideEvent) {

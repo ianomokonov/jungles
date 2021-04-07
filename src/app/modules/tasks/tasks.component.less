@@ -1,4 +1,5 @@
 @import '../../../variables.less';
+@import './achives.less';
 
 .second-row {
   margin-top: 50px;
@@ -21,56 +22,6 @@
   height: 100%;
   width: 100%;
   z-index: 50;
-}
-.achives {
-  background: @light-grey;
-  box-shadow: 0px 2px 4px 1px rgba(45, 98, 85, 0.25);
-  border-radius: 30px;
-  width: 124px;
-  padding: 5px 20px;
-  position: relative;
-  span {
-    font-family: Open Sans;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 30px;
-    line-height: 41px;
-    letter-spacing: -0.01em;
-
-    color: @dark-green;
-  }
-
-  &.cristals {
-    text-align: end;
-
-    &::before {
-      content: '';
-      height: 77px;
-      width: 64px;
-      background-image: url(../../../assets/images/icons/diamond.svg);
-      background-repeat: no-repeat;
-      background-size: auto 100%;
-      position: absolute;
-      left: -10px;
-      bottom: 0;
-    }
-  }
-
-  &.chest {
-    text-align: start;
-
-    &::before {
-      content: '';
-      width: 77px;
-      height: 62px;
-      background-image: url(../../../assets/images/icons/chest.svg);
-      background-repeat: no-repeat;
-      background-size: auto 100%;
-      position: absolute;
-      right: -10px;
-      bottom: -2px;
-    }
-  }
 }
 
 .grid {
@@ -104,7 +55,7 @@
   height: 364px;
   position: relative;
   margin-bottom: 20px;
-  align-items: start;
+  align-items: flex-start;
   .btn-outline-success {
     text-transform: none;
     font-weight: 600;

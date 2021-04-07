@@ -50,10 +50,56 @@ $app->post('/sign-up', function (Request $request, Response $response) use ($dat
     }
 });
 
-$app->get('/get-tasks', function (Request $request, Response $response) use ($dataBase) {
+$app->get('/tasks', function (Request $request, Response $response) use ($dataBase) {
     $task = new Task($dataBase);
     try {
         $response->getBody()->write(json_encode($task->getTasks(null, 0, 20)));
+        return $response;
+    } catch (Exception $e) {
+        $response = new ResponseClass();
+        $response->getBody()->write(json_encode($e));
+        return $response->withStatus(500);
+    }
+});
+
+$app->get('/tasks/{taskId}', function (Request $request, Response $response) use ($dataBase) {
+    $task = new Task($dataBase);
+    
+    try {
+        
+        $routeContext = RouteContext::fromRequest($request);
+        $route = $routeContext->getRoute();
+        $taskId = $route->getArgument('taskId');
+        $response->getBody()->write(json_encode($task->getTask(null, $taskId)));
+        return $response;
+    } catch (Exception $e) {
+        $response = new ResponseClass();
+        $response->getBody()->write(json_encode(array("message" => $e->getMessage())));
+        return $response->withStatus(500);
+    }
+});
+
+$app->post('/check-answer', function (Request $request, Response $response) use ($dataBase) {
+    $task = new Task($dataBase);
+    try {
+        $response->getBody()->write(json_encode($task->isCorrectAnswer($request->getParsedBody()['id'])));
+        return $response;
+    } catch (Exception $e) {
+        $response = new ResponseClass();
+        $response->getBody()->write(json_encode(array("message" => $e->getMessage())));
+        return $response->withStatus(500);
+    }
+});
+
+$app->post('/check-answer-variants', function (Request $request, Response $response) use ($dataBase) {
+    $task = new Task($dataBase);
+    try {
+        $result = [];
+        foreach ($request->getParsedBody() as $answer) {
+            $answer['isCorrect'] = $task->isCorrectAnswer($answer['id'], $answer['variantId']);
+            $result[] = $answer;
+        }
+        $response->getBody()->write(json_encode($result));
         return $response;
     } catch (Exception $e) {
         $response = new ResponseClass();
@@ -208,7 +254,7 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
             $taskGroup->get('/get-tasks-info', function (Request $request, Response $response) use ($dataBase) {
                 $childId = $request->getAttribute('childId');
                 $task = new Task($dataBase);
-                $response->getBody()->write(json_encode($task->getTasksInfo($childId)));
+                $response->getBody()->write(json_encode($task->getTasksInfo($childId, date("Y-m-d"))));
                 return $response;
             });
 
@@ -216,6 +262,27 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
                 $childId = $request->getAttribute('childId');
                 $task = new Task($dataBase);
                 $response->getBody()->write(json_encode($task->getTasks($childId, $request->getQueryParams()['offset'], $request->getQueryParams()['count'])));
+                return $response;
+            });
+            $taskGroup->get('/{taskId}', function (Request $request, Response $response) use ($dataBase) {
+                $routeContext = RouteContext::fromRequest($request);
+                $childId = $request->getAttribute('childId');
+                $route = $routeContext->getRoute();
+                $taskId = $route->getArgument('taskId');
+                $task = new Task($dataBase);
+                $response->getBody()->write(json_encode($task->getTask($childId, $taskId)));
+                return $response;
+            });
+            $taskGroup->post('/check-answer', function (Request $request, Response $response) use ($dataBase) {
+                $task = new Task($dataBase);
+                $childId = $request->getAttribute('childId');
+                $response->getBody()->write(json_encode($task->checkAnswer($request->getParsedBody(), $childId)));
+                return $response;
+            });
+            $taskGroup->post('/check-answer-variants', function (Request $request, Response $response) use ($dataBase) {
+                $task = new Task($dataBase);
+                $childId = $request->getAttribute('childId');
+                $response->getBody()->write(json_encode($task->checkAnswerVariants($request->getParsedBody(), $childId)));
                 return $response;
             });
         });
@@ -246,8 +313,11 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
         return $response;
     } catch (Exception $e) {
         $response = new ResponseClass();
-        $response->getBody()->write(json_encode(array("message" => $e->getMessage())));
-        return $response->withStatus($e->getCode());
+        $response->getBody()->write(json_encode($e));
+        if ($e->getCode() && $e->getCode() != 0) {
+            return $response->withStatus($e->getCode());
+        }
+        return $response->withStatus(500);
     }
 });
 

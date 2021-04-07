@@ -8,8 +8,8 @@ export const invalidTokenError = 'Invalid Token';
 export const activeChildKey = 'activeChildId';
 export const modalOpenedKey = 'openedModal';
 // Задачи и ответы
-export const userTasksKey = 'userTasks';
 export const userTasksInfoKey = 'userTasksInfo';
+export const childAnswersKey = 'childAnswers';
 
 export const months = [
   'Январь',
