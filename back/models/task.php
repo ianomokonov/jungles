@@ -14,6 +14,68 @@ class Task
         $this->fileUploader = new FilesUpload();
     }
 
+    public function create($data)
+    {
+        $data = $this->dataBase->stripAll((array)$data);
+        $questions = $data['questions'];
+        unset($data['questions']);
+        $query = $this->dataBase->genInsertQuery(
+            $data,
+            $this->table
+        );
+        $stmt = $this->dataBase->db->prepare($query[0]);
+        if ($query[1][0] != null) {
+            $stmt->execute($query[1]);
+        }
+        $id = $this->dataBase->db->lastInsertId();
+        $this->insertTaskQuestions($questions, $id);
+        return $id;
+    }
+
+    public function insertTaskQuestions($data, $taskId)
+    {
+        foreach ($data as $question) {
+            if ($data['image'] != '') {
+                $data['image'] = $this->fileUploader->upload($data['image'], 'QuestionImages', uniqid());
+            } else {
+                unset($data['image']);
+            }
+            $answers = $question['answers'];
+            unset($question['answers']);
+            $question['taskId'] = $taskId;
+            $query = $this->dataBase->genInsertQuery(
+                $question,
+                'questions'
+            );
+            $stmt = $this->dataBase->db->prepare($query[0]);
+            if ($query[1][0] != null) {
+                $stmt->execute($query[1]);
+            }
+            $id = $this->dataBase->db->lastInsertId();
+            $this->insertQuestionAnswers($answers, $id);
+        }
+    }
+
+    public function insertQuestionAnswers($data, $questionId)
+    {
+        foreach ($data as $answer) {
+            if ($data['image'] != '') {
+                $data['image'] = $this->fileUploader->upload($data['image'], 'AnswerImages', uniqid());
+            } else {
+                unset($data['image']);
+            }
+            $answer['taskId'] = $questionId;
+            $query = $this->dataBase->genInsertQuery(
+                $answer,
+                'answers'
+            );
+            $stmt = $this->dataBase->db->prepare($query[0]);
+            if ($query[1][0] != null) {
+                $stmt->execute($query[1]);
+            }
+        }
+    }
+
     // Получение информации о задач
     public function getTasksInfo($childId)
     {

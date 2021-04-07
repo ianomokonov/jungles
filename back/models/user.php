@@ -86,6 +86,16 @@ class User
         }
     }
 
+    public function checkAdmin($userId)
+    {
+        $query = "SELECT isAdmin FROM $this->table WHERE id = $userId";
+        $stmt = $this->dataBase->db->query($query);
+        if ($stmt->fetch()['isAdmin']) {
+            return true;
+        }
+        return false;
+    }
+
     public function getUserImage($userId)
     {
         $query = "SELECT image FROM $this->table WHERE id = $userId";

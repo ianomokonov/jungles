@@ -8,5 +8,5 @@ export interface TaskQuestion {
   cristalsCount: number;
   image: string;
   answers: Answer[];
-  childAnswers: ChildAnswer[];
+  childAnswers?: ChildAnswer[];
 }

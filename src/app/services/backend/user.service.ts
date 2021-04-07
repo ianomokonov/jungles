@@ -56,6 +56,10 @@ export class UserService {
       );
   }
 
+  public checkAdmin(): Observable<boolean> {
+    return this.http.get<boolean>(`${this.baseUrl}/user/check-admin`);
+  }
+
   public refreshPassword(email: string): Observable<boolean> {
     return this.http.post<boolean>(`${this.baseUrl}/update-password`, { email });
   }

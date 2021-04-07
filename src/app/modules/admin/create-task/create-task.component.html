@@ -1,0 +1,64 @@
+<div class="container">
+  <form [formGroup]="taskForm">
+    <div class="row d-flex flex-column">
+      <div class="col-4">
+        <div class="form-group">
+          <label>Тип задачи</label>
+          <select class="form-control" formControlName="type">
+            <option *ngFor="let type of taskTypes">{{ type.name }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="d-flex justify-content-between">
+          <label>Добавление вопросов</label>
+          <a (click)="addQuestion()"><img src="../../../../assets/images/icons/plus.svg" /></a>
+        </div>
+        <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+          <ngb-panel [title]="question.get('name').value" *ngFor="let question of questions">
+            <ng-template ngbPanelContent>
+              <form [formGroup]="question">
+                <div class="row">
+                  <div class="col-4">
+                    <div class="form-group">
+                      <label>Имя вопроса</label>
+                      <input type="text" class="form-control" formControlName="name" />
+                    </div>
+                    <div class="form-group">
+                      <label>Количество кристалов</label>
+                      <input type="number" class="form-control" formControlName="cristalsCount" />
+                    </div>
+                    <button (click)="addAnswer(question)">Добавить ответ</button>
+                  </div>
+                  <div class="col-8">
+                    <table *ngIf="question.get('answers').value; else noAnswers" class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Имя ответа</th>
+                          <th scope="col">Фото</th>
+                          <th scope="col">Тип</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let answer of question.get('answers').value; index as i;">
+                          <th scope="row">{{ i + 1 }}</th>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <ng-template #noAnswers>
+                        <button (click)="addAnswer(question)">Добавить ответ</button>
+                    </ng-template>
+                  </div>
+                </div>
+              </form>
+            </ng-template>
+          </ngb-panel>
+        </ngb-accordion>
+      </div>
+    </div>
+  </form>
+</div>
