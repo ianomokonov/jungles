@@ -57,18 +57,20 @@ $app->get('/tasks', function (Request $request, Response $response) use ($dataBa
         return $response;
     } catch (Exception $e) {
         $response = new ResponseClass();
-        $response->getBody()->write(json_encode(array("message" => $e->getMessage())));
+        $response->getBody()->write(json_encode($e));
         return $response->withStatus(500);
     }
 });
 
-$app->get('/tasks/{id}', function (Request $request, Response $response) use ($dataBase) {
+$app->get('/tasks/{taskId}', function (Request $request, Response $response) use ($dataBase) {
     $task = new Task($dataBase);
+    
     try {
+        
         $routeContext = RouteContext::fromRequest($request);
         $route = $routeContext->getRoute();
         $taskId = $route->getArgument('taskId');
-        $response->getBody()->write(json_encode($task->getTasks(null, 0, 1, $taskId)[0]));
+        $response->getBody()->write(json_encode($task->getTask(null, $taskId)));
         return $response;
     } catch (Exception $e) {
         $response = new ResponseClass();
@@ -249,7 +251,7 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
                 $route = $routeContext->getRoute();
                 $taskId = $route->getArgument('taskId');
                 $task = new Task($dataBase);
-                $response->getBody()->write(json_encode($task->getTasks($childId, 0, 1, $taskId)[0]));
+                $response->getBody()->write(json_encode($task->getTask($childId, $taskId)));
                 return $response;
             });
             $taskGroup->post('/check-answer', function (Request $request, Response $response) use ($dataBase) {
@@ -292,7 +294,7 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
         return $response;
     } catch (Exception $e) {
         $response = new ResponseClass();
-        $response->getBody()->write(json_encode(array("message" => $e->getMessage())));
+        $response->getBody()->write(json_encode($e));
         if ($e->getCode() && $e->getCode() != 0) {
             return $response->withStatus($e->getCode());
         }

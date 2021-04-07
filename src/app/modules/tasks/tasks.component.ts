@@ -44,7 +44,7 @@ export class TasksComponent implements OnInit, OnDestroy {
     forkJoin(this.getTaskRequests()).subscribe(([info, tasks]) => {
       this.info = info;
       this.tasks = tasks;
-      this.tasks = this.tasksSort(this.tasks);
+      this.setActive(this.tasks);
     });
   }
 
@@ -59,29 +59,20 @@ export class TasksComponent implements OnInit, OnDestroy {
     return [this.tasksService.getUnregTasksInfo(), this.tasksService.getUnregTasks()];
   }
 
-  public tasksSort(tasks: Task[]): Task[] {
+  public setActive(tasks: Task[]): void {
     let activeFound = false;
     if (tasks) {
       tasks.forEach((taskTemp) => {
         const task = taskTemp;
-        task.isSolved = !task.questions?.some((question) => {
-          if (!question.childAnswers?.length) {
-            return true;
-          }
-          return question.childAnswers.some(
-            (answer) => !answer.isCorrect && !answer.isCorrectVariant,
-          );
-        });
-        if (!activeFound && !task.isSolved) {
+        if (!activeFound && !task.allSolved) {
           task.isActive = true;
           activeFound = true;
         }
       });
-      if (!tasks[0]?.isSolved) {
+      if (!tasks[0]?.allSolved) {
         this.showBackDrop = true;
       }
     }
-    return tasks;
   }
 
   public signUp() {

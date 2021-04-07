@@ -67,21 +67,13 @@ class Task
         return $result;
     }
 
-    public function getTasks($childId, $offset, $count, $taskId = null)
+    public function getTask($childId, $taskId)
     {
-
         $query = "SELECT
-        *
-        FROM
-            task t
-        LIMIT $offset, $count";
-        if ($taskId) {
-            $query = "SELECT
             *
             FROM
                 task
             WHERE id = $taskId";
-        }
         $stmt = $this->dataBase->db->query($query);
         $tasks = [];
         while ($task = $stmt->fetch()) {
@@ -91,10 +83,56 @@ class Task
             $task['questions'] = $this->getQuestions($task['id'], $childId);
             $tasks[] = $task;
         }
+        return $tasks[0];
+    }
+
+    public function getTasks($childId, $offset, $count)
+    {
+        $query = "SELECT
+        *
+        FROM
+            task t
+        LIMIT $offset, $count";
+        $stmt = $this->dataBase->db->query($query);
+        $tasks = [];
+        while ($task = $stmt->fetch()) {
+            $task = $this->dataBase->decode($task);
+            $task['id'] = $task['id'] * 1;
+            $task['type'] = $task['type'] * 1;
+            $task['allSolved'] = false;
+            if ($childId) {
+                $task['allSolved'] = $this->isAllSolved($task['id'], $childId);
+            } else {
+                $task['questions'] = $this->getQuestions($task['id']);
+            }
+
+            $tasks[] = $task;
+        }
         return $tasks;
     }
 
-    public function getQuestions($taskId, $childId)
+    private function isAllSolved($taskId, $childId)
+    {
+        $query = "SELECT
+        *
+        FROM
+            question q
+        WHERE 
+            q.taskId = $taskId";
+        $stmt = $this->dataBase->db->query($query);
+        $result = true;
+        while ($question = $stmt->fetch()) {
+            $question['childAnswers'] = $this->getChildAnswers($question['id'], $childId);
+            $isCorrect = count(array_filter($question['childAnswers'], function ($v) {
+                return !$v['isCorrect'];
+            })) == 0;
+            $result = $result && $isCorrect;
+        }
+
+        return $result;
+    }
+
+    public function getQuestions($taskId, $childId = null)
     {
         $query = "SELECT
         *
@@ -154,7 +192,7 @@ class Task
             $insertStmt = $this->dataBase->db->prepare($insertQuery);
             $insertStmt->execute(array($childId, $answer['id']));
         }
-        
+
         $isCorrect = $this->isCorrectAnswer($answer['id']);
         if ($isCorrect) {
             $cristalCount = $this->getQuestionByAnswerId($answer['id'])['cristalCount'];

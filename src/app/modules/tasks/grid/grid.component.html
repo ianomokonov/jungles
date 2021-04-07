@@ -8,7 +8,7 @@
         [ngClass]="{
           active: task.isActive,
           'task-lg': index === 0 && task.isActive,
-          solved: task.isSolved
+          solved: task.allSolved
         }"
       >
         <img class="task-img" [src]="'../../../../assets/images/' + (task.type | taskImage)" />

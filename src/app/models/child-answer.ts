@@ -4,5 +4,4 @@ export interface ChildAnswer {
   answerId: number;
   variantId?: number;
   tryCount: number;
-  isCorrectVariant: boolean;
 }

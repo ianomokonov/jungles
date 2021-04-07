@@ -116,7 +116,13 @@
 <ng-template #variants let-question>
   <div class="question-container question-variants">
     <div class="question">
-      {{ question.name }}
+      <ng-container
+        *ngTemplateOutlet="
+          showCurrentAnswer ? taskCompleted : questionName;
+          context: { $implicit: question }
+        "
+      >
+      </ng-container>
     </div>
     <div class="answer-container" cdkDropListGroup>
       <div
@@ -165,7 +171,9 @@
           </div>
         </div>
       </div>
-      <ng-container *ngTemplateOutlet="btns; context: { type: question.type, isDone: question.isDone }"></ng-container>
+      <ng-container
+        *ngTemplateOutlet="btns; context: { type: question.type, isDone: question.isDone }"
+      ></ng-container>
     </div>
   </div>
 </ng-template>
