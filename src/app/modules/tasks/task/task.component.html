@@ -284,7 +284,7 @@
 
 <ng-template #questionName let-question>
   <span class="d-block mb-3">{{ question.name }}</span>
-  <img *ngIf="question.image" [src]="question.image" alt="" />
+  <img class="question-img" *ngIf="question.image" [src]="question.image" alt="" />
 </ng-template>
 
 <ng-template #tryAgain>
