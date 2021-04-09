@@ -111,8 +111,11 @@ class Task
         return $tasks;
     }
 
-    private function isAllSolved($taskId, $childId)
+    private function isAllSolved($taskId, $childId = null)
     {
+        if (!$childId) {
+            return false;
+        }
         $query = "SELECT
         *
         FROM
@@ -122,8 +125,9 @@ class Task
         $stmt = $this->dataBase->db->query($query);
         $result = true;
         while ($question = $stmt->fetch()) {
-            $question['childAnswers'] = $this->getChildAnswers($question['id'], $childId);
-            $isCorrect = count(array_filter($question['childAnswers'], function ($v) {
+            $answersCount = count($this->getCorrectAnswers($question['id']));
+            $childAnswers = $this->getChildAnswers($question['id'], $childId);
+            $isCorrect = count($childAnswers) == $answersCount &&  count(array_filter($childAnswers, function ($v) {
                 return !$v['isCorrect'];
             })) == 0;
             $result = $result && $isCorrect;
@@ -251,6 +255,28 @@ class Task
             $answer = $this->dataBase->decode($answer);
             $answer['id'] = $answer['id'] * 1;
             $answers[] = $answer;
+        }
+
+        return $answers;
+    }
+
+    public function getCorrectAnswers($questionId)
+    {
+        $query = "SELECT
+        id, isCorrect, correctVariantId
+        FROM
+            answer a
+        WHERE 
+            a.questionId = $questionId";
+        $stmt = $this->dataBase->db->query($query);
+
+        $answers = [];
+        while ($answer = $stmt->fetch()) {
+            if ($answer['isCorrect'] || $answer['correctVariantId'] != null) {
+                $answer = $this->dataBase->decode($answer);
+                $answer['id'] = $answer['id'] * 1;
+                $answers[] = $answer;
+            }
         }
 
         return $answers;

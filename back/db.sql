@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS question(
     type int(10) NOT NULL,
     name varchar(255) NOT NULL,
     image varchar(255) NULL,
+    sound varchar(255) NULL,
     cristalCount int(10) NOT NULL DEFAULT 1,
     FOREIGN KEY (taskId) REFERENCES task(id) ON DELETE CASCADE
 );
@@ -99,7 +100,6 @@ ADD
 DROP TRIGGER IF EXISTS upd_child_answer;
 
 -- DELIMITER $$
-
 --     CREATE TRIGGER upd_child_answer BEFORE UPDATE ON `childAnswer`
 --     FOR EACH ROW BEGIN
 --       IF (OLD.tryCount = 3) THEN
@@ -108,9 +108,7 @@ DROP TRIGGER IF EXISTS upd_child_answer;
 --             SET NEW.tryCount = OLD.tryCount + 1;
 --       END IF;
 --     END$$
-
 -- DELIMITER ;
-
 -- SELECT
 --     ca.tryCount,
 --     q.cristalCount

@@ -235,12 +235,19 @@ h3,
 .btn-outline-success {
   border: 1px solid @dark-green;
   color: @dark-green;
-
+  &:disabled {
+    color: @dark-green;
+  }
   &:focus,
   &:active,
   &:hover {
     color: white;
     background-color: @dark-green;
+    svg {
+      path {
+        fill: white;
+      }
+    }
   }
 }
 

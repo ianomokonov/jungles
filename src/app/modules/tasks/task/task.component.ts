@@ -20,9 +20,16 @@ export class TaskComponent {
   public answerType = AnswerType;
   public choosedAnswerId: number;
   public task: Task;
-  public activeQuestion: TaskQuestion;
+  public activeId: number;
   public showCurrentAnswer = false;
   public tasksInfo: TasksInfo;
+  public set activeQuestion(question: TaskQuestion) {
+    this.activeId = question?.id;
+  }
+
+  public get activeQuestion(): TaskQuestion {
+    return this.task?.questions?.find((q) => q.id === this.activeId);
+  }
 
   constructor(
     private router: Router,
@@ -51,6 +58,11 @@ export class TaskComponent {
     });
   }
 
+  public changeTab(event) {
+    this.activeId = event.nextId;
+    this.showCurrentAnswer = false;
+  }
+
   public drop(eventTemp: CdkDragDrop<Answer[]>) {
     const event = eventTemp;
     if (event.previousContainer === event.container) {
@@ -59,7 +71,7 @@ export class TaskComponent {
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
-        event.previousIndex,
+        event.previousContainer.data.findIndex((d) => d.id === event.item.data?.id),
         event.currentIndex,
       );
       event.container.data[event.currentIndex].isCorrect = false;
@@ -86,7 +98,11 @@ export class TaskComponent {
       this.activeQuestion = this.task.questions[nextIndex];
       return;
     }
-
+    const nextQuestion = this.task.questions.find((q) => q.isFailed || !q.childAnswers?.length);
+    if (nextQuestion) {
+      this.activeQuestion = nextQuestion;
+      return;
+    }
     this.router.navigate(['/tasks']);
   }
 
@@ -126,7 +142,6 @@ export class TaskComponent {
         })),
       );
     });
-
     this.taskService.checkVariants(variants, this.userService.activeChild?.id).subscribe(() => {
       this.showCurrentAnswer = true;
       this.getTask(this.task.id);
@@ -149,12 +164,22 @@ export class TaskComponent {
     return index.toString();
   }
 
+  public hasImages(answers) {
+    return answers.some((a) => a.image);
+  }
+
+  public play(file) {
+    const audio = new Audio(file);
+    audio.play();
+  }
+
   private getTask(id: number) {
     this.task = null;
-    this.activeQuestion = null;
     let correctQuestion = null;
+
     forkJoin(this.getTaskRequests(id)).subscribe(([task, info]) => {
       this.tasksInfo = info;
+      this.task = task;
       task.questions.forEach((questionTemp, index) => {
         const question = questionTemp;
         question.variants.forEach((variantTemp) => {
@@ -208,7 +233,6 @@ export class TaskComponent {
           }
         }
       });
-      this.task = task;
     });
   }
 
