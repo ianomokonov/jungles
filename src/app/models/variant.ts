@@ -4,4 +4,5 @@ export interface Variant {
   id: number;
   name: string;
   answers: Answer[];
+  isNull?: boolean;
 }

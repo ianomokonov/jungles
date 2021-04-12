@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Answer } from 'src/app/models/answer';
-import { TaskQuestion } from 'src/app/models/task-question';
 
 @Component({
   selector: 'app-create-answer',
@@ -9,46 +8,40 @@ import { TaskQuestion } from 'src/app/models/task-question';
   styleUrls: ['./create-answer.component.less'],
 })
 export class CreateAnswerComponent implements OnInit {
-  @Input() public question: TaskQuestion;
   @Input() public answersFormArray: FormArray;
 
-  constructor() {}
+  constructor(private fb: FormBuilder) {}
 
-  ngOnInit(): void {}
-
-  public get answers() {
-    return this.question.answers;
+  public ngOnInit() {
+    this.addAnswer();
   }
 
-  public set answers(answersData: Answer[]) {
-    this.question.answers = answersData;
+  public get answersForms(): FormGroup[] {
+    return this.answersFormArray.controls as FormGroup[];
   }
 
-  public setText(event, answer: Answer) {
+  public get answers(): Answer[] {
+    return this.answersFormArray.value as Answer[];
+  }
+
+  public setText(event, answer: FormGroup) {
     const answerTemp = answer;
-    answerTemp.name = event.target.innerText;
-    if (!event.target.innerText) {
-      answerTemp.isNull = true;
-      return;
-    }
-    answerTemp.isNull = false;
+    answerTemp.get('name').setValue(event.target.innerText);
   }
 
-  public deleteAnswer(answerId: number) {
-    this.answers = this.answers.filter((answer) => answer.id !== answerId);
+  public deleteAnswer(index: number) {
+    this.answersFormArray.removeAt(index);
   }
 
   public addAnswer() {
-    if (this.answers.length > 0) {
-      if (!this.answers[this.answers.length - 1].name) {
-        this.answers[this.answers.length - 1].isNull = true;
-        return;
-      }
-      this.answers[this.answers.length - 1].isNull = false;
-      this.answers.push({ id: this.answers[this.answers.length - 1].id + 1, name: '' } as Answer);
-      console.log(this.answers);
+    const formGroup = this.fb.group({
+      name: [null, Validators.required],
+      isCorrect: false,
+    });
+    if (this.answersFormArray.controls.some((c) => c.invalid)) {
+      this.answersFormArray.markAllAsTouched();
       return;
     }
-    this.answers.push({ id: 0, name: '' } as Answer);
+    this.answersFormArray.push(formGroup);
   }
 }

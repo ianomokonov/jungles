@@ -4,7 +4,7 @@
       <div class="col-4">
         <div class="form-group">
           <label>Тип задачи</label>
-          <ng-select [items]="taskTypes" bindLabel="name" bindValue="id" formControlName="type">
+          <ng-select [items]="taskTypes" bindLabel="name" bindValue="id" formControlName="type" class='validation-highlight'>
             <ng-template ng-label-tmp let-item="item">
               {{ item.name | taskLabel }}
             </ng-template>
@@ -39,33 +39,30 @@
                         <label>Тип вопроса</label>
                         <ng-select
                           appendTo="body"
-                          [items]="taskTypes"
+                          [items]="answerTypes"
                           bindLabel="name"
                           bindValue="id"
                           formControlName="type"
                         >
                           <ng-template ng-label-tmp let-item="item">
-                            {{ item.name | taskLabel }}
+                            {{ item.name | answerLabel }}
                           </ng-template>
                           <ng-template ng-option-tmp let-item="item">
-                            {{ item.name | taskLabel }}
+                            {{ item.name | answerLabel }}
                           </ng-template>
                         </ng-select>
                       </div>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label>{{
-                      this.taskForm.get('type').value == 1 ? 'Ответы' : 'Варианты'
-                    }}</label>
-                    <ng-container *ngSwitch="this.taskForm.get('type').value">
+                    <ng-container [ngSwitch]="question.get('type').value">
                       <app-create-answer
                         *ngSwitchCase="answerType.Choice"
                         [answersFormArray]="getAnswersArray(question)"
                       ></app-create-answer>
                       <app-create-variant
                         *ngSwitchCase="answerType.Variants"
-                        [answersFormArray]="getAnswersArray(question)"
+                        [variantsFormArray]="getVariantsArray(question)"
                       ></app-create-variant>
                     </ng-container>
                   </div>

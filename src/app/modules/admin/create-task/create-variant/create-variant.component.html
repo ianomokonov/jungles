@@ -1,10 +1,25 @@
-<div class="variant-wrap d-flex align-items-center flex-row" *ngFor="let variant of question.variants">
-  <div class="form-group">
-    <label>Имя варианта</label>
-    <input type="text" class="form-control" formControlName="name" />
-  </div>
-  <div class="form-group">
-    <label>Ответы</label>
-    <app-create-answer [question]="question" ></app-create-answer>
+<div class="d-flex justify-content-between">
+  <label>Варианты</label>
+  <a (click)="addVariant()"><img src="../../../../../assets/images/icons/plus.svg"/></a>
+</div>
+<div class="d-flex flex-wrap">
+  <div
+    class="variant-wrap d-flex align-items-center flex-row mb-3 mr-3 w-40"
+    *ngFor="let variant of variantsForms; let i = index"
+    [formGroup]="variant"
+  >
+    <div class="form-row d-flex flex-column w-100">
+      <div class="form-group">
+        <div class="d-flex justify-content-between">
+          <label>Имя варианта</label>
+          <a (click)="deleteVariant(i)"><img src="../../../../../assets/images/icons/cross2.svg"/></a>
+        </div>  
+        <input type="text" class="form-control" formControlName="name" />
+      </div>
+      <div class="form-group">
+        <label>Ответы</label>
+        <app-create-answer [answersFormArray]="getAnswersArray(variant)"></app-create-answer>
+      </div>
+    </div>
   </div>
 </div>

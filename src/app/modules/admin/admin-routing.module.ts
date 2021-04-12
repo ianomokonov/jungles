@@ -9,6 +9,10 @@ const routes: Routes = [
     component: AdminComponent,
     children: [
       {
+        path: '',
+        redirectTo: 'create-task',
+      },
+      {
         path: 'create-task',
         component: CreateTaskComponent,
         data: { title: 'Создание упражнения' },

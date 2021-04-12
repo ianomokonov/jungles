@@ -1,7 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormArray } from '@angular/forms';
-import { Answer } from 'src/app/models/answer';
-import { TaskQuestion } from 'src/app/models/task-question';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Variant } from 'src/app/models/variant';
 
 @Component({
@@ -10,15 +8,40 @@ import { Variant } from 'src/app/models/variant';
   styleUrls: ['./create-variant.component.less'],
 })
 export class CreateVariantComponent {
-  @Input() public question: TaskQuestion;
-  @Input() public answersFormArray: FormArray;
-  public answers: Answer[] = [];
+  @Input() public variantsFormArray: FormArray;
+
+  constructor(private fb: FormBuilder) {}
+
+  public get variantsForms(): FormGroup[] {
+    return this.variantsFormArray.controls as FormGroup[];
+  }
+
+  public get variants(): Variant[] {
+    return this.variantsFormArray.value as Variant[];
+  }
 
   public addVariant() {
-    this.question.variants.push({ name: 'Вариант', answers: [] } as Variant);
+    const formGroup = this.fb.group({
+      name: null,
+      answers: this.fb.array([]),
+    });
+    if (this.variants?.length > 0) {
+      if (!this.variants[this.variants.length - 1].answers.length) {
+        this.variants[this.variants.length - 1].isNull = true;
+        return;
+      }
+      this.variants[this.variants.length - 1].isNull = false;
+      this.variantsFormArray.push(formGroup);
+      return;
+    }
+    this.variantsFormArray.push(formGroup);
   }
 
   public deleteVariant(index: number) {
-    this.question.variants.filter((variant) => variant.id !== index);
+    this.variantsFormArray.removeAt(index);
+  }
+
+  public getAnswersArray(variant: FormGroup) {
+    return variant.get('answers') as FormArray;
   }
 }

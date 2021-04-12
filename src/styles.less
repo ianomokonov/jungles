@@ -709,9 +709,13 @@ span {
     }
 
     &.ng-invalid.ng-touched {
-      box-shadow: 0px 2px 7px rgba(255, 118, 118, 0.6);
+      @ivalid-input-shadow();
     }
   }
+}
+
+.validation-highlight.ng-invalid.ng-touched {
+  @ivalid-input-shadow();
 }
 
 app-feedback-slider {

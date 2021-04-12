@@ -1,22 +1,19 @@
 <div class="d-flex flex-wrap">
   <div ngbDropdown [container]="'body'" class="answer-selector d-flex flex-wrap">
     <div
-      class="answer"
-      ngbDropdownToggle
-      *ngFor="let answer of answers"
-      [ngClass]="{
-        incorrect: answer.isNull,
-        islast: answers[answers.length - 1].id == answer.id && answers.length != 1
-      }"
+      class="answer validation-highlight"
+      *ngFor="let answer of answersForms; let i = index"
+      [formGroup]="answer"
+      [ngClass]="{ 'ng-touched ng-invalid': answer.invalid && answer.touched }"
     >
       <span
-        [textContent]="answer.name"
+        [textContent]="answer.get('name').value"
         (input)="setText($event, answer)"
         contenteditable="true"
       ></span>
-      <input class="form-check-input ml-2" type="checkbox" />
+      <input class="form-check-input ml-2" type="checkbox" formControlName="isCorrect" />
       <div class="actions d-flex align-items-center">
-        <div class="act-btn mr-1 bg-danger" (click)="deleteAnswer(answer.id)">×</div>
+        <div class="act-btn mr-1 bg-danger" (click)="deleteAnswer(i)">×</div>
         <div class="act-btn bg-primary" (click)="addAnswer()">+</div>
       </div>
     </div>
@@ -24,5 +21,5 @@
       <file-uploader> </file-uploader>
     </div>
   </div>
-  <div *ngIf="answers.length == 0" class="act-btn bg-primary mt-3" (click)="addAnswer()">+</div>
+  <div *ngIf="!answers.length" class="act-btn bg-primary mt-3" (click)="addAnswer()">+</div>
 </div>
