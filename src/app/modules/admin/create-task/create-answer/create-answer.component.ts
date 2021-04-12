@@ -10,6 +10,7 @@ import { TaskQuestion } from 'src/app/models/task-question';
 })
 export class CreateAnswerComponent implements OnInit {
   @Input() public question: TaskQuestion;
+  @Input() public answersFormArray: FormArray;
 
   constructor() {}
 

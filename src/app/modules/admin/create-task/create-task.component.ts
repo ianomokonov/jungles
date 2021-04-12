@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgOption } from '@ng-select/ng-select';
 import { Answer } from 'src/app/models/answer';
 import { AnswerType } from 'src/app/models/answer-type';
-import { Question } from 'src/app/models/question';
 import { TaskQuestion } from 'src/app/models/task-question';
 import { TaskType } from 'src/app/models/task-type.enum';
 import { Variant } from 'src/app/models/variant';
@@ -22,8 +22,20 @@ export class CreateTaskComponent implements OnInit {
   public questionsData: TaskQuestion[] = [];
   public answers: Answer[] = [];
   public variants: Variant[] = [];
+  public taskTypes: NgOption[] = [];
+  public answerTypes: NgOption[] = [];
+  public answerType = AnswerType;
 
-  constructor(private fb: FormBuilder, private taskService: TaskService) {}
+  public get questionForms(): FormGroup[] {
+    return (this.taskForm.get('questions') as FormArray).controls as FormGroup[];
+  }
+
+  constructor(private fb: FormBuilder, private taskService: TaskService) {
+    this.taskTypes = this.getListItems(TaskType);
+    this.answerTypes = this.getListItems(AnswerType);
+
+    console.log(this.answerTypes);
+  }
 
   ngOnInit(): void {
     this.taskForm = this.fb.group({
@@ -33,30 +45,15 @@ export class CreateTaskComponent implements OnInit {
     this.taskForm.valueChanges.subscribe((value) => console.log(value));
   }
 
-  public getQuestionFormArray(): FormArray {
-    if (!this.questionsData?.length) {
-      return this.fb.array([]);
-    }
-    console.log(this.questionsData);
-    const array = this.fb.array([]);
-    this.questionsData.forEach((question: TaskQuestion) => {
-      array.push(this.getQuestionForm(question));
-    });
-
-    return array;
-  }
-
-  public getQuestionForm(question: TaskQuestion): FormGroup {
-    const formGroup = this.fb.group({
-      name: [question.name, Validators.required],
-      type: [AnswerType.Choice, Validators.required],
-      cristalsCount: 1,
-    });
-    return formGroup;
-  }
-
   public addQuestion() {
-    this.questionsData.push({ name: 'Вопрос', answers: [{ name: '' }] } as TaskQuestion);
+    this.questionsData.push({ name: null, answers: [{ name: '' }] } as TaskQuestion);
+    (this.taskForm.get('questions') as FormArray).push(
+      this.fb.group({
+        name: null,
+        type: null,
+        answers: this.fb.array([this.fb.group({ name: null })]),
+      }),
+    );
     console.log(this.questionsData);
   }
 
@@ -94,29 +91,20 @@ export class CreateTaskComponent implements OnInit {
       });
   }
 
-  public get taskTypes() {
+  public getListItems(source) {
     const result = [];
-    Object.keys(TaskType).forEach((key) => {
-      if (!Number.isNaN(+TaskType[key])) {
+    Object.keys(source).forEach((key) => {
+      if (!Number.isNaN(+source[key])) {
         result.push({
           id: key,
-          name: TaskType[key],
+          name: source[key],
         });
       }
     });
     return result;
   }
 
-  public get questionType() {
-    const result = [];
-    Object.keys(AnswerType).forEach((key) => {
-      if (!Number.isNaN(+AnswerType[key])) {
-        result.push({
-          id: key,
-          name: AnswerType[key],
-        });
-      }
-    });
-    return result;
+  public getAnswersArray(question: FormGroup) {
+    return question.get('answers') as FormArray;
   }
 }

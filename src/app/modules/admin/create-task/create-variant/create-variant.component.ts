@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormGroup } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { FormArray } from '@angular/forms';
 import { Answer } from 'src/app/models/answer';
 import { TaskQuestion } from 'src/app/models/task-question';
 import { Variant } from 'src/app/models/variant';
@@ -9,13 +9,10 @@ import { Variant } from 'src/app/models/variant';
   templateUrl: './create-variant.component.html',
   styleUrls: ['./create-variant.component.less'],
 })
-export class CreateVariantComponent implements OnInit {
+export class CreateVariantComponent {
   @Input() public question: TaskQuestion;
+  @Input() public answersFormArray: FormArray;
   public answers: Answer[] = [];
-
-  constructor() {}
-
-  ngOnInit(): void {}
 
   public addVariant() {
     this.question.variants.push({ name: 'Вариант', answers: [] } as Variant);
