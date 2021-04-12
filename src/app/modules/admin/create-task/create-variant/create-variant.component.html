@@ -1,0 +1,10 @@
+<div class="variant-wrap d-flex align-items-center flex-row" *ngFor="let variant of question.variants">
+  <div class="form-group">
+    <label>Имя варианта</label>
+    <input type="text" class="form-control" formControlName="name" />
+  </div>
+  <div class="form-group">
+    <label>Ответы</label>
+    <app-create-answer [question]="question" ></app-create-answer>
+  </div>
+</div>

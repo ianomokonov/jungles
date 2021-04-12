@@ -1,0 +1,48 @@
+@import '../../../../../variables.less';
+@answer-margin : 90px;
+
+.answer {
+  position: relative;
+  padding: 1rem;
+  box-shadow: 0px 4px 9px rgba(75, 125, 85, 0.15);
+  border-radius: 35px;
+  max-width: calc(100% - @answer-margin);
+  border: 1px solid transparent;
+  margin-right: @answer-margin;
+  margin-bottom: 10px;
+  span {
+    display: inline-block;
+    min-width: 200px !important;
+    max-width: 100%;
+    padding-right: 2rem;
+  }
+  input {
+    top: calc(50% - 12px);
+    right: 1rem;
+  }
+  .actions {
+    position: absolute;
+    left: calc(100% + 0.5rem);
+    top: calc(50% - 14px);
+  }
+  &.incorrect {
+    border: 1px solid @red;
+  }
+
+  & + .dropdown-menu {
+    width: 98% !important;
+  }
+}
+
+.act-btn {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  color: white;
+  font-size: 20px;
+  padding-bottom: 5px;
+}

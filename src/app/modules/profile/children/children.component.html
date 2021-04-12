@@ -20,7 +20,7 @@
         *ngIf="isUploadFileShown(changeParentForm)"
         formControlName="image"
         [type]="1"
-      ></file-uploader>
+      ><img class="img-placeholder" src="../../../../assets/images/icons/user-parent.svg"/></file-uploader>
       <div class="form-group">
         <input class="ch-input form-control" formControlName="name" />
       </div>
@@ -65,7 +65,8 @@
             *ngIf="isUploadFileShown(changeChildForm)"
             formControlName="image"
             [type]="0"
-          ></file-uploader>
+            [placeholder]="'../../../../assets/images/icons/user-child.svg'"
+          ><img class="img-placeholder" src="../../../../assets/images/icons/user-child-sm.svg"/></file-uploader>
           <div class="form-group">
             <input class="ch-input form-control" formControlName="name" />
           </div>
@@ -147,7 +148,7 @@
         *ngIf="isUploadFileShown(addChildForm)"
         formControlName="image"
         [type]="0"
-      ></file-uploader>
+      ><img class="img-placeholder" src="../../../../assets/images/icons/user-child-sm.svg"/></file-uploader>
       <div class="form-group">
         <input class="ch-input form-control" placeholder="Имя" formControlName="name" />
       </div>

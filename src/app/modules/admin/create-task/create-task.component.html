@@ -4,9 +4,11 @@
       <div class="col-4">
         <div class="form-group">
           <label>Тип задачи</label>
-          <select class="form-control" formControlName="type">
-            <option *ngFor="let type of taskTypes">{{ type.name }}</option>
-          </select>
+          <ng-select [items]="taskTypes" formControlName="type" bindLabel="name" bindValue="id">
+            <!-- <ng-template ng-label-tmp let-item="item">
+              {{ item.name | taskLabel }}
+            </ng-template> -->
+          </ng-select>
         </div>
       </div>
       <div class="col-12">
@@ -14,51 +16,54 @@
           <label>Добавление вопросов</label>
           <a (click)="addQuestion()"><img src="../../../../assets/images/icons/plus.svg" /></a>
         </div>
-        <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-          <ngb-panel [title]="question.get('name').value" *ngFor="let question of questions">
-            <ng-template ngbPanelContent>
-              <form [formGroup]="question">
-                <div class="row">
-                  <div class="col-4">
-                    <div class="form-group">
-                      <label>Имя вопроса</label>
-                      <input type="text" class="form-control" formControlName="name" />
+        <div class="mb-4">
+          <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+            <ngb-panel
+              [title]="getQuestionForm(question).get('name').value"
+              *ngFor="let question of questionsData; let i = index"
+            >
+              <ng-template ngbPanelContent>
+                <form [formGroup]="getQuestionForm(question)">
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label>Имя вопроса</label>
+                        <input type="text" class="form-control" formControlName="name" />
+                      </div>
                     </div>
-                    <div class="form-group">
-                      <label>Количество кристалов</label>
-                      <input type="number" class="form-control" formControlName="cristalsCount" />
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label>Тип вопроса</label>
+                        <select class="form-control" formControlName="type">
+                          <option *ngFor="let type of questionType" [value]="type.id">
+                            {{ type.name | answerLabel }}
+                          </option>
+                        </select>
+                      </div>
                     </div>
-                    <button (click)="addAnswer(question)">Добавить ответ</button>
                   </div>
-                  <div class="col-8">
-                    <table *ngIf="question.get('answers').value; else noAnswers" class="table table-striped">
-                      <thead>
-                        <tr>
-                          <th scope="col">#</th>
-                          <th scope="col">Имя ответа</th>
-                          <th scope="col">Фото</th>
-                          <th scope="col">Тип</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let answer of question.get('answers').value; index as i;">
-                          <th scope="row">{{ i + 1 }}</th>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <ng-template #noAnswers>
-                        <button (click)="addAnswer(question)">Добавить ответ</button>
-                    </ng-template>
+                  <div class="form-group">
+                    <label>{{
+                      this.taskForm.get('type').value == 1 ? 'Ответы' : 'Варианты'
+                    }}</label>
+                    <button></button>
+                    <app-create-answer
+                      *ngIf="this.taskForm.get('type').value == 1"
+                      [question]="question"
+                    ></app-create-answer>
+                    <app-create-variant
+                      *ngIf="this.taskForm.get('type').value == 2"
+                      [question]="question"
+                    ></app-create-variant>
                   </div>
-                </div>
-              </form>
-            </ng-template>
-          </ngb-panel>
-        </ngb-accordion>
+                  <button (click)="deleteQuestion(i)">Удалить вопрос</button>
+                </form>
+              </ng-template>
+            </ngb-panel>
+          </ngb-accordion>
+        </div>
       </div>
     </div>
+    <button class="btn btn-primary" (click)="addTask()">Сохранить</button>
   </form>
 </div>

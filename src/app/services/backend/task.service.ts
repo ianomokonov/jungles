@@ -107,6 +107,10 @@ export class TaskService {
     );
   }
 
+  public addTask(data: Task[]): Observable<boolean> {
+    return this.http.post<boolean>(`${this.baseUrl}/add-task`, data);
+  }
+
   public checkAnswer(id: number, childId: number, childAnswerId?: number): Observable<boolean> {
     if (!childId) {
       return this.http

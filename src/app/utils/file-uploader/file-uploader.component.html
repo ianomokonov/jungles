@@ -1,10 +1,11 @@
 <div class="d-flex align-items-center mb-3">
   <div [ngClass]="{ 'd-none': !value }">
-    <img class="file-img rounded-circle" #image />
+    <img class="img-placeholder rounded-circle" #image />
   </div>
-  
-  <img *ngIf="type == 0 && !value" src="../../../assets/images/icons/user-child-sm.svg" />
-  <img *ngIf="type == 1 && !value" src="../../../assets/images/icons/user-parent.svg" />
+
+  <ng-container *ngIf="!value">
+    <ng-content></ng-content>
+  </ng-container>
   
   <span class="text text-muted ml-3" *ngIf="!value" (click)="onUploadFileClick($event)"
     >Добавить фото</span

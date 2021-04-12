@@ -6,11 +6,10 @@ import { TasksRoutingModule } from './tasks-routing.module';
 import { TasksComponent } from './tasks.component';
 import { GridComponent } from './grid/grid.component';
 import { TaskImagePipe } from './pipes/task-image.pipe';
-import { TaskLabelPipe } from './pipes/task-label.pipe';
 import { TaskComponent } from './task/task.component';
 
 @NgModule({
-  declarations: [TasksComponent, GridComponent, TaskImagePipe, TaskLabelPipe, TaskComponent],
+  declarations: [TasksComponent, GridComponent, TaskImagePipe, TaskComponent],
   imports: [TasksRoutingModule, SharedModule, NgbNavModule, DragDropModule],
 })
 export class TasksModule {}

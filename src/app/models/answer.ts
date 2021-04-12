@@ -4,4 +4,6 @@ export interface Answer {
   image?: string;
   isCorrect?: boolean;
   isIncorrect?: boolean;
+
+  isNull?: boolean;
 }

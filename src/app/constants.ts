@@ -1,3 +1,4 @@
+import { AnswerType } from './models/answer-type';
 import { Period } from './models/periods';
 
 // Токены
@@ -27,6 +28,7 @@ export const months = [
 ];
 
 export const defaultPeriod: Period = { label: 'За всё время' };
+export const defaultQuestionType: AnswerType = AnswerType.Choice;
 
 // Временные значения количества и количества заданий (всего)
 export const blockAmount = 6;

@@ -18,6 +18,7 @@ export class FileUploaderComponent implements ControlValueAccessor {
   @ViewChild('inputFileContainer') private inputFileContainer: ElementRef<HTMLDivElement>;
   @ViewChild('image') private image: ElementRef<HTMLImageElement>;
   @Input() public type: number;
+  @Input() public placeholder: string;
 
   public value: File;
   public disabled: boolean;
