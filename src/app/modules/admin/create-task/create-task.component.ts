@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgOption } from '@ng-select/ng-select';
 import { Answer } from 'src/app/models/answer';
 import { AnswerType } from 'src/app/models/answer-type';
@@ -64,7 +64,9 @@ export class CreateTaskComponent implements OnInit {
           'variants',
           this.fb.array([this.fb.group({ name: null, answers: this.fb.array([]) })]),
         );
+        formGroup.removeControl('answers');
       } else {
+        formGroup.addControl('answers', this.fb.array([]));
         formGroup.removeControl('variants');
       }
     });

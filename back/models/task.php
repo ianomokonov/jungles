@@ -16,10 +16,10 @@ class Task
         $this->child = new Child($dataBase);
         $this->fileUploader = new FilesUpload();
     }
-
+    
     public function create($data)
     {
-        $data = $this->dataBase->stripAll((array)$data);
+        // $data = $this->dataBase->stripAll((array)$data);
         $questions = $data['questions'];
         unset($data['questions']);
         $query = $this->dataBase->genInsertQuery(
@@ -38,39 +38,72 @@ class Task
     public function insertTaskQuestions($data, $taskId)
     {
         foreach ($data as $question) {
-            if ($data['image'] != '') {
-                $data['image'] = $this->fileUploader->upload($data['image'], 'QuestionImages', uniqid());
+            // if ($data['image'] != '') {
+            //     $data['image'] = $this->fileUploader->upload($data['image'], 'QuestionImages', uniqid());
+            // } else {
+            //     unset($data['image']);
+            // }
+            if (isset($question['variants'])) {
+                $isVariant = true;
+                $q_data = $question['variants'];
+                unset($question['variants']);
             } else {
-                unset($data['image']);
+                $isVariant = false;
+                $q_data = $question['answers'];
+                unset($question['answers']);
             }
-            $answers = $question['answers'];
-            unset($question['answers']);
             $question['taskId'] = $taskId;
             $query = $this->dataBase->genInsertQuery(
                 $question,
-                'questions'
+                'question'
             );
             $stmt = $this->dataBase->db->prepare($query[0]);
             if ($query[1][0] != null) {
                 $stmt->execute($query[1]);
             }
             $id = $this->dataBase->db->lastInsertId();
-            $this->insertQuestionAnswers($answers, $id);
+            if ($isVariant) {
+                $this->insertQuestionVariants($q_data, $id);
+            } else {
+                $this->insertQuestionAnswers($q_data, $id);
+            }
         }
     }
 
-    public function insertQuestionAnswers($data, $questionId)
+    public function insertQuestionVariants($data, $questionId)
+    {
+        foreach ($data as $variant) {
+            $variant['questionId'] = $questionId;
+            $answers = $variant['answers'];
+            unset($variant['answers']);
+            $query = $this->dataBase->genInsertQuery(
+                $variant,
+                'variant'
+            );
+            $stmt = $this->dataBase->db->prepare($query[0]);
+            if ($query[1][0] != null) {
+                $stmt->execute($query[1]);
+            }
+            $id = $this->dataBase->db->lastInsertId();
+            $this->insertQuestionAnswers($answers, $questionId, $id);
+        }
+    }
+
+    public function insertQuestionAnswers($data, $questionId, $variantId = 0)
     {
         foreach ($data as $answer) {
-            if ($data['image'] != '') {
-                $data['image'] = $this->fileUploader->upload($data['image'], 'AnswerImages', uniqid());
-            } else {
-                unset($data['image']);
+            // if ($data['image'] != '') {
+            //     $data['image'] = $this->fileUploader->upload($data['image'], 'AnswerImages', uniqid());
+            // } else {
+            //     unset($data['image']);
+            // }
+            if ($variantId != 0) {
+                $answer['correctVariantId'] = $variantId;
             }
-            $answer['taskId'] = $questionId;
+            $answer['questionId'] = $questionId;
             $query = $this->dataBase->genInsertQuery(
                 $answer,
-                'answers'
+                'answer'
             );
             $stmt = $this->dataBase->db->prepare($query[0]);
             if ($query[1][0] != null) {
@@ -173,8 +206,11 @@ class Task
         return $tasks;
     }
 
-    private function isAllSolved($taskId, $childId)
+    private function isAllSolved($taskId, $childId = null)
     {
+        if (!$childId) {
+            return false;
+        }
         $query = "SELECT
         *
         FROM
@@ -184,8 +220,9 @@ class Task
         $stmt = $this->dataBase->db->query($query);
         $result = true;
         while ($question = $stmt->fetch()) {
-            $question['childAnswers'] = $this->getChildAnswers($question['id'], $childId);
-            $isCorrect = count(array_filter($question['childAnswers'], function ($v) {
+            $answersCount = count($this->getCorrectAnswers($question['id']));
+            $childAnswers = $this->getChildAnswers($question['id'], $childId);
+            $isCorrect = count($childAnswers) == $answersCount &&  count(array_filter($childAnswers, function ($v) {
                 return !$v['isCorrect'];
             })) == 0;
             $result = $result && $isCorrect;
@@ -313,6 +350,28 @@ class Task
             $answer = $this->dataBase->decode($answer);
             $answer['id'] = $answer['id'] * 1;
             $answers[] = $answer;
+        }
+
+        return $answers;
+    }
+
+    public function getCorrectAnswers($questionId)
+    {
+        $query = "SELECT
+        id, isCorrect, correctVariantId
+        FROM
+            answer a
+        WHERE 
+            a.questionId = $questionId";
+        $stmt = $this->dataBase->db->query($query);
+
+        $answers = [];
+        while ($answer = $stmt->fetch()) {
+            if ($answer['isCorrect'] || $answer['correctVariantId'] != null) {
+                $answer = $this->dataBase->decode($answer);
+                $answer['id'] = $answer['id'] * 1;
+                $answers[] = $answer;
+            }
         }
 
         return $answers;

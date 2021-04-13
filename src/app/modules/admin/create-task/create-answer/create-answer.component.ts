@@ -9,6 +9,7 @@ import { Answer } from 'src/app/models/answer';
 })
 export class CreateAnswerComponent implements OnInit {
   @Input() public answersFormArray: FormArray;
+  @Input() public isVariant: boolean;
 
   constructor(private fb: FormBuilder) {}
 
