@@ -19,9 +19,9 @@ class Task
     
     public function create($data)
     {
-        // $data = $this->dataBase->stripAll((array)$data);
         $questions = $data['questions'];
         unset($data['questions']);
+        $data = $this->dataBase->stripAll($data);
         $query = $this->dataBase->genInsertQuery(
             $data,
             $this->table
@@ -52,6 +52,7 @@ class Task
                 $q_data = $question['answers'];
                 unset($question['answers']);
             }
+            $question = $this->dataBase->stripAll($question);
             $question['taskId'] = $taskId;
             $query = $this->dataBase->genInsertQuery(
                 $question,
@@ -61,7 +62,7 @@ class Task
             if ($query[1][0] != null) {
                 $stmt->execute($query[1]);
             }
-            $id = $this->dataBase->db->lastInsertId();
+            $id = $this->dataBase->db->lastInsertId() * 1;
             if ($isVariant) {
                 $this->insertQuestionVariants($q_data, $id);
             } else {
@@ -73,9 +74,10 @@ class Task
     public function insertQuestionVariants($data, $questionId)
     {
         foreach ($data as $variant) {
-            $variant['questionId'] = $questionId;
             $answers = $variant['answers'];
             unset($variant['answers']);
+            $variant = $this->dataBase->stripAll($variant);
+            $variant['questionId'] = $questionId;
             $query = $this->dataBase->genInsertQuery(
                 $variant,
                 'variant'
@@ -84,7 +86,7 @@ class Task
             if ($query[1][0] != null) {
                 $stmt->execute($query[1]);
             }
-            $id = $this->dataBase->db->lastInsertId();
+            $id = $this->dataBase->db->lastInsertId() * 1;
             $this->insertQuestionAnswers($answers, $questionId, $id);
         }
     }
@@ -97,6 +99,7 @@ class Task
             // } else {
             //     unset($data['image']);
             // }
+            $answer = $this->dataBase->stripAll($answer);
             if ($variantId != 0) {
                 $answer['correctVariantId'] = $variantId;
             }
@@ -417,6 +420,7 @@ class Task
             $answer = $this->dataBase->decode($answer);
             $answer['isCorrect'] = $answer['isCorrect'] == '1';
             $answer['tryCount'] = $answer['tryCount'] * 1;
+            $answer['variantId'] = $answer['variantId'] * 1;
             $answer['id'] = $answer['id'] * 1;
             if ($answer['correctVariantId']) {
                 $answer['isCorrect'] = $answer['correctVariantId'] == $answer['variantId'];

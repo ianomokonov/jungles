@@ -10,7 +10,7 @@
       (input)="setText($event, answer)"
       contenteditable="true"
     ></span>
-    <input class="form-check-input ml-2" type="checkbox" formControlName="isCorrect" />
+    <input *ngIf="!isVariant" class="form-check-input ml-2" type="radio" [value]="true" name="isCorrect" formControlName="isCorrect" />
     <div class="actions d-flex align-items-center">
       <div class="act-btn mr-1 bg-danger" (click)="deleteAnswer(i)">×</div>
       <div class="act-btn bg-primary" (click)="addAnswer()">+</div>

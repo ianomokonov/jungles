@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgOption } from '@ng-select/ng-select';
 import { Answer } from 'src/app/models/answer';
@@ -24,7 +24,11 @@ export class CreateTaskComponent implements OnInit {
     return (this.taskForm.get('questions') as FormArray).controls as FormGroup[];
   }
 
-  constructor(private fb: FormBuilder, private taskService: TaskService) {
+  constructor(
+    private fb: FormBuilder,
+    private taskService: TaskService,
+    private cdRef: ChangeDetectorRef,
+  ) {
     this.taskTypes = this.getListItems(TaskType);
     this.answerTypes = this.getListItems(AnswerType);
   }
@@ -62,7 +66,9 @@ export class CreateTaskComponent implements OnInit {
       if (value === this.answerType.Variants) {
         formGroup.addControl(
           'variants',
-          this.fb.array([this.fb.group({ name: null, answers: this.fb.array([]) })]),
+          this.fb.array([
+            this.fb.group({ name: [null, Validators.required], answers: this.fb.array([]) }),
+          ]),
         );
         formGroup.removeControl('answers');
       } else {
@@ -71,6 +77,7 @@ export class CreateTaskComponent implements OnInit {
       }
     });
     console.log(this.taskForm.get('questions') as FormArray);
+    this.cdRef.detectChanges();
   }
 
   public deleteQuestion(index: number) {

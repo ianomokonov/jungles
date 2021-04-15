@@ -50,6 +50,18 @@ $app->post('/sign-up', function (Request $request, Response $response) use ($dat
     }
 });
 
+$app->post('/create-task', function (Request $request, Response $response) use ($dataBase) {
+    $task = new Task($dataBase);
+    try {
+        $response->getBody()->write(json_encode($task->create($request->getParsedBody())));
+        return $response;
+    } catch (Exception $e) {
+        $response = new ResponseClass();
+        $response->getBody()->write(json_encode(array("message" => $e->getMessage())));
+        return $response->withStatus(500);
+    }
+});
+
 $app->get('/tasks', function (Request $request, Response $response) use ($dataBase) {
     $task = new Task($dataBase);
     try {
@@ -108,18 +120,6 @@ $app->post('/check-answer-variants', function (Request $request, Response $respo
     }
 });
 
-$app->post('/create-task', function (Request $request, Response $response) use ($dataBase) {
-    $task = new Task($dataBase);
-    try {
-        $response->getBody()->write(json_encode($task->create($request->getParsedBody())));
-        return $response;
-    } catch (Exception $e) {
-        $response = new ResponseClass();
-        $response->getBody()->write(json_encode(array("message" => $e->getMessage())));
-        return $response->withStatus(500);
-    }
-});
-
 $app->post('/refresh-token', function (Request $request, Response $response) use ($dataBase) {
     try {
         $user = new User($dataBase);
@@ -153,7 +153,7 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
             $response->getBody()->write(json_encode($user->read($userId)));
             return $response;
         });
-
+        
         $userGroup->get('/check-admin', function (Request $request, Response $response) use ($dataBase) {
             $userId = $request->getAttribute('userId');
             $user = new User($dataBase);

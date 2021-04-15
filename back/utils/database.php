@@ -2,9 +2,9 @@
 //класс базы данных
 class DataBase
 {
-    private $dbname = "jungles_db";
-    private $login = "root";
-    private $password = "";
+    private $dbname = "jung563255_jungliki";
+    private $login = "jung563255_admin";
+    private $password = "StasStasStas3714222";
     public $db;
     public function __construct()
     {
@@ -48,11 +48,20 @@ class DataBase
     {
         for ($i = 0; $i < count(array_keys((array)$object)); $i++) {
             $object[array_keys((array)$object)[$i]] = htmlspecialchars(strip_tags($object[array_keys((array)$object)[$i]]));
-            if (gettype($object[array_keys((array)$object)[$i]]) == 'string' && strpos(array_keys((array)$object)[$i], 'date') === false && strpos(array_keys((array)$object)[$i], 'image') === false) {
+            if ($this->canStrip($object, array_keys((array)$object)[$i])) {
                 $object[array_keys((array)$object)[$i]] = json_encode($object[array_keys((array)$object)[$i]]);
             }
         }
         return $object;
+    }
+    
+    public function canStrip($object, $key)
+    {
+        return !is_numeric($object[$key])
+        && strpos($key, 'date') === false
+        && $object[$key] != true
+        && $object[$key] != true
+        && strpos($key, 'image') === false; 
     }
 
     public function decode($object)
