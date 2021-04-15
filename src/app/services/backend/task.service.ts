@@ -111,6 +111,14 @@ export class TaskService {
     return this.http.post<boolean>(`${this.baseUrl}/create-task`, data);
   }
 
+  public editTask(data: Task[]): Observable<boolean> {
+    return this.http.post<boolean>(`${this.baseUrl}/update-task`, data);
+  }
+
+  public deleteTask(taskId: number): Observable<boolean> {
+    return this.http.post<boolean>(`${this.baseUrl}/delete-task`, taskId);
+  }
+
   public checkAnswer(id: number, childId: number, childAnswerId?: number): Observable<boolean> {
     if (!childId) {
       return this.http

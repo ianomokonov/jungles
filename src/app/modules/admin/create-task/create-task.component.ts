@@ -98,7 +98,6 @@ export class CreateTaskComponent implements OnInit {
       this.taskForm.markAllAsTouched();
       return;
     }
-
     this.taskService.addTask(this.taskForm.getRawValue()).subscribe((response) => {
       if (response) {
         alert('Успешно создано!');

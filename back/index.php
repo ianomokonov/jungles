@@ -76,9 +76,9 @@ $app->get('/tasks', function (Request $request, Response $response) use ($dataBa
 
 $app->get('/tasks/{taskId}', function (Request $request, Response $response) use ($dataBase) {
     $task = new Task($dataBase);
-    
+
     try {
-        
+
         $routeContext = RouteContext::fromRequest($request);
         $route = $routeContext->getRoute();
         $taskId = $route->getArgument('taskId');
@@ -153,7 +153,7 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
             $response->getBody()->write(json_encode($user->read($userId)));
             return $response;
         });
-        
+
         $userGroup->get('/check-admin', function (Request $request, Response $response) use ($dataBase) {
             $userId = $request->getAttribute('userId');
             $user = new User($dataBase);
@@ -205,6 +205,43 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
             $response->getBody()->write(json_encode($user->removeRefreshToken($userId)));
             return $response;
         });
+    });
+
+    $group->group('admin', function (RouteCollectorProxy $adminGroup) use ($dataBase) {
+
+        $adminGroup->post('/create-task', function (Request $request, Response $response) use ($dataBase) {
+            $task = new Task($dataBase);
+            $result = $task->create($request->getParsedBody());
+            $response->getBody()->write(json_encode($result));
+            return $response;
+        });
+
+        // $adminGroup->get('/update-task', function (Request $request, Response $response) use ($dataBase) {
+        //     $task = new Task($dataBase);
+        //     $result = $task->update($request->getParsedBody());
+        //     $response->getBody()->write(json_encode($result));
+        //     return $response;
+        // });
+
+        $adminGroup->post('/delete-task', function (Request $request, Response $response) use ($dataBase) {
+            $task = new Task($dataBase);
+            $result = $task->create($request->getParsedBody());
+            $response->getBody()->write(json_encode($result));
+            return $response;
+        });
+
+    })->add(function (Request $request, RequestHandler $handler) use ($dataBase) {
+        $userId = $request->getAttribute('userId');
+
+        $user = new User($dataBase);
+
+        if ($user->checkAdmin($userId)) {
+            return $handler->handle($request);
+        }
+
+        $response = new ResponseClass();
+        $response->getBody()->write(json_encode(array("message" => "Отказано в доступе к функционалу администратора")));
+        return $response->withStatus(403);
     });
 
     $group->group('child/{id}',  function (RouteCollectorProxy $childGroup) use ($dataBase) {

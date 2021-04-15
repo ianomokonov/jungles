@@ -35,6 +35,16 @@ class Task
         return $id;
     }
 
+    public function delete($id)
+    {
+        $query = "DELETE FROM task WHERE id=$id";
+        $stmt = $this->dataBase->db->query($query);
+        if (!$stmt) {
+            return false;
+        }
+        return true;
+    }
+
     public function insertTaskQuestions($data, $taskId)
     {
         foreach ($data as $question) {
@@ -233,6 +243,21 @@ class Task
 
         return $result;
     }
+    
+    public function getFullTasks()
+    {
+        $query = "SELECT
+        *
+        FROM
+            task t";
+        $stmt = $this->dataBase->db->query($query);
+        $tasks = [];
+        while ($task = $stmt->fetch()) {
+            $tasks[] = $this->getTask(null, $task['id']);
+        }
+        return $tasks;
+    }
+
 
     public function getQuestions($taskId, $childId = null)
     {
