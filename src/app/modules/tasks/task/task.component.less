@@ -76,8 +76,9 @@
     }
     .question-container {
       .question {
-        min-height: 490px;
+        min-height: 300px;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         font-family: Museo Cyrl;
@@ -90,6 +91,10 @@
         letter-spacing: 0.02em;
         text-transform: uppercase;
         color: @dark-green;
+
+        .question-img {
+          height: 200px;
+        }
 
         .cristals-result {
           &.failed {
@@ -126,9 +131,6 @@
       }
 
       &.question-variants {
-        .question {
-          min-height: 250px;
-        }
         .answer-container {
           .answers {
             flex-wrap: wrap;
@@ -155,14 +157,17 @@
         .answers {
           display: flex;
           justify-content: space-between;
-          padding: 60px 20px 36px;
+          padding: 40px 20px 36px;
           margin-right: -20px;
-
+          &.img {
+            justify-content: center;
+          }
           .cdk-drag-placeholder {
             display: none;
           }
         }
         .answer {
+          cursor: pointer;
           min-height: 60px;
           display: flex;
           justify-content: center;
@@ -170,13 +175,29 @@
           background: #ffffff;
           box-shadow: 0px 2px 4px 1px rgba(45, 98, 85, 0.2);
           border-radius: 30px;
-          border: 4px solid #ffffff;
+          border: 2px solid #ffffff;
           flex-grow: 1;
           text-align: center;
           margin-right: 20px;
 
+          &.img {
+            height: 160px;
+            width: auto;
+            padding: 1rem;
+            flex-grow: unset;
+            display: inline-block;
+
+            img {
+              height: 100%;
+            }
+          }
+          &:hover,
           &.active {
             border-color: @orange !important;
+          }
+          &.active,
+          &.correct {
+            border-width: 4px;
           }
           &.correct {
             border-color: @green;
@@ -304,4 +325,39 @@
 .cdk-drag-placeholder {
   opacity: 0.5;
   border-color: #ffffff !important;
+}
+
+@media (max-width: 1200px) {
+  .container {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    .close-task-btn{
+      margin-right: 0;
+    }
+    .stats {
+      order: -1;
+      flex-grow: 1;
+      flex-direction: row;
+      width: 50%;
+      padding: 0;
+      align-items: center;
+      .today-tasks {
+        order: -1;
+        margin-right: 1rem;
+      }
+      .first-try {
+        display: none !important;
+      }
+      .achives{
+        margin-right: 1rem;
+      }
+      padding-bottom: 14px;
+      &>div{
+        margin-bottom: 0 !important;
+      }
+    }
+    .task-container {
+      width: 100%;
+    }
+  }
 }

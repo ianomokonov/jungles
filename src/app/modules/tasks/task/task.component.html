@@ -9,11 +9,11 @@
         ngbNav
         #nav="ngbNav"
         class="nav-tabs row m-0 question-menu"
-        [(activeId)]="activeQuestion.id"
+        [(activeId)]="activeId"
+        (navChange)="changeTab($event)"
       >
         <li
           [ngbNavItem]="question.id"
-          [disabled]="question.id !== activeQuestion.id"
           class="question-menu-item col p-0"
           *ngFor="let question of task?.questions; let index = index"
         >
@@ -46,7 +46,7 @@
     <div class="achives cristals">
       <span>{{ tasksInfo.cristals }}</span>
     </div>
-    <div class="d-flex align-items-center">
+    <div class="d-flex align-items-center today-tasks">
       <app-pie-chart
         [percent]="(tasksInfo.answersCount / 20) * 100"
         [color]="'#FF952C'"
@@ -57,7 +57,7 @@
         сегодня</span
       >
     </div>
-    <div class="d-flex align-items-center">
+    <div class="d-flex align-items-center first-try">
       <app-pie-chart
         [percent]="(tasksInfo.firstTryCount / tasksInfo.answersCount) * 100"
         [color]="'#7EE1E4'"
@@ -93,23 +93,23 @@
       </ng-container>
     </div>
     <div class="answer-container">
-      <div class="answers">
+      <div class="answers" [ngClass]="{ img: hasImages(question.answers) }">
         <div
           class="answer text-b"
           [ngClass]="{
             active: choosedAnswerId == answer.id,
             correct: answer.isCorrect,
-            incorrect: answer.isIncorrect
+            incorrect: answer.isIncorrect,
+            img: answer.image
           }"
           *ngFor="let answer of question.answers"
           (click)="choose(answer.id, question.isDone)"
         >
-          {{ answer.name }}
+          <span *ngIf="!answer.image">{{ answer.name }}</span>
+          <img *ngIf="answer.image" [src]="answer.image" alt="" />
         </div>
       </div>
-      <ng-container
-        *ngTemplateOutlet="btns; context: { type: question.type, isDone: question.isDone }"
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="btns; context: { $implicit: question }"></ng-container>
     </div>
   </div>
 </ng-template>
@@ -142,11 +142,12 @@
           }"
           *ngFor="let answer of question.answers"
           cdkDrag
+          [cdkDragData]="answer"
         >
           {{ answer.name }}
         </div>
       </div>
-      <div class="variants row">
+      <div class="variants row mx-0">
         <div class="col" *ngFor="let variant of question.variants">
           <span class="d-block variant-label text-b">{{ variant.name }}</span>
           <div
@@ -165,38 +166,102 @@
               }"
               *ngFor="let answer of variant.answers"
               cdkDrag
+              [cdkDragData]="answer"
             >
               {{ answer.name }}
             </div>
           </div>
         </div>
       </div>
-      <ng-container
-        *ngTemplateOutlet="btns; context: { type: question.type, isDone: question.isDone }"
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="btns; context: { $implicit: question }"></ng-container>
     </div>
   </div>
 </ng-template>
 
-<ng-template #btns let-type="type" let-isDone="isDone">
-  <div class="btns">
+<ng-template #btns let-question>
+  <div class="btns px-3">
     <button class="btn btn-outline-success" *ngIf="!showCurrentAnswer">Помощь</button>
     <button
       class="btn btn-success"
       *ngIf="!showCurrentAnswer; else goOn"
-      (click)="checkAnswer(type)"
-      [disabled]="isDone"
+      (click)="checkAnswer(question.type)"
+      [disabled]="question.isDone"
     >
       Принять ответ
     </button>
     <ng-template #goOn
-      ><button class="btn btn-primary" (click)="nextQuestion()" *ngIf="isDone">Продолжить</button>
-      <button class="btn btn-outline-success main-btn" (click)="solveAgain()" *ngIf="!isDone">
+      ><button class="btn btn-primary" (click)="nextQuestion()" *ngIf="question.isDone">
+        Продолжить
+      </button>
+      <button
+        class="btn btn-outline-success main-btn"
+        (click)="solveAgain()"
+        *ngIf="!question.isDone"
+      >
         Решать ещё раз
       </button>
     </ng-template>
 
-    <button class="btn btn-outline-success" *ngIf="!showCurrentAnswer">Звук</button>
+    <button
+      class="btn btn-outline-success"
+      *ngIf="!showCurrentAnswer"
+      [disabled]="!question.sound"
+      (click)="play(question.sound)"
+    >
+      Звук
+      <svg
+        *ngIf="question.sound"
+        width="18"
+        height="18"
+        viewBox="0 0 18 18"
+        class="ml-2"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M4.10607 11.8939L4.06213 11.85H4H0.15V6.14998H4H4.06213
+          L4.10607 6.10605L8.85 1.36211V16.6378L4.10607 11.8939Z
+          M11.15 5.22039C12.4632 5.97163 13.35 7.3774 13.35 8.99998
+          C13.35 10.623 12.4629 12.0285 11.15 12.771V5.22039Z
+          M16.15 8.99998C16.15 5.80114 14.0467 3.09119 11.15 2.17904
+          V0.419898C15.0008 1.38076 17.85 4.85708 17.85 8.99998
+          C17.85 13.1429 15.0008 16.6192 11.15 17.5801V15.8209C14.0467 14.9088 16.15 12.1988 16.15 8.99998Z"
+          fill="#2D6255"
+          stroke="white"
+          stroke-width="0.3"
+        />
+      </svg>
+      <svg
+        *ngIf="!question.sound"
+        width="18"
+        class="ml-2"
+        height="18"
+        viewBox="0 0 18 18"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M16.7303 17.7876L14.7963 15.8442L14.7007 15.7481
+          L14.5955 15.8335C13.5991 16.6419 12.4334 17.2519 11.15 17.5704
+          V15.8105C11.9573 15.5522 12.688 15.1461 13.342 14.6385
+          L13.4763 14.5342L13.3561 14.4139L9.10607 10.1639L8.85 9.90787
+          V10.27V16.6379L4.10607 11.8939L4.06213 11.85H4H0.15V6.15
+          H4.73H5.09213L4.83607 5.89393L0.212132 1.27L1.27 0.212132
+          L8.89393 7.83607L17.7879 16.73L16.7303 17.7876Z
+          M11.15 5.22041C12.4632 5.97165 13.35 7.37742 13.35 9
+          C13.35 9.10372 13.3454 9.20538 13.3372 9.30505
+          L11.15 7.11787V5.22041ZM15.6365 11.6043
+          C15.9601 10.7946 16.15 9.92623 16.15 9
+          C16.15 5.80116 14.0467 3.09121 11.15 2.17906
+          V0.419917C15.0008 1.38078 17.85 4.8571 17.85 9
+          C17.85 10.4026 17.5211 11.7246 16.931 12.8989
+          L15.6365 11.6043ZM8.85 4.81787L7.12213 3.09L8.85 1.36213V4.81787Z"
+          fill="#2D6255"
+          stroke="white"
+          stroke-width="0.3"
+        />
+      </svg>
+    </button>
   </div>
 </ng-template>
 
@@ -218,7 +283,8 @@
 </ng-template>
 
 <ng-template #questionName let-question>
-  {{ question.name }}
+  <span class="d-block mb-3">{{ question.name }}</span>
+  <img class="question-img" *ngIf="question.image" [src]="question.image" alt="" />
 </ng-template>
 
 <ng-template #tryAgain>
