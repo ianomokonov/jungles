@@ -10,6 +10,7 @@ import { CreateTaskComponent } from './create-task/create-task.component';
 import { CreateAnswerComponent } from './create-task/create-answer/create-answer.component';
 import { AnswerLabelPipe } from '../tasks/pipes/answer-label.pipe';
 import { CreateVariantComponent } from './create-task/create-variant/create-variant.component';
+import { ChangeAnswerModalComponent } from './create-task/change-answer-modal/change-answer-modal.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { CreateVariantComponent } from './create-task/create-variant/create-vari
     CreateAnswerComponent,
     AnswerLabelPipe,
     CreateVariantComponent,
+    ChangeAnswerModalComponent,
   ],
   imports: [
     AdminRoutingModule,

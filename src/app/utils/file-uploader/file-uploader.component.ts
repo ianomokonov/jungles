@@ -1,4 +1,12 @@
-import { Component, ElementRef, ViewChild, forwardRef, Input } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  ViewChild,
+  forwardRef,
+  Input,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 @Component({
@@ -19,6 +27,8 @@ export class FileUploaderComponent implements ControlValueAccessor {
   @ViewChild('image') private image: ElementRef<HTMLImageElement>;
   @Input() public type: number;
   @Input() public placeholder: string;
+
+  @Output() public path: EventEmitter<string> = new EventEmitter();
 
   public value: File;
   public disabled: boolean;
@@ -61,12 +71,14 @@ export class FileUploaderComponent implements ControlValueAccessor {
     const fileInput = this.createUploadFileInput();
     this.inputFileContainer.nativeElement.append(fileInput);
 
-    fileInput.addEventListener('change', (event) => {
-      const file = (event.target as HTMLInputElement).files[0];
+    fileInput.addEventListener('change', (eventF) => {
+      const file = (eventF.target as HTMLInputElement).files[0];
       const reader = new FileReader();
 
       reader.onload = ({ target }) => {
-        this.image.nativeElement.src = target.result.toString();
+        const path = target.result.toString();
+        this.image.nativeElement.src = path;
+        this.path.emit(path);
       };
 
       reader.readAsDataURL(file);
@@ -76,6 +88,17 @@ export class FileUploaderComponent implements ControlValueAccessor {
     });
 
     fileInput.click();
+  }
+
+  public getPath(image) {
+    const reader = new FileReader();
+
+    reader.onload = ({ target }) => {
+      // eslint-disable-next-line no-param-reassign
+      image.nativeElement.src = target.result.toString();
+    };
+
+    reader.readAsDataURL(image);
   }
 
   private createUploadFileInput(): HTMLInputElement {

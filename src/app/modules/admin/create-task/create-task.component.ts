@@ -38,6 +38,7 @@ export class CreateTaskComponent implements OnInit {
       type: [null, Validators.required],
       questions: this.fb.array([]),
     });
+    this.addQuestion();
   }
 
   public get questions(): FormGroup[] {

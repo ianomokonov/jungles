@@ -28,7 +28,7 @@
         <div class="mb-4">
           <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
             <ngb-panel
-              [title]="question.get('name').value || 'Вопрос'"
+              [title]="question.get('name').value || 'Вопрос ' + (i+1).toString()"
               *ngFor="let question of questionForms; let i = index"
             >
               <ng-template ngbPanelContent>

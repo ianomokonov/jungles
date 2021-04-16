@@ -211,8 +211,11 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
 
         $adminGroup->post('/create-task', function (Request $request, Response $response) use ($dataBase) {
             $task = new Task($dataBase);
-            $result = $task->create($request->getParsedBody());
-            $response->getBody()->write(json_encode($result));
+            if (isset($_FILES['image'])) {
+                $response->getBody()->write(json_encode($task->create($request->getParsedBody(), $_FILES['images'])));
+            } else {
+                $response->getBody()->write(json_encode($task->create($request->getParsedBody())));
+            }
             return $response;
         });
 

@@ -1,6 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { modalOpenedKey } from 'src/app/constants';
 import { Answer } from 'src/app/models/answer';
+import { ChangeAnswerModalComponent } from '../change-answer-modal/change-answer-modal.component';
 
 @Component({
   selector: 'app-create-answer',
@@ -8,14 +11,13 @@ import { Answer } from 'src/app/models/answer';
   styleUrls: ['./create-answer.component.less'],
 })
 export class CreateAnswerComponent implements OnInit {
+  @ViewChild('image') private image: ElementRef<HTMLImageElement>;
   @Input() public answersFormArray: FormArray;
   @Input() public isVariant: boolean;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private modalService: NgbModal) {}
 
-  public ngOnInit() {
-    this.addAnswer();
-  }
+  public ngOnInit() {}
 
   public get answersForms(): FormGroup[] {
     return this.answersFormArray.controls as FormGroup[];
@@ -25,24 +27,63 @@ export class CreateAnswerComponent implements OnInit {
     return this.answersFormArray.value as Answer[];
   }
 
-  public setText(event, answer: FormGroup) {
-    const answerTemp = answer;
-    answerTemp.get('name').setValue(event.target.innerText);
-  }
-
   public deleteAnswer(index: number) {
     this.answersFormArray.removeAt(index);
   }
 
-  public addAnswer() {
-    const formGroup = this.fb.group({
-      name: [null, Validators.required],
-      isCorrect: false,
-    });
+  public getFormGroup(): FormGroup {
+    return this.fb.group(
+      {
+        name: null,
+        isCorrect: false,
+        image: null,
+        imagePath: null,
+      },
+      (formGroupParam: FormGroup) => {
+        const value = formGroupParam.getRawValue();
+        if (!value.image && !value.name) {
+          return { noValue: true };
+        }
+        return null;
+      },
+    );
+  }
+
+  public addAnswer(data: FormGroup) {
     if (this.answersFormArray.controls.some((c) => c.invalid)) {
       this.answersFormArray.markAllAsTouched();
       return;
     }
-    this.answersFormArray.push(formGroup);
+    this.answersFormArray.push(data);
+  }
+
+  public openCreateModal() {
+    const modal = this.modalService.open(ChangeAnswerModalComponent, {
+      windowClass: 'modal-admin',
+    });
+    modal.componentInstance.answer = this.getFormGroup();
+    modal.result.then((answer) => {
+      this.addAnswer(answer);
+    });
+  }
+
+  public openChangeModal(answer: FormGroup) {
+    const modal = this.modalService.open(ChangeAnswerModalComponent, {
+      windowClass: 'modal-admin',
+    });
+    modal.componentInstance.answer = answer;
+  }
+
+  public getPath(file: File, image: HTMLImageElement) {
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = ({ target }) => {
+        // eslint-disable-next-line no-param-reassign
+        image.src = target.result.toString();
+      };
+
+      reader.readAsDataURL(file);
+    }
   }
 }

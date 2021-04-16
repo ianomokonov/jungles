@@ -17,7 +17,7 @@ class Task
         $this->fileUploader = new FilesUpload();
     }
     
-    public function create($data)
+    public function create($data, $image = '')
     {
         $questions = $data['questions'];
         unset($data['questions']);
@@ -48,11 +48,11 @@ class Task
     public function insertTaskQuestions($data, $taskId)
     {
         foreach ($data as $question) {
-            // if ($data['image'] != '') {
-            //     $data['image'] = $this->fileUploader->upload($data['image'], 'QuestionImages', uniqid());
-            // } else {
-            //     unset($data['image']);
-            // }
+            if ($data['image'] != '') {
+                $data['image'] = $this->fileUploader->upload($data['image'], 'QuestionImages', uniqid());
+            } else {
+                unset($data['image']);
+            }
             if (isset($question['variants'])) {
                 $isVariant = true;
                 $q_data = $question['variants'];
@@ -104,11 +104,11 @@ class Task
     public function insertQuestionAnswers($data, $questionId, $variantId = 0)
     {
         foreach ($data as $answer) {
-            // if ($data['image'] != '') {
-            //     $data['image'] = $this->fileUploader->upload($data['image'], 'AnswerImages', uniqid());
-            // } else {
-            //     unset($data['image']);
-            // }
+            if ($data['image'] != '') {
+                $data['image'] = $this->fileUploader->upload($data['image'], 'AnswerImages', uniqid());
+            } else {
+                unset($data['image']);
+            }
             $answer = $this->dataBase->stripAll($answer);
             if ($variantId != 0) {
                 $answer['correctVariantId'] = $variantId;
