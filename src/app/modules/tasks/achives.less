@@ -48,3 +48,52 @@
     }
   }
 }
+
+@media (max-width: 767px) {
+  .container {
+    .stats {
+      .achives {
+        width: 80px;
+        padding: 0 12px;
+        span {
+          font-size: 16px;
+        }
+        &.cristals {
+          text-align: end;
+
+          &::before {
+            height: 60px;
+            width: 51px;
+            left: -15px;
+          }
+        }
+
+        &.chest {
+          text-align: end;
+
+          &::before {
+            width: 75px;
+            height: 50px;
+            left: -20px;
+            right: auto;
+          }
+        }
+      }
+      .col-6 {
+        margin-top: 0 !important;
+        &:nth-child(3) {
+          order: 4;
+          margin-top: 26px !important;
+        }
+        &:nth-child(2) {
+          order: 3;
+          margin-top: 26px !important;
+          flex-direction: row-reverse;
+          span {
+            margin-left: 0.25rem;
+          }
+        }
+      }
+    }
+  }
+}
