@@ -222,7 +222,7 @@
               background: #ffffff;
               box-shadow: 0px 2px 4px 1px rgba(45, 98, 85, 0.2);
               border-radius: 30px;
-              padding: 20px 20px 0;
+              padding: 20px;
               border: 4px solid #ffffff;
 
               &.cdk-drop-list-dragging {
@@ -331,7 +331,7 @@
   .container {
     align-items: flex-start;
     flex-wrap: wrap;
-    .close-task-btn{
+    .close-task-btn {
       margin-right: 0;
     }
     .stats {
@@ -341,6 +341,9 @@
       width: 50%;
       padding: 0;
       align-items: center;
+      .label {
+        display: none;
+      }
       .today-tasks {
         order: -1;
         margin-right: 1rem;
@@ -348,16 +351,126 @@
       .first-try {
         display: none !important;
       }
-      .achives{
+      .achives {
         margin-right: 1rem;
       }
-      padding-bottom: 14px;
-      &>div{
+      margin-bottom: 14px;
+      & > div {
         margin-bottom: 0 !important;
       }
     }
     .task-container {
       width: 100%;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0;
+    .variants {
+      .col {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+
+        .variant {
+          padding: 10px !important;
+        }
+      }
+    }
+    .task-container {
+      border-radius: 30px;
+      .question {
+        padding: 1rem;
+        min-height: 120px !important;
+
+        .try-again{
+          img{
+            height: 160px !important;
+            position: relative;
+            z-index: 5;
+          }
+          span{
+            left: 38% !important;
+            top: -60px !important;
+            width: 225px !important;
+            height: 146px !important;
+            font-size: 14px !important;
+          }
+        }
+      }
+      .answers {
+        padding-left: 15px;
+        padding-right: 15px;
+        .answer {
+          max-height: 90px !important;
+          margin-right: 10px !important;
+        }
+      }
+
+      .nav-tabs {
+        .question-menu-item {
+          a {
+            height: 30px !important;
+            font-size: 12px;
+          }
+        }
+      }
+    }
+    .stats {
+      padding-left: 1rem;
+      .today-tasks {
+        margin-right: 0.5rem;
+      }
+      .achives {
+        margin-right: 0.5rem;
+        span {
+          line-height: 26px;
+          font-size: 14px;
+        }
+        &.cristals {
+          width: 52px !important;
+          &::before {
+            height: 39px;
+            width: 32px;
+            left: -10px;
+          }
+        }
+        &.chest {
+          width: 52px !important;
+          &::before {
+            height: 30px;
+            width: 38px;
+          }
+        }
+      }
+      .try-count {
+        width: 32px;
+        height: 32px;
+        font-size: 20px;
+      }
+    }
+    .close-task-btn {
+      margin-right: 1rem;
+      min-width: 30px;
+      height: 30px;
+      border-radius: 12px;
+      align-self: center;
+      margin-bottom: 14px;
+      img {
+        height: 12px;
+        width: 12px;
+      }
+    }
+    .btns {
+      flex-wrap: wrap;
+      justify-content: space-between !important;
+      .main-btn {
+        order: -1;
+        margin: 0 0 40px 0 !important;
+        margin-bottom: 40px;
+        width: 100% !important;
+      }
     }
   }
 }

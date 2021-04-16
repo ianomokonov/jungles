@@ -48,11 +48,12 @@
     </div>
     <div class="d-flex align-items-center today-tasks">
       <app-pie-chart
+        class="adapt-sm"
         [percent]="(tasksInfo.answersCount / 20) * 100"
         [color]="'#FF952C'"
         [label]="tasksInfo.answersCount.toString()"
       ></app-pie-chart>
-      <span class="ml-1"
+      <span class="ml-1 label"
         >Упражений<br />
         сегодня</span
       >
@@ -63,17 +64,17 @@
         [color]="'#7EE1E4'"
         [label]="tasksInfo.firstTryCount.toString()"
       ></app-pie-chart>
-      <span class="ml-1"
+      <span class="ml-1 label"
         >Упражений<br />
         с 1 попытки</span
       >
     </div>
     <div
-      class="d-flex align-items-center"
+      class="d-flex align-items-center try-count-container"
       *ngIf="activeQuestion?.tryCount && !activeQuestion.isDone"
     >
       <span class="try-count">{{ activeQuestion?.tryCount }}</span>
-      <span class="ml-1"
+      <span class="ml-1 label"
         >Количество<br />
         попыток</span
       >
@@ -182,7 +183,7 @@
   <div class="btns px-3">
     <button class="btn btn-outline-success" *ngIf="!showCurrentAnswer">Помощь</button>
     <button
-      class="btn btn-success"
+      class="btn btn-success main-btn"
       *ngIf="!showCurrentAnswer; else goOn"
       (click)="checkAnswer(question.type)"
       [disabled]="question.isDone"
@@ -190,7 +191,7 @@
       Принять ответ
     </button>
     <ng-template #goOn
-      ><button class="btn btn-primary" (click)="nextQuestion()" *ngIf="question.isDone">
+      ><button class="btn btn-primary main-btn" (click)="nextQuestion()" *ngIf="question.isDone">
         Продолжить
       </button>
       <button
