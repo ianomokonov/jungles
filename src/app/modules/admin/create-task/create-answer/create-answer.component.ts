@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Answer } from 'src/app/models/answer';
 import { ChangeAnswerModalComponent } from '../change-answer-modal/change-answer-modal.component';
@@ -12,10 +12,16 @@ import { ChangeAnswerModalComponent } from '../change-answer-modal/change-answer
 export class CreateAnswerComponent {
   @ViewChild('image') private image: ElementRef<HTMLImageElement>;
   @Input() public answersFormArray: FormArray;
+  @Input() public questionGroup: FormGroup;
   @Input() public isVariant: boolean;
 
   constructor(private fb: FormBuilder, private modalService: NgbModal) {}
-
+  public getFormControl(form: FormGroup, controlName: string): FormControl {
+    if (!form) {
+      return null;
+    }
+    return form.get(controlName) as FormControl;
+  }
   public get answersForms(): FormGroup[] {
     return this.answersFormArray.controls as FormGroup[];
   }
@@ -32,7 +38,6 @@ export class CreateAnswerComponent {
     return this.fb.group(
       {
         name: null,
-        isCorrect: false,
         image: null,
         imagePath: null,
       },
@@ -54,23 +59,18 @@ export class CreateAnswerComponent {
     this.answersFormArray.push(data);
   }
 
-  public openCreateModal() {
+  public openCreateModal(index, answer?: FormGroup) {
     const modal = this.modalService.open(ChangeAnswerModalComponent, {
       windowClass: 'modal-admin',
     });
-    modal.componentInstance.answer = this.getFormGroup();
+    modal.componentInstance.answer = answer || this.getFormGroup();
     modal.result
-      .then((answer) => {
-        this.addAnswer(answer);
+      .then((resultAnswer: FormGroup) => {
+        if (!answer) {
+          this.addAnswer(resultAnswer);
+        }
       })
       .catch(() => {});
-  }
-
-  public openChangeModal(answer: FormGroup) {
-    const modal = this.modalService.open(ChangeAnswerModalComponent, {
-      windowClass: 'modal-admin',
-    });
-    modal.componentInstance.answer = answer;
   }
 
   public getPath(file: File, image: HTMLImageElement) {

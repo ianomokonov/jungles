@@ -10,14 +10,19 @@
     }"
   >
     <span *ngIf="!answer.get('image')?.value" [textContent]="answer.get('name').value"></span>
-    <img *ngIf="answer.get('image')?.value" class="rounded" [src]="answer.get('imagePath')?.value" #image />
+    <img
+      *ngIf="answer.get('image')?.value"
+      class="rounded"
+      [src]="answer.get('imagePath')?.value"
+      #image
+    />
     <input
       *ngIf="!isVariant"
       class="form-check-input ml-2"
       type="radio"
       [value]="i"
       name="isCorrect"
-      formControlName="isCorrect"
+      [formControl]="getFormControl(questionGroup, 'correctAnswerIndex')"
     />
     <div ngbDropdown [container]="'body'" class="change-dropdown">
       <em ngbDropdownToggle>
@@ -40,13 +45,13 @@
         </svg>
       </em>
       <div ngbDropdownMenu aria-labelledby="dropdownConfig">
-        <button ngbDropdownItem (click)="openChangeModal(answer)">Изменить</button>
+        <button ngbDropdownItem (click)="openCreateModal(i, answer)">Изменить</button>
         <button ngbDropdownItem (click)="deleteAnswer(i)">Удалить</button>
       </div>
     </div>
     <div class="actions d-flex align-items-center">
-      <div class="act-btn bg-primary" (click)="openCreateModal()">+</div>
+      <div class="act-btn bg-primary" (click)="openCreateModal(i + 1)">+</div>
     </div>
   </div>
 </div>
-<div *ngIf="!answers.length" class="act-btn bg-primary mt-3" (click)="openCreateModal()">+</div>
+<div *ngIf="!answers.length" class="act-btn bg-primary mt-3" (click)="openCreateModal(0)">+</div>

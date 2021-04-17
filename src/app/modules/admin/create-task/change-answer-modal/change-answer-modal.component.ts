@@ -9,11 +9,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ChangeAnswerModalComponent {
   public answer: FormGroup;
-  public index: number;
 
   constructor(private fb: FormBuilder, public modal: NgbActiveModal) {}
 
-  public changeAnswer() {
+  public saveAnswer() {
     this.modal.close(this.answer);
   }
 

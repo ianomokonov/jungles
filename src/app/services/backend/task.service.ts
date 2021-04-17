@@ -81,6 +81,10 @@ export class TaskService {
     return this.http.get<Task>(`${this.baseUrl}/child/${childId}/tasks/${id}`);
   }
 
+  public getShortTasks(): Observable<{ id: number }> {
+    return this.http.get<{ id: number }>(`${this.baseUrl}/admin/get-tasks`);
+  }
+
   public getUnregTask(id: number): Observable<Task> {
     return this.http.get<Task>(`${this.baseUrl}/tasks/${id}`).pipe(
       map((task) => {
@@ -107,8 +111,46 @@ export class TaskService {
     );
   }
 
-  public addTask(data: Task[]): Observable<boolean> {
-    return this.http.post<boolean>(`${this.baseUrl}/create-task`, data);
+  public addTask(
+    data,
+  ): Observable<
+    {
+      id: number;
+      answers: number[];
+      variants?: { id: number; answers: number[] }[];
+    }[]
+  > {
+    return this.http.post<
+      {
+        id: number;
+        answers: number[];
+        variants?: { id: number; answers: number[] }[];
+      }[]
+    >(`${this.baseUrl}/admin/create-task`, data);
+  }
+
+  public addQuestionImage(questionId: number, image: File): Observable<void> {
+    const formData = new FormData();
+    formData.append('image', image);
+    return this.http.post<void>(
+      `${this.baseUrl}/admin/question/${questionId}/save-image`,
+      formData,
+    );
+  }
+
+  public addAnswerImage(answerId: number, image: File): Observable<void> {
+    const formData = new FormData();
+    formData.append('image', image);
+    return this.http.post<void>(`${this.baseUrl}/admin/answer/${answerId}/save-image`, formData);
+  }
+
+  public addQuestionSound(questionId: number, sound: File): Observable<void> {
+    const formData = new FormData();
+    formData.append('sound', sound);
+    return this.http.post<void>(
+      `${this.baseUrl}/admin/question/${questionId}/save-sound`,
+      formData,
+    );
   }
 
   public editTask(data: Task[]): Observable<boolean> {
@@ -116,7 +158,7 @@ export class TaskService {
   }
 
   public deleteTask(taskId: number): Observable<boolean> {
-    return this.http.post<boolean>(`${this.baseUrl}/delete-task`, taskId);
+    return this.http.post<boolean>(`${this.baseUrl}/admin/delete-task`, { taskId });
   }
 
   public checkAnswer(id: number, childId: number, childAnswerId?: number): Observable<boolean> {

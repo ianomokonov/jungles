@@ -1,6 +1,8 @@
+/* eslint-disable no-param-reassign */
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgOption } from '@ng-select/ng-select';
+import { forkJoin } from 'rxjs';
 import { Answer } from 'src/app/models/answer';
 import { AnswerType } from 'src/app/models/answer-type';
 import { TaskType } from 'src/app/models/task-type.enum';
@@ -46,28 +48,33 @@ export class CreateTaskComponent implements OnInit {
   }
 
   public addQuestion() {
-    const formGroup = this.fb.group({
+    const questionForm = this.fb.group({
       name: [null, Validators.required],
       type: this.answerType.Choice,
-      correctAnswerIndex: null,
+      image: null,
+      sound: null,
+      imagePath: null,
+      correctAnswerIndex: [null, Validators.required],
       answers: this.fb.array([]),
     });
-    (this.taskForm.get('questions') as FormArray).push(formGroup);
-    formGroup.get('type').valueChanges.subscribe((value) => {
+    (this.taskForm.get('questions') as FormArray).push(questionForm);
+    questionForm.get('type').valueChanges.subscribe((value) => {
+      const correctAnswerIndexControl = questionForm.get('correctAnswerIndex');
       if (value === this.answerType.Variants) {
-        formGroup.addControl(
+        questionForm.addControl(
           'variants',
           this.fb.array([
             this.fb.group({ name: [null, Validators.required], answers: this.fb.array([]) }),
           ]),
         );
-        formGroup.removeControl('answers');
-      } else {
-        formGroup.addControl('answers', this.fb.array([]));
-        formGroup.removeControl('variants');
+        correctAnswerIndexControl.clearValidators();
+        questionForm.removeControl('answers');
+        return;
       }
+      correctAnswerIndexControl.setValidators(Validators.required);
+      questionForm.addControl('answers', this.fb.array([]));
+      questionForm.removeControl('variants');
     });
-    console.log(this.taskForm.get('questions') as FormArray);
     this.cdRef.detectChanges();
   }
 
@@ -83,17 +90,87 @@ export class CreateTaskComponent implements OnInit {
     return question.get('variants') as FormArray;
   }
 
+  public setCorrectIndex(question: FormGroup, index) {
+    question.get('correctAnswerIndex').setValue(index);
+  }
+
+  public savePath(question: FormGroup, path: string) {
+    question.get('imagePath').setValue(path);
+  }
   public addTask() {
     if (this.taskForm.invalid) {
-      console.log(this.taskForm);
       this.taskForm.markAllAsTouched();
       return;
     }
-    console.log(this.taskForm.getRawValue());
-    return;
-    this.taskService.addTask(this.taskForm.getRawValue()).subscribe((response) => {
-      if (response) {
-        alert('Успешно создано!');
+    const formValue = this.taskForm.getRawValue();
+    const resultValue = { type: formValue.type, questions: [] };
+    resultValue.questions = formValue.questions.map((question) => {
+      const result = {
+        name: question.name,
+        type: question.type,
+        answers: [],
+        variants: [],
+      };
+      if (question.type === AnswerType.Choice) {
+        result.answers = question.answers.map((answer, index) => {
+          return {
+            isCorrect: question.correctAnswerIndex === index,
+            name: answer.name,
+          };
+        });
+      } else {
+        result.variants = question.variants.map((variant) => {
+          return {
+            answers: variant.answers.map((answer) => ({ name: answer.name })),
+            name: variant.name,
+          };
+        });
+      }
+      return result;
+    });
+    this.taskService.addTask(resultValue).subscribe((questions) => {
+      if (questions) {
+        const subscriptions = [];
+        questions.forEach((question, questionIndex) => {
+          const curQuestion = formValue.questions[questionIndex];
+          if (curQuestion.image) {
+            subscriptions.push(this.taskService.addQuestionImage(question.id, curQuestion.image));
+          }
+          if (curQuestion.sound) {
+            subscriptions.push(this.taskService.addQuestionSound(question.id, curQuestion.sound));
+          }
+
+          if (question.variants) {
+            question.variants.forEach((variant, variantIndex) => {
+              variant.answers.forEach((answerId, index) => {
+                if (curQuestion.variants[variantIndex].answers[index].image) {
+                  subscriptions.push(
+                    this.taskService.addAnswerImage(
+                      answerId,
+                      curQuestion.variants[variantIndex].answers[index].image,
+                    ),
+                  );
+                }
+              });
+            });
+
+            return;
+          }
+
+          question.answers.forEach((answerId, index) => {
+            if (curQuestion.answers[index].image) {
+              subscriptions.push(
+                this.taskService.addAnswerImage(
+                  answerId,
+                  formValue.questions[questionIndex].answers[index].image,
+                ),
+              );
+            }
+          });
+        });
+        forkJoin(subscriptions).subscribe(() => {
+          alert('УРАААААА!');
+        });
         return;
       }
       alert('Всё в гавне!');

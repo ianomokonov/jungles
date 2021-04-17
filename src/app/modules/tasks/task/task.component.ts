@@ -23,6 +23,7 @@ export class TaskComponent {
   public activeId: number;
   public showCurrentAnswer = false;
   public tasksInfo: TasksInfo;
+  public audio;
   public set activeQuestion(question: TaskQuestion) {
     this.activeId = question?.id;
   }
@@ -169,8 +170,16 @@ export class TaskComponent {
   }
 
   public play(file) {
-    const audio = new Audio(file);
-    audio.play();
+    this.audio = new Audio(file);
+    this.audio.play();
+  }
+
+  public stop() {
+    if (!this.audio) {
+      return;
+    }
+    this.audio.pause();
+    this.audio = null;
   }
 
   private getTask(id: number) {

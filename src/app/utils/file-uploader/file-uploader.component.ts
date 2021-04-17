@@ -25,13 +25,14 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 export class FileUploaderComponent implements ControlValueAccessor {
   @ViewChild('inputFileContainer') private inputFileContainer: ElementRef<HTMLDivElement>;
   @ViewChild('image') private image: ElementRef<HTMLImageElement>;
-  @Input() public type: number;
+  @Input() public isSound: boolean;
   @Input() public placeholder: string;
   @Input() public imagePath: string;
 
   @Output() public path: EventEmitter<string> = new EventEmitter();
 
   public value: File;
+  public audio;
 
   public disabled: boolean;
 
@@ -84,12 +85,28 @@ export class FileUploaderComponent implements ControlValueAccessor {
       };
 
       reader.readAsDataURL(file);
+
       this.updateValue(file);
 
       fileInput.remove();
     });
 
     fileInput.click();
+  }
+
+  public play(file) {
+    if (this.isSound) {
+      this.audio = new Audio(file);
+
+      this.audio.play();
+    }
+  }
+
+  public stop() {
+    if (this.audio) {
+      this.audio.pause();
+      this.audio = null;
+    }
   }
 
   public getSrc() {

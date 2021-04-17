@@ -11,6 +11,7 @@ import { CreateAnswerComponent } from './create-task/create-answer/create-answer
 import { AnswerLabelPipe } from '../tasks/pipes/answer-label.pipe';
 import { CreateVariantComponent } from './create-task/create-variant/create-variant.component';
 import { ChangeAnswerModalComponent } from './create-task/change-answer-modal/change-answer-modal.component';
+import { RemoveTaskComponent } from './remove-task/remove-task.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { ChangeAnswerModalComponent } from './create-task/change-answer-modal/ch
     AnswerLabelPipe,
     CreateVariantComponent,
     ChangeAnswerModalComponent,
+    RemoveTaskComponent,
   ],
   imports: [
     AdminRoutingModule,

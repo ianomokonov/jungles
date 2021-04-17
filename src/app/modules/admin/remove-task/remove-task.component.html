@@ -1,0 +1,18 @@
+<div class="form-group">
+  <label>Выберите задачу</label>
+  <ng-select
+    [items]="tasks"
+    bindLabel="name"
+    bindValue="id"
+    [formControl]="taskIdControl"
+    class="validation-highlight"
+  >
+    <ng-template ng-label-tmp let-item="item">
+      {{ 'Задача № ' + item.id }}
+    </ng-template>
+    <ng-template ng-option-tmp let-item="item">
+      {{ 'Задача № ' + item.id }}
+    </ng-template>
+  </ng-select>
+</div>
+<button class="btn btn-danger" (click)="onDeleteTask()">Удалить задачу</button>

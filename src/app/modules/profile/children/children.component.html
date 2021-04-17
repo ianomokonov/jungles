@@ -16,11 +16,9 @@
         <img class="rounded-circle" [src]="changeParentForm.get('image').value" />
         <span class="text text-muted ml-3" (click)="removeImg(changeParentForm)">Удалить фото</span>
       </div>
-      <file-uploader
-        *ngIf="isUploadFileShown(changeParentForm)"
-        formControlName="image"
-        [type]="1"
-      ><img class="img-placeholder" src="../../../../assets/images/icons/user-parent.svg"/></file-uploader>
+      <file-uploader *ngIf="isUploadFileShown(changeParentForm)" formControlName="image"
+        ><img class="img-placeholder" src="../../../../assets/images/icons/user-parent.svg"
+      /></file-uploader>
       <div class="form-group">
         <input class="ch-input form-control" formControlName="name" />
       </div>
@@ -64,9 +62,9 @@
           <file-uploader
             *ngIf="isUploadFileShown(changeChildForm)"
             formControlName="image"
-            [type]="0"
             [placeholder]="'../../../../assets/images/icons/user-child.svg'"
-          ><img class="img-placeholder" src="../../../../assets/images/icons/user-child-sm.svg"/></file-uploader>
+            ><img class="img-placeholder" src="../../../../assets/images/icons/user-child-sm.svg"
+          /></file-uploader>
           <div class="form-group">
             <input class="ch-input form-control" formControlName="name" />
           </div>
@@ -144,11 +142,9 @@
         <img [src]="addChildForm.get('image').value" />
         <span class="remove-img" (click)="removeImg(addChildForm)">&times;</span>
       </div>
-      <file-uploader
-        *ngIf="isUploadFileShown(addChildForm)"
-        formControlName="image"
-        [type]="0"
-      ><img class="img-placeholder" src="../../../../assets/images/icons/user-child-sm.svg"/></file-uploader>
+      <file-uploader *ngIf="isUploadFileShown(addChildForm)" formControlName="image"
+        ><img class="img-placeholder" src="../../../../assets/images/icons/user-child-sm.svg"
+      /></file-uploader>
       <div class="form-group">
         <input class="ch-input form-control" placeholder="Имя" formControlName="name" />
       </div>
@@ -175,11 +171,15 @@
       </div>
       <span
         class="subt text-muted"
-        *ngIf="!submitted && addChildForm.get('dateOfBirth').touched && addChildForm.get('dateOfBirth').invalid"
+        *ngIf="
+          !submitted &&
+          addChildForm.get('dateOfBirth').touched &&
+          addChildForm.get('dateOfBirth').invalid
+        "
         >Введите данные в формате ДД.ММ.ГГГГ
       </span>
       <div
-      class="mt-4 error-msg d-flex align-items-start"
+        class="mt-4 error-msg d-flex align-items-start"
         *ngIf="
           submitted &&
           (!addChildForm.get('name').value ||
@@ -187,7 +187,7 @@
             !addChildForm.get('dateOfBirth').value)
         "
       >
-        <img src="../../assets/images/icons/invalid.svg" alt="" class="mr-2 pt-1"/>
+        <img src="../../assets/images/icons/invalid.svg" alt="" class="mr-2 pt-1" />
         <span class="text-red subt"> Необходимо ввести данные для сохранения профиля </span>
       </div>
       <button class="btn btn-small btn-success mt-4" (click)="addChild()">сохранить</button>
