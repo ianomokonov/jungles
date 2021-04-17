@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { userTokenKey } from '../constants';
 import { UserService } from './backend/user.service';
 
@@ -13,10 +13,11 @@ export class AdminGuard implements CanActivate {
     const currentUserToken = localStorage.getItem(userTokenKey);
     if (currentUserToken) {
       return this.userService.checkAdmin().pipe(
-        map((res) => {
+        tap((res) => {
           if (res) {
             return true;
           }
+          this.router.navigate(['/']);
           return false;
         }),
       );
