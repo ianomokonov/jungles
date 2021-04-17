@@ -21,7 +21,6 @@ export class CreateVariantComponent {
   }
 
   public addVariant() {
-    console.log(132131);
     const formGroup = this.fb.group({
       name: null,
       answers: this.fb.array([]),

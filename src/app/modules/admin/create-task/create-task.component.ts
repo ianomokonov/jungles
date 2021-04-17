@@ -169,11 +169,10 @@ export class CreateTaskComponent implements OnInit {
           });
         });
         forkJoin(subscriptions).subscribe(() => {
-          alert('УРАААААА!');
+          alert('Задание создано!');
+          this.ngOnInit();
         });
-        return;
       }
-      alert('Всё в гавне!');
     });
   }
 

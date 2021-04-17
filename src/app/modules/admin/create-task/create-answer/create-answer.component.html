@@ -50,7 +50,7 @@
       </div>
     </div>
     <div class="actions d-flex align-items-center">
-      <div class="act-btn bg-primary" (click)="openCreateModal(i + 1)">+</div>
+      <div *ngIf="answersForms.length-1 == i" class="act-btn bg-primary" (click)="openCreateModal(i + 1)">+</div>
     </div>
   </div>
 </div>

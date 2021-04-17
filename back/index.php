@@ -50,18 +50,6 @@ $app->post('/sign-up', function (Request $request, Response $response) use ($dat
     }
 });
 
-$app->post('/create-task', function (Request $request, Response $response) use ($dataBase) {
-    $task = new Task($dataBase);
-    try {
-        $response->getBody()->write(json_encode($task->create($request->getParsedBody())));
-        return $response;
-    } catch (Exception $e) {
-        $response = new ResponseClass();
-        $response->getBody()->write(json_encode(array("message" => $e->getMessage())));
-        return $response->withStatus(500);
-    }
-});
-
 $app->get('/tasks', function (Request $request, Response $response) use ($dataBase) {
     $task = new Task($dataBase);
     try {
@@ -211,11 +199,45 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
 
         $adminGroup->post('/create-task', function (Request $request, Response $response) use ($dataBase) {
             $task = new Task($dataBase);
-            if (isset($_FILES['image'])) {
-                $response->getBody()->write(json_encode($task->create($request->getParsedBody(), $_FILES['images'])));
-            } else {
-                $response->getBody()->write(json_encode($task->create($request->getParsedBody())));
-            }
+            $result = $task->create($request->getParsedBody());
+            $response->getBody()->write(json_encode($result));
+            return $response;
+        });
+        
+        $adminGroup->get('/get-tasks', function (Request $request, Response $response) use ($dataBase) {
+            $task = new Task($dataBase);
+            $result = $task->getShortTasks();
+            $response->getBody()->write(json_encode($result));
+            return $response;
+        });
+        
+        $adminGroup->post('/question/{questionId}/save-image', function (Request $request, Response $response) use ($dataBase) {
+            $routeContext = RouteContext::fromRequest($request);
+            $route = $routeContext->getRoute();
+            $questionId = $route->getArgument('questionId');
+            $task = new Task($dataBase);
+            $result = $task->addQuestionImage($questionId, $_FILES['image']);
+            $response->getBody()->write(json_encode($result));
+            return $response;
+        });
+        
+        $adminGroup->post('/question/{questionId}/save-sound', function (Request $request, Response $response) use ($dataBase) {
+            $routeContext = RouteContext::fromRequest($request);
+            $route = $routeContext->getRoute();
+            $questionId = $route->getArgument('questionId');
+            $task = new Task($dataBase);
+            $result = $task->addQuestionSound($questionId, $_FILES['sound']);
+            $response->getBody()->write(json_encode($result));
+            return $response;
+        });
+        
+        $adminGroup->post('/answer/{answerId}/save-image', function (Request $request, Response $response) use ($dataBase) {
+            $routeContext = RouteContext::fromRequest($request);
+            $route = $routeContext->getRoute();
+            $answerId = $route->getArgument('answerId');
+            $task = new Task($dataBase);
+            $result = $task->addAnswerImage($answerId, $_FILES['image']);
+            $response->getBody()->write(json_encode($result));
             return $response;
         });
 
@@ -228,7 +250,7 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
 
         $adminGroup->post('/delete-task', function (Request $request, Response $response) use ($dataBase) {
             $task = new Task($dataBase);
-            $result = $task->create($request->getParsedBody());
+            $result = $task->delete($request->getParsedBody()['taskId']);
             $response->getBody()->write(json_encode($result));
             return $response;
         });
@@ -353,6 +375,7 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
         return $response;
     } catch (Exception $e) {
         $response = new ResponseClass();
+        echo json_encode($e);
         $response->getBody()->write(json_encode($e));
         if ($e->getCode() && $e->getCode() != 0) {
             return $response->withStatus($e->getCode());

@@ -47,9 +47,11 @@ class DataBase
     public function stripAll($object)
     {
         for ($i = 0; $i < count(array_keys((array)$object)); $i++) {
-            $object[array_keys((array)$object)[$i]] = htmlspecialchars(strip_tags($object[array_keys((array)$object)[$i]]));
-            if ($this->canStrip($object, array_keys((array)$object)[$i])) {
-                $object[array_keys((array)$object)[$i]] = json_encode($object[array_keys((array)$object)[$i]]);
+            $key = array_keys((array)$object)[$i];
+            
+            $object[$key] = htmlspecialchars(strip_tags($object[$key]));
+            if ($this->canStrip($object, $key)) {
+                $object[$key] = json_encode($object[$key]);
             }
         }
         return $object;
@@ -57,10 +59,13 @@ class DataBase
     
     public function canStrip($object, $key)
     {
+        // echo json_encode(array($object[$key], !is_numeric($object[$key])
+        // ,strpos($key, 'date') === false
+        // ,$object[$key] != false
+        // ,strpos($key, 'image') === false));
         return !is_numeric($object[$key])
         && strpos($key, 'date') === false
-        && $object[$key] != true
-        && $object[$key] != true
+        && $object[$key] != false
         && strpos($key, 'image') === false; 
     }
 
