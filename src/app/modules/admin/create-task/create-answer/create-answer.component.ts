@@ -1,7 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { modalOpenedKey } from 'src/app/constants';
 import { Answer } from 'src/app/models/answer';
 import { ChangeAnswerModalComponent } from '../change-answer-modal/change-answer-modal.component';
 
@@ -10,14 +9,12 @@ import { ChangeAnswerModalComponent } from '../change-answer-modal/change-answer
   templateUrl: './create-answer.component.html',
   styleUrls: ['./create-answer.component.less'],
 })
-export class CreateAnswerComponent implements OnInit {
+export class CreateAnswerComponent {
   @ViewChild('image') private image: ElementRef<HTMLImageElement>;
   @Input() public answersFormArray: FormArray;
   @Input() public isVariant: boolean;
 
   constructor(private fb: FormBuilder, private modalService: NgbModal) {}
-
-  public ngOnInit() {}
 
   public get answersForms(): FormGroup[] {
     return this.answersFormArray.controls as FormGroup[];
@@ -62,9 +59,11 @@ export class CreateAnswerComponent implements OnInit {
       windowClass: 'modal-admin',
     });
     modal.componentInstance.answer = this.getFormGroup();
-    modal.result.then((answer) => {
-      this.addAnswer(answer);
-    });
+    modal.result
+      .then((answer) => {
+        this.addAnswer(answer);
+      })
+      .catch(() => {});
   }
 
   public openChangeModal(answer: FormGroup) {
