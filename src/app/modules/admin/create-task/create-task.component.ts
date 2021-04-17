@@ -47,20 +47,10 @@ export class CreateTaskComponent implements OnInit {
 
   public addQuestion() {
     const formGroup = this.fb.group({
-      name: null,
+      name: [null, Validators.required],
       type: this.answerType.Choice,
-      answers: this.fb.array([], (formArray: FormArray) => {
-        if (formArray.controls.length) {
-          const value = formArray.getRawValue();
-          const hasCorrectAnswer = value.some((v) => v.isCorrect);
-          console.log(formArray);
-          console.log(value, hasCorrectAnswer);
-          if (!hasCorrectAnswer) {
-            return { noCorrectAnswer: true };
-          }
-        }
-        return null;
-      }),
+      correctAnswerIndex: null,
+      answers: this.fb.array([]),
     });
     (this.taskForm.get('questions') as FormArray).push(formGroup);
     formGroup.get('type').valueChanges.subscribe((value) => {
@@ -99,6 +89,8 @@ export class CreateTaskComponent implements OnInit {
       this.taskForm.markAllAsTouched();
       return;
     }
+    console.log(this.taskForm.getRawValue());
+    return;
     this.taskService.addTask(this.taskForm.getRawValue()).subscribe((response) => {
       if (response) {
         alert('Успешно создано!');

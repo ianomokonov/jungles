@@ -27,10 +27,12 @@ export class FileUploaderComponent implements ControlValueAccessor {
   @ViewChild('image') private image: ElementRef<HTMLImageElement>;
   @Input() public type: number;
   @Input() public placeholder: string;
+  @Input() public imagePath: string;
 
   @Output() public path: EventEmitter<string> = new EventEmitter();
 
   public value: File;
+
   public disabled: boolean;
 
   private onChange = (value: any) => {};
@@ -77,7 +79,7 @@ export class FileUploaderComponent implements ControlValueAccessor {
 
       reader.onload = ({ target }) => {
         const path = target.result.toString();
-        this.image.nativeElement.src = path;
+        this.imagePath = path;
         this.path.emit(path);
       };
 
@@ -90,15 +92,12 @@ export class FileUploaderComponent implements ControlValueAccessor {
     fileInput.click();
   }
 
-  public getPath(image) {
-    const reader = new FileReader();
+  public getSrc() {
+    if (!this.value) {
+      return null;
+    }
 
-    reader.onload = ({ target }) => {
-      // eslint-disable-next-line no-param-reassign
-      image.nativeElement.src = target.result.toString();
-    };
-
-    reader.readAsDataURL(image);
+    return this.imagePath;
   }
 
   private createUploadFileInput(): HTMLInputElement {

@@ -23,9 +23,13 @@
       </div>
       <div class="col">
         <div class="form-group">
-          <file-uploader formControlName="image" (path)="savePath($event)"
-            ><img [src]="answer.get('imagePath').value"
-          /></file-uploader>
+          <file-uploader
+            [imagePath]="answer.get('imagePath').value"
+            formControlName="image"
+            (path)="savePath($event)"
+          >
+            <!-- <img [src]="answer.get('imagePath').value" /> -->
+          </file-uploader>
         </div>
       </div>
     </div>

@@ -1,16 +1,18 @@
 <div class="d-flex align-items-center mb-3">
   <div [ngClass]="{ 'd-none': !value }">
-    <img class="img-placeholder rounded-circle" #image />
+    <img [src]="getSrc()" class="img-placeholder rounded-circle" #image />
   </div>
 
   <ng-container *ngIf="!value">
     <ng-content></ng-content>
   </ng-container>
-  
+
   <span class="text text-muted ml-3" *ngIf="!value" (click)="onUploadFileClick($event)"
     >Добавить фото</span
   >
-  <span class="text text-muted ml-3" *ngIf="value" (click)="onRemoveFileClick($event)">Удалить фото</span>
+  <span class="text text-muted ml-3" *ngIf="value" (click)="onRemoveFileClick($event)"
+    >Удалить фото</span
+  >
 </div>
 
 <div class="file-inputs" #inputFileContainer></div>
