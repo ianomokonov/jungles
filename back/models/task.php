@@ -20,6 +20,10 @@ class Task
     public function create($data)
     {
         $questions = $data['questions'];
+        $tasks = $this->getShortTasks();
+        if($data['order']*1 < count($tasks)){
+            $this->setOrder($data['order']*1);
+        }
         unset($data['questions']);
         $data = $this->dataBase->stripAll($data);
         $query = $this->dataBase->genInsertQuery(
@@ -34,6 +38,11 @@ class Task
         $resultIds = array();
         $this->insertTaskQuestions($questions, $id, $resultIds);
         return $resultIds;
+    }
+
+    private function setOrder($order){
+        $query = "UPDATE task SET order = task.order + 1 WHERE order>=$order";
+        $stmt = $this->dataBase->db->query($query);
     }
 
     public function delete($id)
@@ -58,6 +67,51 @@ class Task
         $soundPath = json_encode($this->fileUploader->upload($sound, 'QuestionSounds', uniqid()));
         $query = "UPDATE question SET sound='$soundPath' WHERE id=$questionId";
         $stmt = $this->dataBase->db->query($query);
+    }
+    public function updateTask($id, $data)
+    {
+        $data = $this->dataBase->stripAll((array)$data);
+        $query = $this->dataBase->genUpdateQuery($data, $this->table, $id);
+        $stmt = $this->dataBase->db->prepare($query[0]);
+        if ($query[1][0] != null) {
+            $stmt->execute($query[1]);
+        }
+        return true;
+    }
+    public function updateQuestion($id, $data)
+    {
+        $imageToRemove = $data['removeImg'];
+        if($imageToRemove){
+            $this->fileUploader->removeFile($imageToRemove);
+        }
+        unset($data['removeImg']);
+        $soundToRemove = $data['removeSound'];
+        if($soundToRemove){
+            $this->fileUploader->removeFile($soundToRemove);
+        }
+        unset($data['removeSound']);
+        $data = $this->dataBase->stripAll((array)$data);
+        $query = $this->dataBase->genUpdateQuery($data, 'question', $id);
+        $stmt = $this->dataBase->db->prepare($query[0]);
+        if ($query[1][0] != null) {
+            $stmt->execute($query[1]);
+        }
+        return true;
+    }
+    public function updateAnswer($id, $data)
+    {
+        $imageToRemove = $data['removeImg'];
+        if($imageToRemove){
+            $this->fileUploader->removeFile($imageToRemove);
+        }
+        unset($data['removeImg']);
+        $data = $this->dataBase->stripAll((array)$data);
+        $query = $this->dataBase->genUpdateQuery($data, 'answer', $id);
+        $stmt = $this->dataBase->db->prepare($query[0]);
+        if ($query[1][0] != null) {
+            $stmt->execute($query[1]);
+        }
+        return true;
     }
     public function addAnswerImage($answerId, $image)
     {
@@ -254,7 +308,8 @@ class Task
         $query = "SELECT
         id
         FROM
-            task";
+            task
+        ORDER BY order";
         $stmt = $this->dataBase->db->query($query);
         $tasks = [];
         while ($task = $stmt->fetch()) {
@@ -271,6 +326,7 @@ class Task
         *
         FROM
             task t
+        ORDER BY order
         LIMIT $offset, $count";
         $stmt = $this->dataBase->db->query($query);
         $tasks = [];
@@ -320,7 +376,8 @@ class Task
         $query = "SELECT
         *
         FROM
-            task t";
+            task t
+        ORDER BY order";
         $stmt = $this->dataBase->db->query($query);
         $tasks = [];
         while ($task = $stmt->fetch()) {
@@ -337,7 +394,8 @@ class Task
         FROM
             question q
         WHERE 
-            q.taskId = $taskId";
+            q.taskId = $taskId
+        ORDER BY order";
         $stmt = $this->dataBase->db->query($query);
         $questions = [];
         while ($question = $stmt->fetch()) {

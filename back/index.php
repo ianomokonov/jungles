@@ -203,6 +203,35 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
             $response->getBody()->write(json_encode($result));
             return $response;
         });
+        $adminGroup->post('/task/{taskId}/update', function (Request $request, Response $response) use ($dataBase) {
+            $routeContext = RouteContext::fromRequest($request);
+            $route = $routeContext->getRoute();
+            $taskId = $route->getArgument('taskId');
+            $task = new Task($dataBase);
+            $result = $task->updateTask($taskId*1, $request->getParsedBody());
+            $response->getBody()->write(json_encode($result));
+            return $response;
+        });
+
+        $adminGroup->post('/question/{questionId}/update', function (Request $request, Response $response) use ($dataBase) {
+            $routeContext = RouteContext::fromRequest($request);
+            $route = $routeContext->getRoute();
+            $questionId = $route->getArgument('questionId');
+            $task = new Task($dataBase);
+            $result = $task->updateQuestion($questionId*1, $request->getParsedBody());
+            $response->getBody()->write(json_encode($result));
+            return $response;
+        });
+
+        $adminGroup->post('/answer/{answerId}/update', function (Request $request, Response $response) use ($dataBase) {
+            $routeContext = RouteContext::fromRequest($request);
+            $route = $routeContext->getRoute();
+            $answerId = $route->getArgument('answerId');
+            $task = new Task($dataBase);
+            $result = $task->updateTask($answerId*1, $request->getParsedBody());
+            $response->getBody()->write(json_encode($result));
+            return $response;
+        });
         
         $adminGroup->get('/get-tasks', function (Request $request, Response $response) use ($dataBase) {
             $task = new Task($dataBase);

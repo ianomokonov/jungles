@@ -31,7 +31,8 @@ CREATE TABLE IF NOT EXISTS child(
 
 CREATE TABLE IF NOT EXISTS task(
     id int(10) PRIMARY KEY AUTO_INCREMENT,
-    type int(10) NOT NULL
+    type int(10) NOT NULL,
+    order int(10) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS question(
@@ -39,6 +40,7 @@ CREATE TABLE IF NOT EXISTS question(
     taskId int(10) NOT NULL,
     type int(10) NOT NULL,
     name varchar(255) NOT NULL,
+    order int(10) NOT NULL,
     image varchar(255) NULL,
     sound varchar(255) NULL,
     cristalCount int(10) NOT NULL DEFAULT 1,

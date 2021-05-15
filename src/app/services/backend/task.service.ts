@@ -85,6 +85,18 @@ export class TaskService {
     return this.http.get<{ id: number }>(`${this.baseUrl}/admin/get-tasks`);
   }
 
+  public updateTask(id, data): Observable<boolean> {
+    return this.http.post<boolean>(`${this.baseUrl}/admin/task/${id}/update`, data);
+  }
+
+  public updateQuestion(id, data): Observable<boolean> {
+    return this.http.post<boolean>(`${this.baseUrl}/admin/question/${id}/update`, data);
+  }
+
+  public updateAnswer(id, data): Observable<boolean> {
+    return this.http.post<boolean>(`${this.baseUrl}/admin/answer/${id}/update`, data);
+  }
+
   public getUnregTask(id: number): Observable<Task> {
     return this.http.get<Task>(`${this.baseUrl}/tasks/${id}`).pipe(
       map((task) => {
