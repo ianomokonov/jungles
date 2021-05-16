@@ -5,6 +5,7 @@ import { NgOption } from '@ng-select/ng-select';
 import { forkJoin } from 'rxjs';
 import { Answer } from 'src/app/models/answer';
 import { AnswerType } from 'src/app/models/answer-type';
+import { Task } from 'src/app/models/task';
 import { TaskType } from 'src/app/models/task-type.enum';
 import { Variant } from 'src/app/models/variant';
 import { TaskService } from 'src/app/services/backend/task.service';
@@ -16,6 +17,8 @@ import { TaskService } from 'src/app/services/backend/task.service';
 })
 export class CreateTaskComponent implements OnInit {
   public taskForm: FormGroup;
+  private tasks: Task[];
+  public tasksNumbers: number[] = [];
   public answers: Answer[] = [];
   public variants: Variant[] = [];
   public taskTypes: NgOption[] = [];
@@ -36,8 +39,19 @@ export class CreateTaskComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.taskService.getFullTasks().subscribe((data) => {
+      this.tasks = data;
+      this.tasks.forEach((task) => {
+        console.log(task);
+        this.tasksNumbers.push(task.number);
+      });
+      this.tasksNumbers.push(this.tasksNumbers[this.tasksNumbers.length - 1] + 1);
+      this.tasksNumbers = this.tasksNumbers.sort((a, b) => b - a);
+      console.log(this.tasksNumbers);
+    });
     this.taskForm = this.fb.group({
       type: [null, Validators.required],
+      number: [this.tasksNumbers[this.tasksNumbers.length - 1], Validators.required],
       questions: this.fb.array([]),
     });
     this.addQuestion();

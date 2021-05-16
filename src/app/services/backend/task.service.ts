@@ -39,7 +39,7 @@ export class TaskService {
   }
 
   public getUnregTasks(): Observable<Task[]> {
-    return this.http.get<Task[]>(`${this.baseUrl}/tasks`).pipe(
+    return this.getFullTasks().pipe(
       map((tasks) => {
         const answersJSON = sessionStorage.getItem(childAnswersKey);
         if (answersJSON) {
@@ -81,8 +81,12 @@ export class TaskService {
     return this.http.get<Task>(`${this.baseUrl}/child/${childId}/tasks/${id}`);
   }
 
+  public getFullTasks(): Observable<Task[]> {
+    return this.http.get<Task[]>(`${this.baseUrl}/tasks`);
+  }
+
   public getShortTasks(): Observable<{ id: number }> {
-    return this.http.get<{ id: number }>(`${this.baseUrl}/admin/get-tasks`);
+    return this.http.get<{ id: number }>(`${this.baseUrl}/admin/get-tasks-id`);
   }
 
   public updateTask(id, data): Observable<boolean> {
@@ -165,7 +169,7 @@ export class TaskService {
     );
   }
 
-  public editTask(data: Task[]): Observable<boolean> {
+  public editTask(data: Task): Observable<boolean> {
     return this.http.post<boolean>(`${this.baseUrl}/update-task`, data);
   }
 

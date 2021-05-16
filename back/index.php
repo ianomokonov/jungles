@@ -235,6 +235,13 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
         
         $adminGroup->get('/get-tasks', function (Request $request, Response $response) use ($dataBase) {
             $task = new Task($dataBase);
+            $result = $task->getFullTasks();
+            $response->getBody()->write(json_encode($result));
+            return $response;
+        });
+
+        $adminGroup->get('/get-tasks-id', function (Request $request, Response $response) use ($dataBase) {
+            $task = new Task($dataBase);
             $result = $task->getShortTasks();
             $response->getBody()->write(json_encode($result));
             return $response;

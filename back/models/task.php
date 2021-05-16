@@ -21,8 +21,8 @@ class Task
     {
         $questions = $data['questions'];
         $tasks = $this->getShortTasks();
-        if($data['order']*1 < count($tasks)){
-            $this->setOrder($data['order']*1);
+        if($data['number']*1 < count($tasks)){
+            $this->setOrder($data['number']*1);
         }
         unset($data['questions']);
         $data = $this->dataBase->stripAll($data);
@@ -40,8 +40,8 @@ class Task
         return $resultIds;
     }
 
-    private function setOrder($order){
-        $query = "UPDATE task SET order = task.order + 1 WHERE order>=$order";
+    private function setOrder($number){
+        $query = "UPDATE task SET number = task.number + 1 WHERE number>=$number";
         $stmt = $this->dataBase->db->query($query);
     }
 
@@ -309,7 +309,7 @@ class Task
         id
         FROM
             task
-        ORDER BY order";
+        ORDER BY number";
         $stmt = $this->dataBase->db->query($query);
         $tasks = [];
         while ($task = $stmt->fetch()) {
@@ -326,7 +326,7 @@ class Task
         *
         FROM
             task t
-        ORDER BY order
+        ORDER BY number
         LIMIT $offset, $count";
         $stmt = $this->dataBase->db->query($query);
         $tasks = [];
@@ -377,7 +377,7 @@ class Task
         *
         FROM
             task t
-        ORDER BY order";
+        ORDER BY number";
         $stmt = $this->dataBase->db->query($query);
         $tasks = [];
         while ($task = $stmt->fetch()) {
@@ -395,7 +395,7 @@ class Task
             question q
         WHERE 
             q.taskId = $taskId
-        ORDER BY order";
+        ORDER BY number";
         $stmt = $this->dataBase->db->query($query);
         $questions = [];
         while ($question = $stmt->fetch()) {

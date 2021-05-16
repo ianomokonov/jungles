@@ -1,23 +1,38 @@
 <div class="mb-5">
   <form [formGroup]="taskForm">
-    <div class="row d-flex flex-column">
-      <div class="col-4">
-        <div class="form-group">
-          <label>Тип задачи</label>
-          <ng-select
-            [items]="taskTypes"
-            bindLabel="name"
-            bindValue="id"
-            formControlName="type"
-            class="validation-highlight"
-          >
-            <ng-template ng-label-tmp let-item="item">
-              {{ item.name | taskLabel }}
-            </ng-template>
-            <ng-template ng-option-tmp let-item="item">
-              {{ item.name | taskLabel }}
-            </ng-template>
-          </ng-select>
+    <div class="d-flex flex-column">
+      <div class="row">
+        <div class="col-4">
+          <div class="form-group">
+            <label>Тип задачи</label>
+            <ng-select
+              [items]="taskTypes"
+              bindLabel="name"
+              bindValue="id"
+              formControlName="type"
+              class="validation-highlight"
+            >
+              <ng-template ng-label-tmp let-item="item">
+                {{ item.name | taskLabel }}
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item">
+                {{ item.name | taskLabel }}
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label>Номер задачи</label>
+            <ng-select [items]="tasksNumbers" formControlName="number" class="validation-highlight">
+              <ng-template ng-label-tmp let-item="item">
+                {{ item }}
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item">
+                {{ item }}
+              </ng-template>
+            </ng-select>
+          </div>
         </div>
       </div>
       <div class="col-12">
