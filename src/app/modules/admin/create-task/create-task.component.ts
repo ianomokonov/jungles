@@ -42,12 +42,10 @@ export class CreateTaskComponent implements OnInit {
     this.taskService.getFullTasks().subscribe((data) => {
       this.tasks = data;
       this.tasks.forEach((task) => {
-        console.log(task);
         this.tasksNumbers.push(task.number);
       });
       this.tasksNumbers.push(this.tasksNumbers[this.tasksNumbers.length - 1] + 1);
       this.tasksNumbers = this.tasksNumbers.sort((a, b) => b - a);
-      console.log(this.tasksNumbers);
     });
     this.taskForm = this.fb.group({
       type: [null, Validators.required],

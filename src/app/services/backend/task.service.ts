@@ -97,6 +97,10 @@ export class TaskService {
     return this.http.post<boolean>(`${this.baseUrl}/admin/question/${id}/update`, data);
   }
 
+  public updateVariant(id, data): Observable<boolean> {
+    return this.http.post<boolean>(`${this.baseUrl}/admin/variant/${id}/update`, data);
+  }
+
   public updateAnswer(id, data): Observable<boolean> {
     return this.http.post<boolean>(`${this.baseUrl}/admin/answer/${id}/update`, data);
   }

@@ -1,97 +1,115 @@
 <div class="mb-5">
-  <!-- <ng-template *ngIf="tasks; else noData"> -->
-  <!-- <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-      <ngb-panel [title]="'Задача №' + task.number" *ngFor="let task of tasks; let i = index">
-        <ng-template ngbPanelContent>
-          <app-edit-task [task]="task" [tasksNumbers]="tasksNumbers" [index]="i" (edit)="onEditTask()"></app-edit-task>
-        </ng-template>
-      </ngb-panel>
-    </ngb-accordion> -->
-  <!-- </ng-template> -->
-  <form [formGroup]="filterForm">
-    <div class="row">
-      <div class="form-group col-4">
-        <label>Выберите задачу</label>
-        <ng-select
-          [items]="tasks"
-          class="validation-highlight"
-          bindLabel="number"
-          bindValue="questions"
-          formControlName="task"
-        >
-          <ng-template ng-label-tmp let-item="item">
-            {{ 'Задача номер ' + item.number }}
-          </ng-template>
-          <ng-template ng-option-tmp let-item="item">
-            {{ 'Задача номер ' + item.number }}
-          </ng-template>
-        </ng-select>
+  <div class="position-relative">
+    <form [formGroup]="filterForm">
+      <div class="row">
+        <div class="form-group col-4">
+          <label>Выберите задачу</label>
+          <ng-select
+            [items]="tasks"
+            class="validation-highlight"
+            bindLabel="number"
+            formControlName="task"
+          >
+            <ng-template ng-label-tmp let-item="item">
+              {{ 'Задача номер ' + item.number }}
+            </ng-template>
+            <ng-template ng-option-tmp let-item="item">
+              {{ 'Задача номер ' + item.number }}
+            </ng-template>
+          </ng-select>
+        </div>
+        <div class="form-group col-4">
+          <label>Выберите вопрос</label>
+          <ng-select
+            [items]="selectedTaskQuestions"
+            class="validation-highlight"
+            bindLabel="number"
+            formControlName="question"
+          >
+            <ng-template ng-label-tmp let-item="item">
+              {{ item.number + ') ' + item.name }}
+            </ng-template>
+            <ng-template ng-option-tmp let-item="item">
+              {{ item.number + ') ' + item.name }}
+            </ng-template>
+          </ng-select>
+        </div>
       </div>
-      <div class="form-group col-4">
-        <label>Выберите вопрос</label>
-        <ng-select
-          [items]="selectedTaskQuestions"
-          class="validation-highlight"
-          bindLabel="number"
-          formControlName="question"
-        >
-          <ng-template ng-label-tmp let-item="item">
-            {{ item.number + ') ' + item.name }}
-          </ng-template>
-          <ng-template ng-option-tmp let-item="item">
-            {{ item.number + ') ' + item.name }}
-          </ng-template>
-        </ng-select>
+      <div class="row" *ngIf="selectedTask">
+        <div class="form-group col-4">
+          <label>Номер задания</label>
+          <ng-select [items]="tasksNumbers" class="validation-highlight" formControlName="number">
+            <ng-template ng-label-tmp let-item="item">
+              {{ item }}
+            </ng-template>
+            <ng-template ng-option-tmp let-item="item">
+              {{ item }}
+            </ng-template>
+          </ng-select>
+        </div>
       </div>
-    </div>
-  </form>
+      <img
+        class="save-icon"
+        src="../../../../assets/images/icons/save.svg"
+        (click)="saveTask()"
+      />
+    </form>
+  </div>
   <div *ngIf="selectedQuestion">
     <hr />
     <form [formGroup]="questionForm">
       <div class="question-form">
-        <div class="form-group col-5">
-          <label>Название вопроса</label>
-          <input class="form-control" formControlName="name" type="text" />
+        <div class="row">
+          <div class="form-group col-5">
+            <label>Название вопроса</label>
+            <input class="form-control" formControlName="name" type="text" />
+          </div>
+          <div class="form-group col-2">
+            <label>Фото</label>
+            <file-uploader
+              formControlName="image"
+              [imagePath]="this.selectedQuestion.image"
+            ></file-uploader>
+          </div>
+          <div class="form-group col-2">
+            <label>Звук</label>
+            <file-uploader
+              formControlName="sound"
+              [isSound]="true"
+              [imagePath]="this.selectedQuestion.sound"
+            ></file-uploader>
+          </div>
         </div>
-        <div class="form-group col-2">
-          <label>Фото</label>
-          <file-uploader
-            formControlName="image"
-            [imagePath]="this.selectedQuestion.image"
-          ></file-uploader>
-        </div>
-        <div class="form-group col-2">
-          <label>Звук</label>
-          <file-uploader
-            formControlName="sound"
-            [isSound]="true"
-            [imagePath]="this.selectedQuestion.sound"
-          ></file-uploader>
-        </div>
-        <img
-          src="../../../../assets/images/icons/save.svg"
-          (click)="saveQuestion()"
-        />
+        <img class="save-icon" src="../../../../assets/images/icons/save.svg" (click)="saveQuestion()" />
       </div>
     </form>
-    <div class="answer-block" *ngFor="let answer of answersFormsGroup">
-      <form [formGroup]="answer" class="d-flex">
-        <div class="form-group col-5">
-          <label>Название вопроса</label>
-          <input class="form-control" formControlName="name" type="text" />
-        </div>
-        <div class="form-group col-2">
-          <label>Фото</label>
-          <file-uploader
-            formControlName="image"
-            [imagePath]="this.selectedQuestion.image"
-          ></file-uploader>
-        </div>
-        <img
-          src="../../../../assets/images/icons/save.svg"
-          (click)="saveAnswer(answer)"
-        />
-      </form>
+    <ng-container *ngIf="selectedQuestion.variants.length > 0">
+      <div class="variant-block" *ngFor="let variant of variantsFormsGroup">
+        <form [formGroup]="variant">
+          <div class="form-group">
+            <label>Название варианта</label>
+            <input class="form-control" formControlName="name" type="text" />
+          </div>
+        </form>
+      </div>
+    </ng-container>
+    <div>
+      <div class="answer-block" *ngFor="let answer of answersFormsGroup">
+        <form [formGroup]="answer" class="d-flex">
+          <div class="form-group col-5">
+            <label>Название ответа</label>
+            <input class="form-control" formControlName="name" type="text" />
+          </div>
+          <div class="form-group col-2">
+            <label>Фото</label>
+            <file-uploader
+              formControlName="image"
+              [imagePath]="this.selectedQuestion.image"
+            ></file-uploader>
+          </div>
+          <img class="save-icon" src="../../../../assets/images/icons/save.svg" (click)="saveAnswer(answer)" />
+        </form>
+      </div>
     </div>
   </div>
 </div>
