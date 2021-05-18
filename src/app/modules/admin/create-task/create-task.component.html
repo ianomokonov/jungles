@@ -21,7 +21,7 @@
             </ng-select>
           </div>
         </div>
-        <div class="col-4">
+        <div class="col-4" *ngIf="tasksNumbers && tasksNumbers.length > 1">
           <div class="form-group">
             <label>Номер задачи</label>
             <ng-select [items]="tasksNumbers" formControlName="number" class="validation-highlight">

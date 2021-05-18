@@ -35,7 +35,7 @@
           </ng-select>
         </div>
       </div>
-      <div class="row" *ngIf="selectedTask">
+      <div class="row" *ngIf="selectedTask && tasksNumbers && tasksNumbers.length > 1">
         <div class="form-group col-4">
           <label>Номер задания</label>
           <ng-select [items]="tasksNumbers" class="validation-highlight" formControlName="number">
@@ -49,6 +49,7 @@
         </div>
       </div>
       <img
+        *ngIf="tasksNumbers && tasksNumbers.length > 1"
         class="save-icon"
         src="../../../../assets/images/icons/save.svg"
         (click)="saveTask()"

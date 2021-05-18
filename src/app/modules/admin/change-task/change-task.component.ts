@@ -69,7 +69,6 @@ export class ChangeTaskComponent implements OnInit {
       this.tasks.forEach((task) => {
         this.tasksNumbers.push(task.number);
       });
-      this.tasksNumbers.push(this.tasksNumbers[this.tasksNumbers.length - 1] + 1);
       this.tasksNumbers = this.tasksNumbers.sort((a, b) => b - a);
     });
   }
