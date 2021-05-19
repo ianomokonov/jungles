@@ -35,25 +35,33 @@
           </ng-select>
         </div>
       </div>
-      <div class="row" *ngIf="selectedTask && tasksNumbers && tasksNumbers.length > 1">
-        <div class="form-group col-4">
-          <label>Номер задания</label>
-          <ng-select [items]="tasksNumbers" class="validation-highlight" formControlName="number">
-            <ng-template ng-label-tmp let-item="item">
-              {{ item }}
-            </ng-template>
-            <ng-template ng-option-tmp let-item="item">
-              {{ item }}
-            </ng-template>
-          </ng-select>
+      <ng-container *ngIf="selectedTask && tasks?.length > 1">
+        <div class="row" *ngIf="selectedTask && tasks?.length > 1">
+          <div class="form-group col-4">
+            <label>Номер задания</label>
+            <ng-select
+              [clearable]="false"
+              [bindValue]="'number'"
+              [items]="tasks"
+              class="validation-highlight"
+              formControlName="number"
+            >
+              <ng-template ng-label-tmp let-item="item">
+                {{ item.number }}
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item">
+                {{ item.number }}
+              </ng-template>
+            </ng-select>
+          </div>
         </div>
-      </div>
-      <img
-        *ngIf="tasksNumbers && tasksNumbers.length > 1"
-        class="save-icon"
-        src="../../../../assets/images/icons/save.svg"
-        (click)="saveTask()"
-      />
+        <img
+          *ngIf="tasks?.length > 1"
+          class="save-icon"
+          src="../../../../assets/images/icons/save.svg"
+          (click)="saveTask()"
+        />
+      </ng-container>
     </form>
   </div>
   <div *ngIf="selectedQuestion">
@@ -69,7 +77,8 @@
             <label>Фото</label>
             <file-uploader
               formControlName="image"
-              [imagePath]="this.selectedQuestion.image"
+              [imagePath]="questionForm.get('imagePath').value"
+              (remove)="onRemoveFile(questionForm.get('imagePath').value)"
             ></file-uploader>
           </div>
           <div class="form-group col-2">
@@ -77,11 +86,16 @@
             <file-uploader
               formControlName="sound"
               [isSound]="true"
-              [imagePath]="this.selectedQuestion.sound"
+              [imagePath]="questionForm.get('soundPath').value"
+              (remove)="onRemoveFile(questionForm.get('soundPath').value)"
             ></file-uploader>
           </div>
         </div>
-        <img class="save-icon" src="../../../../assets/images/icons/save.svg" (click)="saveQuestion()" />
+        <img
+          class="save-icon"
+          src="../../../../assets/images/icons/save.svg"
+          (click)="saveQuestion()"
+        />
       </div>
     </form>
     <ng-container *ngIf="selectedQuestion.variants.length > 0">
@@ -89,7 +103,12 @@
         <form [formGroup]="variant">
           <div class="form-group">
             <label>Название варианта</label>
-            <input class="form-control" formControlName="name" type="text" />
+            <div class="d-flex">
+              <input class="form-control" formControlName="name" type="text" />
+              <div class="btn btn-link" (click)="saveVariant(variant)">
+                <img class="h-75" src="../../../../assets/images/icons/save.svg" />
+              </div>
+            </div>
           </div>
         </form>
       </div>
@@ -105,10 +124,15 @@
             <label>Фото</label>
             <file-uploader
               formControlName="image"
-              [imagePath]="this.selectedQuestion.image"
+              [imagePath]="answer.get('imagePath').value"
+              (remove)="onRemoveFile(answer.get('imagePath').value)"
             ></file-uploader>
           </div>
-          <img class="save-icon" src="../../../../assets/images/icons/save.svg" (click)="saveAnswer(answer)" />
+          <img
+            class="save-icon"
+            src="../../../../assets/images/icons/save.svg"
+            (click)="saveAnswer(answer)"
+          />
         </form>
       </div>
     </div>

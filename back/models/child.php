@@ -22,7 +22,7 @@ class Child
 
         $data = $this->dataBase->stripAll((array)$data);
         if ($image != '') {
-            $data['image'] = $this->fileUploader->upload($image, 'ChildrenImages', uniqid());
+            $data['image'] = json_encode($this->fileUploader->upload($image, 'ChildrenImages', uniqid()));
         } else {
             unset($data['image']);
         }
@@ -140,7 +140,7 @@ class Child
         $query = "SELECT image FROM $this->table WHERE id = $childId";
         $stmt = $this->dataBase->db->query($query);
 
-        return $stmt->fetch()['image'];
+        return json_decode($stmt->fetch()['image']);
     }
 
     public function getUserChildren($userId)

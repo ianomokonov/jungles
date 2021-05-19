@@ -30,14 +30,31 @@ export class FileUploaderComponent implements ControlValueAccessor {
   @Input() public imagePath: string;
 
   @Output() public path: EventEmitter<string> = new EventEmitter();
+  @Output() public remove: EventEmitter<void> = new EventEmitter();
 
   public value: File;
   public audio;
 
   public disabled: boolean;
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private onChange = (value: any) => {};
   private onTouched = () => {};
+
+  public getSoundName() {
+    if (this.value) {
+      return this.value.name;
+    }
+
+    if (!this.imagePath) {
+      return null;
+    }
+
+    const steps = this.imagePath.split('_');
+    steps.splice(0, 1);
+
+    return steps.join('_');
+  }
 
   /*
     Value Accessor
@@ -67,6 +84,8 @@ export class FileUploaderComponent implements ControlValueAccessor {
   public onRemoveFileClick(event: MouseEvent): void {
     event.preventDefault();
     this.updateValue(null);
+    this.imagePath = null;
+    this.remove.emit();
   }
 
   public onUploadFileClick(event: MouseEvent): void {
@@ -80,6 +99,7 @@ export class FileUploaderComponent implements ControlValueAccessor {
 
       reader.onload = ({ target }) => {
         const path = target.result.toString();
+
         this.imagePath = path;
         this.path.emit(path);
       };
@@ -110,18 +130,14 @@ export class FileUploaderComponent implements ControlValueAccessor {
   }
 
   public getSrc() {
-    if (!this.value) {
-      return null;
-    }
-
-    return this.imagePath;
+    return this.imagePath || this.value;
   }
 
   private createUploadFileInput(): HTMLInputElement {
     const wrapper = document.createElement('div');
 
     wrapper.innerHTML = `
-      <input hidden name="images" type="file" accept="image/*">
+      <input hidden name="images" type="file" accept="${this.isSound ? 'audio/*' : 'image/*'}">
     `;
 
     return wrapper.firstElementChild as HTMLInputElement;

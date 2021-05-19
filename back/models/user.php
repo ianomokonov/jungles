@@ -74,7 +74,7 @@ class User
             if ($userImage) {
                 $this->fileUploader->removeFile($userImage);
             }
-            $userData['image'] = $this->fileUploader->upload($image, 'UserImages', uniqid());
+            $userData['image'] = json_encode($this->fileUploader->upload($image, 'UserImages', uniqid()));
         }
         if (isset($userData['image']) && $userData['image'] == 'null') {
             $userData['image'] = '';

@@ -21,15 +21,21 @@
             </ng-select>
           </div>
         </div>
-        <div class="col-4" *ngIf="tasksNumbers && tasksNumbers.length > 1">
+        <div class="col-4" *ngIf="tasks?.length > 1">
           <div class="form-group">
             <label>Номер задачи</label>
-            <ng-select [items]="tasksNumbers" formControlName="number" class="validation-highlight">
+            <ng-select
+              [clearable]="false"
+              [bindValue]="'number'"
+              [items]="tasks"
+              formControlName="number"
+              class="validation-highlight"
+            >
               <ng-template ng-label-tmp let-item="item">
-                {{ item }}
+                {{ item.number }}
               </ng-template>
               <ng-template ng-option-tmp let-item="item">
-                {{ item }}
+                {{ item.number }}
               </ng-template>
             </ng-select>
           </div>

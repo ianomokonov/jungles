@@ -48,7 +48,7 @@ class DataBase
     {
         for ($i = 0; $i < count(array_keys((array)$object)); $i++) {
             $key = array_keys((array)$object)[$i];
-            
+
             $object[$key] = htmlspecialchars(strip_tags($object[$key]));
             if ($this->canStrip($object, $key)) {
                 $object[$key] = json_encode($object[$key]);
@@ -56,7 +56,7 @@ class DataBase
         }
         return $object;
     }
-    
+
     public function canStrip($object, $key)
     {
         // echo json_encode(array($object[$key], !is_numeric($object[$key])
@@ -64,15 +64,18 @@ class DataBase
         // ,$object[$key] != false
         // ,strpos($key, 'image') === false));
         return !is_numeric($object[$key])
-        && strpos($key, 'date') === false
-        && $object[$key] != false
-        && strpos($key, 'image') === false; 
+            && strpos($key, 'date') === false
+            && $object[$key] != false
+            && strpos($key, 'image') === false;
     }
 
     public function decode($object)
     {
         for ($i = 0; $i < count(array_keys((array)$object)); $i++) {
-            if (gettype($object[array_keys((array)$object)[$i]]) == 'string' && strpos(array_keys((array)$object)[$i], 'date') === false && strpos(array_keys((array)$object)[$i], 'image') === false) {
+            if (
+                gettype($object[array_keys((array)$object)[$i]]) == 'string'
+                && strpos(array_keys((array)$object)[$i], 'date') === false
+            ) {
                 $object[array_keys((array)$object)[$i]] = json_decode($object[array_keys((array)$object)[$i]]);
             }
         }
