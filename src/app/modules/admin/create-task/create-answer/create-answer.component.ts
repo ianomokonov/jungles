@@ -13,6 +13,7 @@ export class CreateAnswerComponent {
   @ViewChild('image') private image: ElementRef<HTMLImageElement>;
   @Input() public answersFormArray: FormArray;
   @Input() public questionGroup: FormGroup;
+  @Input() public questionIndex: number;
   @Input() public isVariant: boolean;
 
   constructor(private fb: FormBuilder, private modalService: NgbModal) {}

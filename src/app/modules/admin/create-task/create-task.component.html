@@ -105,6 +105,7 @@
                         *ngSwitchCase="answerType.Choice"
                         (correctIndexChanged)="setCorrectIndex(question, $event)"
                         [questionGroup]="question"
+                        [questionIndex]="i"
                         [answersFormArray]="getAnswersArray(question)"
                       ></app-create-answer>
                       <app-create-variant

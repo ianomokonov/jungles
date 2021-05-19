@@ -106,8 +106,6 @@ export class CreateTaskComponent implements OnInit {
   }
   public addTask() {
     if (this.taskForm.invalid) {
-      console.log(this.taskForm);
-
       this.taskForm.markAllAsTouched();
       return;
     }
@@ -177,6 +175,11 @@ export class CreateTaskComponent implements OnInit {
             }
           });
         });
+        if (!subscriptions?.length) {
+          alert('Задание создано!');
+          this.ngOnInit();
+          return;
+        }
         forkJoin(subscriptions).subscribe(() => {
           alert('Задание создано!');
           this.ngOnInit();
