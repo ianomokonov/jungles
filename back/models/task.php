@@ -306,7 +306,8 @@ class Task
     public function getShortTasks()
     {
         $query = "SELECT
-        id
+        id,
+        number
         FROM
             task
         ORDER BY number";
