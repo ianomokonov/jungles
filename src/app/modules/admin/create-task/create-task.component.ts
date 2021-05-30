@@ -38,7 +38,7 @@ export class CreateTaskComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.taskService.getShortTasks().subscribe((data) => {
+    this.taskService.getShortTasks().subscribe((data: any) => {
       this.taskForm.get('number').setValue(data.length + 1);
       this.tasks = [...data, { id: null, number: data.length + 1 }];
     });

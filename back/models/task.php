@@ -330,12 +330,7 @@ class Task
     public function getShortTasks()
     {
         $query = "SELECT
-<<<<<<< HEAD
-        id,
-        number
-=======
         id, number
->>>>>>> e237f331ac17e2f22b3ba558c7bf3215adb07759
         FROM
             task
         ORDER BY number";

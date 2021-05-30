@@ -85,13 +85,8 @@ export class TaskService {
     return this.http.get<Task[]>(`${this.baseUrl}/tasks`);
   }
 
-<<<<<<< HEAD
   public getShortTasks(): Observable<{ id: number; number: number }> {
     return this.http.get<{ id: number; number: number }>(`${this.baseUrl}/admin/get-tasks-id`);
-=======
-  public getShortTasks(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/admin/get-tasks-id`);
->>>>>>> e237f331ac17e2f22b3ba558c7bf3215adb07759
   }
 
   public updateTask(id, data): Observable<boolean> {
