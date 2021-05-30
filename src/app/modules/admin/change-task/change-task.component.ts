@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { forkJoin, Observable } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
 import { Answer } from 'src/app/models/answer';
 import { AnswerType } from 'src/app/models/answer-type';
@@ -17,10 +18,45 @@ export class ChangeTaskComponent implements OnInit, OnDestroy {
   public tasks: Task[];
   public answerType = AnswerType;
   public selectedTask: Task;
-  public tasksNumbers: number[] = [];
   public selectedTaskQuestions: TaskQuestion[] = [];
   public selectedQuestion: TaskQuestion;
-  constructor(private taskService: TaskService, private fb: FormBuilder) {}
+  public deletedImgs = new Set();
+
+  constructor(private taskService: TaskService, private fb: FormBuilder) {
+    this.filterForm = this.fb.group({
+      task: [null],
+      question: [null],
+      number: [null],
+    });
+    this.filterForm.get('task').valueChanges.subscribe((event) => {
+      this.selectedQuestion = null;
+      this.selectedTask = event;
+      this.selectedTaskQuestions = event.questions;
+      this.filterForm.get('number').setValue(event.number);
+    });
+    this.filterForm.get('question').valueChanges.subscribe((event) => {
+      this.selectedQuestion = event;
+      this.questionForm = this.fb.group({
+        name: [this.selectedQuestion.name, Validators.required],
+        image: null,
+        sound: null,
+        imagePath: [this.selectedQuestion.image],
+        soundPath: [this.selectedQuestion.sound],
+        answers: this.fb.array([]),
+      });
+      this.createAnswerGroup(this.selectedQuestion.answers, this.questionForm);
+      if (this.selectedQuestion.type === this.answerType.Variants) {
+        this.questionForm.addControl('variants', this.fb.array([]));
+        this.selectedQuestion.variants.forEach((variant) => {
+          (this.questionForm.get('variants') as FormArray).push(
+            this.fb.group({ id: [variant.id], name: [variant.name] }),
+          );
+        });
+        this.variantsForms = this.questionForm.get('variants') as FormArray;
+      }
+    });
+  }
+
   public filterForm: FormGroup;
   public questionForm: FormGroup;
   public answerForm: FormGroup;
@@ -36,69 +72,44 @@ export class ChangeTaskComponent implements OnInit, OnDestroy {
     return this.variantsForms.controls as FormGroup[];
   }
 
-  public ngOnDestroy(): void {
-    this.rxAlive = false;
-  }
-
   ngOnInit(): void {
-    this.filterForm = this.fb.group({
-      task: [null],
-      question: [null],
-      number: [null],
-    });
-    this.filterForm
-      .get('task')
-      .valueChanges.pipe(takeWhile(() => this.rxAlive))
-      .subscribe((event) => {
-        this.selectedQuestion = null;
-        this.selectedTask = event;
-        this.selectedTaskQuestions = event.questions;
-      });
-    this.filterForm
-      .get('question')
-      .valueChanges.pipe(takeWhile(() => this.rxAlive))
-      .subscribe((event) => {
-        this.selectedQuestion = event;
-        this.questionForm = this.fb.group({
-          name: [this.selectedQuestion.name, Validators.required],
-          image: null,
-          sound: null,
-          answers: this.fb.array([]),
-        });
-        this.createAnswerGroup(this.selectedQuestion.answers, this.questionForm);
-        if (this.selectedQuestion.type === this.answerType.Variants) {
-          this.questionForm.addControl('variants', this.fb.array([]));
-          this.selectedQuestion.variants.forEach((variant) => {
-            (this.questionForm.get('variants') as FormArray).push(
-              this.fb.group({ id: [variant.id], name: [variant.name] }),
-            );
-          });
-          this.variantsForms = this.questionForm.get('variants') as FormArray;
-        }
-      });
     this.taskService
       .getFullTasks()
       .pipe(takeWhile(() => this.rxAlive))
       .subscribe((data) => {
         this.tasks = data;
-        this.tasks.forEach((task) => {
-          this.tasksNumbers.push(task.number);
-        });
-        this.tasksNumbers = this.tasksNumbers.sort((a, b) => b - a);
       });
+  }
+
+  public ngOnDestroy(): void {
+    this.rxAlive = false;
   }
 
   public createAnswerGroup(array: Answer[], form: FormGroup) {
     array.forEach((answer) => {
-      this.answerForm = this.fb.group({
-        id: [answer.id],
-        name: [answer.name, Validators.required],
-        image: [null],
-      });
+      this.answerForm = this.fb.group(
+        {
+          id: [answer.id],
+          name: [answer.name],
+          image: null,
+          imagePath: [answer.image],
+        },
+        // eslint-disable-next-line @typescript-eslint/unbound-method
+        { validators: [this.hasNameOrImage] },
+      );
       (form.get('answers') as FormArray).push(this.answerForm);
     });
     this.answersForms = this.questionForm.get('answers') as FormArray;
     return this.answersForms;
+  }
+
+  private hasNameOrImage(formGroup: FormGroup): { [name: string]: boolean } {
+    const { name, image, imagePath } = formGroup.getRawValue();
+    if (!name && !image && !imagePath) {
+      return { shouldHaveNameOrImage: true };
+    }
+
+    return null;
   }
 
   public saveTask() {
@@ -110,10 +121,15 @@ export class ChangeTaskComponent implements OnInit, OnDestroy {
       .pipe(takeWhile(() => this.rxAlive))
       .subscribe((response) => {
         if (response) {
-          alert('Задание успешно изменено!');
-          this.ngOnInit();
+          alert('Задача успешно изменена!');
         }
       });
+  }
+
+  public onRemoveFile(path) {
+    if (path) {
+      this.deletedImgs.add(path);
+    }
   }
 
   public saveAnswer(answer: FormGroup) {
@@ -121,21 +137,33 @@ export class ChangeTaskComponent implements OnInit, OnDestroy {
       answer.markAsTouched();
       return;
     }
-    const answerData = answer.get('image').value
-      ? { name: answer.get('name').value, image: answer.get('image').value }
-      : {
-          name: answer.get('name').value,
-          image: answer.get('image').value,
-          removeImage: answer.get('image').value,
-        };
-    this.taskService
-      .updateAnswer(answer.get('id').value, answerData)
+    const formValue = answer.getRawValue();
+    const answerData: { [name: string]: string } = { name: formValue.name };
+    const subscriptions: Observable<any>[] = [];
+    const hasImgToRemove = this.deletedImgs.has(formValue.imagePath);
+    if (hasImgToRemove) {
+      answerData.removeImg = formValue.imagePath;
+    }
+    if (formValue.image) {
+      subscriptions.push(this.taskService.addAnswerImage(formValue.id, formValue.image));
+    }
+    subscriptions.push(this.taskService.updateAnswer(formValue.id, answerData));
+    forkJoin(subscriptions)
       .pipe(takeWhile(() => this.rxAlive))
-      .subscribe((response) => {
-        if (response) {
-          alert('Ответ успешно изменён!');
-        }
-      });
+      .subscribe(
+        ([imagePath]) => {
+          if (hasImgToRemove) {
+            this.deletedImgs.delete(formValue.imagePath);
+          }
+          if (formValue.image) {
+            answer.patchValue({ image: null, imagePath });
+          }
+        },
+        (err) => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        },
+      );
   }
 
   public saveVariant(variant: FormGroup) {
@@ -143,13 +171,14 @@ export class ChangeTaskComponent implements OnInit, OnDestroy {
       variant.markAsTouched();
       return;
     }
+
+    const { id, name } = variant.getRawValue();
     this.taskService
-      .updateVariant(variant.get('id'), { name: variant.get('name') })
+      .updateVariant(id, { name })
       .pipe(takeWhile(() => this.rxAlive))
       .subscribe((response) => {
         if (response) {
           alert('Вариант успешно изменён!');
-          this.ngOnInit();
         }
       });
   }
@@ -159,22 +188,64 @@ export class ChangeTaskComponent implements OnInit, OnDestroy {
       this.questionForm.markAsTouched();
       return;
     }
-    const questionData = this.questionForm.get('image').value
-      ? { name: this.questionForm.get('name').value, image: this.questionForm.get('image').value }
-      : {
-          name: this.questionForm.get('name').value,
-          image: this.questionForm.get('image').value,
-          removeImage: this.selectedQuestion.image,
-        };
-    // нужно также обработать звук?
-    this.taskService
-      .updateQuestion(this.selectedQuestion.id, questionData)
+
+    const formValue = this.questionForm.getRawValue();
+    const questionData: { [name: string]: string } = { name: formValue.name };
+    const subscriptions: Observable<any>[] = [];
+    const hasImgToRemove = this.deletedImgs.has(formValue.imagePath);
+    const hasSoundToRemove = this.deletedImgs.has(formValue.soundPath);
+    if (hasImgToRemove) {
+      questionData.removeImg = formValue.imagePath;
+    }
+    if (formValue.image) {
+      subscriptions.push(
+        this.taskService.addQuestionImage(this.selectedQuestion.id, formValue.image),
+      );
+    }
+    if (hasSoundToRemove) {
+      questionData.removeSound = formValue.soundPath;
+    }
+    if (formValue.sound) {
+      subscriptions.push(
+        this.taskService.addQuestionSound(this.selectedQuestion.id, formValue.sound),
+      );
+    }
+    subscriptions.push(this.taskService.updateQuestion(this.selectedQuestion.id, questionData));
+
+    forkJoin(subscriptions)
       .pipe(takeWhile(() => this.rxAlive))
-      .subscribe((response) => {
-        if (response) {
-          alert('Вопрос успешно изменён!');
-          this.ngOnInit();
-        }
-      });
+      .subscribe(
+        ([firstParam, secondParam]) => {
+          if (hasImgToRemove) {
+            this.deletedImgs.delete(formValue.imagePath);
+          }
+          if (hasSoundToRemove) {
+            this.deletedImgs.delete(formValue.soundPath);
+          }
+
+          const data: any = {};
+          if (formValue.image) {
+            data.image = null;
+            data.imagePath = firstParam;
+
+            if (formValue.sound) {
+              data.sound = null;
+              data.soundPath = secondParam;
+              this.questionForm.patchValue(data);
+              return;
+            }
+          }
+
+          if (formValue.sound) {
+            data.sound = null;
+            data.soundPath = firstParam;
+            this.questionForm.patchValue(data);
+          }
+        },
+        (err) => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        },
+      );
   }
 }

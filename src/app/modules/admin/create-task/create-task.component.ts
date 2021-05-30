@@ -5,7 +5,6 @@ import { NgOption } from '@ng-select/ng-select';
 import { forkJoin } from 'rxjs';
 import { Answer } from 'src/app/models/answer';
 import { AnswerType } from 'src/app/models/answer-type';
-import { Task } from 'src/app/models/task';
 import { TaskType } from 'src/app/models/task-type.enum';
 import { Variant } from 'src/app/models/variant';
 import { TaskService } from 'src/app/services/backend/task.service';
@@ -17,7 +16,7 @@ import { TaskService } from 'src/app/services/backend/task.service';
 })
 export class CreateTaskComponent implements OnInit {
   public taskForm: FormGroup;
-  private tasks: Task[];
+  public tasks = [];
   public tasksNumbers: number[] = [];
   public answers: Answer[] = [];
   public variants: Variant[] = [];
@@ -39,16 +38,13 @@ export class CreateTaskComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.taskService.getFullTasks().subscribe((data) => {
-      this.tasks = data;
-      this.tasks.forEach((task) => {
-        this.tasksNumbers.push(task.number);
-      });
-      this.tasksNumbers = this.tasksNumbers.sort((a, b) => b - a);
+    this.taskService.getShortTasks().subscribe((data) => {
+      this.taskForm.get('number').setValue(data.length + 1);
+      this.tasks = [...data, { id: null, number: data.length + 1 }];
     });
     this.taskForm = this.fb.group({
       type: [null, Validators.required],
-      number: [this.tasksNumbers[this.tasksNumbers.length - 1], Validators.required],
+      number: [null, Validators.required],
       questions: this.fb.array([]),
     });
     this.addQuestion();
@@ -114,7 +110,7 @@ export class CreateTaskComponent implements OnInit {
       return;
     }
     const formValue = this.taskForm.getRawValue();
-    const resultValue = { type: formValue.type, questions: [] };
+    const resultValue = { type: formValue.type, questions: [], number: formValue.number };
     resultValue.questions = formValue.questions.map((question) => {
       const result = {
         name: question.name,
@@ -179,6 +175,11 @@ export class CreateTaskComponent implements OnInit {
             }
           });
         });
+        if (!subscriptions?.length) {
+          alert('Задание создано!');
+          this.ngOnInit();
+          return;
+        }
         forkJoin(subscriptions).subscribe(() => {
           alert('Задание создано!');
           this.ngOnInit();

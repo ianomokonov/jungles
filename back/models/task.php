@@ -16,14 +16,11 @@ class Task
         $this->child = new Child($dataBase);
         $this->fileUploader = new FilesUpload();
     }
-    
+
     public function create($data)
     {
         $questions = $data['questions'];
-        $tasks = $this->getShortTasks();
-        if($data['number']*1 < count($tasks)){
-            $this->setOrder($data['number']*1);
-        }
+        $this->setOrder($data['number']);
         unset($data['questions']);
         $data = $this->dataBase->stripAll($data);
         $query = $this->dataBase->genInsertQuery(
@@ -40,9 +37,18 @@ class Task
         return $resultIds;
     }
 
-    private function setOrder($number){
-        $query = "UPDATE task SET number = task.number + 1 WHERE number>=$number";
-        $stmt = $this->dataBase->db->query($query);
+    private function setOrder($number, $curNumber = null)
+    {
+        $tasks = $this->getShortTasks();
+        if ($number * 1 < count($tasks)) {
+            $query = "UPDATE task SET number = task.number + 1 WHERE number>=$number";
+            $stmt = $this->dataBase->db->query($query);
+        }
+
+        if ($curNumber && $number * 1 == count($tasks)) {
+            $query = "UPDATE task SET number = task.number - 1 WHERE number>=$curNumber";
+            $stmt = $this->dataBase->db->query($query);
+        }
     }
 
     public function delete($id)
@@ -55,21 +61,25 @@ class Task
         }
         return true;
     }
-    
+
     public function addQuestionImage($questionId, $image)
     {
-        $imagePath = $this->fileUploader->upload($image, 'QuestionImages', uniqid());
+        $imagePath = json_encode($this->fileUploader->upload($image, 'QuestionImages', uniqid()));
         $query = "UPDATE question SET image='$imagePath' WHERE id=$questionId";
         $stmt = $this->dataBase->db->query($query);
+        return json_decode($imagePath);
     }
     public function addQuestionSound($questionId, $sound)
     {
         $soundPath = json_encode($this->fileUploader->upload($sound, 'QuestionSounds', uniqid()));
         $query = "UPDATE question SET sound='$soundPath' WHERE id=$questionId";
         $stmt = $this->dataBase->db->query($query);
+        return json_decode($soundPath);
     }
     public function updateTask($id, $data)
     {
+        $task = $this->getShortTask($id);
+        $this->setOrder($data['number'], $task['number']);
         $data = $this->dataBase->stripAll((array)$data);
         $query = $this->dataBase->genUpdateQuery($data, $this->table, $id);
         $stmt = $this->dataBase->db->prepare($query[0]);
@@ -78,18 +88,31 @@ class Task
         }
         return true;
     }
+
+    public function updateVariant($id, $data)
+    {
+        $data = $this->dataBase->stripAll((array)$data);
+        $query = $this->dataBase->genUpdateQuery($data, 'variant', $id);
+        $stmt = $this->dataBase->db->prepare($query[0]);
+        if ($query[1][0] != null) {
+            $stmt->execute($query[1]);
+        }
+        return true;
+    }
     public function updateQuestion($id, $data)
     {
-        $imageToRemove = $data['removeImg'];
-        if($imageToRemove){
-            $this->fileUploader->removeFile($imageToRemove);
+        if (isset($data['removeImg'])) {
+            $this->fileUploader->removeFile($data['removeImg']);
+            $data['image'] = null;
+            unset($data['removeImg']);
         }
-        unset($data['removeImg']);
-        $soundToRemove = $data['removeSound'];
-        if($soundToRemove){
-            $this->fileUploader->removeFile($soundToRemove);
+
+        if (isset($data['removeSound'])) {
+            $this->fileUploader->removeFile($data['removeSound']);
+            $data['sound'] = null;
+            unset($data['removeSound']);
         }
-        unset($data['removeSound']);
+
         $data = $this->dataBase->stripAll((array)$data);
         $query = $this->dataBase->genUpdateQuery($data, 'question', $id);
         $stmt = $this->dataBase->db->prepare($query[0]);
@@ -100,27 +123,28 @@ class Task
     }
     public function updateAnswer($id, $data)
     {
-        $imageToRemove = $data['removeImg'];
-        if($imageToRemove){
-            $this->fileUploader->removeFile($imageToRemove);
+        if (isset($data['removeImg'])) {
+            $this->fileUploader->removeFile($data['removeImg']);
+            $data['image'] = null;
+            unset($data['removeImg']);
         }
         unset($data['removeImg']);
         $data = $this->dataBase->stripAll((array)$data);
         $query = $this->dataBase->genUpdateQuery($data, 'answer', $id);
         $stmt = $this->dataBase->db->prepare($query[0]);
-        if ($query[1][0] != null) {
-            $stmt->execute($query[1]);
-        }
+        $stmt->execute($query[1]);
         return true;
     }
     public function addAnswerImage($answerId, $image)
     {
-        $imagePath = $this->fileUploader->upload($image, 'AnswerImages', uniqid());
+        $imagePath = json_encode($this->fileUploader->upload($image, 'AnswerImages', uniqid()));
         $query = "UPDATE answer SET image='$imagePath' WHERE id=$answerId";
         $stmt = $this->dataBase->db->query($query);
+        return json_decode($imagePath);
     }
 
-    public function removeTaskFiles($taskId){
+    public function removeTaskFiles($taskId)
+    {
         $query = "SELECT q.image as questionImage, 
         q.sound as questionSound, 
         a.image as answerImage 
@@ -128,13 +152,13 @@ class Task
         WHERE q.taskId = $taskId AND (a.image IS NOT NULL OR q.image IS NOT NULL OR q.sound IS NOT NULL)";
         $stmt = $this->dataBase->db->query($query);
         while ($question = $stmt->fetch()) {;
-            if($question['questionImage']){
+            if ($question['questionImage']) {
                 $this->fileUploader->removeFile($question['questionImage']);
             }
-            if($question['questionSound']){
+            if ($question['questionSound']) {
                 $this->fileUploader->removeFile(json_decode($question['questionSound']));
             }
-            if($question['answerImage']){
+            if ($question['answerImage']) {
                 $this->fileUploader->removeFile($question['answerImage']);
             }
         }
@@ -150,8 +174,8 @@ class Task
             // }
             if (isset($question['variants']) && count($question['variants']) > 0) {
                 $isVariant = true;
-                if(isset($question['answers'])){
-                   unset($question['answers']); 
+                if (isset($question['answers'])) {
+                    unset($question['answers']);
                 }
                 $q_data = $question['variants'];
                 unset($question['variants']);
@@ -159,8 +183,8 @@ class Task
                 $isVariant = false;
                 $q_data = $question['answers'];
                 unset($question['answers']);
-                if(isset($question['variants'])){
-                   unset($question['variants']); 
+                if (isset($question['variants'])) {
+                    unset($question['variants']);
                 }
             }
             $question = $this->dataBase->stripAll($question);
@@ -174,7 +198,7 @@ class Task
                 $stmt->execute($query[1]);
             }
             $id = $this->dataBase->db->lastInsertId() * 1;
-            $questionIds = array('id'=>$id);
+            $questionIds = array('id' => $id);
             if ($isVariant) {
                 $this->insertQuestionVariants($q_data, $id, $questionIds);
             } else {
@@ -201,8 +225,8 @@ class Task
                 $stmt->execute($query[1]);
             }
             $id = $this->dataBase->db->lastInsertId() * 1;
-            $variantIds = array('id'=>$id);
-            
+            $variantIds = array('id' => $id);
+
             $this->insertQuestionAnswers($answers, $questionId, $id, $variantIds);
             $resultIds['variants'][] = $variantIds;
         }
@@ -227,7 +251,7 @@ class Task
                 'answer'
             );
             $stmt = $this->dataBase->db->prepare($query[0]);
-            
+
             $stmt->execute($query[1]);
             $id = $this->dataBase->db->lastInsertId() * 1;
             $resultIds['answers'][] = $id;
@@ -302,12 +326,16 @@ class Task
         }
         return $tasks[0];
     }
-    
+
     public function getShortTasks()
     {
         $query = "SELECT
+<<<<<<< HEAD
         id,
         number
+=======
+        id, number
+>>>>>>> e237f331ac17e2f22b3ba558c7bf3215adb07759
         FROM
             task
         ORDER BY number";
@@ -315,10 +343,27 @@ class Task
         $tasks = [];
         while ($task = $stmt->fetch()) {
             $task = $this->dataBase->decode($task);
-            
+
             $tasks[] = $task;
         }
         return $tasks;
+    }
+
+    public function getShortTask($id)
+    {
+        $query = "SELECT
+        id, number
+        FROM
+            task
+        WHERE id=$id";
+        $stmt = $this->dataBase->db->query($query);
+        $tasks = [];
+        while ($task = $stmt->fetch()) {
+            $task = $this->dataBase->decode($task);
+
+            $tasks[] = $task;
+        }
+        return $tasks[0];
     }
 
     public function getTasks($childId, $offset, $count)
@@ -371,7 +416,7 @@ class Task
 
         return $result;
     }
-    
+
     public function getFullTasks()
     {
         $query = "SELECT

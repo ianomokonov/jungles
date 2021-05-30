@@ -228,7 +228,17 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
             $route = $routeContext->getRoute();
             $answerId = $route->getArgument('answerId');
             $task = new Task($dataBase);
-            $result = $task->updateTask($answerId*1, $request->getParsedBody());
+            $result = $task->updateAnswer($answerId*1, $request->getParsedBody());
+            $response->getBody()->write(json_encode($result));
+            return $response;
+        });
+
+        $adminGroup->post('/variant/{variantId}/update', function (Request $request, Response $response) use ($dataBase) {
+            $routeContext = RouteContext::fromRequest($request);
+            $route = $routeContext->getRoute();
+            $variantId = $route->getArgument('variantId');
+            $task = new Task($dataBase);
+            $result = $task->updateVariant($variantId*1, $request->getParsedBody());
             $response->getBody()->write(json_encode($result));
             return $response;
         });

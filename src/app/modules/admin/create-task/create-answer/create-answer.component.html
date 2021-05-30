@@ -21,7 +21,7 @@
       class="form-check-input ml-2"
       type="radio"
       [value]="i"
-      name="isCorrect"
+      [name]="'isCorrect' + questionIndex"
       [formControl]="getFormControl(questionGroup, 'correctAnswerIndex')"
     />
     <div ngbDropdown [container]="'body'" class="change-dropdown">
@@ -50,7 +50,13 @@
       </div>
     </div>
     <div class="actions d-flex align-items-center">
-      <div *ngIf="answersForms.length-1 == i" class="act-btn bg-primary" (click)="openCreateModal(i + 1)">+</div>
+      <div
+        *ngIf="answersForms.length - 1 == i"
+        class="act-btn bg-primary"
+        (click)="openCreateModal(i + 1)"
+      >
+        +
+      </div>
     </div>
   </div>
 </div>

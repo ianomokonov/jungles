@@ -85,8 +85,13 @@ export class TaskService {
     return this.http.get<Task[]>(`${this.baseUrl}/tasks`);
   }
 
+<<<<<<< HEAD
   public getShortTasks(): Observable<{ id: number; number: number }> {
     return this.http.get<{ id: number; number: number }>(`${this.baseUrl}/admin/get-tasks-id`);
+=======
+  public getShortTasks(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/admin/get-tasks-id`);
+>>>>>>> e237f331ac17e2f22b3ba558c7bf3215adb07759
   }
 
   public updateTask(id, data): Observable<boolean> {
@@ -149,25 +154,25 @@ export class TaskService {
     >(`${this.baseUrl}/admin/create-task`, data);
   }
 
-  public addQuestionImage(questionId: number, image: File): Observable<void> {
+  public addQuestionImage(questionId: number, image: File): Observable<string> {
     const formData = new FormData();
     formData.append('image', image);
-    return this.http.post<void>(
+    return this.http.post<string>(
       `${this.baseUrl}/admin/question/${questionId}/save-image`,
       formData,
     );
   }
 
-  public addAnswerImage(answerId: number, image: File): Observable<void> {
+  public addAnswerImage(answerId: number, image: File): Observable<string> {
     const formData = new FormData();
     formData.append('image', image);
-    return this.http.post<void>(`${this.baseUrl}/admin/answer/${answerId}/save-image`, formData);
+    return this.http.post<string>(`${this.baseUrl}/admin/answer/${answerId}/save-image`, formData);
   }
 
-  public addQuestionSound(questionId: number, sound: File): Observable<void> {
+  public addQuestionSound(questionId: number, sound: File): Observable<string> {
     const formData = new FormData();
     formData.append('sound', sound);
-    return this.http.post<void>(
+    return this.http.post<string>(
       `${this.baseUrl}/admin/question/${questionId}/save-sound`,
       formData,
     );

@@ -1,5 +1,5 @@
 <div class="d-flex align-items-center mb-3">
-  <div [ngClass]="{ 'd-none': !value }">
+  <div [ngClass]="{ 'd-none': !value && !imagePath }">
     <img
       *ngIf="!isSound; else name"
       [src]="getSrc()"
@@ -8,19 +8,22 @@
     />
     <ng-template #name
       ><span (click)="audio ? stop() : play(imagePath)">{{
-        audio ? 'Остановить' : value?.name
+        audio ? 'Остановить' : getSoundName()
       }}</span></ng-template
     >
   </div>
 
-  <ng-container *ngIf="!value">
+  <ng-container *ngIf="!value && !imagePath">
     <ng-content></ng-content>
   </ng-container>
 
-  <span class="text text-muted ml-3" *ngIf="!value" (click)="onUploadFileClick($event)"
+  <span
+    class="text text-muted ml-3"
+    *ngIf="!value && !imagePath"
+    (click)="onUploadFileClick($event)"
     >Добавить {{ isSound ? 'звук' : 'фото' }}</span
   >
-  <span class="text text-muted ml-3" *ngIf="value" (click)="onRemoveFileClick($event)"
+  <span class="text text-muted ml-3" *ngIf="value || imagePath" (click)="onRemoveFileClick($event)"
     >Удалить {{ isSound ? 'звук' : 'фото' }}</span
   >
 </div>
