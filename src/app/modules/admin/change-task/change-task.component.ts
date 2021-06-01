@@ -119,11 +119,14 @@ export class ChangeTaskComponent implements OnInit, OnDestroy {
     this.taskService
       .updateTask(this.selectedTask.id, { number: this.filterForm.get('number').value })
       .pipe(takeWhile(() => this.rxAlive))
-      .subscribe((response) => {
-        if (response) {
+      .subscribe(
+        () => {
           alert('Задача успешно изменена!');
-        }
-      });
+        },
+        (err) => {
+          console.log(err);
+        },
+      );
   }
 
   public onRemoveFile(path) {
@@ -152,6 +155,7 @@ export class ChangeTaskComponent implements OnInit, OnDestroy {
       .pipe(takeWhile(() => this.rxAlive))
       .subscribe(
         ([imagePath]) => {
+          alert('Ответ успешно изменён!');
           if (hasImgToRemove) {
             this.deletedImgs.delete(formValue.imagePath);
           }
@@ -176,11 +180,14 @@ export class ChangeTaskComponent implements OnInit, OnDestroy {
     this.taskService
       .updateVariant(id, { name })
       .pipe(takeWhile(() => this.rxAlive))
-      .subscribe((response) => {
-        if (response) {
+      .subscribe(
+        () => {
           alert('Вариант успешно изменён!');
-        }
-      });
+        },
+        (err) => {
+          console.log(err);
+        },
+      );
   }
 
   public saveQuestion() {
@@ -216,6 +223,7 @@ export class ChangeTaskComponent implements OnInit, OnDestroy {
       .pipe(takeWhile(() => this.rxAlive))
       .subscribe(
         ([firstParam, secondParam]) => {
+          alert('Вопрос успешно изменён!');
           if (hasImgToRemove) {
             this.deletedImgs.delete(formValue.imagePath);
           }

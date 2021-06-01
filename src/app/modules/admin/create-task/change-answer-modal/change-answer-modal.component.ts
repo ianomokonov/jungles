@@ -14,6 +14,7 @@ export class ChangeAnswerModalComponent {
 
   public saveAnswer() {
     if (!this.answer.get('name').value || !this.answer.get('image').value) {
+      alert('Укажите либо имя ответа, либо фото!');
       return;
     }
     this.modal.close(this.answer);
