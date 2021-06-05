@@ -37,22 +37,29 @@ class Task
         return $resultIds;
     }
 
-    private function setOrder($number, $curNumber = null)
+    private function setOrder($number, $curNumber = null, $remove = false)
     {
         $tasks = $this->getShortTasks();
+        if($remove){
+            $query = "UPDATE task SET number = task.number - 1 WHERE number>$curNumber";
+            $this->dataBase->db->query($query);
+            return;
+        }
         if ($number * 1 < count($tasks)) {
             $query = "UPDATE task SET number = task.number + 1 WHERE number>=$number";
-            $stmt = $this->dataBase->db->query($query);
+            $this->dataBase->db->query($query);
         }
 
         if ($curNumber && $number * 1 == count($tasks)) {
             $query = "UPDATE task SET number = task.number - 1 WHERE number>=$curNumber";
-            $stmt = $this->dataBase->db->query($query);
+            $this->dataBase->db->query($query);
         }
     }
 
     public function delete($id)
     {
+        $task = $this->getShortTask($id);
+        $this->setOrder(0, $task['number'], true);
         $this->removeTaskFiles($id);
         $query = "DELETE FROM task WHERE id=$id";
         $stmt = $this->dataBase->db->query($query);
