@@ -94,7 +94,11 @@
       </ng-container>
     </div>
     <div class="answer-container">
-      <div class="answers" [ngClass]="{ img: hasImages(question.answers) }">
+      <div
+        class="answers"
+        *ngIf="!showCurrentAnswer"
+        [ngClass]="{ img: hasImages(question.answers) }"
+      >
         <div
           class="answer text-b"
           [ngClass]="{
@@ -185,7 +189,7 @@
 
 <ng-template #btns let-question>
   <div class="btns px-3">
-    <button class="btn btn-outline-success" *ngIf="!showCurrentAnswer">Помощь</button>
+    <button class="btn btn-outline-success" *ngIf="!showCurrentAnswer"></button>
     <button
       class="btn btn-success main-btn"
       *ngIf="!showCurrentAnswer; else goOn"
@@ -278,13 +282,15 @@
 </ng-template>
 
 <ng-template #taskCompleted let-question>
-  <ng-container
-    *ngTemplateOutlet="
-      question.isDone || question.tryCount % 3 == 0 ? cristals : tryAgain;
-      context: { label: question.isDone ? question.cristalCount : 1, isDone: question.isDone }
-    "
-  >
-  </ng-container>
+  <ng-container *ngIf="!taskLoading"
+    ><ng-container
+      *ngTemplateOutlet="
+        question.isDone || question.tryCount % 3 == 0 ? cristals : tryAgain;
+        context: { label: question.isDone ? question.cristalCount : 1, isDone: question.isDone }
+      "
+    >
+    </ng-container
+  ></ng-container>
 </ng-template>
 
 <ng-template #questionName let-question>

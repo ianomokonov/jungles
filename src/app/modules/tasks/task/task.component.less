@@ -145,7 +145,7 @@
                 padding: 1rem;
                 flex-grow: unset;
                 display: inline-block;
-    
+
                 img {
                   width: 100%;
                 }
@@ -165,7 +165,7 @@
                 padding: 1rem;
                 flex-grow: unset;
                 display: inline-block;
-    
+
                 img {
                   width: 100%;
                 }
@@ -177,11 +177,11 @@
 
       .answer-container {
         background-color: @light-grey;
-
+        padding-top: 40px;
         .answers {
           display: flex;
           justify-content: space-between;
-          padding: 40px 20px 36px;
+          padding: 0 20px 36px;
           margin-right: -20px;
           &.img {
             justify-content: center;
@@ -218,10 +218,6 @@
           &:hover,
           &.active {
             border-color: @orange !important;
-          }
-          &.active,
-          &.correct {
-            border-width: 4px;
           }
           &.correct {
             border-color: @green;
@@ -273,6 +269,10 @@
             min-width: 120px;
             height: 50px;
             padding: 0;
+          }
+
+          .btn-outline-success:not(.main-btn):first-child {
+            opacity: 0;
           }
         }
       }
@@ -420,13 +420,13 @@
         padding: 1rem;
         min-height: 120px !important;
 
-        .try-again{
-          img{
+        .try-again {
+          img {
             height: 160px !important;
             position: relative;
             z-index: 5;
           }
-          span{
+          span {
             left: 38% !important;
             top: -60px !important;
             width: 225px !important;

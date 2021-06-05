@@ -23,6 +23,7 @@ export class TaskComponent {
   public activeId: number;
   public showCurrentAnswer = false;
   public tasksInfo: TasksInfo;
+  public taskLoading = false;
   public audio;
   public set activeQuestion(question: TaskQuestion) {
     this.activeId = question?.id;
@@ -183,9 +184,8 @@ export class TaskComponent {
   }
 
   private getTask(id: number) {
-    this.task = null;
     let correctQuestion = null;
-
+    this.taskLoading = true;
     forkJoin(this.getTaskRequests(id)).subscribe(([task, info]) => {
       this.tasksInfo = info;
       this.task = task;
@@ -242,6 +242,7 @@ export class TaskComponent {
           }
         }
       });
+      this.taskLoading = false;
     });
   }
 
