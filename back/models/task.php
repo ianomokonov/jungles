@@ -79,8 +79,9 @@ class Task
     public function addQuestionSound($questionId, $sound)
     {
         $soundPath = json_encode($this->fileUploader->upload($sound, 'QuestionSounds', uniqid()));
-        $query = "UPDATE question SET sound='$soundPath' WHERE id=$questionId";
-        $stmt = $this->dataBase->db->query($query);
+        $query = "UPDATE question SET sound=? WHERE id=$questionId";
+        $stmt = $this->dataBase->db->prepare($query);
+        $stmt->execute(array($soundPath));
         return json_decode($soundPath);
     }
     public function updateTask($id, $data)
@@ -174,11 +175,6 @@ class Task
     public function insertTaskQuestions($data, $taskId, &$resultIds)
     {
         foreach ($data as $question) {
-            // if ($data['image'] != '') {
-            //     $data['image'] = $this->fileUploader->upload($data['image'], 'QuestionImages', uniqid());
-            // } else {
-            //     unset($data['image']);
-            // }
             if (isset($question['variants']) && count($question['variants']) > 0) {
                 $isVariant = true;
                 if (isset($question['answers'])) {
@@ -243,11 +239,6 @@ class Task
     {
         $resultIds['answers'] = [];
         foreach ($data as $answer) {
-            // if ($data['image'] != '') {
-            //     $data['image'] = $this->fileUploader->upload($data['image'], 'AnswerImages', uniqid());
-            // } else {
-            //     unset($data['image']);
-            // }
             $answer = $this->dataBase->stripAll($answer);
             if ($variantId != 0) {
                 $answer['correctVariantId'] = $variantId;

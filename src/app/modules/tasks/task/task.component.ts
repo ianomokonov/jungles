@@ -24,7 +24,7 @@ export class TaskComponent {
   public showCurrentAnswer = false;
   public tasksInfo: TasksInfo;
   public taskLoading = false;
-  public audio;
+  public audio: HTMLAudioElement;
   public set activeQuestion(question: TaskQuestion) {
     this.activeId = question?.id;
   }
@@ -47,7 +47,7 @@ export class TaskComponent {
         }
         this.activatedRoute.params.subscribe((params) => {
           if (params.id) {
-            this.getTask(params.id);
+            this.getTask(params.id, true);
           }
         });
       });
@@ -170,9 +170,14 @@ export class TaskComponent {
     return answers.some((a) => a.image);
   }
 
+  private onAudioEnded = () => {
+    this.stop();
+  };
+
   public play(file) {
     this.audio = new Audio(file);
     this.audio.play();
+    this.audio.addEventListener('ended', this.onAudioEnded);
   }
 
   public stop() {
@@ -180,10 +185,11 @@ export class TaskComponent {
       return;
     }
     this.audio.pause();
+    this.audio.removeEventListener('ended', this.onAudioEnded);
     this.audio = null;
   }
 
-  private getTask(id: number) {
+  private getTask(id: number, playSound = false) {
     let correctQuestion = null;
     this.taskLoading = true;
     forkJoin(this.getTaskRequests(id)).subscribe(([task, info]) => {
@@ -243,6 +249,9 @@ export class TaskComponent {
         }
       });
       this.taskLoading = false;
+      if (playSound && this.activeQuestion.sound) {
+        this.play(this.activeQuestion.sound);
+      }
     });
   }
 

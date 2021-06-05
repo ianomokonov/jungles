@@ -28,14 +28,19 @@ export class ChangeTaskComponent implements OnInit, OnDestroy {
       question: [null],
       number: [null],
     });
+    const questionControl = this.filterForm.get('question');
     this.filterForm.get('task').valueChanges.subscribe((event) => {
       this.selectedQuestion = null;
       this.selectedTask = event;
       this.selectedTaskQuestions = event.questions;
+      questionControl.setValue(null);
       this.filterForm.get('number').setValue(event.number);
     });
-    this.filterForm.get('question').valueChanges.subscribe((event) => {
+    questionControl.valueChanges.subscribe((event) => {
       this.selectedQuestion = event;
+      if (!event) {
+        return;
+      }
       this.questionForm = this.fb.group({
         name: [this.selectedQuestion.name, Validators.required],
         image: null,
