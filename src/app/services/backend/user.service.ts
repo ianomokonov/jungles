@@ -169,6 +169,10 @@ export class UserService {
     return this.http.put(`${this.baseUrl}/child/${childId}/set-alerts-seen`, { alertIds });
   }
 
+  public addChest(childId: number) {
+    return this.http.post(`${this.baseUrl}/child/${childId}/add-chest`, { chestCount: 1 });
+  }
+
   public sendMessage(theme: string, text: string) {
     return this.http.post(`${this.baseUrl}/user/send-message`, { theme, text });
   }

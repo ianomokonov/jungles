@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin, Observable } from 'rxjs';
 import { Answer } from 'src/app/models/answer';
@@ -16,7 +16,7 @@ import { UserService } from 'src/app/services/backend/user.service';
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.less'],
 })
-export class TaskComponent {
+export class TaskComponent implements OnDestroy {
   public answerType = AnswerType;
   public choosedAnswerId: number;
   public task: Task;
@@ -55,9 +55,13 @@ export class TaskComponent {
     }
     this.activatedRoute.params.subscribe((params) => {
       if (params.id) {
-        this.getTask(params.id);
+        this.getTask(params.id, true);
       }
     });
+  }
+
+  public ngOnDestroy(): void {
+    this.stop();
   }
 
   public changeTab(event) {
@@ -98,11 +102,17 @@ export class TaskComponent {
       this.task.questions.findIndex((question) => question.id === this.activeQuestion.id) + 1;
     if (nextIndex < this.task.questions.length) {
       this.activeQuestion = this.task.questions[nextIndex];
+      if (this.activeQuestion.sound) {
+        this.play(this.activeQuestion.sound);
+      }
       return;
     }
     const nextQuestion = this.task.questions.find((q) => q.isFailed || !q.childAnswers?.length);
     if (nextQuestion) {
       this.activeQuestion = nextQuestion;
+      if (this.activeQuestion.sound) {
+        this.play(this.activeQuestion.sound);
+      }
       return;
     }
     this.router.navigate(['/tasks']);

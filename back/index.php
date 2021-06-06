@@ -208,7 +208,7 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
             $route = $routeContext->getRoute();
             $taskId = $route->getArgument('taskId');
             $task = new Task($dataBase);
-            $result = $task->updateTask($taskId*1, $request->getParsedBody());
+            $result = $task->updateTask($taskId * 1, $request->getParsedBody());
             $response->getBody()->write(json_encode($result));
             return $response;
         });
@@ -218,7 +218,7 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
             $route = $routeContext->getRoute();
             $questionId = $route->getArgument('questionId');
             $task = new Task($dataBase);
-            $result = $task->updateQuestion($questionId*1, $request->getParsedBody());
+            $result = $task->updateQuestion($questionId * 1, $request->getParsedBody());
             $response->getBody()->write(json_encode($result));
             return $response;
         });
@@ -228,7 +228,7 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
             $route = $routeContext->getRoute();
             $answerId = $route->getArgument('answerId');
             $task = new Task($dataBase);
-            $result = $task->updateAnswer($answerId*1, $request->getParsedBody());
+            $result = $task->updateAnswer($answerId * 1, $request->getParsedBody());
             $response->getBody()->write(json_encode($result));
             return $response;
         });
@@ -238,11 +238,11 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
             $route = $routeContext->getRoute();
             $variantId = $route->getArgument('variantId');
             $task = new Task($dataBase);
-            $result = $task->updateVariant($variantId*1, $request->getParsedBody());
+            $result = $task->updateVariant($variantId * 1, $request->getParsedBody());
             $response->getBody()->write(json_encode($result));
             return $response;
         });
-        
+
         $adminGroup->get('/get-tasks', function (Request $request, Response $response) use ($dataBase) {
             $task = new Task($dataBase);
             $result = $task->getFullTasks();
@@ -256,7 +256,7 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
             $response->getBody()->write(json_encode($result));
             return $response;
         });
-        
+
         $adminGroup->post('/question/{questionId}/save-image', function (Request $request, Response $response) use ($dataBase) {
             $routeContext = RouteContext::fromRequest($request);
             $route = $routeContext->getRoute();
@@ -266,7 +266,7 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
             $response->getBody()->write(json_encode($result));
             return $response;
         });
-        
+
         $adminGroup->post('/question/{questionId}/save-sound', function (Request $request, Response $response) use ($dataBase) {
             $routeContext = RouteContext::fromRequest($request);
             $route = $routeContext->getRoute();
@@ -276,7 +276,7 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
             $response->getBody()->write(json_encode($result));
             return $response;
         });
-        
+
         $adminGroup->post('/answer/{answerId}/save-image', function (Request $request, Response $response) use ($dataBase) {
             $routeContext = RouteContext::fromRequest($request);
             $route = $routeContext->getRoute();
@@ -300,7 +300,6 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
             $response->getBody()->write(json_encode($result));
             return $response;
         });
-
     })->add(function (Request $request, RequestHandler $handler) use ($dataBase) {
         $userId = $request->getAttribute('userId');
 
@@ -355,6 +354,12 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
         $childGroup->put('/set-alerts-seen', function (Request $request, Response $response) use ($dataBase) {
             $child = new Child($dataBase);
             $response->getBody()->write(json_encode($child->setAlertsSeen($request->getParsedBody()['alertIds'])));
+            return $response->withStatus(200);
+        });
+        $childGroup->post('/add-chest', function (Request $request, Response $response) use ($dataBase) {
+            $childId = $request->getAttribute('childId');
+            $child = new Child($dataBase);
+            $response->getBody()->write(json_encode($child->addChest($childId, 1)));
             return $response->withStatus(200);
         });
 

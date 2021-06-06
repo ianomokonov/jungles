@@ -40,7 +40,7 @@ class Task
     private function setOrder($number, $curNumber = null, $remove = false)
     {
         $tasks = $this->getShortTasks();
-        if($remove){
+        if ($remove) {
             $query = "UPDATE task SET number = task.number - 1 WHERE number>$curNumber";
             $this->dataBase->db->query($query);
             return;
@@ -361,6 +361,12 @@ class Task
 
     public function getTasks($childId, $offset, $count)
     {
+        if ($childId && $offset * 1 == 0) {
+            $child = $this->child->getChild($childId);
+            if ($child) {
+                $count = 20 + $child['chestCount'] * 1;
+            }
+        }
         $query = "SELECT
         *
         FROM
@@ -384,6 +390,18 @@ class Task
         }
         return $tasks;
     }
+
+    // private function getActiveTask($childId){
+    //     $query = "
+    //         SELECT t.id, t.number, q.id as questionId FROM task t JOIN question q ON q.taskId=t.id JOIN answer a ON a.questionId=q.id
+    //         LEFT JOIN (select ca.answerId FROM childAnswer ca WHERE ca.childId=?) caa ON caa.answerId=a.id
+    //         WHERE a.isCorrect=1 AND caa.answerId IS NULL
+    //         ORDER BY t.number
+    //         LIMIT 1
+    //     ";
+    //     $stmt = $this->dataBase->db->prepare($query);
+    //     return $stmt->execute(array($childId))->fetch();
+    // }
 
     private function isAllSolved($taskId, $childId = null)
     {

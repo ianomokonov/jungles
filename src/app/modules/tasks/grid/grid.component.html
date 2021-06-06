@@ -2,7 +2,7 @@
   <ng-container *ngFor="let task of tasks; let index = index">
     <div class="task-container d-flex justify-content-center">
       <button
-        [disabled]="!task.isActive"
+        [disabled]="!task.isActive && !task.allSolved"
         class="task"
         [routerLink]="[task.id]"
         [ngClass]="{

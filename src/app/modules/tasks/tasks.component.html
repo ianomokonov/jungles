@@ -51,7 +51,13 @@
       <div class="bg"></div>
     </div>
     <div class="next-tasks">
-      <button class="btn btn-outline-success">Показать ещё 20 упражнений</button>
+      <button
+        class="btn btn-outline-success"
+        [disabled]="!canGetNextTasks"
+        (click)="getNextTasks()"
+      >
+        Показать ещё 20 упражнений
+      </button>
       <div class="cloud text">
         Рекомендуем <b>проходить</b> <br />не более <b>20 упражнений</b> <br />в день для лучшего
         усвоения информации!

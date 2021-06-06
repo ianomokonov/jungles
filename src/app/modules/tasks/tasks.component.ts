@@ -17,6 +17,7 @@ export class TasksComponent implements OnInit, OnDestroy {
   public tasks: Task[] = [];
   public showBackDrop = false;
   public info: TasksInfo;
+  public canGetNextTasks = false;
   private rxAlive = true;
   constructor(
     public userService: UserService,
@@ -45,6 +46,10 @@ export class TasksComponent implements OnInit, OnDestroy {
       this.info = info;
       this.tasks = tasks;
       this.setActive(this.tasks);
+      const solvedTasks = this.tasks.filter((t) => t.allSolved);
+      if (solvedTasks?.length) {
+        this.setCanGetNextTasks(solvedTasks[solvedTasks.length - 1].number + 1);
+      }
     });
   }
 
@@ -77,5 +82,35 @@ export class TasksComponent implements OnInit, OnDestroy {
 
   public signUp() {
     this.profileService.openRegForm$.next();
+  }
+
+  public getNextTasks() {
+    if (!this.canGetNextTasks) {
+      return;
+    }
+
+    this.userService.addChest(this.userService.activeChild.id).subscribe(() => {
+      this.tasksService.getTasksInfo(this.userService.activeChild.id).subscribe((info) => {
+        this.info = info;
+      });
+    });
+
+    this.tasksService
+      .getTasks(this.userService.activeChild.id, this.tasks?.length, 20)
+      .subscribe((tasks) => {
+        if (!this.tasks.find((t) => t.isActive)) {
+          if (tasks?.length) {
+            // eslint-disable-next-line no-param-reassign
+            tasks[0].isActive = true;
+            this.setCanGetNextTasks(tasks[0].number);
+          }
+        }
+        this.setCanGetNextTasks(1);
+        this.tasks.push(...tasks);
+      });
+  }
+
+  private setCanGetNextTasks(activeNumber: number) {
+    this.canGetNextTasks = (activeNumber - 1) % 20 === 19;
   }
 }
