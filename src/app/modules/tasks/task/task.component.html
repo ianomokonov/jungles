@@ -39,7 +39,7 @@
       <div [ngbNavOutlet]="nav"></div
     ></ng-container>
   </div>
-  <div class="stats" *ngIf="tasksInfo">
+  <div class="stats" *ngIf="tasksInfo && task">
     <div class="achives chest">
       <span>{{ tasksInfo.chests }}</span>
     </div>
@@ -103,8 +103,6 @@
           class="answer text-b"
           [ngClass]="{
             active: choosedAnswerId == answer.id,
-            correct: answer.isCorrect,
-            incorrect: answer.isIncorrect,
             img: answer.image
           }"
           *ngFor="let answer of question.answers"
@@ -282,7 +280,7 @@
 </ng-template>
 
 <ng-template #taskCompleted let-question>
-  <ng-container *ngIf="!taskLoading"
+  <ng-container
     ><ng-container
       *ngTemplateOutlet="
         question.isDone || question.tryCount % 3 == 0 ? cristals : tryAgain;

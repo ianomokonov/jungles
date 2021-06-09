@@ -1,7 +1,8 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Component, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Answer } from 'src/app/models/answer';
 import { AnswerType } from 'src/app/models/answer-type';
 import { Task } from 'src/app/models/task';
@@ -27,11 +28,17 @@ export class TaskComponent implements OnDestroy {
   public audio: HTMLAudioElement;
   public set activeQuestion(question: TaskQuestion) {
     this.activeId = question?.id;
+    if (question) {
+      this.activeQuestionPrivate = question;
+    }
   }
 
   public get activeQuestion(): TaskQuestion {
-    return this.task?.questions?.find((q) => q.id === this.activeId);
+    return this.activeQuestionPrivate;
   }
+
+  public activeQuestionPrivate: TaskQuestion;
+  private allSolved = true;
 
   constructor(
     private router: Router,
@@ -39,6 +46,7 @@ export class TaskComponent implements OnDestroy {
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
     private tokenService: TokenService,
+    private cdRef: ChangeDetectorRef,
   ) {
     if (this.tokenService.getAuthToken()) {
       this.userService.userLoaded$.subscribe((user) => {
@@ -47,7 +55,7 @@ export class TaskComponent implements OnDestroy {
         }
         this.activatedRoute.params.subscribe((params) => {
           if (params.id) {
-            this.getTask(params.id, true);
+            this.getTask(params.id, true).subscribe();
           }
         });
       });
@@ -55,7 +63,7 @@ export class TaskComponent implements OnDestroy {
     }
     this.activatedRoute.params.subscribe((params) => {
       if (params.id) {
-        this.getTask(params.id, true);
+        this.getTask(params.id, true).subscribe();
       }
     });
   }
@@ -65,7 +73,10 @@ export class TaskComponent implements OnDestroy {
   }
 
   public changeTab(event) {
-    this.activeId = event.nextId;
+    this.activeQuestion = this.task.questions.find((q) => q.id === +event.nextId);
+    if (this.activeQuestion.isDone) {
+      this.activeQuestion.isDone = false;
+    }
     this.showCurrentAnswer = false;
   }
 
@@ -86,14 +97,14 @@ export class TaskComponent implements OnDestroy {
   }
 
   public choose(answerId: number, isDone: boolean) {
-    if (isDone || this.showCurrentAnswer) {
+    if (isDone) {
       return;
     }
     this.choosedAnswerId = answerId;
   }
 
   public solveAgain() {
-    this.showCurrentAnswer = null;
+    this.showCurrentAnswer = false;
   }
 
   public nextQuestion() {
@@ -102,14 +113,17 @@ export class TaskComponent implements OnDestroy {
       this.task.questions.findIndex((question) => question.id === this.activeQuestion.id) + 1;
     if (nextIndex < this.task.questions.length) {
       this.activeQuestion = this.task.questions[nextIndex];
+      this.activeQuestion.isDone = false;
       if (this.activeQuestion.sound) {
         this.play(this.activeQuestion.sound);
       }
       return;
     }
     const nextQuestion = this.task.questions.find((q) => q.isFailed || !q.childAnswers?.length);
+
     if (nextQuestion) {
       this.activeQuestion = nextQuestion;
+      this.activeQuestion.isDone = false;
       if (this.activeQuestion.sound) {
         this.play(this.activeQuestion.sound);
       }
@@ -136,7 +150,7 @@ export class TaskComponent implements OnDestroy {
         .subscribe(() => {
           this.showCurrentAnswer = true;
           this.choosedAnswerId = null;
-          this.getTask(this.task.id);
+          this.getTask(this.task.id).subscribe();
         });
 
       return;
@@ -155,8 +169,9 @@ export class TaskComponent implements OnDestroy {
       );
     });
     this.taskService.checkVariants(variants, this.userService.activeChild?.id).subscribe(() => {
-      this.showCurrentAnswer = true;
-      this.getTask(this.task.id);
+      this.getTask(this.task.id).subscribe(() => {
+        this.showCurrentAnswer = true;
+      });
     });
   }
 
@@ -200,69 +215,18 @@ export class TaskComponent implements OnDestroy {
   }
 
   private getTask(id: number, playSound = false) {
-    let correctQuestion = null;
     this.taskLoading = true;
-    forkJoin(this.getTaskRequests(id)).subscribe(([task, info]) => {
-      this.tasksInfo = info;
-      this.task = task;
-      task.questions.forEach((questionTemp, index) => {
-        const question = questionTemp;
-        question.variants.forEach((variantTemp) => {
-          const variant = variantTemp;
-          variant.answers = [];
-        });
-        if (!question.childAnswers?.length) {
-          if (!this.activeQuestion) {
-            this.activeQuestion = correctQuestion || question;
-          }
-          return;
+    return forkJoin(this.getTaskRequests(id)).pipe(
+      tap(([task, info]) => {
+        this.tasksInfo = info;
+        this.task = task;
+        this.task.questions = this.getTaskQuestions(this.task.questions);
+        this.setActiveQuestion();
+        if (playSound && this.activeQuestion.sound) {
+          this.play(this.activeQuestion.sound);
         }
-        let hasErrors = false;
-        question.childAnswers.forEach((childAnswerTemp) => {
-          const childAnswer = childAnswerTemp;
-          const questionAnswerIndex = question.answers.findIndex(
-            (a) => a.id === childAnswer.answerId,
-          );
-          const questionAnswer = question.answers[questionAnswerIndex];
-          const answerVariant = question.variants.find((v) => v.id === childAnswer.variantId);
-          if (childAnswer.isCorrect) {
-            questionAnswer.isCorrect = true;
-          } else {
-            questionAnswer.isIncorrect = true;
-          }
-
-          if (answerVariant) {
-            answerVariant.answers.push(questionAnswer);
-            question.answers.splice(questionAnswerIndex, 1);
-          }
-          if (!hasErrors) {
-            hasErrors = !childAnswer.isCorrect;
-          }
-        });
-
-        if (hasErrors && !this.activeQuestion) {
-          this.activeQuestion = question;
-        }
-        if (!hasErrors && this.showCurrentAnswer) {
-          correctQuestion = question;
-        }
-
-        question.isDone = !hasErrors;
-        question.isFailed = hasErrors;
-
-        if (index === task.questions.length - 1 && !this.activeQuestion) {
-          this.activeQuestion = question;
-
-          if (question.isDone) {
-            this.showCurrentAnswer = true;
-          }
-        }
-      });
-      this.taskLoading = false;
-      if (playSound && this.activeQuestion.sound) {
-        this.play(this.activeQuestion.sound);
-      }
-    });
+      }),
+    );
   }
 
   private getTaskRequests(id: number): [Observable<Task>, Observable<TasksInfo>] {
@@ -274,5 +238,53 @@ export class TaskComponent implements OnDestroy {
     }
 
     return [this.taskService.getUnregTask(id), this.taskService.getUnregTasksInfo()];
+  }
+
+  private getTaskQuestions(questions: TaskQuestion[]) {
+    const result = questions.map((question) => {
+      const lastAnswerCorrect = !!question.childAnswers[0]?.isCorrect;
+      this.allSolved = this.allSolved && lastAnswerCorrect;
+      return {
+        ...question,
+        isDone: lastAnswerCorrect,
+        isFailed: question.childAnswers?.length && !lastAnswerCorrect,
+      };
+    });
+
+    if (this.allSolved) {
+      const activeIndex = result.findIndex((r) => r.id === this.activeQuestion?.id);
+      result.forEach((q, index) => {
+        if (activeIndex > -1 && index <= activeIndex) {
+          return;
+        }
+        const question = q;
+        question.isDone = false;
+      });
+    }
+
+    return result;
+  }
+
+  private setActiveQuestion() {
+    const newActiveQuestion = this.task.questions.find(
+      (question) => question.id === this.activeQuestion?.id,
+    );
+
+    if (
+      this.showCurrentAnswer &&
+      newActiveQuestion &&
+      this.activeQuestion.isDone !== newActiveQuestion.isDone
+    ) {
+      this.activeQuestion = newActiveQuestion;
+      return;
+    }
+    if (this.task.questions.every((q) => q.isDone)) {
+      [this.activeQuestion] = this.task.questions;
+      return;
+    }
+
+    this.activeQuestion = this.task.questions.find(
+      (question) => question.isFailed || (!question.isFailed && !question.isDone),
+    );
   }
 }
