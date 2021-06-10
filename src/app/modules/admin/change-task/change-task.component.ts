@@ -32,9 +32,10 @@ export class ChangeTaskComponent implements OnInit, OnDestroy {
     this.filterForm.get('task').valueChanges.subscribe((event) => {
       this.selectedQuestion = null;
       this.selectedTask = event;
-      this.selectedTaskQuestions = event.questions;
+
+      this.selectedTaskQuestions = event?.questions;
       questionControl.setValue(null);
-      this.filterForm.get('number').setValue(event.number);
+      this.filterForm.get('number').setValue(event?.number);
     });
     questionControl.valueChanges.subscribe((event) => {
       this.selectedQuestion = event;
@@ -79,7 +80,7 @@ export class ChangeTaskComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.taskService
-      .getFullTasks()
+      .getAdminTasks()
       .pipe(takeWhile(() => this.rxAlive))
       .subscribe((data) => {
         this.tasks = data;

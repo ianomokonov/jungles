@@ -97,7 +97,7 @@ export class TaskComponent implements OnDestroy {
   }
 
   public choose(answerId: number, isDone: boolean) {
-    if (isDone) {
+    if (isDone || this.showCurrentAnswer) {
       return;
     }
     this.choosedAnswerId = answerId;
@@ -105,10 +105,12 @@ export class TaskComponent implements OnDestroy {
 
   public solveAgain() {
     this.showCurrentAnswer = false;
+    this.choosedAnswerId = null;
   }
 
   public nextQuestion() {
     this.showCurrentAnswer = false;
+    this.choosedAnswerId = null;
     const nextIndex =
       this.task.questions.findIndex((question) => question.id === this.activeQuestion.id) + 1;
     if (nextIndex < this.task.questions.length) {
@@ -119,7 +121,7 @@ export class TaskComponent implements OnDestroy {
       }
       return;
     }
-    const nextQuestion = this.task.questions.find((q) => q.isFailed || !q.childAnswers?.length);
+    const nextQuestion = this.task.questions.find((q) => q.isFailed || !q.childAnswer);
 
     if (nextQuestion) {
       this.activeQuestion = nextQuestion;
@@ -133,46 +135,66 @@ export class TaskComponent implements OnDestroy {
   }
 
   public checkAnswer(type: AnswerType) {
+    if (this.taskLoading) {
+      return;
+    }
     if (!this.choosedAnswerId && this.activeQuestion.answers?.length) {
       // eslint-disable-next-line no-alert
       alert('Выберите ответ!');
       return;
     }
     if (type === AnswerType.Choice) {
+      this.taskLoading = true;
       this.taskService
         .checkAnswer(
           this.choosedAnswerId,
           this.userService.activeChild?.id,
-          this.activeQuestion.childAnswers?.length
-            ? this.activeQuestion.childAnswers[0].id
-            : undefined,
+          this.activeQuestion.childAnswer?.id,
         )
-        .subscribe(() => {
-          this.showCurrentAnswer = true;
-          this.choosedAnswerId = null;
-          this.getTask(this.task.id).subscribe();
-        });
+        .subscribe((result) => {
+          this.getTaskInfoRequest().subscribe((info) => {
+            this.tasksInfo = info;
+            this.activeQuestion.isDone = result.isCorrect;
+            this.activeQuestion.isFailed = !result.isCorrect;
+            if (!this.activeQuestion.childAnswer) {
+              this.activeQuestion.childAnswer = {
+                answerId: this.choosedAnswerId,
+                id: result.childAnswerId,
+                isCorrect: result.isCorrect,
+                isSolved: false,
+                tryCount: 0,
+              };
+            }
 
-      return;
+            this.showCurrentAnswer = true;
+            this.taskLoading = false;
+            if (result.isCorrect) {
+              this.play('../../../../assets/sounds/pravilno.mp3');
+              this.activeQuestion.childAnswer.tryCount = 0;
+              return;
+            }
+            this.activeQuestion.childAnswer.tryCount += 1;
+          });
+        });
     }
 
-    const variants = [];
+    // const variants = [];
 
-    this.activeQuestion.variants.forEach((v) => {
-      variants.push(
-        ...v.answers.map((a) => ({
-          id: a.id,
-          variantId: v.id,
-          childAnswerId:
-            this.activeQuestion.childAnswers?.find((ca) => ca.answerId === a.id)?.id || undefined,
-        })),
-      );
-    });
-    this.taskService.checkVariants(variants, this.userService.activeChild?.id).subscribe(() => {
-      this.getTask(this.task.id).subscribe(() => {
-        this.showCurrentAnswer = true;
-      });
-    });
+    // this.activeQuestion.variants.forEach((v) => {
+    //   variants.push(
+    //     ...v.answers.map((a) => ({
+    //       id: a.id,
+    //       variantId: v.id,
+    //       childAnswerId:
+    //         this.activeQuestion.childAnswers?.find((ca) => ca.answerId === a.id)?.id || undefined,
+    //     })),
+    //   );
+    // });
+    // this.taskService.checkVariants(variants, this.userService.activeChild?.id).subscribe(() => {
+    //   this.getTask(this.task.id).subscribe(() => {
+    //     this.showCurrentAnswer = true;
+    //   });
+    // });
   }
 
   public getQuestionName(question: TaskQuestion, index: number): string {
@@ -200,6 +222,9 @@ export class TaskComponent implements OnDestroy {
   };
 
   public play(file) {
+    if (this.audio) {
+      this.stop();
+    }
     this.audio = new Audio(file);
     this.audio.play();
     this.audio.addEventListener('ended', this.onAudioEnded);
@@ -225,6 +250,7 @@ export class TaskComponent implements OnDestroy {
         if (playSound && this.activeQuestion.sound) {
           this.play(this.activeQuestion.sound);
         }
+        this.taskLoading = false;
       }),
     );
   }
@@ -240,14 +266,22 @@ export class TaskComponent implements OnDestroy {
     return [this.taskService.getUnregTask(id), this.taskService.getUnregTasksInfo()];
   }
 
+  private getTaskInfoRequest(): Observable<TasksInfo> {
+    if (this.userService.activeChild?.id) {
+      return this.taskService.getTasksInfo(this.userService.activeChild?.id);
+    }
+
+    return this.taskService.getUnregTasksInfo();
+  }
+
   private getTaskQuestions(questions: TaskQuestion[]) {
     const result = questions.map((question) => {
-      const lastAnswerCorrect = !!question.childAnswers[0]?.isCorrect;
+      const lastAnswerCorrect = !!question.childAnswer?.isCorrect;
       this.allSolved = this.allSolved && lastAnswerCorrect;
       return {
         ...question,
         isDone: lastAnswerCorrect,
-        isFailed: question.childAnswers?.length && !lastAnswerCorrect,
+        isFailed: question.childAnswer && !lastAnswerCorrect,
       };
     });
 

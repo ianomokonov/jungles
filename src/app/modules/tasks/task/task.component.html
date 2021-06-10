@@ -1,10 +1,10 @@
 <div class="backdrop"></div>
-<div class="container d-flex">
+<div class="container d-flex" *ngIf="task">
   <div class="close-task-btn" routerLink="/tasks">
     <img src="../../assets/images/icons/cross.svg" />
   </div>
   <div class="task-container">
-    <ng-container *ngIf="task"
+    <ng-container
       ><ul
         ngbNav
         #nav="ngbNav"
@@ -71,9 +71,9 @@
     </div>
     <div
       class="d-flex align-items-center try-count-container"
-      *ngIf="activeQuestion?.tryCount && !activeQuestion.isDone"
+      *ngIf="activeQuestion.childAnswer?.tryCount && !activeQuestion.isDone"
     >
-      <span class="try-count">{{ activeQuestion?.tryCount }}</span>
+      <span class="try-count">{{ activeQuestion.childAnswer?.tryCount }}</span>
       <span class="ml-1 label"
         >Количество<br />
         попыток</span
@@ -94,16 +94,13 @@
       </ng-container>
     </div>
     <div class="answer-container">
-      <div
-        class="answers"
-        *ngIf="!showCurrentAnswer"
-        [ngClass]="{ img: hasImages(question.answers) }"
-      >
+      <div class="answers" [ngClass]="{ img: hasImages(question.answers) }">
         <div
           class="answer text-b"
           [ngClass]="{
             active: choosedAnswerId == answer.id,
-            img: answer.image
+            img: answer.image,
+            disabled: showCurrentAnswer
           }"
           *ngFor="let answer of question.answers"
           (click)="choose(answer.id, question.isDone)"
@@ -283,8 +280,11 @@
   <ng-container
     ><ng-container
       *ngTemplateOutlet="
-        question.isDone || question.tryCount % 3 == 0 ? cristals : tryAgain;
-        context: { label: question.isDone ? question.cristalCount : 1, isDone: question.isDone }
+        question.isDone || question.childAnswer?.tryCount % 3 == 0 ? cristals : tryAgain;
+        context: {
+          label: question.isDone ? (question.childAnswer.isSolved ? 0 : question.cristalCount) : 1,
+          isDone: question.isDone
+        }
       "
     >
     </ng-container

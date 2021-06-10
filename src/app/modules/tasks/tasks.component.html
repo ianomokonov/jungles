@@ -44,7 +44,7 @@
     <app-grid [tasks]="tasks"></app-grid>
   </div>
 </div>
-<div class="container bottom-container">
+<div class="container bottom-container" *ngIf="info">
   <ng-container *ngIf="userService.activeChild"
     ><div class="d-flex justify-content-center main-chest">
       <img src="../../../assets/images/tasks_chest.png" />

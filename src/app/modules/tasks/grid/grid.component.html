@@ -13,7 +13,7 @@
       >
         <img class="task-img" [src]="'../../../../assets/images/' + (task.type | taskImage)" />
         <span class="task-label">{{ task.type | taskLabel }}</span>
-        <span class="points d-none">+3</span>
+        <span class="points d-none">+{{ task.questionsCount }}</span>
       </button>
     </div>
     <div class="break" *ngIf="isBreakShown(index)"></div>

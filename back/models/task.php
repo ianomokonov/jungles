@@ -359,7 +359,7 @@ class Task
         return $tasks[0];
     }
 
-    public function getTasks($childId, $offset, $count)
+    public function getTasks($childId, $offset = null, $count = null)
     {
         if ($childId && $offset * 1 == 0) {
             $child = $this->child->getChild($childId);
@@ -371,8 +371,10 @@ class Task
         *
         FROM
             task t
-        ORDER BY number
-        LIMIT $offset, $count";
+        ORDER BY number";
+        if ($offset != null && $count != null) {
+            $query = $query . " LIMIT $offset, $count";
+        }
         $stmt = $this->dataBase->db->query($query);
         $tasks = [];
         while ($task = $stmt->fetch()) {
@@ -380,6 +382,7 @@ class Task
             $task['id'] = $task['id'] * 1;
             $task['type'] = $task['type'] * 1;
             $task['allSolved'] = false;
+            $task['questionsCount'] = $this->getQuestionsCount($task['id']);
             if ($childId) {
                 $task['allSolved'] = $this->isAllSolved($task['id'], $childId);
             } else {
@@ -417,12 +420,11 @@ class Task
         $stmt = $this->dataBase->db->query($query);
         $result = true;
         while ($question = $stmt->fetch()) {
-            $answersCount = count($this->getCorrectAnswers($question['id']));
-            $childAnswers = $this->getChildAnswers($question['id'], $childId);
-            $isCorrect = count($childAnswers) == $answersCount &&  count(array_filter($childAnswers, function ($v) {
-                return !$v['isCorrect'];
-            })) == 0;
-            $result = $result && $isCorrect;
+            $childAnswer = $this->getQuestionChildAnswer($question['id'], $childId);
+            if (!$childAnswer) {
+                return false;
+            }
+            $result = $result && $childAnswer['isSolved'] == '1';
         }
 
         return $result;
@@ -462,18 +464,29 @@ class Task
             $question['cristalCount'] = $question['cristalCount'] * 1;
             $question['answers'] = $this->getAnswers($question['id']);
             $question['variants'] = $this->getVariants($question['id']);
-            $question['tryCount'] = 0;
             if ($childId) {
-                $question['childAnswers'] = $this->getChildAnswers($question['id'], $childId);
-                if (isset($question['childAnswers'][0])) {
-                    $question['tryCount'] = $question['childAnswers'][0]['tryCount'];
-                }
+                $question['childAnswer'] = $this->getQuestionChildAnswer($question['id'], $childId);
             }
 
             $questions[] = $question;
         }
 
         return $questions;
+    }
+
+    public function getQuestionsCount($taskId)
+    {
+        $query = "SELECT
+        *
+        FROM
+            question q
+        WHERE 
+            q.taskId = $taskId
+        ORDER BY number";
+        $stmt = $this->dataBase->db->query($query);
+
+
+        return count($stmt->fetchAll());
     }
 
     public function isCorrectAnswer($id, $variantId = null)
@@ -495,25 +508,37 @@ class Task
     public function checkAnswer($answer, $childId)
     {
         $tryCount = 0;
-        if (isset($answer['childAnswerId']) && $answer['childAnswerId']) {
-            $tryCount = $this->getChildAnswer($answer['childAnswerId'])['tryCount'] + 1;
-            $updateQuery = "UPDATE childAnswer SET answerId=?, tryCount=?, lastUpdateDate=now() WHERE id=?";
-            $updateStmt = $this->dataBase->db->prepare($updateQuery);
-            $updateStmt->execute(array($answer['id'], $tryCount, $answer['childAnswerId']));
-        } else {
-            $insertQuery = "INSERT INTO childAnswer (childId, answerId) VALUES (?,?)";
-            $insertStmt = $this->dataBase->db->prepare($insertQuery);
-            $insertStmt->execute(array($childId, $answer['id']));
-        }
+        $childAnswerId = 0;
 
         $isCorrect = $this->isCorrectAnswer($answer['id']);
+        $isSolved = false;
+
+        if (isset($answer['childAnswerId']) && $answer['childAnswerId']) {
+            $childAnswerId = $answer['childAnswerId'];
+            $childAnswer = $this->getChildAnswer($answer['childAnswerId']);
+            $isSolved = $childAnswer['isSolved'] == '1';
+            $tryCount = $isCorrect ? 0 : $childAnswer['tryCount'] + 1;
+            $nextIsSolved = $isSolved || $isCorrect;
+            $updateQuery = "UPDATE childAnswer SET answerId=?, tryCount=?, isSolved=?, lastUpdateDate=now() WHERE id=?";
+            $updateStmt = $this->dataBase->db->prepare($updateQuery);
+            $updateStmt->execute(array($answer['id'], $tryCount, $nextIsSolved, $answer['childAnswerId']));
+        } else {
+            $insertQuery = "INSERT INTO childAnswer (childId, answerId, isSolved) VALUES (?,?,?)";
+            $insertStmt = $this->dataBase->db->prepare($insertQuery);
+            $insertStmt->execute(array($childId, $answer['id'], $isCorrect));
+            $childAnswerId = $this->dataBase->db->lastInsertId() * 1;
+        }
+
         if ($isCorrect) {
-            $cristalCount = $this->getQuestionByAnswerId($answer['id'])['cristalCount'];
-            $this->child->addCristals($childId, $cristalCount);
+            if (!$isSolved) {
+                $cristalCount = $this->getQuestionByAnswerId($answer['id'])['cristalCount'];
+                $this->child->addCristals($childId, $cristalCount);
+            }
         } else if ($tryCount !== 0 && $tryCount % 3 == 0) {
             $this->child->removeCristals($childId, 1);
         }
-        return $isCorrect;
+
+        return array("isCorrect" => $isCorrect, "childAnswerId" => $childAnswerId);
     }
 
     public function checkAnswerVariants($answers, $childId)
@@ -611,11 +636,12 @@ class Task
         return $variants;
     }
 
-    public function getChildAnswers($questionId, $childId)
+    public function getQuestionChildAnswer($questionId, $childId)
     {
         $query = "SELECT
         ca.id,
         ca.tryCount,
+        ca.isSolved,
         a.isCorrect,
         a.id as answerId,
         a.correctVariantId,
@@ -626,23 +652,24 @@ class Task
         WHERE 
             a.questionId = $questionId AND ca.childId = $childId";
         $stmt = $this->dataBase->db->query($query);
-        $answers = [];
-        while ($answer = $stmt->fetch()) {
-            $answer = $this->dataBase->decode($answer);
-            $answer['isCorrect'] = $answer['isCorrect'] == '1';
-            $answer['tryCount'] = $answer['tryCount'] * 1;
-            $answer['variantId'] = $answer['variantId'] * 1;
-            $answer['id'] = $answer['id'] * 1;
-            if ($answer['correctVariantId']) {
-                $answer['isCorrect'] = $answer['correctVariantId'] == $answer['variantId'];
-            }
-
-            unset($answer['correctVariantId']);
-            $answer['answerId'] = $answer['answerId'] * 1;
-            $answers[] = $answer;
+        $answer = $stmt->fetch();
+        if (!$answer) {
+            return null;
+        }
+        $answer = $this->dataBase->decode($answer);
+        $answer['isCorrect'] = $answer['isCorrect'] == '1';
+        $answer['isSolved'] = $answer['isSolved'] == '1';
+        $answer['tryCount'] = $answer['tryCount'] * 1;
+        $answer['variantId'] = $answer['variantId'] * 1;
+        $answer['id'] = $answer['id'] * 1;
+        if ($answer['correctVariantId']) {
+            $answer['isCorrect'] = $answer['correctVariantId'] == $answer['variantId'];
         }
 
-        return $answers;
+        unset($answer['correctVariantId']);
+        $answer['answerId'] = $answer['answerId'] * 1;
+
+        return $answer;
     }
 
     public function getChildAnswer($id)

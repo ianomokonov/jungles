@@ -6,6 +6,7 @@ export interface Task {
   type: TaskType;
   number: number;
   questions: TaskQuestion[];
+  questionsCount: number;
   allSolved?: boolean;
   isActive?: boolean;
   isSolvedIncorrectly?: boolean;

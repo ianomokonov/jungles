@@ -39,7 +39,7 @@ export class TaskService {
   }
 
   public getUnregTasks(): Observable<Task[]> {
-    return this.getFullTasks().pipe(
+    return this.getUnregTasks20().pipe(
       map((tasks) => {
         const answersJSON = sessionStorage.getItem(childAnswersKey);
         if (answersJSON) {
@@ -49,7 +49,6 @@ export class TaskService {
             let isSolved = true;
             task.questions.forEach((questionTemp) => {
               const question = questionTemp;
-              question.childAnswers = [];
               if (question.type === AnswerType.Choice) {
                 isSolved =
                   isSolved &&
@@ -57,15 +56,14 @@ export class TaskService {
                     const childAnswer = answers.find((ca) => ca.answerId === a.id);
                     return !!childAnswer?.isCorrect;
                   });
-                return;
               }
 
-              isSolved =
-                isSolved &&
-                !question.answers.some((a) => {
-                  const childAnswer = answers.find((ca) => ca.answerId === a.id);
-                  return !childAnswer?.isCorrect;
-                });
+              // isSolved =
+              //   isSolved &&
+              //   !question.answers.some((a) => {
+              //     const childAnswer = answers.find((ca) => ca.answerId === a.id);
+              //     return !childAnswer?.isCorrect;
+              //   });
             });
 
             task.allSolved = isSolved;
@@ -81,12 +79,16 @@ export class TaskService {
     return this.http.get<Task>(`${this.baseUrl}/child/${childId}/tasks/${id}`);
   }
 
-  public getFullTasks(): Observable<Task[]> {
+  public getUnregTasks20(): Observable<Task[]> {
     return this.http.get<Task[]>(`${this.baseUrl}/tasks`);
   }
 
   public getShortTasks(): Observable<{ id: number; number: number }> {
     return this.http.get<{ id: number; number: number }>(`${this.baseUrl}/admin/get-tasks-id`);
+  }
+
+  public getAdminTasks(): Observable<Task[]> {
+    return this.http.get<Task[]>(`${this.baseUrl}/admin/get-tasks`);
   }
 
   public updateTask(id, data): Observable<boolean> {
@@ -113,16 +115,12 @@ export class TaskService {
           const answers = JSON.parse(answersJSON) as ChildAnswer[];
           task.questions.forEach((questionTemp) => {
             const question = questionTemp;
-            question.childAnswers = [];
             question.answers.forEach((answer) => {
               const childAnswer = answers.find((a) => a.answerId === answer.id);
               if (childAnswer) {
-                question.childAnswers.push(childAnswer);
+                question.childAnswer = childAnswer;
               }
             });
-            if (question.childAnswers?.length) {
-              question.tryCount = question.childAnswers[0].tryCount;
-            }
           });
         }
 
@@ -181,10 +179,14 @@ export class TaskService {
     return this.http.post<boolean>(`${this.baseUrl}/admin/delete-task`, { taskId });
   }
 
-  public checkAnswer(id: number, childId: number, childAnswerId?: number): Observable<boolean> {
+  public checkAnswer(
+    id: number,
+    childId: number,
+    childAnswerId?: number,
+  ): Observable<{ isCorrect: boolean; childAnswerId: number }> {
     if (!childId) {
       return this.http
-        .post<boolean>(`${this.baseUrl}/check-answer`, {
+        .post<{ isCorrect: boolean; childAnswerId: number }>(`${this.baseUrl}/check-answer`, {
           id,
         })
         .pipe(
@@ -225,10 +227,13 @@ export class TaskService {
           }),
         );
     }
-    return this.http.post<boolean>(`${this.baseUrl}/child/${childId}/tasks/check-answer`, {
-      id,
-      childAnswerId,
-    });
+    return this.http.post<{ isCorrect: boolean; childAnswerId: number }>(
+      `${this.baseUrl}/child/${childId}/tasks/check-answer`,
+      {
+        id,
+        childAnswerId,
+      },
+    );
   }
 
   public checkVariants(answers: CheckVariants[], childId: number): Observable<CheckVariants[]> {
@@ -254,6 +259,7 @@ export class TaskService {
                 variantId: answer.variantId,
                 tryCount: 1,
                 isCorrect: answer.isCorrect,
+                isSolved: answer.isCorrect,
               });
             }
 
