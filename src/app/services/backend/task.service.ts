@@ -83,8 +83,8 @@ export class TaskService {
     return this.http.get<Task[]>(`${this.baseUrl}/tasks`);
   }
 
-  public getShortTasks(): Observable<{ id: number; number: number }> {
-    return this.http.get<{ id: number; number: number }>(`${this.baseUrl}/admin/get-tasks-id`);
+  public getShortTasks(): Observable<{ id: number; number: number }[]> {
+    return this.http.get<{ id: number; number: number }[]>(`${this.baseUrl}/admin/get-tasks-id`);
   }
 
   public getAdminTasks(): Observable<Task[]> {

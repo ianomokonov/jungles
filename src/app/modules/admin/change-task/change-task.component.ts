@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { forkJoin, Observable } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
 import { Answer } from 'src/app/models/answer';
 import { AnswerType } from 'src/app/models/answer-type';
@@ -128,6 +128,18 @@ export class ChangeTaskComponent implements OnInit, OnDestroy {
       .subscribe(
         () => {
           alert('Задача успешно изменена!');
+          this.taskService.getShortTasks().subscribe((tasks) => {
+            tasks.forEach((t) => {
+              const ta = this.tasks.find((task) => task.id === t.id);
+              if (ta) {
+                ta.number = t.number;
+              }
+            });
+            this.tasks = this.tasks.sort((a, b) => a.number - b.number).slice();
+            this.filterForm.patchValue({
+              number: this.selectedTask.number,
+            });
+          });
         },
         (err) => {
           console.log(err);

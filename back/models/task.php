@@ -37,21 +37,34 @@ class Task
         return $resultIds;
     }
 
-    private function setOrder($number, $curNumber = null, $remove = false)
+    private function setOrder($newNumber, $curNumber = null, $remove = false)
     {
+        $newNumber = $newNumber * 1;
+        $curNumber = !$curNumber ? null : $curNumber * 1;
         $tasks = $this->getShortTasks();
         if ($remove) {
-            $query = "UPDATE task SET number = task.number - 1 WHERE number>$curNumber";
+            $query = "UPDATE task SET number = task.number - 1 WHERE task.number > $curNumber";
             $this->dataBase->db->query($query);
             return;
         }
-        if ($number * 1 < count($tasks)) {
-            $query = "UPDATE task SET number = task.number + 1 WHERE number>=$number";
+        if (!$curNumber && $newNumber < count($tasks)) {
+            $query = "UPDATE task SET number = task.number + 1 WHERE task.number >= $newNumber";
             $this->dataBase->db->query($query);
         }
+        if ($newNumber < count($tasks) && $curNumber) {
+            if ($curNumber < $newNumber) {
+                $query = "UPDATE task SET number = task.number - 1 WHERE task.number > $curNumber AND task.number <= $newNumber";
+                $this->dataBase->db->query($query);
+            }
 
-        if ($curNumber && $number * 1 == count($tasks)) {
-            $query = "UPDATE task SET number = task.number - 1 WHERE number>=$curNumber";
+            if ($curNumber > $newNumber) {
+                $query = "UPDATE task SET number = task.number + 1 WHERE task.number >= $newNumber AND task.number < $curNumber";
+                $this->dataBase->db->query($query);
+            }
+        }
+
+        if ($curNumber && $newNumber == count($tasks)) {
+            $query = "UPDATE task SET number = task.number - 1 WHERE task.number > $curNumber";
             $this->dataBase->db->query($query);
         }
     }
