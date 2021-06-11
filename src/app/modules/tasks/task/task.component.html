@@ -184,7 +184,7 @@
 
 <ng-template #btns let-question>
   <div class="btns px-3">
-    <button class="btn btn-outline-success" *ngIf="!showCurrentAnswer"></button>
+    <button class="btn btn-outline-success help-btn" *ngIf="!showCurrentAnswer"></button>
     <button
       class="btn btn-success main-btn"
       *ngIf="!showCurrentAnswer; else goOn"
@@ -207,12 +207,11 @@
     </ng-template>
 
     <button
-      class="btn btn-outline-success"
+      class="btn sound-btn"
       *ngIf="!showCurrentAnswer"
       [disabled]="!question.sound && !audio"
       (click)="audio ? stop() : play(question.sound)"
     >
-      Звук
       <svg
         *ngIf="question.sound && !audio"
         width="18"
@@ -292,7 +291,7 @@
 </ng-template>
 
 <ng-template #questionName let-question>
-  <span class="d-block mb-3">{{ question.name }}</span>
+  <span class="d-block text-center mb-3">{{ question.name }}</span>
   <img class="question-img" *ngIf="question.image" [src]="question.image" alt="" />
 </ng-template>
 
