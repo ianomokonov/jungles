@@ -3,7 +3,7 @@
   class="pop-over-backdrop"
   [ngStyle]="{'display': popoverOpened ? 'block' : 'none'}"
 ></div>
-<div class="container d-flex" *ngIf="task">
+<div class="container h-100 d-flex" *ngIf="task">
   <div class="close-task-btn" routerLink="/tasks">
     <img src="../../assets/images/icons/cross.svg" />
   </div>
@@ -314,7 +314,7 @@
 </ng-template>
 
 <ng-template #questionName let-question>
-  <span class="d-block text-center mb-3">{{ question.name }}</span>
+  <span class="d-block text-center mb-sm-3">{{ question.name }}</span>
   <img class="question-img" *ngIf="question.image" [src]="question.image" alt="" />
 </ng-template>
 

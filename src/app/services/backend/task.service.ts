@@ -197,21 +197,21 @@ export class TaskService {
             if (childAnswerId) {
               const answer = answers.find((a) => a.id === childAnswerId);
               answer.answerId = id;
-              answer.tryCount += 1;
+              answer.tryCount = result.isCorrect ? 0 : answer.tryCount + 1;
               tryCount = answer.tryCount;
               answer.isCorrect = result;
             } else {
               answers.push({
                 id: new Date().getTime() + answers.length,
                 answerId: id,
-                tryCount: 1,
+                tryCount: result.isCorrect ? 0 : 1,
                 isCorrect: result,
               });
             }
 
             sessionStorage.setItem(childAnswersKey, JSON.stringify(answers));
 
-            if (result) {
+            if (result.isCorrect) {
               this.setTasksInfo({
                 answersCount: 1,
                 firstTryCount: childAnswerId ? 0 : 1,

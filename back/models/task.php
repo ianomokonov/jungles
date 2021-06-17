@@ -248,7 +248,7 @@ class Task
         }
     }
 
-    public function insertQuestionAnswers($data, $questionId, $variantId = 0, &$resultIds)
+    public function insertQuestionAnswers($data, $questionId, $variantId, &$resultIds)
     {
         $resultIds['answers'] = [];
         foreach ($data as $answer) {
@@ -515,7 +515,7 @@ class Task
         if ($variantId) {
             return $answer['correctVariantId'] == $variantId;
         }
-        return $answer['isCorrect'] == '1';
+        return array("isCorrect" => $answer['isCorrect'] == '1', "childAnswerId" => null);
     }
 
     public function checkAnswer($answer, $childId)
@@ -523,7 +523,7 @@ class Task
         $tryCount = 0;
         $childAnswerId = 0;
 
-        $isCorrect = $this->isCorrectAnswer($answer['id']);
+        $isCorrect = $this->isCorrectAnswer($answer['id'])['isCorrect'];
         $isSolved = false;
 
         if (isset($answer['childAnswerId']) && $answer['childAnswerId']) {
