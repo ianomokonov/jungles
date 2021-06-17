@@ -8,13 +8,16 @@ export class TaskImagePipe implements PipeTransform {
   public transform(value: TaskType): string {
     switch (value) {
       case TaskType.Creativity: {
-        return 'light.png';
+        return 'pencil.png';
       }
       case TaskType.Logic: {
         return 'logic.png';
       }
       case TaskType.Grammatics: {
         return 'book.png';
+      }
+      case TaskType.Intellection: {
+        return 'light.png';
       }
       default: {
         return '';

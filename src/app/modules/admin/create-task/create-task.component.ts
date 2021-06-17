@@ -65,23 +65,27 @@ export class CreateTaskComponent implements OnInit {
       answers: this.fb.array([]),
     });
     (this.taskForm.get('questions') as FormArray).push(questionForm);
-    questionForm.get('type').valueChanges.subscribe((value) => {
-      const correctAnswerIndexControl = questionForm.get('correctAnswerIndex');
-      if (value === this.answerType.Variants) {
-        questionForm.addControl(
-          'variants',
-          this.fb.array([
-            this.fb.group({ name: [null, Validators.required], answers: this.fb.array([]) }),
-          ]),
-        );
-        correctAnswerIndexControl.clearValidators();
-        questionForm.removeControl('answers');
-        return;
-      }
-      correctAnswerIndexControl.setValidators(Validators.required);
-      questionForm.addControl('answers', this.fb.array([]));
-      questionForm.removeControl('variants');
-    });
+    questionForm.get('type').disable();
+
+    // Решили пока убрать вопрос с выбором ответа
+    //
+    // questionForm.get('type').valueChanges.subscribe((value) => {
+    //   const correctAnswerIndexControl = questionForm.get('correctAnswerIndex');
+    //   if (value === this.answerType.Variants) {
+    //     questionForm.addControl(
+    //       'variants',
+    //       this.fb.array([
+    //         this.fb.group({ name: [null, Validators.required], answers: this.fb.array([]) }),
+    //       ]),
+    //     );
+    //     correctAnswerIndexControl.clearValidators();
+    //     questionForm.removeControl('answers');
+    //     return;
+    //   }
+    //   correctAnswerIndexControl.setValidators(Validators.required);
+    //   questionForm.addControl('answers', this.fb.array([]));
+    //   questionForm.removeControl('variants');
+    // });
     this.cdRef.detectChanges();
   }
 
@@ -105,11 +109,15 @@ export class CreateTaskComponent implements OnInit {
     question.get('imagePath').setValue(path);
   }
   public addTask() {
+    const formValue = this.taskForm.getRawValue();
     if (this.taskForm.invalid) {
       this.taskForm.markAllAsTouched();
+      if (formValue.questions.some((q) => !q.correctAnswerIndex)) {
+        alert('Укажите правильный ответ для всех вопросов');
+      }
       return;
     }
-    const formValue = this.taskForm.getRawValue();
+
     const resultValue = { type: formValue.type, questions: [], number: formValue.number };
     resultValue.questions = formValue.questions.map((question) => {
       const result = {

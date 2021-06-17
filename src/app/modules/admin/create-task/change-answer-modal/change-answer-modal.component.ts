@@ -13,7 +13,7 @@ export class ChangeAnswerModalComponent {
   constructor(private fb: FormBuilder, public modal: NgbActiveModal) {}
 
   public saveAnswer() {
-    if (!this.answer.get('name').value || !this.answer.get('image').value) {
+    if (!this.answer.get('name').value && !this.answer.get('image').value) {
       alert('Укажите либо имя ответа, либо фото!');
       return;
     }

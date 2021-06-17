@@ -12,11 +12,10 @@ export interface TaskQuestion {
   image?: string;
   sound?: string;
   answers: Answer[];
-  childAnswers?: ChildAnswer[];
+  childAnswer?: ChildAnswer;
   variants?: Variant[];
   isDone?: boolean;
   isFailed?: boolean;
-  tryCount?: number;
 
   type: AnswerType;
 }

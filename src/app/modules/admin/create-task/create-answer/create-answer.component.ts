@@ -74,6 +74,17 @@ export class CreateAnswerComponent {
       .catch(() => {});
   }
 
+  private addSeveralAnswers(files: UploadFile[]): void {
+    files.forEach((file) => {
+      const formGroup = this.getFormGroup();
+      formGroup.patchValue({
+        image: file.file,
+        imagePath: file.url,
+      });
+      this.addAnswer(formGroup);
+    });
+  }
+
   public getPath(file: File, image: HTMLImageElement) {
     if (file) {
       const reader = new FileReader();
@@ -86,4 +97,61 @@ export class CreateAnswerComponent {
       reader.readAsDataURL(file);
     }
   }
+
+  public uploadFiles(event: MouseEvent): void {
+    event.preventDefault();
+    const fileInput = this.createUploadFileInput();
+    document.querySelector('.answer-selector').append(fileInput);
+
+    fileInput.addEventListener('change', () => {
+      if (!fileInput.files?.length) {
+        fileInput.remove();
+        return;
+      }
+      this.readMultiFiles(Array.from(fileInput.files));
+
+      fileInput.remove();
+    });
+    fileInput.click();
+  }
+
+  private readMultiFiles(files: File[]) {
+    const result: UploadFile[] = [];
+    const reader = new FileReader();
+    const readFile = (index) => {
+      if (index >= files.length) {
+        this.addSeveralAnswers(result);
+        return;
+      }
+      const file = files[index];
+      reader.onload = (e) => {
+        result.push({
+          name: file.name,
+          url: e.target?.result?.toString() || '',
+          file,
+        });
+
+        readFile(index + 1);
+      };
+      reader.readAsDataURL(file);
+    };
+    readFile(0);
+  }
+
+  private createUploadFileInput(): HTMLInputElement {
+    const wrapper = document.createElement('div');
+
+    wrapper.innerHTML = `
+      <input hidden name="images" type="file" accept="image/*" multiple>
+    `;
+
+    return wrapper.firstElementChild as HTMLInputElement;
+  }
+}
+
+export interface UploadFile {
+  [name: string]: any;
+  name: string;
+  url: string;
+  file?: File;
 }

@@ -16,6 +16,9 @@ export class TaskLabelPipe implements PipeTransform {
       case TaskType.Grammatics: {
         return 'Грамота';
       }
+      case TaskType.Intellection: {
+        return 'Мышление';
+      }
       default: {
         return '';
       }

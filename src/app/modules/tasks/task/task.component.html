@@ -3,12 +3,12 @@
   class="pop-over-backdrop"
   [ngStyle]="{'display': popoverOpened ? 'block' : 'none'}"
 ></div>
-<div class="container d-flex">
+<div class="container d-flex" *ngIf="task">
   <div class="close-task-btn" routerLink="/tasks">
     <img src="../../assets/images/icons/cross.svg" />
   </div>
   <div class="task-container">
-    <ng-container *ngIf="task"
+    <ng-container
       ><ul
         ngbNav
         #nav="ngbNav"
@@ -43,7 +43,7 @@
       <div [ngbNavOutlet]="nav"></div
     ></ng-container>
   </div>
-  <div class="stats" *ngIf="tasksInfo">
+  <div class="stats" *ngIf="tasksInfo && task">
     <div class="achives chest">
       <span>{{ tasksInfo.chests }}</span>
     </div>
@@ -82,7 +82,7 @@
     </div>
     <div
       class="d-flex align-items-center try-count-container position-relative"
-      *ngIf="activeQuestion?.tryCount && !activeQuestion.isDone"
+      *ngIf="activeQuestion.childAnswer?.tryCount && !activeQuestion.isDone"
       [ngbPopover]="'За каждую 3 попытку колличество кристалов уменьшается на 1 кристал'"
       [popoverClass]="'try-count-popover'"
       (click)="markPopoverOpened()"
@@ -96,7 +96,7 @@
         src="../../../../assets/images/icons/question.svg"
         class="question-icon"
       />
-      <span class="try-count">{{ activeQuestion?.tryCount }}</span>
+      <span class="try-count">{{ activeQuestion.childAnswer?.tryCount }}</span>
       <span class="ml-1 label"
         >Количество<br />
         попыток</span
@@ -122,9 +122,8 @@
           class="answer text-b"
           [ngClass]="{
             active: choosedAnswerId == answer.id,
-            correct: answer.isCorrect,
-            incorrect: answer.isIncorrect,
-            img: answer.image
+            img: answer.image,
+            disabled: showCurrentAnswer
           }"
           *ngFor="let answer of question.answers"
           (click)="choose(answer.id, question.isDone)"
@@ -208,7 +207,7 @@
 
 <ng-template #btns let-question>
   <div class="btns px-3">
-    <button class="btn btn-outline-success" *ngIf="!showCurrentAnswer">Помощь</button>
+    <button class="btn btn-outline-success help-btn" *ngIf="!showCurrentAnswer"></button>
     <button
       class="btn btn-success main-btn"
       *ngIf="!showCurrentAnswer; else goOn"
@@ -231,12 +230,11 @@
     </ng-template>
 
     <button
-      class="btn btn-outline-success"
+      class="btn sound-btn"
       *ngIf="!showCurrentAnswer"
       [disabled]="!question.sound && !audio"
       (click)="audio ? stop() : play(question.sound)"
     >
-      Звук
       <svg
         *ngIf="question.sound && !audio"
         width="18"
@@ -302,16 +300,21 @@
 
 <ng-template #taskCompleted let-question>
   <ng-container
-    *ngTemplateOutlet="
-      question.isDone || question.tryCount % 3 == 0 ? cristals : tryAgain;
-      context: { label: question.isDone ? question.cristalCount : 1, isDone: question.isDone }
-    "
-  >
-  </ng-container>
+    ><ng-container
+      *ngTemplateOutlet="
+        question.isDone || question.childAnswer?.tryCount % 3 == 0 ? cristals : tryAgain;
+        context: {
+          label: question.isDone ? (question.childAnswer.isSolved ? 0 : question.cristalCount) : 1,
+          isDone: question.isDone
+        }
+      "
+    >
+    </ng-container
+  ></ng-container>
 </ng-template>
 
 <ng-template #questionName let-question>
-  <span class="d-block mb-3">{{ question.name }}</span>
+  <span class="d-block text-center mb-3">{{ question.name }}</span>
   <img class="question-img" *ngIf="question.image" [src]="question.image" alt="" />
 </ng-template>
 
