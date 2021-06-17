@@ -1,4 +1,8 @@
 <div class="backdrop"></div>
+<div
+  class="pop-over-backdrop"
+  [ngStyle]="{'display': popoverOpened ? 'block' : 'none'}"
+></div>
 <div class="container d-flex">
   <div class="close-task-btn" routerLink="/tasks">
     <img src="../../assets/images/icons/cross.svg" />
@@ -46,7 +50,14 @@
     <div class="achives cristals">
       <span>{{ tasksInfo.cristals }}</span>
     </div>
-    <div class="d-flex align-items-center today-tasks">
+    <div
+      class="d-flex align-items-center today-tasks"
+      [ngbPopover]="'Упражнений сегодня'"
+      [popoverClass]="'task-today-popover'"
+      (click)="markPopoverOpened()"
+      (hidden)="markPopoverClosed()"
+      [container]="'body'"
+    >
       <app-pie-chart
         class="adapt-sm"
         [percent]="(tasksInfo.answersCount / 20) * 100"
@@ -70,9 +81,21 @@
       >
     </div>
     <div
-      class="d-flex align-items-center try-count-container"
+      class="d-flex align-items-center try-count-container position-relative"
       *ngIf="activeQuestion?.tryCount && !activeQuestion.isDone"
+      [ngbPopover]="'За каждую 3 попытку колличество кристалов уменьшается на 1 кристал'"
+      [popoverClass]="'try-count-popover'"
+      (click)="markPopoverOpened()"
+      (hidden)="markPopoverClosed()"
+      [container]="'body'"
     >
+      <img
+        [ngbPopover]="'За каждую 3 попытку колличество кристалов уменьшается на 1 кристал'"
+        placement="bottom"
+        [popoverClass]="'question-popover'"
+        src="../../../../assets/images/icons/question.svg"
+        class="question-icon"
+      />
       <span class="try-count">{{ activeQuestion?.tryCount }}</span>
       <span class="ml-1 label"
         >Количество<br />

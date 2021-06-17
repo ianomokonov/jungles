@@ -1,7 +1,6 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
-import { NavigationEvent } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker-view-model';
 import { takeWhile } from 'rxjs/operators';
 import { DataService } from 'src/app/services/backend/data.service';
 import { UserService } from 'src/app/services/backend/user.service';
@@ -41,7 +40,7 @@ export class HelpComponent implements OnDestroy {
       });
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
-        this.topPosition.nativeElement.scrollIntoView({ block: 'start' });
+        this.topPosition?.nativeElement.scrollIntoView({ block: 'start' });
       }
     });
   }

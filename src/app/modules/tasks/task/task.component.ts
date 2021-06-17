@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin, Observable } from 'rxjs';
 import { Answer } from 'src/app/models/answer';
@@ -27,6 +27,7 @@ export class TaskComponent {
   public set activeQuestion(question: TaskQuestion) {
     this.activeId = question?.id;
   }
+  public popoverOpened = false;
 
   public get activeQuestion(): TaskQuestion {
     return this.task?.questions?.find((q) => q.id === this.activeId);
@@ -38,6 +39,7 @@ export class TaskComponent {
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
     private tokenService: TokenService,
+    private elementRef: ElementRef,
   ) {
     if (this.tokenService.getAuthToken()) {
       this.userService.userLoaded$.subscribe((user) => {
@@ -254,5 +256,15 @@ export class TaskComponent {
     }
 
     return [this.taskService.getUnregTask(id), this.taskService.getUnregTasksInfo()];
+  }
+
+  public markPopoverOpened() {
+    if (window.innerWidth < 767) {
+      this.popoverOpened = true;
+    }
+  }
+
+  public markPopoverClosed() {
+    this.popoverOpened = false;
   }
 }

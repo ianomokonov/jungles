@@ -343,6 +343,32 @@ h3,
   cursor: pointer;
 }
 
+.question-popover {
+  @popover();
+  left: 87px !important;
+  top: -15px !important;
+  background-image: url(./assets/images/rectangle-question.png) !important;
+  width: 183px !important;
+  height: 97px !important;
+  font-size: 12px !important;
+
+  .arrow {
+    display: none !important;
+  }
+
+  .popover-body {
+    padding-top: 30px !important;
+  }
+}
+
+.try-count-popover {
+  display: none !important;
+}
+
+.task-today-popover {
+  display: none !important;
+}
+
 /*---------Modal---------*/
 
 ngb-modal-window,
@@ -944,13 +970,58 @@ app-progress {
 
   app-pie-chart {
     &.adapt-sm {
-      svg{
+      svg {
         height: 42px !important;
         width: 42px !important;
       }
-      .gr-text{
+      .gr-text {
         font-size: 16px !important;
       }
+    }
+  }
+
+  .question-popover {
+    display: none !important;
+  }
+
+  @popover-padding: 18px 14px 14px;
+
+  .try-count-popover {
+    @popover();
+    left: 3px !important;
+    top: 125px !important;
+    background-image: url(./assets/images/rectangle-try-count.png) !important;
+    width: 160px !important;
+    height: 85px !important;
+    font-size: 10px !important;
+    z-index: 160 !important;
+
+    .arrow {
+      display: none !important;
+    }
+
+    .popover-body {
+      padding: @popover-padding !important;
+    }
+  }
+
+  .task-today-popover {
+    @popover();
+    left: 18px !important;
+    top: 105px !important;
+    background-image: url(./assets/images/rectangle-task-today.png) !important;
+    width: 95px !important;
+    height: 55px !important;
+    font-size: 10px !important;
+    z-index: 160 !important;
+    overflow: visible;
+
+    .arrow {
+      display: none !important;
+    }
+
+    .popover-body {
+      padding: @popover-padding !important;
     }
   }
 }

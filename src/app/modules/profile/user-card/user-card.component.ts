@@ -52,6 +52,10 @@ export class UserCardComponent {
   }
 
   public getAgeLabel(age: number) {
+    const count = age % 100;
+    if (count >= 5 && count <= 20) {
+      return 'лет';
+    }
     switch (age % 10) {
       case 1:
         return 'год';
