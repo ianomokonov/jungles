@@ -428,10 +428,24 @@
 }
 
 @media (orientation: landscape) and (max-width: 1200px) {
-  .task-container{
-    .question-container{
-      .question{
-        height: 350px !important;
+  .task-container {
+    .question-container {
+      .question {
+        height: 280px !important;
+        .try-again {
+          img {
+            height: 184px !important;
+            position: relative;
+            z-index: 5;
+          }
+          span {
+            left: 48% !important;
+            top: -72px !important;
+            width: 225px !important;
+            height: 146px !important;
+            font-size: 14px !important;
+          }
+        }
       }
     }
   }
