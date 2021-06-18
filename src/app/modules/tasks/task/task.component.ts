@@ -253,8 +253,8 @@ export class TaskComponent implements OnDestroy {
         }
         this.taskLoading = false;
         this.cdRef.detectChanges();
-        if (window.scrollY === 0 && window.innerWidth > 768) {
-          document.querySelector('.task-container').scrollIntoView({ block: 'center' });
+        if (window.scrollY === 0 && window.innerWidth > 767) {
+          document.querySelector('.main-task-container').scrollIntoView({ block: 'center' });
         }
       }),
     );

@@ -227,6 +227,8 @@
           text-align: center;
           margin-right: 20px;
 
+          overflow: hidden;
+
           &.img {
             height: 160px;
             width: auto;
@@ -425,11 +427,21 @@
   }
 }
 
+@media (orientation: landscape) and (max-width: 1200px) {
+  .task-container{
+    .question-container{
+      .question{
+        height: 350px !important;
+      }
+    }
+  }
+}
+
 @media (max-width: 767px) {
   .backdrop {
     opacity: 1;
   }
-  body{
+  body {
     overflow: hidden !important;
   }
   .container {
