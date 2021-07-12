@@ -85,7 +85,19 @@ class User
             $stmt->execute($query[1]);
         }
     }
-
+    
+    public function getUsers()
+    {
+        $query = "SELECT id, name, surname, hasDiscount FROM " . $this->table;
+        $stmt = $this->dataBase->db->query($query);
+        $users = [];
+        while ($user = $stmt->fetch()) {
+            $user = $this->dataBase->decode($user);
+            $users[] = $user;
+        }
+        return $users;
+    }
+    
     public function checkAdmin($userId)
     {
         $query = "SELECT isAdmin FROM $this->table WHERE id = $userId";
@@ -188,6 +200,12 @@ class User
         if ($query[1][0] != null) {
             $stmt->execute($query[1]);
         }
+    }
+    
+    public function setDiscount($userId)
+    {
+        $query = "UPDATE $this->table SET hasDiscount = true WHERE id=$userId";
+        $this->dataBase->db->query($query);
     }
 
     public function addRefreshToken($tokenn, $userId)

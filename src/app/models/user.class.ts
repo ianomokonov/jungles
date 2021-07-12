@@ -7,6 +7,7 @@ export class User {
   public image?: string;
   public email: string;
 
+  public hasDiscount?: boolean;
   public children?: Child[];
   public notifications?: Notification[];
 }

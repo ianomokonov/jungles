@@ -13,6 +13,7 @@ import { CreateVariantComponent } from './create-task/create-variant/create-vari
 import { ChangeAnswerModalComponent } from './create-task/change-answer-modal/change-answer-modal.component';
 import { RemoveTaskComponent } from './remove-task/remove-task.component';
 import { ChangeTaskComponent } from './change-task/change-task.component';
+import { SetDiscountComponent } from './set-discount/set-discount.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { ChangeTaskComponent } from './change-task/change-task.component';
     ChangeAnswerModalComponent,
     RemoveTaskComponent,
     ChangeTaskComponent,
+    SetDiscountComponent,
   ],
   imports: [
     AdminRoutingModule,

@@ -4,6 +4,7 @@ import { AdminComponent } from './admin.component';
 import { ChangeTaskComponent } from './change-task/change-task.component';
 import { CreateTaskComponent } from './create-task/create-task.component';
 import { RemoveTaskComponent } from './remove-task/remove-task.component';
+import { SetDiscountComponent } from './set-discount/set-discount.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,11 @@ const routes: Routes = [
         path: 'change-task',
         component: ChangeTaskComponent,
         data: { title: 'Изменение упражнения' },
+      },
+      {
+        path: 'set-discount',
+        component: SetDiscountComponent,
+        data: { title: '-' },
       },
     ],
   },

@@ -127,6 +127,10 @@ export class UserService {
     );
   }
 
+  public getUsersInfo(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.baseUrl}/admin/users-info`);
+  }
+
   public editParent(data: FormData) {
     return this.http.post(`${this.baseUrl}/user/update-user-info`, data);
   }
@@ -175,5 +179,11 @@ export class UserService {
 
   public sendMessage(theme: string, text: string) {
     return this.http.post(`${this.baseUrl}/user/send-message`, { theme, text });
+  }
+
+  // ----------Админка----------
+
+  public setDiscount(userId: number) {
+    return this.http.post(`${this.baseUrl}/admin/set-discount`, { userId });
   }
 }

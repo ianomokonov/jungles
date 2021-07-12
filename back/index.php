@@ -99,7 +99,6 @@ $app->post('/check-answer-variants', function (Request $request, Response $respo
             $answer['isCorrect'] = $task->isCorrectAnswer($answer['id'], $answer['variantId']);
             $result[] = $answer;
         }
-        $response->getBody()->write(json_encode($result));
         return $response;
     } catch (Exception $e) {
         $response = new ResponseClass();
@@ -297,6 +296,20 @@ $app->group('/', function (RouteCollectorProxy $group) use ($dataBase) {
         $adminGroup->post('/delete-task', function (Request $request, Response $response) use ($dataBase) {
             $task = new Task($dataBase);
             $result = $task->delete($request->getParsedBody()['taskId']);
+            $response->getBody()->write(json_encode($result));
+            return $response;
+        });
+        
+        $adminGroup->get('/users-info', function (Request $request, Response $response) use ($dataBase) {
+            $user = new User($dataBase);
+            $result = $user->getUsers();
+            $response->getBody()->write(json_encode($result));
+            return $response;
+        });
+        
+        $adminGroup->post('/set-discount', function (Request $request, Response $response) use ($dataBase) {
+            $user = new User($dataBase);
+            $result = $user->setDiscount($request->getParsedBody()['userId']);
             $response->getBody()->write(json_encode($result));
             return $response;
         });
