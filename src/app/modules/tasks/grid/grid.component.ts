@@ -23,8 +23,9 @@ export class GridComponent implements OnInit {
   public ngOnInit(): void {
     this.cdRef.detectChanges();
     const solved = document.querySelectorAll('.task.solved');
-    if (solved?.length) {
-      solved[solved.length - 1].scrollIntoView({ block: 'center' });
+    const active = document.querySelector('.task.active');
+    if (active || solved?.length) {
+      (active || solved[solved.length - 1]).scrollIntoView({ block: 'center' });
     }
   }
 }

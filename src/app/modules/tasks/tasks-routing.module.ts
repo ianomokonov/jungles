@@ -13,6 +13,7 @@ const routes: Routes = [
     component: TaskComponent,
     data: {
       title: 'Занятия',
+      class: 'task-page',
     },
   },
 ];

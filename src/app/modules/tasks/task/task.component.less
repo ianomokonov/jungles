@@ -14,7 +14,7 @@
 
 .pop-over-backdrop {
   z-index: 130 !important;
-  background-color: #91C29C;;
+  background-color: #91c29c;
   position: fixed;
   left: 0;
   top: 0;
@@ -76,6 +76,7 @@
           line-height: 30px;
           color: @dark-green;
           letter-spacing: -0.01em;
+          border-radius: 0;
           &.active {
             background-color: @orange;
           }
@@ -226,6 +227,8 @@
           text-align: center;
           margin-right: 20px;
 
+          overflow: hidden;
+
           &.img {
             height: 160px;
             width: auto;
@@ -283,11 +286,19 @@
             height: 58px;
           }
 
-          .btn-outline-success:not(.main-btn), .sound-btn {
+          .btn-outline-success:not(.main-btn),
+          .sound-btn {
             line-height: 50px;
             min-width: 120px;
             height: 50px;
             padding: 0;
+          }
+
+          .sound-btn {
+            svg {
+              height: 30px;
+              width: auto;
+            }
           }
 
           .btn-outline-success:not(.main-btn):first-child {
@@ -416,14 +427,42 @@
   }
 }
 
+@media (orientation: landscape) and (max-width: 1200px) {
+  .task-container {
+    .question-container {
+      .question {
+        height: 280px !important;
+        .try-again {
+          img {
+            height: 184px !important;
+            position: relative;
+            z-index: 5;
+          }
+          span {
+            left: 48% !important;
+            top: -72px !important;
+            width: 225px !important;
+            height: 146px !important;
+            font-size: 14px !important;
+          }
+        }
+      }
+    }
+  }
+}
+
 @media (max-width: 767px) {
   .backdrop {
     opacity: 1;
+  }
+  body {
+    overflow: hidden !important;
   }
   .container {
     padding: 0;
     padding-top: 15px;
     position: absolute;
+    align-items: unset !important;
     top: 0;
     left: 0;
     width: 100%;
@@ -439,38 +478,41 @@
     }
     .task-container {
       border-radius: 30px;
-      min-height: calc(100vh - 67px);
+      min-height: calc(100% - 67px);
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
       display: flex;
       flex-direction: column;
       .tab-content {
         flex-grow: 1;
-        .tab-pane{
-          height: 100%;
-        }
       }
       .question-container {
-        min-height: calc(100vh - 97px);
+        min-height: 100%;
         display: flex;
         flex-direction: column;
         .question {
           padding: 1rem;
-          height: 290px !important;
+
+          flex-grow: 1;
+          height: auto !important;
 
           & > span {
             font-size: 14px;
             line-height: 17px;
           }
+          img {
+            min-height: 100px;
+            height: 100px !important;
+          }
           .try-again {
             img {
-              height: 160px !important;
+              height: 130px !important;
               position: relative;
               z-index: 5;
             }
             span {
-              left: 38% !important;
-              top: -60px !important;
+              left: 32% !important;
+              top: -72px !important;
               width: 225px !important;
               height: 146px !important;
               font-size: 14px !important;
@@ -480,14 +522,15 @@
       }
 
       .answer-container {
-        padding-top: 20px !important;
-        flex-grow: 1;
+        padding-top: 10px !important;
 
         .answers {
-          padding: 0 0 5px !important;
+          padding: 0 0.5rem 5px !important;
           flex-wrap: wrap;
+          margin-right: -10px !important;
           .answer {
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+            margin-right: 10px;
             border-radius: 10px !important;
             &.img {
               max-height: 110px !important;
@@ -559,6 +602,7 @@
     .btns {
       flex-wrap: wrap;
       justify-content: space-between !important;
+      padding-bottom: 0 !important;
       .main-btn {
         order: -1;
         margin: 0 0 10px 0 !important;
@@ -569,6 +613,9 @@
       }
       .sound-btn {
         width: 100%;
+        svg {
+          height: 24px !important;
+        }
       }
     }
   }

@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Component, ElementRef, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -47,7 +47,6 @@ export class TaskComponent implements OnDestroy {
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
     private tokenService: TokenService,
-    private elementRef: ElementRef,
     private cdRef: ChangeDetectorRef,
   ) {
     if (this.tokenService.getAuthToken()) {
@@ -253,6 +252,10 @@ export class TaskComponent implements OnDestroy {
           this.play(this.activeQuestion.sound);
         }
         this.taskLoading = false;
+        this.cdRef.detectChanges();
+        if (window.scrollY === 0 && window.innerWidth > 767) {
+          document.querySelector('.main-task-container').scrollIntoView({ block: 'center' });
+        }
       }),
     );
   }
