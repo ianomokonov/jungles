@@ -48,7 +48,8 @@ const routes: Routes = [
     data: {
       title: 'Упражнения',
       style: {
-        'background-image': 'url(./assets/images/tasks_bg.png)',
+        'background-image': 'url(./assets/images/fon.png)',
+        // 'background-image': 'url(./assets/images/tasks_bg.png)',
         'background-size': '100% auto',
       },
       class: 'tasks-page',

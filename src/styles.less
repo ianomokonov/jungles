@@ -574,7 +574,7 @@ ngb-modal-backdrop {
 /*---------Main Styles---------*/
 
 html {
-  background-image: url('./assets/images/fon.png');
+  // background-image: url('./assets/images/fon.png');
   background-size: 100% auto;
   background-position: center top;
   background-repeat: no-repeat;
@@ -924,8 +924,8 @@ app-progress {
 }
 
 @media (max-width: 1200px) {
-  html {
-    background: none !important;
+  .main-content {
+    background-image: none !important;
   }
   .modal-auth {
     .modal-dialog {
@@ -967,14 +967,14 @@ app-progress {
       }
     }
   }
-  .task-page{
-    app-footer{
+  .task-page {
+    app-footer {
       display: none;
     }
-    .nav-menu{
+    .nav-menu {
       display: none;
     }
-    .breadcrumb-sm{
+    .breadcrumb-sm {
       display: none;
     }
   }

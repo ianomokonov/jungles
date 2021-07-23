@@ -67,8 +67,12 @@ export class AppComponent {
   }
 
   private setStyle(style: any) {
+    const contentBlock = document.querySelector('.main-content') as HTMLDivElement;
+    if (!contentBlock) {
+      return;
+    }
     Object.keys(style).forEach((key: string) => {
-      document.documentElement.style.setProperty(key, style[key]);
+      contentBlock.style.setProperty(key, style[key]);
     });
     // document.documentElement.style.backgroundImage = style.background;
   }
