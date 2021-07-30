@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { forkJoin, Observable } from 'rxjs';
-import { takeWhile } from 'rxjs/operators';
+import { forkJoin, Observable, of } from 'rxjs';
+import { mergeMap, takeWhile } from 'rxjs/operators';
 import { Task } from 'src/app/models/task';
 import { TasksInfo } from 'src/app/models/tasks-info';
 import { TaskService } from 'src/app/services/backend/task.service';
@@ -30,12 +30,17 @@ export class TasksComponent implements OnInit, OnDestroy {
   }
   public ngOnInit() {
     if (this.tokenService.getAuthToken()) {
-      this.userService.userLoaded$.pipe(takeWhile(() => this.rxAlive)).subscribe((user) => {
-        if (!user) {
-          return;
-        }
-        this.initTasks();
-      });
+      this.userService.userLoaded$
+        .pipe(
+          takeWhile(() => this.rxAlive),
+          mergeMap((user) => (user ? of(user) : this.userService.getUserInfo())),
+        )
+        .subscribe((user) => {
+          if (!user) {
+            return;
+          }
+          this.initTasks();
+        });
       return;
     }
     this.initTasks();

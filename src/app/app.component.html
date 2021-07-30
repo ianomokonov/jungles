@@ -1,9 +1,9 @@
 <div class="d-flex flex-column main-content" style="min-height: 100%">
-  <div>
+  <div *ngIf="!hideMenu">
     <nav-menu [showMonkey]="showMonkey"></nav-menu>
   </div>
-  <main>
-    <div class="container my-5" *ngIf="titles?.length">
+  <main [ngClass]="{ 'menu-hidden': hideMenu }">
+    <div class="container my-5" *ngIf="titles?.length && !hideMenu">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb subt px-0">
           <li class="breadcrumb-item" *ngFor="let title of titles">
@@ -12,7 +12,7 @@
         </ol>
       </nav>
     </div>
-    <div class="container my-4 breadcrumb-sm" *ngIf="titles?.length">
+    <div class="container my-4 breadcrumb-sm" *ngIf="titles?.length && !hideMenu">
       <span routerLink="/">
         <svg width="15" height="9" viewBox="0 0 15 9" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -25,6 +25,5 @@
     </div>
     <router-outlet></router-outlet>
   </main>
-
-  <app-footer></app-footer>
+  <ng-container *ngIf="!hideMenu"><app-footer></app-footer></ng-container>
 </div>

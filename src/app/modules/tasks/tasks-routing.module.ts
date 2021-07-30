@@ -14,6 +14,7 @@ const routes: Routes = [
     data: {
       title: 'Занятия',
       class: 'task-page',
+      hideMenu: true,
     },
   },
 ];

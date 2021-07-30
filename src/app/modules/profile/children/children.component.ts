@@ -1,7 +1,8 @@
 import { AfterViewInit, Component, Input, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { takeWhile } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { mergeMap, takeWhile } from 'rxjs/operators';
 import { blockAmount, modalOpenedKey, tasksAmount } from 'src/app/constants';
 import { ChildRequest } from 'src/app/models/add-child-request';
 import { Child } from 'src/app/models/child.class';
@@ -63,20 +64,25 @@ export class ChildrenComponent implements AfterViewInit, OnDestroy {
       return;
     }
     if (this.tokenService.getAuthToken()) {
-      this.userService.userLoaded$.pipe(takeWhile(() => this.rxAlive)).subscribe((user) => {
-        if (!user || this.userService.activeChild) {
-          return;
-        }
-        if (window.innerWidth > 767 && !this.isMobile) {
-          this.modalOpen(this.message);
-          sessionStorage.setItem(modalOpenedKey, 'true');
-          return;
-        }
-        if (window.innerWidth < 768 && this.isMobile) {
-          this.modalOpen(this.message);
-          sessionStorage.setItem(modalOpenedKey, 'true');
-        }
-      });
+      this.userService.userLoaded$
+        .pipe(
+          takeWhile(() => this.rxAlive),
+          mergeMap((user) => (user ? of(user) : this.userService.getUserInfo())),
+        )
+        .subscribe((user) => {
+          if (!user || this.userService.activeChild) {
+            return;
+          }
+          if (window.innerWidth > 767 && !this.isMobile) {
+            this.modalOpen(this.message);
+            sessionStorage.setItem(modalOpenedKey, 'true');
+            return;
+          }
+          if (window.innerWidth < 768 && this.isMobile) {
+            this.modalOpen(this.message);
+            sessionStorage.setItem(modalOpenedKey, 'true');
+          }
+        });
     }
   }
 

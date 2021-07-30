@@ -12,6 +12,7 @@ export class AppComponent {
   public titles: { title: string; url: string }[] = [];
   public showMonkey = false;
   private monkeyUrls = ['/', '/tasks'];
+  public hideMenu = false;
 
   constructor(private routee: ActivatedRoute, private router: Router) {
     this.router.events
@@ -29,11 +30,13 @@ export class AppComponent {
         map((route: ActivatedRoute) => {
           const routes: { title: string; url: string }[] = [];
           let className = '';
+          this.hideMenu = false;
           while (route.firstChild) {
             // eslint-disable-next-line no-param-reassign
             route = route.firstChild;
-            const { title, url, style, class: pageClass } = route.snapshot.data;
+            const { title, url, style, class: pageClass, hideMenu } = route.snapshot.data;
             const { routeConfig } = route.snapshot;
+            this.hideMenu = !!hideMenu;
             if (pageClass) {
               className = pageClass;
             }

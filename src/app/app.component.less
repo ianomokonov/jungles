@@ -3,8 +3,15 @@
 main {
   flex-grow: 1;
   padding-top: 6rem;
+
+  &.menu-hidden {
+    padding: 2rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
-.breadcrumb-sm{
+.breadcrumb-sm {
   display: none;
 }
 nav {
@@ -22,26 +29,25 @@ nav {
   }
 }
 
-
 @media (max-width: 767px) {
-    .container{
-        display: none;
-    }
+  .container {
+    display: none;
+  }
 
-    .breadcrumb-sm{
-      display: block;
-      color: @grey;
-      span{
-        display: flex;
-        align-items: center;
-        outline: none;
-      }
-      svg{
-        margin-right: 10px;
-        path{
-          fill: @grey;
-        }
-        transform: rotate(90deg);
-      }
+  .breadcrumb-sm {
+    display: block;
+    color: @grey;
+    span {
+      display: flex;
+      align-items: center;
+      outline: none;
     }
+    svg {
+      margin-right: 10px;
+      path {
+        fill: @grey;
+      }
+      transform: rotate(90deg);
+    }
+  }
 }
