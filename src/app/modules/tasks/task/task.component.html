@@ -1,8 +1,5 @@
 <div class="backdrop"></div>
-<div
-  class="pop-over-backdrop"
-  [ngStyle]="{'display': popoverOpened ? 'block' : 'none'}"
-></div>
+<div class="pop-over-backdrop" [ngStyle]="{ display: popoverOpened ? 'block' : 'none' }"></div>
 <div class="main-task-container container h-100 d-flex" *ngIf="task">
   <div class="close-task-btn" routerLink="/tasks">
     <img src="../../assets/images/icons/cross.svg" />
@@ -302,8 +299,9 @@
   <ng-container
     ><ng-container
       *ngTemplateOutlet="
-        question.isDone || question.childAnswer?.tryCount % 3 == 0 ? cristals : tryAgain;
+        question.isDone ? cristals : tryAgain;
         context: {
+          $implicit: question.childAnswer?.tryCount,
           label: question.isDone ? (question.childAnswer.isSolved ? 0 : question.cristalCount) : 1,
           isDone: question.isDone
         }
@@ -318,9 +316,16 @@
   <img class="question-img" *ngIf="question.image" [src]="question.image" alt="" />
 </ng-template>
 
-<ng-template #tryAgain>
+<ng-template #tryAgain let-tryCount>
   <div class="try-again">
-    <img src="../../../../assets/images/failed_task_tigr.png" alt="" />
-    <span class="d-block text">Попробуй решить упражнение по другому</span>
+    <ng-container *ngIf="tryCount % 3 !== 0; else thirdError">
+      <img *ngIf="tryCount % 3 !== 0" src="../../../../assets/images/failed_task_tigr.png" alt="" />
+      <span class="d-block text">Попробуй решить упражнение по другому</span>
+    </ng-container>
+    <ng-template #thirdError
+      ><img src="../../../../assets/images/failed_tigr_sad.png" alt="" /><span class="d-block text"
+        >Не расстраивайся, попробуй решить еще раз!</span
+      ></ng-template
+    >
   </div>
 </ng-template>
