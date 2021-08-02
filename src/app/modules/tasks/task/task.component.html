@@ -320,8 +320,11 @@
 
 <ng-template #tryAgain let-tryCount>
   <div class="try-again">
-    <ng-container *ngIf="tryCount % 3 !== 0; else thirdError">
-      <img *ngIf="tryCount % 3 !== 0" src="../../../../assets/images/failed_task_tigr.png" alt="" />
+    <ng-container *ngIf="tryCount > 2; else thirdError">
+      <img
+        [src]="tryCount % 2 > 0 ? '../../../../assets/images/failed_task_tigr.png' : '../../../../assets/images/monkey_sad.png'"
+        alt=""
+      />
       <span class="d-block text">Попробуй решить упражнение по другому</span>
     </ng-container>
     <ng-template #thirdError
