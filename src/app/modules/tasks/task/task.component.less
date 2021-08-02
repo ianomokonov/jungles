@@ -120,6 +120,31 @@
         }
 
         .cristals-result {
+          position: relative;
+          img {
+            &.tigr {
+              height: 270px;
+              margin-top: 156px;
+            }
+            height: 76px;
+          }
+          span.cloud {
+            position: absolute;
+            width: 310px;
+            height: 154px;
+            left: 58%;
+            top: 25px;
+            padding: 30px 20px 60px 34px;
+            background: no-repeat url(../../../../assets/images/failed_task_cloud.svg) center / 100%
+              100%;
+            font-size: 26px;
+            color: @orange;
+            text-transform: none;
+            font-weight: normal;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
           &.failed {
             color: @red;
           }

@@ -290,7 +290,9 @@
 
 <ng-template #cristals let-label="label" let-isDone="isDone">
   <div class="cristals-result d-flex align-items-center" [ngClass]="{ failed: !isDone }">
+    <img class="tigr" src="../../../../assets/images/success_task_tigr.png" alt="" />
     <span class="d-block mt-3 mr-1">{{ isDone ? '+' : '-' }} {{ label }}</span>
+    <span class="cloud">Молодец!</span>
     <img src="../../../../assets/images/icons/diamond.png" alt="" />
   </div>
 </ng-template>
