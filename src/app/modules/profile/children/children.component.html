@@ -1,1 +1,218 @@
-<p>children works!</p>
+<section>
+  <div class="profile-wrap" *ngIf="!showParentEditForm">
+    <app-user-card
+      [user]="userService.user"
+      [showActions]="true"
+      (edit)="onEditParent()"
+    ></app-user-card>
+  </div>
+  <div *ngIf="showParentEditForm" class="change-form">
+    <form [formGroup]="changeParentForm">
+      <p class="text-mb">Редактирование профиля родителя</p>
+      <div
+        *ngIf="!isUploadFileShown(changeParentForm)"
+        class="change-form-photo d-flex justify-content-start align-items-center"
+      >
+        <img class="rounded-circle" [src]="changeParentForm.get('image').value" />
+        <span class="text text-muted ml-3" (click)="removeImg(changeParentForm)">Удалить фото</span>
+      </div>
+      <file-uploader *ngIf="isUploadFileShown(changeParentForm)" formControlName="image"
+        ><img class="img-placeholder" src="../../../../assets/images/icons/user-parent.svg"
+      /></file-uploader>
+      <div class="form-group">
+        <input class="ch-input form-control" formControlName="name" />
+      </div>
+      <div class="form-group">
+        <input class="ch-input form-control" formControlName="surname" />
+      </div>
+      <div class="form-group">
+        <input type="email" class="ch-input form-control" formControlName="email" />
+      </div>
+      <button class="btn btn-small btn-success" (click)="editParent()">сохранить</button>
+    </form>
+  </div>
+
+  <ng-container *ngIf="userService.user?.children?.length; else noData">
+    <div class="children" *ngFor="let child of userService.user.children">
+      <div
+        class="profile-wrap"
+        (click)="userService.setActive(child.id)"
+        [ngClass]="{ active: child.id == userService.activeChildId }"
+        *ngIf="!child.editing"
+      >
+        <app-user-card
+          [user]="child"
+          [showActions]="true"
+          (edit)="onEditChild(child)"
+        ></app-user-card>
+      </div>
+
+      <div *ngIf="child.editing" class="change-form">
+        <form [formGroup]="changeChildForm">
+          <p class="text-mb mb-4">Редактирование профиля ребёнка</p>
+          <div
+            *ngIf="!isUploadFileShown(changeChildForm)"
+            class="change-form-photo d-flex justify-content-start align-items-center"
+          >
+            <img class="rounded-circle" [src]="changeChildForm.get('image').value" />
+            <span class="text text-muted ml-3" (click)="removeImg(changeChildForm)"
+              >Удалить фото</span
+            >
+          </div>
+          <file-uploader
+            *ngIf="isUploadFileShown(changeChildForm)"
+            formControlName="image"
+            [placeholder]="'../../../../assets/images/icons/user-child.svg'"
+            ><img class="img-placeholder" src="../../../../assets/images/icons/user-child-sm.svg"
+          /></file-uploader>
+          <div class="form-group">
+            <input class="ch-input form-control" formControlName="name" />
+          </div>
+          <div class="form-group">
+            <input class="ch-input form-control" formControlName="surname" />
+          </div>
+          <div class="form-group">
+            <input type="date" class="ch-input form-control" formControlName="dateOfBirth" />
+          </div>
+          <div
+            class="change-form-delete d-flex align-items-start mb-4"
+            (click)="openDeleteChildModal(child, delChild)"
+          >
+            <img src="../../../../assets/images/icons/delete.svg" class="mr-1" />
+            <span class="subt text-muted">Удалить данные о ребёнке (прогресс будет потерян)</span>
+          </div>
+          <button class="btn btn-small btn-success mb-5" (click)="editChild(child)">
+            сохранить
+          </button>
+        </form>
+      </div>
+
+      <div
+        class="data d-none flex-column justify-content-start align-items-start"
+        *ngIf="!child.editing"
+      >
+        <div
+          class="d-flex flex-column justify-content-center align-items-center align-items-lg-start"
+        >
+          <span>Тариф: {{ child.fare }} месяц</span>
+          <div class="d-flex flex-column flex-lg-row align-items-center">
+            <div
+              class="data-graph mr-lg-3 d-flex flex-column justify-content-center align-items-center"
+            >
+              <app-pie-chart [percent]="50" [size]="130" [label]="'28/32'"></app-pie-chart>
+              <span class="mb-lg-0 mb-3 text-muted">Дней до конца подписки</span>
+            </div>
+            <button class="btn btn-primary mb-4 mt-4 mt-md-0" routerLink="/rates">
+              Продлить тариф
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <div
+    class="add-btn d-flex justify-content-start align-items-center mb-5"
+    *ngIf="userService.user?.children?.length"
+    (click)="toggleAddForm()"
+  >
+    <img src="../../../../assets/images/icons/plus.svg" />
+    <span>Добавить ребёнка</span>
+  </div>
+
+  <ng-template #noData>
+    <div class="child-reg" *ngIf="!showAddForm">
+      <div
+        class="add-btn d-flex justify-content-start align-items-center"
+        (click)="toggleAddForm()"
+      >
+        <img src="../../../../assets/images/icons/plus.svg" />
+        <span>Зарегистрировать ребенка</span>
+      </div>
+      <span class="subt">Вы пока не зарегистрировали ни одного ребёнка</span>
+    </div>
+  </ng-template>
+
+  <div class="change-form" *ngIf="showAddForm">
+    <form [formGroup]="addChildForm">
+      <p class="text-mb">Регистрация {{ countChildren() }}ребёнка</p>
+      <div
+        *ngIf="!isUploadFileShown(addChildForm)"
+        class="change-form-photo d-flex justify-content-start align-items-center"
+      >
+        <img [src]="addChildForm.get('image').value" />
+        <span class="remove-img" (click)="removeImg(addChildForm)">&times;</span>
+      </div>
+      <file-uploader *ngIf="isUploadFileShown(addChildForm)" formControlName="image"
+        ><img class="img-placeholder" src="../../../../assets/images/icons/user-child-sm.svg"
+      /></file-uploader>
+      <div class="form-group">
+        <input class="ch-input form-control" placeholder="Имя" formControlName="name" />
+      </div>
+      <div class="form-group">
+        <input class="ch-input form-control" placeholder="Фамилия" formControlName="surname" />
+      </div>
+      <div class="form-group mb-1">
+        <label class="text text-muted mb-2 d-block">Дата рождения</label>
+        <div class="d-flex">
+          <input
+            type="date"
+            class="ch-input form-control mr-2"
+            placeholder="00.00.0000"
+            formControlName="dateOfBirth"
+          />
+          <img
+            *ngIf="
+              addChildForm.get('dateOfBirth').touched && addChildForm.get('dateOfBirth').invalid
+            "
+            src="../../assets/images/icons/invalid.svg"
+            alt=""
+          />
+        </div>
+      </div>
+      <span
+        class="subt text-muted"
+        *ngIf="
+          !submitted &&
+          addChildForm.get('dateOfBirth').touched &&
+          addChildForm.get('dateOfBirth').invalid
+        "
+        >Введите данные в формате ДД.ММ.ГГГГ
+      </span>
+      <div
+        class="mt-4 error-msg d-flex align-items-start"
+        *ngIf="
+          submitted &&
+          (!addChildForm.get('name').value ||
+            !addChildForm.get('surname').value ||
+            !addChildForm.get('dateOfBirth').value)
+        "
+      >
+        <img src="../../assets/images/icons/invalid.svg" alt="" class="mr-2 pt-1" />
+        <span class="text-red subt"> Необходимо ввести данные для сохранения профиля </span>
+      </div>
+      <button class="btn btn-small btn-success mt-4" (click)="addChild()">сохранить</button>
+    </form>
+  </div>
+</section>
+<span class="subt text-center close-btn" routerLink="/profile">Свернуть</span>
+
+<ng-template #message>
+  <img src="../../../assets/images/icons/cross3.svg" (click)="closeModal()" />
+  <span class="text-b text-orange modal-title">Выбор профиля</span>
+  <div class="modal-body">
+    <div class="d-flex flex-column justify-content-center align-items-start">
+      <p class="text mb-0 text-align-center">
+        Перед началом выполнения упражнений, выберите профиль ребенка, так сохраняться его успехи и
+        награды!
+      </p>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #delChild>
+  <div class="modal-block text-center d-flex flex-column align-items-center">
+    <span class="text-mb mb-4">Подтвердите удаление профиля ребёнка</span>
+    <button class="btn btn-failure mb-4" (click)="deleteChild()">Удалить</button>
+    <span class="text-muted text" (click)="closeModal()">Отмена</span>
+  </div>
+</ng-template>

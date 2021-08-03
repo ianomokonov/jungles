@@ -1,0 +1,165 @@
+@import '../../../variables.less';
+
+.left {
+  width: 280px;
+  min-width: 280px;
+  padding-right: 10px;
+  .content-mb {
+    display: none;
+  }
+  nav {
+    width: 100%;
+    margin-bottom: 30px;
+    .nav-item {
+      display: block;
+      width: 100%;
+      box-shadow: 0px 0px 10px #42674e40;
+      border-radius: 30px;
+      line-height: 55px;
+      border: 2px solid transparent;
+      text-align: center;
+      margin-bottom: 15px;
+      text-decoration: none;
+
+      &.active,
+      &:hover {
+        border-color: @green;
+      }
+
+      &:hover {
+        color: @dark-green;
+      }
+    }
+  }
+
+  .message {
+    padding: 20px 26px;
+    width: 100%;
+    margin-bottom: 150px;
+    border-width: 4px;
+    height: 351px;
+    position: relative;
+    border-bottom-color: transparent;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    span:nth-child(1) {
+      color: @orange;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .text {
+      letter-spacing: 0.02em;
+      line-height: 22px;
+      font-weight: 400;
+    }
+
+    button {
+      margin-top: 30px;
+      display: inline;
+      text-transform: capitalize;
+      border-radius: 0;
+      padding: 0;
+      position: relative;
+      z-index: 3;
+      box-shadow: none !important;
+    }
+
+    &::after {
+      content: '';
+      width: 265px;
+      height: 200px;
+      background-image: url(../../../assets/images/profile_tigr.png);
+      background-size: cover;
+      position: absolute;
+      bottom: -55px;
+      left: -72px;
+      z-index: 1;
+    }
+    img {
+      position: absolute;
+      bottom: -84px;
+      left: -52px;
+      width: 200%;
+      z-index: 2;
+    }
+  }
+}
+
+main {
+  padding-left: 80px;
+  width: calc(100% - 270px);
+  position: relative;
+  z-index: 2;
+  margin-bottom: 150px;
+}
+
+@media (min-width: 1600px) {
+  .container {
+    max-width: 1200px;
+  }
+}
+
+// @media (min-width: 1200px) {
+//   .container {
+//     max-width: 1100px;
+//   }
+// }
+
+@media (max-width: 991px) {
+  main {
+    padding-left: 40px;
+  }
+}
+
+@media (max-width: 767px) {
+  .left {
+    width: 100%;
+    padding-right: 0px;
+    nav {
+      width: 100%;
+      margin-bottom: 30px;
+      .nav-item {
+        span {
+          position: relative;
+          margin-right: 30px;
+          &::after {
+            content: '';
+            width: 20px;
+            height: 10px;
+            position: absolute;
+            top: calc(50% - 4px);
+            right: -30px;
+            background-image: url(../../../assets/images/icons/arrow-down.svg);
+            background-size: 100% 100%;
+            background-position: center;
+
+            transform: rotate(-90deg);
+          }
+        }
+        &.active {
+          margin-bottom: 30px;
+          & + .content-mb {
+            display: block;
+          }
+
+          span {
+            &::after {
+              transform: rotate(0deg);
+              content: '';
+            }
+          }
+        }
+      }
+    }
+    .message {
+      width: calc(100% - 80px) !important;
+      margin: 0 40px 150px;
+      img {
+        width: 100%;
+        bottom: -50px;
+      }
+    }
+  }
+}

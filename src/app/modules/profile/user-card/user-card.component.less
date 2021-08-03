@@ -1,0 +1,51 @@
+@import '../../../../variables.less';
+
+.profile {
+  display: flex;
+  flex-direction: row;
+  // max-width: 480px;
+  min-height: 60px;
+  &.inactive{
+    opacity: 0.5;
+  }
+  &.shadow {
+    padding: 9px;
+    box-shadow: 0px 4px 9px rgba(75, 125, 85, 0.15);
+    border-radius: 35px;
+  }
+  .profile-img {
+    margin-right: 11px;
+    height: 60px;
+    width: 60px;
+  }
+  div.profile-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    div.profile-label {
+      span {
+        font-family: Open Sans Light;
+        color: @grey;
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 2px;
+        margin-right: 11.86px;
+      }
+      img {
+        cursor: pointer;
+        margin-bottom: 3px;
+      }
+    }
+    div.profile-info {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      h4 {
+        margin-right: 10px;
+      }
+      span.subt {
+        color: @grey;
+      }
+    }
+  }
+}

@@ -1,12 +1,28 @@
-@import "../register/register.component.less";
-@import "../../styles.less";
+@import '../register/register.component.less';
+@import '../../variables.less';
+
+.password-field {
+  div {
+    position: relative;
+    .password-switch {
+      position: absolute;
+      right: 15px;
+      top: 20px;
+    }
+  }
+}
 
 .reg-fpass {
-    font-weight: 600;
-    font-size: 12px;
-    font-family: Open Sans;
-    color: @grey;
-    float: right;
-    padding-right: 10px;
-    cursor: pointer;
+  font-weight: 600;
+  font-size: 12px;
+  font-family: Open Sans Light;
+  color: @grey;
+  float: right;
+  padding-right: 10px;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+}
+
+.error-msg {
+  width: 220px;
 }

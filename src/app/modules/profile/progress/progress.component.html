@@ -1,1 +1,168 @@
-<p>progress works!</p>
+<section *ngIf="userService.user.children?.length; else noData">
+  <div class="progress-cards">
+    <app-user-card
+      class="mb-3"
+      *ngFor="let child of userService.user?.children"
+      [user]="child"
+      [inactive]="child.id !== userService.activeChild?.id"
+      (click)="onUserClick(child.id)"
+    ></app-user-card>
+  </div>
+
+  <div
+    class="slider"
+    [ngClass]="{
+      'pl-0': !showLeftArrow,
+      'pr-0': !showRightArrow
+    }"
+  >
+    <ngb-carousel
+      class="w-100"
+      [animation]="false"
+      [interval]="0"
+      [showNavigationArrows]="false"
+      #carousel
+      (slid)="onSlide($event)"
+    >
+      <ng-template
+        [id]="i.toString()"
+        ngbSlide
+        *ngFor="let child of userService.user?.children; let i = index"
+      >
+        <div class="profile">
+          <app-user-card
+            [user]="child"
+            [inactive]="child.id !== userService.activeChild?.id"
+            (click)="onUserClick(child.id)"
+          ></app-user-card>
+        </div>
+      </ng-template>
+    </ngb-carousel>
+    <button class="btn btn-slider prev" (click)="carousel.prev()" *ngIf="showLeftArrow">
+      <svg width="15" height="9" viewBox="0 0 15 9" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M7.00028 8.00003C6.76662 8.00049 6.54019 7.91911 6.36028 7.77003
+          L0.360276 2.77003C0.156059 2.60029 0.0276347 2.35638 0.00325494 2.09196
+          C-0.0211248 1.82753 0.0605371 1.56425 0.230276 1.36003
+          C0.400014 1.15581 0.643926 1.02739 0.908352 1.00301
+          C1.17278 0.978631 1.43606 1.06029 1.64028 1.23003
+          L7.00028 5.71003L12.3603 1.39003C12.4626 1.30697 12.5803 1.24493 12.7066 1.2075
+          C12.8329 1.17007 12.9654 1.15798 13.0965 1.17192
+          C13.2275 1.18586 13.3545 1.22555 13.4701 1.28873
+          C13.5857 1.3519 13.6878 1.4373 13.7703 1.54003
+          C13.8619 1.64285 13.9312 1.76348 13.974 1.89435
+          C14.0168 2.02523 14.0321 2.16353 14.019 2.30059
+          C14.0058 2.43765 13.9645 2.57053 13.8976 2.69088
+          C13.8307 2.81124 13.7397 2.91649 13.6303 3.00003
+          L7.63028 7.83003C7.44519 7.95555 7.22338 8.0154 7.00028 8.00003Z"
+          fill="#2D6255"
+        />
+      </svg>
+    </button>
+    <button class="btn btn-slider next" (click)="carousel.next()" *ngIf="showRightArrow">
+      <svg width="15" height="9" viewBox="0 0 15 9" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M7.00028 8.00003C6.76662 8.00049 6.54019 7.91911 6.36028 7.77003
+          L0.360276 2.77003C0.156059 2.60029 0.0276347 2.35638 0.00325494 2.09196
+          C-0.0211248 1.82753 0.0605371 1.56425 0.230276 1.36003
+          C0.400014 1.15581 0.643926 1.02739 0.908352 1.00301
+          C1.17278 0.978631 1.43606 1.06029 1.64028 1.23003
+          L7.00028 5.71003L12.3603 1.39003C12.4626 1.30697 12.5803 1.24493 12.7066 1.2075
+          C12.8329 1.17007 12.9654 1.15798 13.0965 1.17192
+          C13.2275 1.18586 13.3545 1.22555 13.4701 1.28873
+          C13.5857 1.3519 13.6878 1.4373 13.7703 1.54003
+          C13.8619 1.64285 13.9312 1.76348 13.974 1.89435
+          C14.0168 2.02523 14.0321 2.16353 14.019 2.30059
+          C14.0058 2.43765 13.9645 2.57053 13.8976 2.69088
+          C13.8307 2.81124 13.7397 2.91649 13.6303 3.00003
+          L7.63028 7.83003C7.44519 7.95555 7.22338 8.0154 7.00028 8.00003Z"
+          fill="#2D6255"
+        />
+      </svg>
+    </button>
+  </div>
+
+  <div class="children-drop mb-4" ngbDropdown *ngIf="userService.user.children.length > 1">
+    <div class="drop-toggle" ngbDropdownToggle>
+      <div class="profile-wrap">
+        <app-user-card class="mb-3" [user]="userService.activeChild"> </app-user-card>
+      </div>
+    </div>
+    <div class="drop-data" ngbDropdownMenu>
+      <div class="profile-wrap" *ngFor="let child of userService.user?.children" ngbDropdownItem>
+        <app-user-card
+        class="mb-3"
+        [user]="child"
+        (click)="onUserClick(child.id)"
+      ></app-user-card>
+      </div>
+    </div>
+  </div>
+
+  <div class="children-drop" *ngIf="userService.user.children.length == 1">
+    <div class="profile-wrap">
+      <app-user-card class="mb-3" [user]="userService.activeChild"> </app-user-card>
+    </div>
+  </div>
+
+  <div class="progress-block">
+    <div class="w-100 d-flex justify-content-between align-items-center head">
+      <h4 class="header pt-1">Упражнения:</h4>
+      <div ngbDropdown>
+        <div class="progress-selector" ngbDropdownToggle>
+          <span class="text-mb" id="dropdownConfig">{{ activePeriod?.label }}</span>
+        </div>
+        <div ngbDropdownMenu aria-labelledby="dropdownConfig">
+          <button
+            class="text"
+            ngbDropdownItem
+            *ngFor="let period of profileService.periods"
+            (click)="onPeriodChange(period)"
+          >
+            {{ period.label }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf="activeChildResult">
+      <div class="charts d-flex justify-content-start flex-wrap">
+        <div class="chart d-flex flex-column justify-content-center align-items-center">
+          <app-pie-chart
+            [percent]="getPercentage(activeChildResult.blocksDone, 0)"
+            [color]="'#FCCC4C'"
+            [label]="activeChildResult.blocksDone.toString()"
+          ></app-pie-chart>
+          <span class="text-mb">Блоков решено</span>
+        </div>
+        <div class="chart d-flex flex-column justify-content-center align-items-center">
+          <app-pie-chart
+            [percent]="getPercentage(activeChildResult.tasksDone, 1)"
+            [label]="activeChildResult.tasksDone.toString()"
+          ></app-pie-chart>
+          <span class="text-mb">Задач решено</span>
+        </div>
+        <div class="chart d-flex flex-column justify-content-center align-items-center mt-lg-0">
+          <app-pie-chart
+            [percent]="getPercentage(activeChildResult.onFirstTry, 1)"
+            [color]="'#7EE1E4'"
+            [label]="activeChildResult.onFirstTry.toString()"
+          ></app-pie-chart>
+          <span class="text-mb">С первой попытки</span>
+        </div>
+      </div>
+      <h4 class="header mb-4">Награды:</h4>
+      <div class="progress-rewards d-flex justify-content-start align-items-center">
+        <img src="../../../../assets/images/icons/diamond.png" />
+        <h3>{{ activeChildResult.cristals }}</h3>
+        <img src="../../../../assets/images/icons/chest.png" />
+        <h3>{{ activeChildResult.chests }}</h3>
+      </div>
+    </ng-container>
+  </div>
+</section>
+
+<ng-template #noData>
+  <span class="text">Вы пока не добавили детей</span>
+</ng-template>
+
+<span class="subt text-center close-btn" routerLink="/profile">Свернуть</span>

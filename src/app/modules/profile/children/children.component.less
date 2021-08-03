@@ -1,0 +1,145 @@
+@import '../../../../variables.less';
+
+section {
+  width: 100%;
+
+  .children {
+    .data {
+      margin-bottom: 56.38px;
+      span:nth-child(1) {
+        font-family: Open Sans;
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 26px;
+      }
+      .data-graph {
+        width: 100%;
+        span.text-muted {
+          margin-top: 8px;
+        }
+      }
+      button.btn-primary {
+        width: 230px;
+        height: 57.07px;
+      }
+    }
+  }
+
+  .add-btn {
+    width: 238px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    img {
+      margin-right: 10px;
+    }
+    span {
+      font-weight: 600;
+      font-family: Open Sans;
+      font-size: 14px;
+    }
+  }
+
+  .child-reg {
+    span.subt {
+      color: @grey;
+    }
+  }
+
+  .child-add {
+    width: 340px;
+    margin-bottom: 3rem;
+
+    form {
+      span.text-mb {
+        margin-bottom: 31px !important;
+      }
+      div {
+        margin-bottom: 24px;
+        img {
+          margin-right: 10px;
+        }
+        .text {
+          color: @grey;
+        }
+      }
+      button.btn-success {
+        width: 183px;
+        height: 47.56px;
+      }
+    }
+  }
+}
+
+.error-msg {
+  width: 198px;
+}
+
+.change-form-photo {
+  img {
+    height: 40px;
+    width: 40px;
+  }
+}
+
+.change-form {
+  p {
+    margin-bottom: 31px;
+  }
+  .change-form-photo {
+    margin-bottom: 25px;
+
+    span {
+      cursor: pointer;
+    }
+  }
+  .change-form-delete {
+    width: 220px;
+    img,
+    span {
+      cursor: pointer;
+    }
+  }
+  div.form-group {
+    margin-bottom: 20px;
+
+    .ch-input {
+      width: 334px;
+    }
+  }
+  button {
+    margin-bottom: 45px;
+  }
+}
+
+@media (max-width: 991px) {
+  .profile {
+    width: 320px;
+  }
+}
+
+@media (max-width: 767px) {
+  .profile {
+    width: 100%;
+  }
+  .children {
+    .data {
+      align-items: center !important;
+      width: 100% !important;
+      .data-graph {
+        margin-right: 0px !important;
+      }
+    }
+  }
+  .add-btn {
+    justify-content: center !important;
+    width: 100% !important;
+  }
+  .child-add {
+    width: 100% !important;
+    form {
+      button.btn-success {
+        width: 100% !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,127 @@
+<div class="mb-5">
+  <form [formGroup]="taskForm">
+    <div class="d-flex flex-column">
+      <div class="row">
+        <div class="col-4">
+          <div class="form-group">
+            <label>Тип задачи</label>
+            <ng-select
+              [items]="taskTypes"
+              bindLabel="name"
+              bindValue="id"
+              formControlName="type"
+              class="validation-highlight"
+            >
+              <ng-template ng-label-tmp let-item="item">
+                {{ item.name | taskLabel }}
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item">
+                {{ item.name | taskLabel }}
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+        <div class="col-4" *ngIf="tasks?.length > 1">
+          <div class="form-group">
+            <label>Номер задачи</label>
+            <ng-select
+              [clearable]="false"
+              [bindValue]="'number'"
+              [items]="tasks"
+              formControlName="number"
+              class="validation-highlight"
+            >
+              <ng-template ng-label-tmp let-item="item">
+                {{ item.number }}
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item">
+                {{ item.number }}
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="d-flex justify-content-between">
+          <label>Добавление вопросов</label>
+          <a (click)="addQuestion()"><img src="../../../../assets/images/icons/plus.svg" /></a>
+        </div>
+        <div class="mb-4">
+          <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+            <ngb-panel
+              [id]="'ngb-panel-' + i"
+              [title]="question.get('name').value || 'Вопрос ' + (i + 1).toString()"
+              *ngFor="let question of questionForms; let i = index"
+            >
+              <ng-template ngbPanelContent>
+                <form [formGroup]="question">
+                  <div class="row">
+                    <div class="col-5">
+                      <div class="form-group">
+                        <label>Имя вопроса</label>
+                        <input type="text" class="form-control" formControlName="name" />
+                      </div>
+                    </div>
+                    <div class="col-5">
+                      <div class="form-group">
+                        <label>Тип вопроса</label>
+                        <ng-select
+                          appendTo="body"
+                          [items]="answerTypes"
+                          bindLabel="name"
+                          bindValue="id"
+                          formControlName="type"
+                        >
+                          <ng-template ng-label-tmp let-item="item">
+                            {{ item.name | answerLabel }}
+                          </ng-template>
+                          <ng-template ng-option-tmp let-item="item">
+                            {{ item.name | answerLabel }}
+                          </ng-template>
+                        </ng-select>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <label>Изображение</label>
+                      <file-uploader
+                        [imagePath]="question.get('imagePath').value"
+                        formControlName="image"
+                        (path)="savePath(question, $event)"
+                      >
+                      </file-uploader>
+                    </div>
+                    <div class="col-4">
+                      <label>Звук</label>
+                      <file-uploader [isSound]="true" formControlName="sound"> </file-uploader>
+                    </div>
+                    <div class="col-4 d-flex align-items-center pt-3">
+                      <button class="btn btn-small btn-danger" (click)="deleteQuestion(i)">
+                        Удалить вопрос
+                      </button>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <ng-container [ngSwitch]="question.get('type').value">
+                      <app-create-answer
+                        *ngSwitchCase="answerType.Choice"
+                        (correctIndexChanged)="setCorrectIndex(question, $event)"
+                        [questionGroup]="question"
+                        [questionIndex]="i"
+                        [answersFormArray]="getAnswersArray(question)"
+                      ></app-create-answer>
+                      <app-create-variant
+                        *ngSwitchCase="answerType.Variants"
+                        [variantsFormArray]="getVariantsArray(question)"
+                      ></app-create-variant>
+                    </ng-container>
+                  </div>
+                </form>
+              </ng-template>
+            </ngb-panel>
+          </ngb-accordion>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-small btn-success mt-2" (click)="addTask()">сохранить</button>
+  </form>
+</div>

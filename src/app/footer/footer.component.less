@@ -1,15 +1,19 @@
-@import '../../styles.less';
-
 footer {
   width: 100%;
   background-color: #f2f9f3;
 
   .container {
-    .socials{
+    padding: 0;
+    max-width: 1200px;
+
+    .footer-sm {
       min-width: 12rem;
+      height: 30px;
     }
+
     .footer-logo {
       img {
+        cursor: pointer;
         width: 163px;
         height: 31px;
       }
@@ -19,9 +23,100 @@ footer {
         width: 188px;
       }
     }
-    .footer-pay{
-      img{
-        height: 24px;
+
+    .footer-pay {
+      margin-left: 25%;
+      padding: 0;
+      img {
+        margin-right: 20px;
+        &:nth-of-type(1) {
+          height: 21.79px;
+        }
+        &:nth-of-type(2) {
+          height: 16px;
+        }
+      }
+      div.img {
+        margin-right: 20px;
+        height: 22px;
+        background-repeat: no-repeat;
+        &:nth-of-type(1) {
+          width: 47px;
+          background-image: url(../../assets/images/icons/apple-pay2.svg);
+          background-position: center;
+          background-size: auto 97%;
+        }
+
+        &:nth-of-type(2) {
+          width: 50px;
+          background-image: url(../../assets/images/icons/google-pay2.svg);
+          background-position: center 57%;
+          background-size: auto 200%;
+        }
+
+        &:nth-of-type(3) {
+          width: 44px;
+          background-image: url(../../assets/images/icons/samsung-pay2.svg);
+          background-position: center;
+          background-size: auto 790%;
+        }
+      }
+    }
+
+    .link-sm {
+      cursor: pointer;
+      color: #7c9e94 !important;
+      padding-bottom: 1px;
+      background-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0) 0px,
+        rgba(0, 0, 0, 0) 1px,
+        #7c9e94 1px,
+        rgba(0, 0, 0, 0) 2px,
+        rgba(0, 0, 0, 0) 100px
+      );
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  footer {
+    .container {
+      max-width: 90%;
+
+      .footer-pay {
+        margin-left: 0;
+        order: 5;
+        margin-top: 1rem;
+        span {
+          display: none;
+        }
+        img,
+        div.img {
+          margin-right: 10px !important;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  footer {
+    .container {
+      max-width: 320px;
+      .footer-sm {
+        width: 100%;
+        order: 3;
+      }
+
+      .footer-logo {
+        width: 100%;
+        span {
+          text-align: center;
+        }
+      }
+      .footer-pay{
+        margin-left: 0 !important;
       }
     }
   }

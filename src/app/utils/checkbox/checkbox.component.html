@@ -1,0 +1,7 @@
+<div class="form-check d-flex" [ngClass]="{ disabled: disabled }" (click)="updateValue(!isChecked)">
+  <div class="checkbox d-inline">
+    <input type="checkbox" class="d-none" [disabled]="disabled" [ngModel]="isChecked" />
+    <div class="input"></div>
+  </div>
+  <label [ngClass]="{ active: isChecked }" [innerHTML]="label"></label>
+</div>

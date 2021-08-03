@@ -1,35 +1,84 @@
-<img class="modal-dismiss" src="../../assets/images/icons/cross.svg" (click)="modal.dismiss()">
-<div class="modal-block">
+<form [formGroup]="regForm">
+  <div class="modal-inputs w-100">
+    <div class="form-group">
+      <input
+        type="text"
+        class="form-control"
+        formControlName="nameSurname"
+        placeholder="Имя Фамилия"
+      />
+    </div>
+
+    <div class="form-group">
+      <input
+        type="phone"
+        class="form-control"
+        formControlName="phone"
+        placeholder="+7 (XXX) XXX - XX - XX"
+        mask="(000) 000 - 00 - 00"
+        prefix="+7 "
+        [validation]="true"
+      />
+    </div>
+    <div class="form-group">
+      <input
+        class="form-control"
+        formControlName="email"
+        placeholder="E-mail"
+        autocomplete="on"
+        autocompletetype="email"
+      />
+    </div>
+
+    <div class="form-group password-field">
+      <input
+        #passInput
+        type="password"
+        class="form-control"
+        formControlName="password"
+        placeholder="Пароль"
+      />
+      <div class="password-icons flex-row-reverse align-items-center justify-content-start">
+        <img
+          class="password-switch"
+          src="../../assets/images/icons/eye.svg"
+          (click)="userService.changeInputType(passInput)"
+        />
+        <img
+          class="password-error"
+          *ngIf="regForm.get('password').touched && regForm.get('password').invalid"
+          src="../../assets/images/icons/invalid.svg"
+          alt=""
+        />
+      </div>
+    </div>
+    <span
+      class="subt text-muted"
+      *ngIf="regForm.get('password').touched && regForm.get('password').invalid"
+      >Пароль должен содержать минимум 8 символов и включать латинские буквы и цифры
+    </span>
+  </div>
+  <div class="reg-checks">
+    <app-checkbox
+      formControlName="checkUserAgreement"
+      [label]="'Я принимаю условия <a class=\'link-sm\'>пользовательского соглашения</a>'"
+    ></app-checkbox>
+  </div>
+  <button class="btn btn-success w-100" (click)="regUser(regDone)">Зарегистрироваться</button>
+</form>
+
+<ng-template #regDone>
+  <img class="modal-dismiss" src="../../assets/images/icons/cross.svg" (click)="dismissModal()" />
+  <div class="modal-block d-flex flex-column align-items-center">
     <header class="modal-nav">
-        <span class="text-m" (click)="loginRed()">Войти</span>
-        <span class="text-m active">Регистрация</span>
+      <span class="text-m active">Добро пожаловать!</span>
     </header>
-    <form [formGroup]="regForm" class="d-flex flex-column justify-content-center">
-        <div class="modal-inputs">
-            <div class="form-group">
-                <input type="text" class="form-control" formControlName="FLName" placeholder="Имя Фамилия">
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control" formControlName="Email" placeholder="E-mail">
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control" formControlName="Phone" placeholder="Телефон">
-            </div>
-        </div>
-        <div class="reg-checks">
-            <div class="form-check">
-                <input type="checkbox" formControlName="CheckMailing" id="checkMailing">
-                <label class="reg-checkl" for="checkMailing">
-                        Согласие на рассылку новостей курсов
-                    </label>
-            </div>
-            <div class="form-check">
-                <input type="checkbox" formControlName="CheckPersonalData" id="checkPersonalData">
-                <label class="reg-checkl" for="checkPersonalData">
-                        Согласие на обработку персональных данных
-                    </label>
-            </div>
-        </div>
-        <button class="btn btn-success">ЗАРЕГЕСТРИРОВАТЬСЯ</button>
-    </form>
-</div>
+    <span class="text mb-4 text-center"
+      >Вы успешно прошли регистрацию и можете начать обучение <br />прямо сейчас!</span
+    >
+    <button class="btn btn-success w-100 mb-4" (click)="regRedir()">ЛИЧНЫЙ КАБИНЕТ</button>
+    <span class="subt text-center text-muted"
+      >Подтвердите свою регистрацию по ссылке <br />в письме на вашей почте</span
+    >
+  </div>
+</ng-template>

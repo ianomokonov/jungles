@@ -1,0 +1,18 @@
+<div class="form-group">
+  <label>Выберите пользователя</label>
+  <ng-select
+    [items]="users"
+    [(ngModel)]="selectedUserId"
+    bindLabel="name"
+    bindValue="id"
+    class="validation-highlight"
+  >
+    <ng-template ng-label-tmp let-item="item">
+      {{ item.name + ' ' + (item.surname == null ? '' : item.surname) }}
+    </ng-template>
+    <ng-template ng-option-tmp let-item="item">
+      {{ '(' + item.id + ')' + ' ' + item.name + ' ' + (item.surname == null ? '' : item.surname) }}
+    </ng-template>
+  </ng-select>
+</div>
+<button class="btn btn-small btn-success" (click)="setDiscount()">Добавить скидку</button>

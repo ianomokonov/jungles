@@ -1,0 +1,99 @@
+.achives {
+  background: @light-grey;
+  box-shadow: 0px 2px 4px 1px rgba(45, 98, 85, 0.25);
+  border-radius: 30px;
+  width: 124px;
+  padding: 5px 20px;
+  position: relative;
+  span {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 41px;
+    letter-spacing: -0.01em;
+
+    color: @dark-green;
+  }
+
+  &.cristals {
+    text-align: end;
+
+    &::before {
+      content: '';
+      height: 77px;
+      width: 64px;
+      background-image: url(../../../assets/images/icons/diamond.png);
+      background-repeat: no-repeat;
+      background-size: auto 100%;
+      position: absolute;
+      left: -10px;
+      bottom: 0;
+    }
+  }
+
+  &.chest {
+    text-align: start;
+
+    &::before {
+      content: '';
+      width: 77px;
+      height: 62px;
+      background-image: url(../../../assets/images/icons/chest.png);
+      background-repeat: no-repeat;
+      background-size: auto 100%;
+      position: absolute;
+      right: -14px;
+      bottom: -4px;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .container {
+    .stats {
+      .achives {
+        width: 80px;
+        padding: 0 12px;
+        span {
+          font-size: 16px;
+        }
+        &.cristals {
+          text-align: end;
+
+          &::before {
+            height: 60px;
+            width: 51px;
+            left: -15px;
+          }
+        }
+
+        &.chest {
+          text-align: end;
+
+          &::before {
+            width: 75px;
+            height: 50px;
+            left: -20px;
+            right: auto;
+          }
+        }
+      }
+      .col-6 {
+        margin-top: 0 !important;
+        &:nth-child(3) {
+          order: 4;
+          margin-top: 26px !important;
+        }
+        &:nth-child(2) {
+          order: 3;
+          margin-top: 26px !important;
+          flex-direction: row-reverse;
+          span {
+            margin-left: 0.25rem;
+          }
+        }
+      }
+    }
+  }
+}

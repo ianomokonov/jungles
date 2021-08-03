@@ -1,0 +1,196 @@
+@import '../../../../variables.less';
+@import '../child-dropdown.less';
+
+section {
+  width: 100%;
+
+  .slider {
+    display: none;
+  }
+
+  .progress-cards {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 50px;
+  }
+  app-user-card {
+    max-width: 400px;
+    width: 50%;
+    cursor: pointer;
+  }
+
+  .progress-block {
+    .head {
+      padding-bottom: 30px;
+    }
+    .progress-header {
+      margin-right: 5px;
+      text-transform: uppercase;
+      font-family: Museo Cyrl;
+      font-weight: 600;
+      font-size: 20px;
+      margin-bottom: 0;
+    }
+    .progress-selector {
+      position: relative;
+      width: 185px;
+      height: 33px;
+      background: #ffffff;
+      box-shadow: 0px 2px 7px rgba(45, 98, 85, 0.2);
+      border-radius: 15px;
+      border: 0;
+      padding: 4px 20px;
+      z-index: 50 !important;
+      &::after {
+        display: none;
+      }
+
+      span {
+        font-size: 18px;
+        font-weight: 600px;
+        font-family: Open Sans;
+        &::after {
+          content: '';
+          background-image: url(../../../../assets/images/icons/arrow-down.svg);
+          background-repeat: no-repeat;
+          border: none;
+          height: 8px;
+          width: 16px;
+          background-size: contain;
+          background-position: center;
+          position: absolute;
+          right: 15px;
+          top: calc(50% - 3px);
+        }
+      }
+
+      & + .dropdown-menu {
+        padding-top: 10px;
+        width: 98%;
+        transform: translate(0px, 25px) !important;
+        z-index: 20 !important;
+        border-top: 0px;
+        background: #ffffff;
+        box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
+        border-radius: 6px;
+        left: 6px !important;
+        text-align: left;
+      }
+    }
+    .charts {
+      margin-bottom: 50px;
+      span {
+        text-align: center;
+        margin-top: 10px;
+      }
+      & > div {
+        &:not(:last-child) {
+          margin-right: 40px;
+        }
+      }
+    }
+    .progress-rewards {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      img {
+        margin-right: 10px;
+      }
+      h3:nth-child(2) {
+        margin-right: 50px;
+      }
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  section {
+    .progress-cards {
+      display: none;
+    }
+  }
+
+  .chart {
+    width: 90px !important;
+
+    span {
+      text-align: center;
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  section {
+    app-user-card {
+      width: 100%;
+      max-width: unset;
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  section {
+    .slider {
+      margin-bottom: 29px;
+      width: 100%;
+      display: flex;
+      position: relative;
+      padding: 0 30px;
+      .profile {
+        box-shadow: 0px 4px 9px rgba(75, 125, 85, 0.15);
+        border-radius: 35px;
+        padding: 10px;
+        margin: 10px 5px;
+      }
+      .btn-slider {
+        background: transparent !important;
+
+        svg {
+          path {
+            fill: @grey;
+          }
+        }
+
+        &.next {
+          transform: rotate(-90deg);
+        }
+        &.prev {
+          transform: rotate(90deg);
+        }
+      }
+    }
+
+    .progress-rewards {
+      justify-content: center !important;
+    }
+    .progress-block {
+      .progress-selector {
+        width: 137px !important;
+        padding: 3px 10px !important;
+
+        span {
+          font-size: 14px !important;
+          &::after {
+            right: 10px !important;
+          }
+        }
+
+        & + .dropdown-menu {
+          left: auto !important;
+          right: 0 !important;
+        }
+      }
+    }
+
+    .charts {
+      .chart {
+        width: 100% !important;
+        margin-right: 0 !important;
+        margin-bottom: 60px !important;
+        margin-top: 0 !important;
+      }
+    }
+  }
+}

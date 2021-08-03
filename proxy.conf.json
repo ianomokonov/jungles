@@ -1,0 +1,8 @@
+{
+    "/back/*": {
+      "target": "http://jungliki.com",
+      "secure": false,
+      "logLevel": "debug",
+      "changeOrigin": true
+    }
+  }

@@ -11,7 +11,8 @@ export class AppComponent {
   public title = 'jungles';
   public titles: { title: string; url: string }[] = [];
   public showMonkey = false;
-  private monkeyUrls = ['/', '/tasks', '/project'];
+  private monkeyUrls = ['/', '/tasks'];
+  public hideMenu = false;
 
   constructor(private routee: ActivatedRoute, private router: Router) {
     this.router.events
@@ -25,20 +26,31 @@ export class AppComponent {
           }
           return this.routee;
         }),
+        // eslint-disable-next-line complexity
         map((route: ActivatedRoute) => {
           const routes: { title: string; url: string }[] = [];
+          let className = '';
+          this.hideMenu = false;
           while (route.firstChild) {
             // eslint-disable-next-line no-param-reassign
             route = route.firstChild;
-            const { title } = route.snapshot.data;
+            const { title, url, style, class: pageClass, hideMenu } = route.snapshot.data;
             const { routeConfig } = route.snapshot;
+            this.hideMenu = !!hideMenu;
+            if (pageClass) {
+              className = pageClass;
+            }
+            if (style) {
+              this.setStyle(style);
+            }
             if (title && routeConfig?.path) {
               routes.push({
                 title,
-                url: `${routes.map((r) => r.url).join('/')}/${routeConfig.path}`,
+                url: url || `${routes.map((r) => r.url).join('/')}/${routeConfig.path}`,
               });
             }
           }
+          document.body.className = className;
           return routes;
         }),
       )
@@ -55,5 +67,16 @@ export class AppComponent {
           ];
         }
       });
+  }
+
+  private setStyle(style: any) {
+    const contentBlock = document.querySelector('.main-content') as HTMLDivElement;
+    if (!contentBlock) {
+      return;
+    }
+    Object.keys(style).forEach((key: string) => {
+      contentBlock.style.setProperty(key, style[key]);
+    });
+    // document.documentElement.style.backgroundImage = style.background;
   }
 }

@@ -5,6 +5,7 @@ import { HelpComponent } from './help/help.component';
 import { PaymentsComponent } from './payments/payments.component';
 import { ProfileComponent } from './profile.component';
 import { ProgressComponent } from './progress/progress.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 const routes: Routes = [
   {
@@ -12,7 +13,7 @@ const routes: Routes = [
     component: ProfileComponent,
     children: [
       {
-        path: '',
+        path: 'children',
         component: ChildrenComponent,
       },
       {
@@ -29,6 +30,11 @@ const routes: Routes = [
         path: 'help',
         component: HelpComponent,
         data: { title: 'Помощь' },
+      },
+      {
+        path: 'notifications',
+        component: NotificationsComponent,
+        data: { title: 'Уведомления' },
       },
     ],
   },

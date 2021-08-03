@@ -1,0 +1,31 @@
+<div class="d-flex align-items-center mb-3">
+  <div [ngClass]="{ 'd-none': !value && !imagePath }">
+    <img
+      *ngIf="!isSound; else name"
+      [src]="getSrc()"
+      class="img-placeholder rounded-circle"
+      #image
+    />
+    <ng-template #name
+      ><span (click)="audio ? stop() : play(imagePath)">{{
+        audio ? 'Остановить' : getSoundName()
+      }}</span></ng-template
+    >
+  </div>
+
+  <ng-container *ngIf="!value && !imagePath">
+    <ng-content></ng-content>
+  </ng-container>
+
+  <span
+    class="text text-muted ml-3"
+    *ngIf="!value && !imagePath"
+    (click)="onUploadFileClick($event)"
+    >Добавить {{ isSound ? 'звук' : 'фото' }}</span
+  >
+  <span class="text text-muted ml-3" *ngIf="value || imagePath" (click)="onRemoveFileClick($event)"
+    >Удалить {{ isSound ? 'звук' : 'фото' }}</span
+  >
+</div>
+
+<div class="file-inputs" #inputFileContainer></div>

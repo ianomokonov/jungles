@@ -1,2 +1,61 @@
-<p>profile works!</p>
-<router-outlet></router-outlet>
+<div class="container" *ngIf="userService.user">
+  <div class="d-flex">
+    <div class="left">
+      <nav class="d-flex flex-column d-md-block align-items-center">
+        <a class="d-none nav-item text-mb" routerLink="notifications" routerLinkActive="active"
+          ><span>Уведомления</span></a
+        >
+        <app-notifications class="content-mb h-100"></app-notifications>
+        <a
+          class="nav-item text-mb"
+          routerLink="children"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          ><span>Личный кабинет</span></a
+        >
+        <app-children [isMobile]="true" class="content-mb w-100"></app-children>
+        <a class="nav-item text-mb" routerLink="progress" routerLinkActive="active"><span>Успехи</span></a>
+        <app-progress class="content-mb w-100"></app-progress>
+        <a class="nav-item text-mb" routerLink="payments" routerLinkActive="active"
+          ><span>История оплат</span></a
+        >
+        <app-payments class="w-100 content-mb"></app-payments>
+        <a class="nav-item text-mb" routerLink="help" routerLinkActive="active"><span>Помощь</span></a>
+        <app-help class="content-mb w-100"></app-help>
+      </nav>
+      <div class="message green d-flex flex-column justify-content-start align-items-center">
+        <span>Скидка 10%</span>
+        <span class="text mb-2">
+          Сделайте пост в Instagram, о том как ваш ребёнок занимается в Джунгликах и получите скидку
+          10% при следующей оплате!
+        </span>
+        <div class="text-right w-100">
+          <button class="link-sm btn text" (click)="openModal(content)">Подробнее</button>
+        </div>
+        <img src="../../../assets/images/acuarel.png" alt="" />
+      </div>
+    </div>
+    <main class="d-none d-md-block">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
+
+<ng-template #content>
+  <img src="../../../assets/images/icons/cross3.svg" (click)="closeModal()"/>
+  <span class="text-b text-orange modal-title" id="modal-basic-title">Скидка 10%</span>
+  <div class="modal-body">
+    <div class="d-flex flex-column justify-content-center align-items-start">
+      <p class="text mb-2">
+        Сделайте пост в Instagram, о том как ваш ребёнок занимается в Джунгликах и получите скидку
+        10% при следующей оплате!
+      </p>
+      <span class="text mb-2">
+        Ссылку на пост отправьте в раздел <b>«Помощь»</b>, откройте свой профиль <span class="nobr">и в течении</span> 10
+        календарных дней ссылка будет активирована в разделе <b>«Тарифы»</b>.
+      </span>
+      <span class="text mb-2"> - Скидка применяется только при возможности просмотра поста; </span>
+      <span class="text"> - Действительна в течении 90 календарных дней. </span>
+    </div>
+  </div>
+</ng-template>

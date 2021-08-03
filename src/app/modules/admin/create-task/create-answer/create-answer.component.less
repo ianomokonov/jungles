@@ -1,0 +1,98 @@
+@import '../../../../../variables.less';
+@answer-margin: 20px;
+@answer-margin-variant: 40px;
+
+.answer {
+  position: relative;
+  padding: 1rem;
+  max-width: calc(100% - @answer-margin) !important;
+  margin-right: @answer-margin;
+  margin-bottom: 10px;
+
+  &:hover{
+    .change-dropdown{
+      display: block;
+    }
+  }
+  .change-dropdown {
+    position: absolute;
+    display: none;
+    top: -10px;
+    right: -10px;
+
+    em {
+      &:after {
+        display: none;
+      }
+    }
+
+    .change-btn {
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 20px;
+      width: 20px;
+      padding: 2px;
+      border-radius: 50%;
+      font-size: 25px;
+      color: white;
+      text-align: center;
+      vertical-align: middle;
+    }
+  }
+  &.isVariant {
+    margin-right: @answer-margin-variant;
+    max-width: calc(100% - @answer-margin-variant) !important;
+  }
+
+  &.pictureContent {
+    max-width: calc(40%);
+  }
+
+  span {
+    display: inline-block;
+    min-width: 150px !important;
+    max-width: 100%;
+    padding-right: 2rem;
+  }
+
+  img {
+    width: auto;
+    height: 60px;
+    margin-right: 2rem;
+  }
+
+  input {
+    top: calc(50% - 12px);
+    right: 1rem;
+  }
+  .actions {
+    position: absolute;
+    left: calc(100% + 0.5rem);
+    top: calc(50% - 14px);
+  }
+
+  & + .dropdown-menu {
+    width: 98% !important;
+  }
+}
+
+.act-btn {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  color: white;
+  font-size: 20px;
+  padding-bottom: 5px;
+
+  img{
+    margin-top: 5px;
+    max-height: 70%;
+    margin-right: 0;
+  }
+}

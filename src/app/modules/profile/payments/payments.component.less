@@ -1,0 +1,146 @@
+@import '../../../../variables.less';
+@import '../child-dropdown.less';
+
+app-user-card {
+  max-width: 400px;
+  width: 50%;
+  // margin-right: 112px;
+  cursor: pointer;
+}
+.slider {
+  display: none;
+}
+.actions {
+  padding-top: 40px;
+  .filters {
+    position: relative;
+    &::after {
+      content: '';
+      background-image: url(../../../../assets/images/icons/arrow-down.svg);
+      background-repeat: no-repeat;
+      border: none;
+      height: 10px;
+      width: 20px;
+      background-size: contain;
+      background-position: center;
+      position: absolute;
+      right: -30px;
+      top: calc(50% - 5px);
+    }
+  }
+
+  a.text {
+    color: @grey;
+    text-decoration: underline;
+    margin-right: 150px;
+
+    &::after {
+      display: none;
+    }
+  }
+  .cloud-dropdown {
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    background-image: url(../../../../assets/images/cloud6.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    left: -8px !important;
+    padding: 30px;
+    padding-left: 20px;
+    padding-right: 25px;
+    width: 330px;
+    height: 144px;
+    p {
+      font-size: 14px;
+      line-height: 22px;
+      letter-spacing: 0.02em;
+
+      color: @dark-green;
+      a {
+        margin-right: 0;
+        color: @dark-green;
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.payments {
+  padding-top: 30px;
+  .payment {
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .children {
+    display: none !important;
+  }
+}
+
+@media (max-width: 991px) {
+  app-user-card {
+    width: 100%;
+    max-width: unset;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .slider {
+    display: flex;
+    position: relative;
+    padding: 0 30px;
+    .profile {
+      box-shadow: 0px 4px 9px rgba(75, 125, 85, 0.15);
+      border-radius: 35px;
+      padding: 10px;
+      margin: 10px 5px;
+    }
+    .btn-slider {
+      background: transparent !important;
+
+      svg {
+        path {
+          fill: @grey;
+        }
+      }
+
+      &.next {
+        transform: rotate(-90deg);
+      }
+      &.prev {
+        transform: rotate(90deg);
+      }
+    }
+  }
+  .children {
+    display: none !important;
+  }
+  .actions {
+    a.text {
+      margin-right: 0;
+    }
+
+    .cloud-dropdown {
+      left: auto !important;
+      right: -8px !important;
+      padding-top: 45px;
+      height: 168px;
+      background-image: url(../../../../assets/images/cloud7.svg);
+      z-index: 100;
+    }
+    .backdrop {
+      display: block !important;
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      left: 0;
+      top: 0;
+      background: @green;
+      opacity: 0.4;
+      z-index: 99;
+    }
+  }
+}

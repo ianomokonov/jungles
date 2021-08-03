@@ -1,0 +1,75 @@
+<div class="answer-selector d-flex flex-wrap">
+  <div
+    class="answer rounded border validation-highlight"
+    *ngFor="let answer of answersForms; let i = index"
+    [formGroup]="answer"
+    [ngClass]="{
+      'ng-touched ng-invalid': answer.invalid && answer.touched,
+      isVariant: isVariant,
+      pictureContent: answer.get('image')?.value
+    }"
+  >
+    <span *ngIf="!answer.get('image')?.value" [textContent]="answer.get('name').value"></span>
+    <img
+      *ngIf="answer.get('image')?.value"
+      class="rounded"
+      [src]="answer.get('imagePath')?.value"
+      #image
+    />
+    <input
+      *ngIf="!isVariant"
+      class="form-check-input ml-2"
+      type="radio"
+      [value]="i"
+      [name]="'isCorrect' + questionIndex"
+      [formControl]="getFormControl(questionGroup, 'correctAnswerIndex')"
+    />
+    <div ngbDropdown [container]="'body'" class="change-dropdown">
+      <em ngbDropdownToggle>
+        <svg
+          focusable="false"
+          data-prefix="fas"
+          data-icon="ellipsis-h"
+          class="change-btn bg-secondary svg-inline--fa fa-ellipsis-h fa-w-16"
+          role="img"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 512 512"
+          id="dropdownConfig"
+        >
+          <path
+            fill="white"
+            d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72z
+            m104-72c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z
+            m-352 0c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"
+          ></path>
+        </svg>
+      </em>
+      <div ngbDropdownMenu aria-labelledby="dropdownConfig">
+        <button ngbDropdownItem (click)="openCreateModal(i, answer)">Изменить</button>
+        <button ngbDropdownItem (click)="deleteAnswer(i)">Удалить</button>
+      </div>
+    </div>
+    <div class="actions d-flex align-items-center">
+      <div
+        *ngIf="answersForms.length - 1 == i"
+        class="act-btn bg-primary mr-1"
+        (click)="openCreateModal(i + 1)"
+      >
+        +
+      </div>
+      <div
+        *ngIf="answersForms.length - 1 == i"
+        class="act-btn bg-primary"
+        (click)="uploadFiles($event)"
+      >
+        <img src="../../../../../assets/images/icons/images-regular.svg" alt="" />
+      </div>
+    </div>
+  </div>
+</div>
+<div class="d-flex pt-3" *ngIf="!answers.length">
+  <div class="act-btn bg-primary mr-1" (click)="openCreateModal(0)">+</div>
+  <div *ngIf="!answers.length" class="act-btn bg-primary" (click)="uploadFiles($event)">
+    <img src="../../../../../assets/images/icons/images-regular.svg" alt="" />
+  </div>
+</div>

@@ -1,0 +1,25 @@
+<div class="d-flex justify-content-between">
+  <label>Варианты</label>
+  <a (click)="addVariant()"><img src="../../../../../assets/images/icons/plus.svg"/></a>
+</div>
+<div class="row mr-0">
+  <div
+    class="mb-3 col-4 pr-0"
+    *ngFor="let variant of variantsForms; let i = index"
+    [formGroup]="variant"
+  >
+    <div class="border rounded p-3">
+      <div class="form-group">
+        <div class="d-flex justify-content-between">
+          <label>Имя варианта</label>
+          <a (click)="deleteVariant(i)"><img src="../../../../../assets/images/icons/cross2.svg"/></a>
+        </div>  
+        <input type="text" class="form-control" formControlName="name" />
+      </div>
+      <div class="form-group variant-answers">
+        <label>Ответы</label>
+        <app-create-answer [answersFormArray]="getAnswersArray(variant)" [isVariant]="true"></app-create-answer>
+      </div>
+    </div>
+  </div>
+</div>

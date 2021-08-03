@@ -1,0 +1,144 @@
+<div class="mb-5">
+  <div class="position-relative">
+    <form [formGroup]="filterForm">
+      <div class="row">
+        <div class="form-group col-4">
+          <label>Выберите задачу</label>
+          <ng-select
+            [items]="tasks"
+            class="validation-highlight"
+            bindLabel="number"
+            formControlName="task"
+          >
+            <ng-template ng-label-tmp let-item="item">
+              {{ 'Задача номер ' + item.number }}
+            </ng-template>
+            <ng-template ng-option-tmp let-item="item">
+              {{ 'Задача номер ' + item.number }}
+            </ng-template>
+          </ng-select>
+        </div>
+        <div class="form-group col-4">
+          <label>Выберите вопрос</label>
+          <ng-select
+            [items]="selectedTaskQuestions"
+            class="validation-highlight"
+            bindLabel="number"
+            formControlName="question"
+          >
+            <ng-template ng-label-tmp let-item="item">
+              {{ item.name }}
+            </ng-template>
+            <ng-template ng-option-tmp let-item="item">
+              {{ item.name }}
+            </ng-template>
+          </ng-select>
+        </div>
+      </div>
+      <ng-container *ngIf="selectedTask && tasks?.length > 1">
+        <div class="row" *ngIf="selectedTask && tasks?.length > 1">
+          <div class="form-group col-4">
+            <label>Номер задания</label>
+            <ng-select
+              [clearable]="false"
+              [bindValue]="'number'"
+              [items]="tasks"
+              class="validation-highlight"
+              formControlName="number"
+            >
+              <ng-template ng-label-tmp let-item="item">
+                {{ item.number }}
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item">
+                {{ item.number }}
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+        <img
+          *ngIf="tasks?.length > 1"
+          class="save-icon"
+          src="../../../../assets/images/icons/save.svg"
+          (click)="saveTask()"
+        />
+      </ng-container>
+    </form>
+  </div>
+  <div *ngIf="selectedQuestion">
+    <hr />
+    <form [formGroup]="questionForm">
+      <div class="question-form">
+        <div class="row">
+          <div class="form-group col-5">
+            <label>Название вопроса</label>
+            <input class="form-control" formControlName="name" type="text" />
+          </div>
+          <div class="form-group col-2">
+            <label>Фото</label>
+            <file-uploader
+              formControlName="image"
+              [imagePath]="questionForm.get('imagePath').value"
+              (remove)="onRemoveFile(questionForm.get('imagePath').value)"
+            ></file-uploader>
+          </div>
+          <div class="form-group col-2">
+            <label>Звук</label>
+            <file-uploader
+              formControlName="sound"
+              [isSound]="true"
+              [imagePath]="questionForm.get('soundPath').value"
+              (remove)="onRemoveFile(questionForm.get('soundPath').value)"
+            ></file-uploader>
+          </div>
+        </div>
+        <img
+          class="save-icon"
+          src="../../../../assets/images/icons/save.svg"
+          (click)="saveQuestion()"
+        />
+      </div>
+    </form>
+    <ng-container *ngIf="selectedQuestion.variants.length > 0">
+      <div class="variant-block" *ngFor="let variant of variantsFormsGroup">
+        <form [formGroup]="variant">
+          <div class="form-group">
+            <label>Название варианта</label>
+            <div class="d-flex">
+              <input class="form-control" formControlName="name" type="text" />
+              <div class="btn btn-link" (click)="saveVariant(variant)">
+                <img class="h-75" src="../../../../assets/images/icons/save.svg" />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </ng-container>
+    <div>
+      <div class="answer-block" *ngFor="let answer of answersFormsGroup">
+        <form [formGroup]="answer" class="d-flex">
+          <div class="form-group col-5">
+            <label>Название ответа</label>
+            <input class="form-control" formControlName="name" type="text" />
+          </div>
+          <div class="form-group col-2">
+            <label>Фото</label>
+            <file-uploader
+              formControlName="image"
+              [imagePath]="answer.get('imagePath').value"
+              (remove)="onRemoveFile(answer.get('imagePath').value)"
+            ></file-uploader>
+          </div>
+          <img
+            class="save-icon"
+            src="../../../../assets/images/icons/save.svg"
+            (click)="saveAnswer(answer)"
+          />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #noData>
+  <span>Задачи не найдены</span>
+</ng-template>
