@@ -322,13 +322,17 @@
   <div class="try-again">
     <ng-container *ngIf="tryCount > 2; else thirdError">
       <img
-        [src]="tryCount % 2 > 0 ? '../../../../assets/images/failed_task_tigr.png' : '../../../../assets/images/monkey_sad.png'"
+        [src]="
+          tryCount % 2 > 0
+            ? '../../../../assets/images/failed_tigr_sad.png'
+            : '../../../../assets/images/monkey_sad.png'
+        "
         alt=""
       />
       <span class="d-block text">Попробуй решить упражнение по другому</span>
     </ng-container>
     <ng-template #thirdError
-      ><img src="../../../../assets/images/failed_tigr_sad.png" alt="" /><span class="d-block text"
+      ><img src="../../../../assets/images/failed_task_tigr.png" alt="" /><span class="d-block text"
         >Не расстраивайся, попробуй решить еще раз!</span
       ></ng-template
     >

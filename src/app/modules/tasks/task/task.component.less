@@ -466,7 +466,7 @@
           span {
             left: 48% !important;
             top: -72px !important;
-            width: 225px !important;
+            width: 252px !important;
             height: 146px !important;
             font-size: 14px !important;
           }
@@ -527,18 +527,41 @@
           }
           img {
             min-height: 100px;
-            height: 100px !important;
+            height: 100px;
+          }
+          .cristals-result {
+            position: relative;
+            img {
+              &.tigr {
+                height: 200px;
+                margin-top: 100px;
+              }
+              min-height: 56px;
+            }
+            span.cloud {
+              height: 100px;
+              width: 200px;
+              left: 25%;
+              top: 0;
+              padding: 10px 10px 28px 14px;
+              font-size: 16px;
+            }
+            &.failed {
+              color: @red;
+            }
           }
           .try-again {
             img {
-              height: 130px !important;
+              height: 160px !important;
               position: relative;
               z-index: 5;
+              margin-top: 40px;
+              margin-right: 150px;
             }
             span {
-              left: 32% !important;
-              top: -72px !important;
-              width: 225px !important;
+              left: 24% !important;
+              top: -92px !important;
+              width: 252px !important;
               height: 146px !important;
               font-size: 14px !important;
             }
