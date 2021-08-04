@@ -453,22 +453,47 @@
 }
 
 @media (orientation: landscape) and (max-width: 1200px) {
-  .task-container {
+  .container .task-container {
     .question-container {
+      height: calc(100vh - 136px - 2rem);
       .question {
-        height: 280px !important;
+        height: 40% !important;
         .try-again {
+          margin-top: 0;
+          height: 100%;
+          position: relative;
           img {
-            height: 184px !important;
-            position: relative;
+            max-height: 80% !important;
+            width: auto;
+            bottom: 0;
+            right: 50%;
+            position: absolute;
+            margin-right: 0;
             z-index: 5;
           }
           span {
             left: 48% !important;
-            top: -72px !important;
+            top: 1% !important;
             width: 252px !important;
             height: 146px !important;
             font-size: 14px !important;
+          }
+        }
+      }
+      .answer-container{
+        height: 60%;
+        padding-top: 0;
+
+        .answers{
+          height: calc(100% - 82px);
+          padding-bottom: 2%;
+          padding-top: 2%;
+
+          .answer {
+            &.img{
+              height: 100%;
+              max-height: 160px;
+            }
           }
         }
       }

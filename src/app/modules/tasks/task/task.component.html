@@ -314,7 +314,7 @@
 </ng-template>
 
 <ng-template #questionName let-question>
-  <span class="d-block text-center mb-sm-3">{{ question.name }}</span>
+  <span class="d-block text-center" [ngClass]="{'mb-sm-3':question.image}">{{ question.name }}</span>
   <img class="question-img" *ngIf="question.image" [src]="question.image" alt="" />
 </ng-template>
 

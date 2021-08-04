@@ -22,7 +22,7 @@ export class TaskComponent implements OnDestroy {
   public choosedAnswerId: number;
   public task: Task;
   public activeId: number;
-  public showCurrentAnswer = false;
+  public showCurrentAnswer = true;
   public tasksInfo: TasksInfo;
   public taskLoading = false;
   public audio: HTMLAudioElement;
