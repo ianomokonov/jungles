@@ -2,7 +2,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { Component, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { takeWhile, tap } from 'rxjs/operators';
 import { Answer } from 'src/app/models/answer';
 import { AnswerType } from 'src/app/models/answer-type';
 import { Task } from 'src/app/models/task';
@@ -22,7 +22,7 @@ export class TaskComponent implements OnDestroy {
   public choosedAnswerId: number;
   public task: Task;
   public activeId: number;
-  public showCurrentAnswer = true;
+  public showCurrentAnswer = false;
   public tasksInfo: TasksInfo;
   public taskLoading = false;
   public audio: HTMLAudioElement;
@@ -40,6 +40,7 @@ export class TaskComponent implements OnDestroy {
 
   public activeQuestionPrivate: TaskQuestion;
   private allSolved = true;
+  private rxAlive = true;
 
   constructor(
     private router: Router,
@@ -50,26 +51,31 @@ export class TaskComponent implements OnDestroy {
     private cdRef: ChangeDetectorRef,
   ) {
     if (this.tokenService.getAuthToken()) {
-      this.userService.userLoaded$.subscribe((user) => {
+      this.userService.userLoaded$.pipe(takeWhile(() => this.rxAlive)).subscribe((user) => {
         if (!user) {
           return;
         }
-        this.activatedRoute.params.subscribe((params) => {
+        this.activatedRoute.params.pipe(takeWhile(() => this.rxAlive)).subscribe((params) => {
           if (params.id) {
-            this.getTask(params.id, true).subscribe();
+            this.getTask(params.id, true)
+              .pipe(takeWhile(() => this.rxAlive))
+              .subscribe();
           }
         });
       });
       return;
     }
-    this.activatedRoute.params.subscribe((params) => {
+    this.activatedRoute.params.pipe(takeWhile(() => this.rxAlive)).subscribe((params) => {
       if (params.id) {
-        this.getTask(params.id, true).subscribe();
+        this.getTask(params.id, true)
+          .pipe(takeWhile(() => this.rxAlive))
+          .subscribe();
       }
     });
   }
 
   public ngOnDestroy(): void {
+    this.rxAlive = false;
     this.stop();
   }
 
@@ -152,30 +158,33 @@ export class TaskComponent implements OnDestroy {
           this.userService.activeChild?.id,
           this.activeQuestion.childAnswer?.id,
         )
+        .pipe(takeWhile(() => this.rxAlive))
         .subscribe((result) => {
-          this.getTaskInfoRequest().subscribe((info) => {
-            this.tasksInfo = info;
-            this.activeQuestion.isDone = result.isCorrect;
-            this.activeQuestion.isFailed = !result.isCorrect;
-            if (!this.activeQuestion.childAnswer) {
-              this.activeQuestion.childAnswer = {
-                answerId: this.choosedAnswerId,
-                id: result.childAnswerId,
-                isCorrect: result.isCorrect,
-                isSolved: false,
-                tryCount: 0,
-              };
-            }
+          this.getTaskInfoRequest()
+            .pipe(takeWhile(() => this.rxAlive))
+            .subscribe((info) => {
+              this.tasksInfo = info;
+              this.activeQuestion.isDone = result.isCorrect;
+              this.activeQuestion.isFailed = !result.isCorrect;
+              if (!this.activeQuestion.childAnswer) {
+                this.activeQuestion.childAnswer = {
+                  answerId: this.choosedAnswerId,
+                  id: result.childAnswerId,
+                  isCorrect: result.isCorrect,
+                  isSolved: false,
+                  tryCount: 0,
+                };
+              }
 
-            this.showCurrentAnswer = true;
-            this.taskLoading = false;
-            if (result.isCorrect) {
-              this.play('../../../../assets/sounds/pravilno.mp3');
-              this.activeQuestion.childAnswer.tryCount = 0;
-              return;
-            }
-            this.activeQuestion.childAnswer.tryCount += 1;
-          });
+              this.showCurrentAnswer = true;
+              this.taskLoading = false;
+              if (result.isCorrect) {
+                this.play('../../../../assets/sounds/pravilno.mp3');
+                this.activeQuestion.childAnswer.tryCount = 0;
+                return;
+              }
+              this.activeQuestion.childAnswer.tryCount += 1;
+            });
         });
     }
 
@@ -226,6 +235,7 @@ export class TaskComponent implements OnDestroy {
     if (this.audio) {
       this.stop();
     }
+
     this.audio = new Audio(file);
     this.audio.play();
     this.audio.addEventListener('ended', this.onAudioEnded);

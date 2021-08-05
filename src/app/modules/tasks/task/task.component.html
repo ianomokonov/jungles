@@ -291,7 +291,7 @@
 <ng-template #cristals let-label="label" let-isDone="isDone">
   <div class="cristals-result d-flex align-items-center" [ngClass]="{ failed: !isDone }">
     <img class="tigr" src="../../../../assets/images/success_task_tigr.png" alt="" />
-    <span class="d-block mt-3 mr-1">{{ isDone ? '+' : '-' }} {{ label }}</span>
+    <span class="points mt-3 mr-1">{{ isDone ? '+' : '-' }} {{ label }}</span>
     <span class="cloud">Молодец!</span>
     <img src="../../../../assets/images/icons/diamond.png" alt="" />
   </div>
@@ -314,25 +314,23 @@
 </ng-template>
 
 <ng-template #questionName let-question>
-  <span class="d-block text-center" [ngClass]="{'mb-sm-3':question.image}">{{ question.name }}</span>
+  <span class="d-block text-center" [ngClass]="{ 'mb-sm-3': question.image }">{{
+    question.name
+  }}</span>
   <img class="question-img" *ngIf="question.image" [src]="question.image" alt="" />
 </ng-template>
 
 <ng-template #tryAgain let-tryCount>
   <div class="try-again">
     <ng-container *ngIf="tryCount > 2; else thirdError">
-      <img
-        [src]="
-          tryCount % 2 > 0
-            ? '../../../../assets/images/failed_tigr_sad.png'
-            : '../../../../assets/images/monkey_sad.png'
-        "
-        alt=""
-      />
-      <span class="d-block text">Попробуй решить упражнение по другому</span>
+      <img class="tigr" [src]=" tryCount % 2 > 0 ?
+      '../../../../assets/images/failed_tigr_sad.png' : '../../../../assets/images/monkey_sad.png' "
+      alt="" />
+      <span class="d-block text cloud">Попробуй решить упражнение по другому</span>
     </ng-container>
     <ng-template #thirdError
-      ><img src="../../../../assets/images/failed_task_tigr.png" alt="" /><span class="d-block text"
+      ><img class="tigr" src="../../../../assets/images/failed_task_tigr.png" alt="" /><span
+        class="d-block text cloud"
         >Не расстраивайся, попробуй решить еще раз!</span
       ></ng-template
     >
