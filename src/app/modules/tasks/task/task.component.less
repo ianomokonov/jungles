@@ -455,9 +455,12 @@
 @media (orientation: landscape) and (max-width: 1200px) {
   .container .task-container {
     .question-container {
-      height: calc(100vh - 136px - 2rem);
+      height: calc(100vh - 136px - 3rem);
       .question {
         height: 40% !important;
+        & > img {
+          max-height: 60%;
+        }
         .try-again,
         .cristals-result {
           margin-top: 0;
