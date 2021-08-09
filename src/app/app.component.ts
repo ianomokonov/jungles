@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 
@@ -14,7 +14,11 @@ export class AppComponent {
   private monkeyUrls = ['/', '/tasks', '/project'];
   public hideMenu = false;
 
-  constructor(private routee: ActivatedRoute, private router: Router) {
+  constructor(
+    private routee: ActivatedRoute,
+    private router: Router,
+    private cdRef: ChangeDetectorRef,
+  ) {
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),

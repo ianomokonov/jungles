@@ -924,9 +924,34 @@ app-progress {
   }
 }
 
+@media (orientation: landscape) and (max-width: 1200px) {
+  app-task {
+    // height: 100%;
+
+    .tab-content {
+      height: calc(100% - 60px);
+      .tab-pane {
+        height: 100%;
+      }
+    }
+  }
+}
+
 @media (max-width: 1200px) {
   .main-content {
     background-image: none !important;
+  }
+
+  .task-page {
+    app-footer {
+      display: none;
+    }
+    .nav-menu {
+      display: none;
+    }
+    .breadcrumb-sm {
+      display: none;
+    }
   }
   .modal-auth {
     .modal-dialog {
@@ -966,17 +991,6 @@ app-progress {
         box-shadow: 0px 0px 20px rgba(47, 73, 21, 0.25);
         border-radius: 10px;
       }
-    }
-  }
-  .task-page {
-    app-footer {
-      display: none;
-    }
-    .nav-menu {
-      display: none;
-    }
-    .breadcrumb-sm {
-      display: none;
     }
   }
 
