@@ -1,15 +1,16 @@
+
 .first {
   max-height: 997px;
   background-image: url(../../../assets/images/animals.png);
   background-repeat: no-repeat;
-  background-position: center top;
-  background-size: 85% auto;
+  background-position: 105px 35px;
+  background-size: 80% auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin-top: 40px;
   margin-bottom: 150px;
-  padding-top: 31rem !important;
+  padding-top: 34rem !important;
 
   h2 {
     text-align: center;
@@ -31,30 +32,32 @@
   }
 }
 
-.second {
-  padding-bottom: 254px;
-  max-height: 737px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.second-cont {
   background-image: url(../../../assets/images/giraffe_chest.png);
   background-repeat: no-repeat;
-  background-position: 0% 50% !important;
-  background-size: calc(65%) auto;
-
-  .section-body {
+  background-position: 3% 75%;
+  background-size: calc(60%) auto;
+  .second {
+    margin-bottom: 50px;
+    min-height: 700px;
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;
+    justify-content: start;
 
-    .content {
-      width: 48%;
+    .section-body {
+      display: flex;
+      justify-content: flex-end;
 
-      h3 {
-        margin-bottom: 21px;
-      }
-      ul {
-        li {
-          margin-bottom: 20px;
+      .content {
+        width: 48%;
+
+        h3 {
+          margin-bottom: 21px;
+        }
+        ul {
+          li {
+            margin-bottom: 20px;
+          }
         }
       }
     }
@@ -66,6 +69,7 @@
   background-position: center bottom;
   background-repeat: no-repeat;
   min-height: 687.2px;
+  margin-bottom: 74px;
 
   .section-label {
     //max-width: 622px;
@@ -115,7 +119,7 @@
     align-items: center;
 
     .content {
-      margin-bottom: 69px;
+      margin-bottom: 80px;
       height: 480px;
       width: 100%;
       display: flex;
@@ -150,7 +154,12 @@
             padding-left: 7px;
             width: 100%;
             li {
-              &:extend(.text-m);
+              font-family: Open Sans;
+              font-style: normal;
+              font-weight: normal;
+              line-height: 25px;
+              color: #2d6255;
+              font-size: 18px;
               margin-bottom: 20px;
             }
           }
@@ -174,11 +183,41 @@
 
 @media (max-width: 1200px) {
   .first {
+    background-size: 90% auto !important;
+    background-position: center 35px;
     margin-top: 0px;
-    padding-top: 25rem !important;
+    padding-top: 29rem !important;
+  }
+
+  .second-cont {
+    background-position: 0% 75%;
+    background-size: calc(65%) auto;
+  }
+
+  .third {
+    background-position: center 72%;
+    .section-body {
+      .dialogs {
+        position: relative;
+        height: 625px;
+        .dialog-2 {
+          width: 450px;
+          padding-top: 60px;
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          background-image: url(../../../assets/images/cloud6.png) !important;
+          background-repeat: no-repeat;
+          background-size: contain;
+        }
+      }
+    }
   }
 
   .fourth {
+    .section-header {
+      margin-bottom: 30px;
+    }
     .section-body {
       .content {
         height: auto;
@@ -200,24 +239,70 @@
 }
 
 @media (max-width: 991px) {
-  .first {
-    background-size: 100% auto;
-    padding-top: 21rem !important;
+  
+  h2.section-header {
+    font-size: 26px;
+
+    span.text-orange {
+      font-size: 26px !important;
+    }
   }
 
-  .second {
-    max-height: none;
-    padding-top: 400px;
-    padding-bottom: 0px;
-    margin-bottom: 65px;
-    background-position: 87% top !important;
-    background-size: calc(75%) auto;
+  h3 {
+    font-size: 18px;
+  }
 
-    .section-body {
-      justify-content: center;
+  .text-m, span.text-orange, .section-label {
+    font-size: 16px !important;
+  }
 
-      .content {
-        width: 100%;
+  .text {
+    font-size: 14px;
+    line-height: 16.8px;
+  }
+
+  .message ul li {
+    font-size: 16px !important;
+  }
+
+  .first {
+    margin-bottom: 120px;
+    background-position: center top;
+    background-size: 102% auto !important;
+    padding-top: 23rem !important;
+
+    .message {
+      padding: 32px;
+      max-width: 70%;
+    }
+  }
+
+  .second-cont {
+    background-position: 0% 65%;
+    .second {
+      max-height: none;
+      margin-bottom: 65px;
+    }
+  }
+
+  .third {
+    background-size: auto 45%;
+    background-position: center 70%;
+
+    .section-label {
+      margin-bottom: 49px !important;
+    }
+
+    .dialogs {
+      height: 602px !important;
+
+      .dialog-1 {
+        padding-top: 29px !important;
+        width: 410px !important;
+      }
+      .dialog-2 {
+        width: 425px !important;
+        padding: 52px 10px 15px 45px !important;
       }
     }
   }
@@ -235,6 +320,8 @@
           align-items: center;
 
           .message {
+            height: auto;
+            padding: 15px 16px 0px 30px;
             margin-bottom: 20px;
           }
 
@@ -249,32 +336,56 @@
 
 @media (max-width: 767px) {
   .first {
-    padding-top: 16rem !important;
-  }
-  .second {
-    padding-top: 300px;
-  }
-}
-
-@media (max-width: 576px) {
-  .container {
-    max-width: 530px;
-  }
-
-  .first {
-    background-size: 90% auto;
-    padding-top: 14rem !important;
-
+    padding-top: 18rem !important;
     .message {
-      .parag1 {
-        .text-orange {
-          font-size: 18px;
-        }
+      padding: 32px;
+      max-width: 90%;
+    }
+  }
+  .second-cont {
+    background-position: right top !important;
+    background-size: 90% auto;
+    padding-top: 70%;
+
+    .section-body {
+      justify-content: start !important;
+
+      .content {
+        width: 100% !important;
       }
     }
   }
 
-  .second {
-    padding-top: 255px;
+  .third {
+    background-size: auto 30% !important;
+  }
+
+  .fourth {
+    .message {
+      width: 335px !important;
+    }
   }
 }
+
+// @media (max-width: 576px) {
+//   .container {
+//     max-width: 530px;
+//   }
+
+//   .first {
+//     background-size: 90% auto;
+//     padding-top: 14rem !important;
+
+//     .message {
+//       .parag1 {
+//         .text-orange {
+//           font-size: 18px;
+//         }
+//       }
+//     }
+//   }
+
+//   .second {
+//     padding-top: 255px;
+//   }
+// }
