@@ -1,6 +1,4 @@
-
 .first {
-  max-height: 997px;
   background-image: url(../../../assets/images/animals.png);
   background-repeat: no-repeat;
   background-position: 105px 35px;
@@ -10,7 +8,7 @@
   justify-content: center;
   margin-top: 40px;
   margin-bottom: 150px;
-  padding-top: 34rem !important;
+  padding-top: 34rem;
 
   h2 {
     text-align: center;
@@ -72,8 +70,7 @@
   margin-bottom: 74px;
 
   .section-label {
-    //max-width: 622px;
-    text-align: center !important;
+    text-align: center;
   }
 
   .section-body {
@@ -183,10 +180,10 @@
 
 @media (max-width: 1200px) {
   .first {
-    background-size: 90% auto !important;
-    background-position: center 35px;
+    background-size: 100% auto;
+    background-position: center top;
     margin-top: 0px;
-    padding-top: 29rem !important;
+    padding-top: 29rem;
   }
 
   .second-cont {
@@ -206,7 +203,7 @@
           position: absolute;
           bottom: 0;
           right: 0;
-          background-image: url(../../../assets/images/cloud6.png) !important;
+          background-image: url(../../../assets/images/cloud6.png);
           background-repeat: no-repeat;
           background-size: contain;
         }
@@ -239,9 +236,8 @@
 }
 
 @media (max-width: 991px) {
-  
   h2.section-header {
-    font-size: 26px;
+    font-size: 26px !important;
 
     span.text-orange {
       font-size: 26px !important;
@@ -249,16 +245,18 @@
   }
 
   h3 {
-    font-size: 18px;
+    font-size: 18px !important;
   }
 
-  .text-m, span.text-orange, .section-label {
+  .text-m,
+  span.text-orange,
+  .section-label {
     font-size: 16px !important;
   }
 
   .text {
-    font-size: 14px;
-    line-height: 16.8px;
+    font-size: 14px !important;
+    line-height: 16.8px !important;
   }
 
   .message ul li {
@@ -268,8 +266,8 @@
   .first {
     margin-bottom: 120px;
     background-position: center top;
-    background-size: 102% auto !important;
-    padding-top: 23rem !important;
+    background-size: 102% auto;
+    padding-top: 23rem;
 
     .message {
       padding: 32px;
@@ -290,19 +288,21 @@
     background-position: center 70%;
 
     .section-label {
-      margin-bottom: 49px !important;
+      margin-bottom: 49px;
     }
 
-    .dialogs {
-      height: 602px !important;
+    .section-body {
+      .dialogs {
+        height: 602px;
 
-      .dialog-1 {
-        padding-top: 29px !important;
-        width: 410px !important;
-      }
-      .dialog-2 {
-        width: 425px !important;
-        padding: 52px 10px 15px 45px !important;
+        .dialog-1 {
+          padding-top: 29px;
+          width: 410px;
+        }
+        .dialog-2 {
+          width: 425px;
+          padding: 52px 10px 15px 45px;
+        }
       }
     }
   }
@@ -336,56 +336,119 @@
 
 @media (max-width: 767px) {
   .first {
-    padding-top: 18rem !important;
+    padding-top: 18rem;
     .message {
       padding: 32px;
       max-width: 90%;
     }
   }
+
   .second-cont {
-    background-position: right top !important;
+    background-position: right top;
     background-size: 90% auto;
     padding-top: 70%;
+    .second {
+      .section-body {
+        justify-content: start;
 
-    .section-body {
-      justify-content: start !important;
-
-      .content {
-        width: 100% !important;
+        .content {
+          width: 100%;
+        }
       }
     }
   }
 
   .third {
-    background-size: auto 30% !important;
+    background-size: auto 30%;
   }
 
   .fourth {
-    .message {
-      width: 335px !important;
+    .section-body {
+      .content {
+        .messages {
+          .message {
+            width: 335px;
+          }
+        }
+      }
     }
   }
 }
 
-// @media (max-width: 576px) {
-//   .container {
-//     max-width: 530px;
-//   }
+@media (max-width: 576px) {
+  .text-m,
+  .section-label {
+    font-size: 14px !important;
+  }
 
-//   .first {
-//     background-size: 90% auto;
-//     padding-top: 14rem !important;
+  h2.section-header {
+    font-size: 20px !important;
 
-//     .message {
-//       .parag1 {
-//         .text-orange {
-//           font-size: 18px;
-//         }
-//       }
-//     }
-//   }
+    span.text-orange {
+      font-size: 20px !important;
+    }
+  }
 
-//   .second {
-//     padding-top: 255px;
-//   }
-// }
+  h3 {
+    font-size: 16px !important;
+  }
+
+  .message ul li {
+    font-size: 14px !important;
+  }
+
+  section {
+    margin-bottom: 120px;
+  }
+
+  .first {
+    background-size: 100% auto;
+    background-size: 90% auto;
+    padding-top: 11rem;
+
+    .message {
+      max-width: none;
+      margin: 0;
+      padding: 20px 10px;
+      .parag1 {
+        .text-orange {
+          font-size: 18px;
+        }
+      }
+    }
+  }
+
+  .second-cont {
+    background-position: -40% top;
+    background-size: 110% auto;
+    padding-top: 78%;
+
+    .second {
+      margin-bottom: 120px;
+      min-height: unset;
+      .section-label {
+        margin-bottom: 25px;
+      }
+
+      .section-body {
+        justify-content: center;
+        width: 100%;
+      }
+    }
+  }
+
+  .fourth {
+    .section-body {
+      .content {
+        .messages {
+          .message {
+            img {
+              width: 60px;
+              margin-bottom: 8px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
