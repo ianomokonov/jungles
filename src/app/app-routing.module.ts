@@ -19,7 +19,13 @@ const routes: Routes = [
   {
     path: 'project',
     loadChildren: () => import('./modules/project/project.module').then((m) => m.ProjectModule),
-    data: { title: 'О проекте' },
+    data: {
+      title: 'О проекте',
+      style: {
+        'background-image': 'url(./assets/images/fon_about.png)',
+        'background-size': '100% 92%',
+      },
+    },
   },
   {
     path: 'rates',

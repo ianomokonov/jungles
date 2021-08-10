@@ -319,7 +319,6 @@
   }}</span>
   <img class="question-img" *ngIf="question.image" [src]="question.image" alt="" />
 </ng-template>
-
 <ng-template #tryAgain let-tryCount>
   <div class="try-again">
     <ng-container *ngIf="tryCount > 2; else thirdError">
