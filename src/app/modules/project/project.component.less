@@ -335,6 +335,7 @@
 }
 
 @media (max-width: 767px) {
+
   .first {
     padding-top: 18rem;
     .message {
@@ -359,7 +360,15 @@
   }
 
   .third {
-    background-size: auto 30%;
+    background-size: auto 40%;
+    background-position: center 67%;
+    .section-body {
+      .dialogs {
+        .dialog-2 {
+          right: -60px;
+        }
+      }
+    }
   }
 
   .fourth {
@@ -395,6 +404,10 @@
 
   .message ul li {
     font-size: 14px !important;
+  }
+
+  .text {
+    font-size: 12px !important;
   }
 
   section {
@@ -433,6 +446,33 @@
       .section-body {
         justify-content: center;
         width: 100%;
+      }
+    }
+  }
+
+  .third {
+    background-position: center 56%;
+    background-size: auto 32%;
+    margin-bottom: 0px;
+    .section-label {
+      margin-bottom: 40px;
+    }
+    .section-body {
+      .dialogs {
+        height: 480px;
+        font-size: 12px !important;
+        .dialog-1 {
+          background-image: url(../../../assets/images/cloud8.png);
+          background-size: contain;
+          padding: 28px 33px;
+        }
+        .dialog-2 {
+          padding: 43px 38px 15px 33px;
+          width: 275px;
+          right: auto;
+          background-size: 100%;
+          background-image: url(../../../assets/images/cloud7.png); 
+        }
       }
     }
   }
