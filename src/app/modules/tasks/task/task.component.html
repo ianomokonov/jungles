@@ -5,40 +5,25 @@
     <img src="../../assets/images/icons/cross.svg" />
   </div>
   <div class="task-container">
-    <ng-container
-      ><ul
-        ngbNav
-        #nav="ngbNav"
-        class="nav-tabs row m-0 question-menu"
-        [(activeId)]="activeId"
-        (navChange)="changeTab($event)"
-      >
-        <li
-          [ngbNavItem]="question.id"
-          class="question-menu-item col p-0"
-          *ngFor="let question of task?.questions; let index = index"
-        >
+    <ng-container>
+      <ul ngbNav #nav="ngbNav" class="nav-tabs row m-0 question-menu" [(activeId)]="activeId"
+        (navChange)="changeTab($event)">
+        <li [ngbNavItem]="question.id" class="question-menu-item col p-0"
+          *ngFor="let question of task?.questions; let index = index">
           <a ngbNavLink [ngClass]="{ done: question.isDone, failed: question.isFailed }">{{
             getQuestionName(question, index + 1)
-          }}</a>
+            }}</a>
           <ng-template ngbNavContent>
             <ng-container [ngSwitch]="question.type">
               <ng-container *ngSwitchCase="answerType.Choice">
-                <ng-container
-                  *ngTemplateOutlet="choice; context: { $implicit: question }"
-                ></ng-container>
-              </ng-container>
-              <ng-container *ngSwitchCase="answerType.Variants">
-                <ng-container
-                  *ngTemplateOutlet="variants; context: { $implicit: question }"
-                ></ng-container>
+                <ng-container *ngTemplateOutlet="choice; context: { $implicit: question }"></ng-container>
               </ng-container>
             </ng-container>
           </ng-template>
         </li>
       </ul>
-      <div [ngbNavOutlet]="nav"></div
-    ></ng-container>
+      <div [ngbNavOutlet]="nav"></div>
+    </ng-container>
   </div>
   <div class="stats" *ngIf="tasksInfo && task">
     <div class="achives chest">
@@ -47,57 +32,30 @@
     <div class="achives cristals">
       <span>{{ tasksInfo.cristals }}</span>
     </div>
-    <div
-      class="d-flex align-items-center today-tasks"
-      [ngbPopover]="'Упражнений сегодня'"
-      [popoverClass]="'task-today-popover'"
-      (click)="markPopoverOpened()"
-      (hidden)="markPopoverClosed()"
-      [container]="'body'"
-    >
-      <app-pie-chart
-        class="adapt-sm"
-        [percent]="(tasksInfo.answersCount / 20) * 100"
-        [color]="'#FF952C'"
-        [label]="tasksInfo.answersCount.toString()"
-      ></app-pie-chart>
-      <span class="ml-1 label"
-        >Упражений<br />
-        сегодня</span
-      >
+    <div class="d-flex align-items-center today-tasks" [ngbPopover]="'Упражнений сегодня'"
+      [popoverClass]="'task-today-popover'" (click)="markPopoverOpened()" (hidden)="markPopoverClosed()"
+      [container]="'body'">
+      <app-pie-chart class="adapt-sm" [percent]="(tasksInfo.answersCount / 20) * 100" [color]="'#FF952C'"
+        [label]="tasksInfo.answersCount.toString()"></app-pie-chart>
+      <span class="ml-1 label">Упражений<br />
+        сегодня</span>
     </div>
     <div class="d-flex align-items-center first-try">
-      <app-pie-chart
-        [percent]="(tasksInfo.firstTryCount / tasksInfo.answersCount) * 100"
-        [color]="'#7EE1E4'"
-        [label]="tasksInfo.firstTryCount.toString()"
-      ></app-pie-chart>
-      <span class="ml-1 label"
-        >Упражений<br />
-        с 1 попытки</span
-      >
+      <app-pie-chart [percent]="(tasksInfo.firstTryCount / tasksInfo.answersCount) * 100" [color]="'#7EE1E4'"
+        [label]="tasksInfo.firstTryCount.toString()"></app-pie-chart>
+      <span class="ml-1 label">Упражений<br />
+        с 1 попытки</span>
     </div>
-    <div
-      class="d-flex align-items-center try-count-container position-relative"
+    <div class="d-flex align-items-center try-count-container position-relative"
       *ngIf="activeQuestion.childAnswer?.tryCount && !activeQuestion.isDone"
       [ngbPopover]="'За каждую 3 попытку колличество кристалов уменьшается на 1 кристал'"
-      [popoverClass]="'try-count-popover'"
-      (click)="markPopoverOpened()"
-      (hidden)="markPopoverClosed()"
-      [container]="'body'"
-    >
-      <img
-        [ngbPopover]="'За каждую 3 попытку колличество кристалов уменьшается на 1 кристал'"
-        placement="bottom"
-        [popoverClass]="'question-popover'"
-        src="../../../../assets/images/icons/question.svg"
-        class="question-icon"
-      />
+      [popoverClass]="'try-count-popover'" (click)="markPopoverOpened()" (hidden)="markPopoverClosed()"
+      [container]="'body'">
+      <img [ngbPopover]="'За каждую 3 попытку колличество кристалов уменьшается на 1 кристал'" placement="bottom"
+        [popoverClass]="'question-popover'" src="../../../../assets/images/icons/question.svg" class="question-icon" />
       <span class="try-count">{{ activeQuestion.childAnswer?.tryCount }}</span>
-      <span class="ml-1 label"
-        >Количество<br />
-        попыток</span
-      >
+      <span class="ml-1 label">Количество<br />
+        попыток</span>
     </div>
   </div>
 </div>
@@ -105,96 +63,21 @@
 <ng-template #choice let-question>
   <div class="question-container question-choice">
     <div class="question">
-      <ng-container
-        *ngTemplateOutlet="
+      <ng-container *ngTemplateOutlet="
           showCurrentAnswer ? taskCompleted : questionName;
           context: { $implicit: question }
-        "
-      >
+        ">
       </ng-container>
     </div>
     <div class="answer-container">
       <div class="answers" [ngClass]="{ img: hasImages(question.answers) }">
-        <div
-          class="answer p-1 text-b"
-          [ngClass]="{
+        <div class="answer p-1 text-b" [ngClass]="{
             active: choosedAnswerId == answer.id,
             img: answer.image,
             disabled: showCurrentAnswer
-          }"
-          *ngFor="let answer of question.answers"
-          (click)="choose(answer.id, question.isDone)"
-        >
+          }" *ngFor="let answer of question.answers" (click)="choose(answer.id, question.isDone)">
           <span *ngIf="!answer.image">{{ answer.name }}</span>
           <img *ngIf="answer.image" [src]="answer.image" alt="" />
-        </div>
-      </div>
-      <ng-container *ngTemplateOutlet="btns; context: { $implicit: question }"></ng-container>
-    </div>
-  </div>
-</ng-template>
-<ng-template #variants let-question>
-  <div class="question-container question-variants">
-    <div class="question">
-      <ng-container
-        *ngTemplateOutlet="
-          showCurrentAnswer ? taskCompleted : questionName;
-          context: { $implicit: question }
-        "
-      >
-      </ng-container>
-    </div>
-    <div class="answer-container" cdkDropListGroup>
-      <div
-        class="answers"
-        [id]="'answers'"
-        cdkDropList
-        cdkDropListOrientation="horizontal"
-        cdkDropListSortingDisabled
-        [cdkDropListData]="question.answers"
-        (cdkDropListDropped)="drop($event)"
-      >
-        <div
-          class="answer text-b"
-          [ngClass]="{
-            correct: answer.isCorrect,
-            incorrect: answer.isIncorrect,
-            img: hasImages(question.answers)
-          }"
-          *ngFor="let answer of question.answers"
-          cdkDrag
-          [cdkDragData]="answer"
-        >
-          <span *ngIf="!answer.image">{{ answer.name }}</span>
-          <img *ngIf="answer.image" [src]="answer.image" alt="" />
-        </div>
-      </div>
-      <div class="variants row mx-0">
-        <div class="col" *ngFor="let variant of question.variants">
-          <span class="d-block variant-label text-b">{{ variant.name }}</span>
-          <div
-            class="variant"
-            cdkDropList
-            [id]="'variant-' + variant.id"
-            cdkDropListSortingDisabled
-            [cdkDropListData]="variant.answers"
-            (cdkDropListDropped)="drop($event)"
-          >
-            <div
-              class="answer text-b"
-              [ngClass]="{
-                correct: answer.isCorrect,
-                incorrect: answer.isIncorrect,
-                img: hasImages(variant.answers)
-              }"
-              *ngFor="let answer of variant.answers"
-              cdkDrag
-              [cdkDragData]="answer"
-            >
-              <span *ngIf="!answer.image">{{ answer.name }}</span>
-              <img *ngIf="answer.image" [src]="answer.image" alt="" />
-            </div>
-          </div>
         </div>
       </div>
       <ng-container *ngTemplateOutlet="btns; context: { $implicit: question }"></ng-container>
@@ -205,66 +88,34 @@
 <ng-template #btns let-question>
   <div class="btns px-3">
     <button class="btn btn-outline-success help-btn" *ngIf="!showCurrentAnswer"></button>
-    <button
-      class="btn btn-success main-btn"
-      *ngIf="!showCurrentAnswer; else goOn"
-      (click)="checkAnswer(question.type)"
-      [disabled]="question.isDone"
-    >
+    <button class="btn btn-success main-btn" *ngIf="!showCurrentAnswer; else goOn" (click)="checkAnswer(question.type)"
+      [disabled]="question.isDone">
       Принять ответ
     </button>
-    <ng-template #goOn
-      ><button class="btn btn-primary main-btn" (click)="nextQuestion()" *ngIf="question.isDone">
+    <ng-template #goOn><button class="btn btn-primary main-btn" (click)="nextQuestion()" *ngIf="question.isDone">
         Продолжить
       </button>
-      <button
-        class="btn btn-outline-success main-btn"
-        (click)="solveAgain()"
-        *ngIf="!question.isDone"
-      >
+      <button class="btn btn-outline-success main-btn" (click)="solveAgain()" *ngIf="!question.isDone">
         Решать ещё раз
       </button>
     </ng-template>
 
-    <button
-      class="btn sound-btn"
-      *ngIf="!showCurrentAnswer"
-      [disabled]="!question.sound && !audio"
-      (click)="audio ? stop() : play(question.sound)"
-    >
-      <svg
-        *ngIf="question.sound && !audio"
-        width="18"
-        height="18"
-        viewBox="0 0 18 18"
-        class="ml-2"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M4.10607 11.8939L4.06213 11.85H4H0.15V6.14998H4H4.06213
+    <button class="btn sound-btn" *ngIf="!showCurrentAnswer" [disabled]="!question.sound && !audio"
+      (click)="audio ? stop() : play(question.sound)">
+      <svg *ngIf="question.sound && !audio" width="18" height="18" viewBox="0 0 18 18" class="ml-2" fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <path d="M4.10607 11.8939L4.06213 11.85H4H0.15V6.14998H4H4.06213
           L4.10607 6.10605L8.85 1.36211V16.6378L4.10607 11.8939Z
           M11.15 5.22039C12.4632 5.97163 13.35 7.3774 13.35 8.99998
           C13.35 10.623 12.4629 12.0285 11.15 12.771V5.22039Z
           M16.15 8.99998C16.15 5.80114 14.0467 3.09119 11.15 2.17904
           V0.419898C15.0008 1.38076 17.85 4.85708 17.85 8.99998
           C17.85 13.1429 15.0008 16.6192 11.15 17.5801V15.8209C14.0467 14.9088 16.15 12.1988 16.15 8.99998Z"
-          fill="#2D6255"
-          stroke="white"
-          stroke-width="0.3"
-        />
+          fill="#2D6255" stroke="white" stroke-width="0.3" />
       </svg>
-      <svg
-        *ngIf="!question.sound || audio"
-        width="18"
-        class="ml-2"
-        height="18"
-        viewBox="0 0 18 18"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M16.7303 17.7876L14.7963 15.8442L14.7007 15.7481
+      <svg *ngIf="!question.sound || audio" width="18" class="ml-2" height="18" viewBox="0 0 18 18" fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <path d="M16.7303 17.7876L14.7963 15.8442L14.7007 15.7481
           L14.5955 15.8335C13.5991 16.6419 12.4334 17.2519 11.15 17.5704
           V15.8105C11.9573 15.5522 12.688 15.1461 13.342 14.6385
           L13.4763 14.5342L13.3561 14.4139L9.10607 10.1639L8.85 9.90787
@@ -278,11 +129,8 @@
           C16.15 5.80116 14.0467 3.09121 11.15 2.17906
           V0.419917C15.0008 1.38078 17.85 4.8571 17.85 9
           C17.85 10.4026 17.5211 11.7246 16.931 12.8989
-          L15.6365 11.6043ZM8.85 4.81787L7.12213 3.09L8.85 1.36213V4.81787Z"
-          fill="#2D6255"
-          stroke="white"
-          stroke-width="0.3"
-        />
+          L15.6365 11.6043ZM8.85 4.81787L7.12213 3.09L8.85 1.36213V4.81787Z" fill="#2D6255" stroke="white"
+          stroke-width="0.3" />
       </svg>
     </button>
   </div>
@@ -293,45 +141,38 @@
     <img class="tigr" src="../../../../assets/images/success_task_tigr.png" alt="" />
     <span class="points mt-3 mr-1">{{ isDone ? '+' : '-' }} {{ label }}</span>
     <span class="cloud">Молодец!</span>
-    <img src="../../../../assets/images/icons/diamond.png" alt="" />
+    <img class="cristal" src="../../../../assets/images/icons/diamond.png" alt="" />
   </div>
 </ng-template>
 
 <ng-template #taskCompleted let-question>
-  <ng-container
-    ><ng-container
-      *ngTemplateOutlet="
+  <ng-container>
+    <ng-container *ngTemplateOutlet="
         question.isDone ? cristals : tryAgain;
         context: {
           $implicit: question.childAnswer?.tryCount,
           label: question.isDone ? (question.childAnswer.isSolved ? 0 : question.cristalCount) : 1,
           isDone: question.isDone
         }
-      "
-    >
-    </ng-container
-  ></ng-container>
+      ">
+    </ng-container>
+  </ng-container>
 </ng-template>
 
 <ng-template #questionName let-question>
-  <span class="d-block text-center" [ngClass]="{ 'mb-sm-3': question.image }">{{
+  <span class="d-block text-center" [ngClass]="{ 'mb-3': question.image }">{{
     question.name
-  }}</span>
+    }}</span>
   <img class="question-img" *ngIf="question.image" [src]="question.image" alt="" />
 </ng-template>
 <ng-template #tryAgain let-tryCount>
   <div class="try-again">
     <ng-container *ngIf="tryCount > 2; else thirdError">
       <img class="tigr" [src]=" tryCount % 2 > 0 ?
-      '../../../../assets/images/failed_tigr_sad.png' : '../../../../assets/images/monkey_sad.png' "
-      alt="" />
+      '../../../../assets/images/failed_tigr_sad.png' : '../../../../assets/images/monkey_sad.png' " alt="" />
       <span class="d-block text cloud">Попробуй решить упражнение по другому</span>
     </ng-container>
-    <ng-template #thirdError
-      ><img class="tigr" src="../../../../assets/images/failed_task_tigr.png" alt="" /><span
-        class="d-block text cloud"
-        >Не расстраивайся, попробуй решить еще раз!</span
-      ></ng-template
-    >
+    <ng-template #thirdError><img class="tigr" src="../../../../assets/images/failed_task_tigr.png" alt="" /><span
+        class="d-block text cloud">Не расстраивайся, попробуй решить еще раз!</span></ng-template>
   </div>
 </ng-template>

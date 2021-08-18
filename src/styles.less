@@ -176,6 +176,12 @@ h3,
   margin-bottom: 0;
 }
 
+img {
+  image-rendering: -moz-crisp-edges; /* Firefox */
+  -ms-interpolation-mode: nearest-neighbor; /* IE */
+  image-rendering: crisp-edges;
+}
+
 /*---------Clickable Elements Styles---------*/
 
 .btn {
@@ -924,34 +930,36 @@ app-progress {
   }
 }
 
-@media (orientation: landscape) and (max-width: 1200px) {
-  app-task {
-    // height: 100%;
+app-task {
+  // height: 100%;
 
-    .tab-content {
-      height: calc(100% - 60px);
-      .tab-pane {
-        height: 100%;
-      }
+  .tab-content {
+    height: calc(100% - 60px);
+    .tab-pane {
+      height: 100%;
     }
+  }
+}
+
+.task-page {
+  app-footer {
+    display: none;
+  }
+  .nav-menu {
+    display: none;
+  }
+  .breadcrumb-sm {
+    display: none;
+  }
+  .main-content {
+    height: 100%;
+    min-height: unset !important;
   }
 }
 
 @media (max-width: 1200px) {
   .main-content {
     background-image: none !important;
-  }
-
-  .task-page {
-    app-footer {
-      display: none;
-    }
-    .nav-menu {
-      display: none;
-    }
-    .breadcrumb-sm {
-      display: none;
-    }
   }
   .modal-auth {
     .modal-dialog {
