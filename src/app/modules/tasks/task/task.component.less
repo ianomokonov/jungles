@@ -207,7 +207,8 @@
               display: inline-block;
 
               img {
-                height: 100%;
+                max-width: 100%;
+                max-height: 100%;
               }
             }
 
@@ -627,18 +628,23 @@
               &.cristal {
                 max-height: 60px;
                 height: 80%;
-                bottom: 0;
-                left: 34%;
+                bottom: 40%;
+                left: 45%;
               }
             }
             .points {
               bottom: 44%;
-              left: 40% !important;
+              left: 41% !important;
             }
             span.cloud {
               bottom: unset !important;
               top: 5%;
               left: 53% !important;
+              background: no-repeat url(../../../../assets/images/cloud9.svg) center / 100% 100%;
+              padding: 0 !important;
+              display: flex;
+              align-items: center;
+              justify-content: center;
             }
           }
         }

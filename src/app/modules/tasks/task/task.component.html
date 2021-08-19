@@ -139,7 +139,7 @@
 <ng-template #cristals let-label="label" let-isDone="isDone">
   <div class="cristals-result d-flex align-items-center" [ngClass]="{ failed: !isDone }">
     <img class="tigr" src="../../../../assets/images/success_task_tigr.png" alt="" />
-    <span class="points mt-3 mr-1">{{ isDone ? '+' : '-' }} {{ label }}</span>
+    <span class="points mt-3 mr-1">{{ isDone ? '+' : '-' }}{{ label }}</span>
     <span class="cloud">Молодец!</span>
     <img class="cristal" src="../../../../assets/images/icons/diamond.png" alt="" />
   </div>
@@ -168,8 +168,9 @@
 <ng-template #tryAgain let-tryCount>
   <div class="try-again">
     <ng-container *ngIf="tryCount > 2; else thirdError">
-      <img class="tigr" [src]=" tryCount % 2 > 0 ?
-      '../../../../assets/images/failed_tigr_sad.png' : '../../../../assets/images/monkey_sad.png' " alt="" />
+      <img class="tigr" *ngIf="tryCount % 2 > 0" src="../../../../assets/images/failed_tigr_sad.png" alt="" />
+      <img class="tigr" [style.transform]="'scale(-1,1)'" *ngIf="tryCount % 2 === 0"
+        src="../../../../assets/images/monkey_sad.png" alt="" />
       <span class="d-block text cloud">Попробуй решить упражнение по другому</span>
     </ng-container>
     <ng-template #thirdError><img class="tigr" src="../../../../assets/images/failed_task_tigr.png" alt="" /><span
