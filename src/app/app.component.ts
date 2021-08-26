@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
+import { LoadingService } from './services/loading.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,9 @@ export class AppComponent {
     private routee: ActivatedRoute,
     private router: Router,
     private cdRef: ChangeDetectorRef,
+    public loadingService: LoadingService,
   ) {
+    this.loadingService.changeDetectorRef = cdRef;
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),

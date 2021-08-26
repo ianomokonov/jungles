@@ -4,6 +4,7 @@ import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { FileUploaderComponent } from 'src/app/utils/file-uploader/file-uploader.component';
 import { TaskLabelPipe } from '../tasks/pipes/task-label.pipe';
 import { PieChartComponent } from './pie-chart/pie-chart.component';
+import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
   imports: [CommonModule, NgbCarouselModule],
@@ -13,7 +14,8 @@ import { PieChartComponent } from './pie-chart/pie-chart.component';
     PieChartComponent,
     FileUploaderComponent,
     TaskLabelPipe,
+    LoadingComponent,
   ],
-  declarations: [PieChartComponent, FileUploaderComponent, TaskLabelPipe],
+  declarations: [PieChartComponent, FileUploaderComponent, TaskLabelPipe, LoadingComponent],
 })
 export class SharedModule {}

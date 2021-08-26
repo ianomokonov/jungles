@@ -11,6 +11,7 @@ import { TasksInfo } from 'src/app/models/tasks-info';
 import { TaskService } from 'src/app/services/backend/task.service';
 import { TokenService } from 'src/app/services/backend/token.service';
 import { UserService } from 'src/app/services/backend/user.service';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-task',
@@ -49,6 +50,7 @@ export class TaskComponent implements OnDestroy {
     private userService: UserService,
     private tokenService: TokenService,
     private cdRef: ChangeDetectorRef,
+    private loadingService: LoadingService,
   ) {
     if (this.tokenService.getAuthToken()) {
       this.userService.userLoaded$.pipe(takeWhile(() => this.rxAlive)).subscribe((user) => {

@@ -1,6 +1,6 @@
 <div class="d-flex flex-column main-content" style="min-height: 100%">
   <div *ngIf="!hideMenu">
-    <nav-menu [showMonkey]="showMonkey"></nav-menu>
+    <nav-menu [showMonkey]="!loadingService.isLoading && showMonkey"></nav-menu>
   </div>
   <main [ngClass]="{ 'menu-hidden': hideMenu }">
     <div class="container my-5" *ngIf="titles?.length && !hideMenu">
@@ -27,3 +27,4 @@
   </main>
   <ng-container *ngIf="!hideMenu"><app-footer></app-footer></ng-container>
 </div>
+<app-loading></app-loading>

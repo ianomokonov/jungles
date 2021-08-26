@@ -11,10 +11,10 @@ export class LoadingService {
   private cdRef: ChangeDetectorRef;
   /** get isLoading */
   public get isLoading(): boolean {
-    return this._isLoading;
+    return this.isLoadingPrivate;
   }
   /** идет загрузка */
-  private _isLoading: boolean;
+  private isLoadingPrivate: boolean;
   /** текущие подписки приложения */
   private subscriptions: Subscription = new Subscription();
   /** количество активных подписок */
@@ -33,24 +33,24 @@ export class LoadingService {
       return;
     }
     this.subscriptions.unsubscribe();
-    this._isLoading = false;
+    this.isLoadingPrivate = false;
     this.setDefaultCancelBtn();
     this.subscriptions = new Subscription();
     this.subscriptionsCount = 0;
   }
   /** добавление подписки */
   public addSubscription(subscription: Subscription): void {
-    this.subscriptionsCount++;
+    this.subscriptionsCount += 1;
     this.subscriptions.add(subscription);
-    this._isLoading = true;
+    this.isLoadingPrivate = true;
     this.cdRef.detectChanges();
   }
   /** удаление подписки */
   public removeSubscription(subscription: Subscription): void {
-    this.subscriptionsCount--;
+    this.subscriptionsCount -= 1;
     this.subscriptions.remove(subscription);
     if (this.subscriptionsCount === 0) {
-      this._isLoading = false;
+      this.isLoadingPrivate = false;
       this.cdRef.detectChanges();
     }
   }

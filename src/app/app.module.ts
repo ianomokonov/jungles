@@ -26,6 +26,8 @@ import { CheckboxComponent } from './utils/checkbox/checkbox.component';
 import { UpdatePasswordComponent } from './update-password/update-password.component';
 import { ProfileService } from './modules/profile/profile.service';
 import { TaskService } from './services/backend/task.service';
+import { LoadingService } from './services/loading.service';
+import { SharedModule } from './modules/shared/shared.module';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -45,6 +47,7 @@ const maskConfig: Partial<IConfig> = {
   imports: [
     NoopAnimationsModule,
     BrowserModule,
+    SharedModule,
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
@@ -59,6 +62,7 @@ const maskConfig: Partial<IConfig> = {
     UserService,
     ProfileService,
     TaskService,
+    LoadingService,
     TokenService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],

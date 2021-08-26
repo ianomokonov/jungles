@@ -6,6 +6,7 @@ import { TasksInfo } from 'src/app/models/tasks-info';
 import { TaskService } from 'src/app/services/backend/task.service';
 import { TokenService } from 'src/app/services/backend/token.service';
 import { UserService } from 'src/app/services/backend/user.service';
+import { LoadingService } from 'src/app/services/loading.service';
 import { ProfileService } from '../profile/profile.service';
 
 @Component({
@@ -24,30 +25,33 @@ export class TasksComponent implements OnInit, OnDestroy {
     private profileService: ProfileService,
     private tasksService: TaskService,
     private tokenService: TokenService,
+    public loadingService: LoadingService,
   ) {}
   public ngOnDestroy() {
     this.rxAlive = false;
   }
   public ngOnInit() {
     if (this.tokenService.getAuthToken()) {
-      this.userService.userLoaded$
+      const subscription = this.userService.userLoaded$
         .pipe(
           takeWhile(() => this.rxAlive),
           mergeMap((user) => (user ? of(user) : this.userService.getUserInfo())),
         )
         .subscribe((user) => {
+          this.loadingService.removeSubscription(subscription);
           if (!user) {
             return;
           }
           this.initTasks();
         });
+      this.loadingService.addSubscription(subscription);
       return;
     }
     this.initTasks();
   }
 
   public initTasks() {
-    forkJoin(this.getTaskRequests()).subscribe(([info, tasks]) => {
+    const subscription = forkJoin(this.getTaskRequests()).subscribe(([info, tasks]) => {
       this.info = info;
       this.tasks = tasks;
       this.setActive(this.tasks);
@@ -55,7 +59,9 @@ export class TasksComponent implements OnInit, OnDestroy {
       if (solvedTasks?.length) {
         this.setCanGetNextTasks(solvedTasks[solvedTasks.length - 1].number + 1);
       }
+      this.loadingService.removeSubscription(subscription);
     });
+    this.loadingService.addSubscription(subscription);
   }
 
   private getTaskRequests(): [Observable<TasksInfo>, Observable<Task[]>] {
