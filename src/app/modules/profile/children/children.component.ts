@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Input, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { of } from 'rxjs';
+import { asyncScheduler, scheduled } from 'rxjs';
 import { mergeMap, takeWhile } from 'rxjs/operators';
 import { blockAmount, modalOpenedKey, tasksAmount } from 'src/app/constants';
 import { ChildRequest } from 'src/app/models/add-child-request';
@@ -69,7 +69,9 @@ export class ChildrenComponent implements AfterViewInit, OnDestroy {
       const subscription = this.userService.userLoaded$
         .pipe(
           takeWhile(() => this.rxAlive),
-          mergeMap((user) => (user ? of(user) : this.userService.getUserInfo())),
+          mergeMap((user) =>
+            user ? scheduled([user], asyncScheduler) : this.userService.getUserInfo(),
+          ),
         )
         .subscribe(
           (user) => {

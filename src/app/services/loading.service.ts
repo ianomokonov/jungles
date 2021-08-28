@@ -47,7 +47,10 @@ export class LoadingService {
   }
   /** удаление подписки */
   public removeSubscription(subscription: Subscription): void {
-    this.subscriptionsCount -= 1;
+    if (this.subscriptionsCount > 0) {
+      this.subscriptionsCount -= 1;
+    }
+
     this.subscriptions.remove(subscription);
     if (this.subscriptionsCount === 0) {
       this.isLoadingPrivate = false;

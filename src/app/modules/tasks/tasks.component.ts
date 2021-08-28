@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { forkJoin, Observable, of } from 'rxjs';
-import { mergeMap, takeWhile } from 'rxjs/operators';
+import { asyncScheduler, forkJoin, Observable, scheduled } from 'rxjs';
+import { switchMap, takeWhile } from 'rxjs/operators';
 import { Task } from 'src/app/models/task';
 import { TasksInfo } from 'src/app/models/tasks-info';
 import { TaskService } from 'src/app/services/backend/task.service';
@@ -35,7 +35,9 @@ export class TasksComponent implements OnInit, OnDestroy {
       const subscription = this.userService.userLoaded$
         .pipe(
           takeWhile(() => this.rxAlive),
-          mergeMap((user) => (user ? of(user) : this.userService.getUserInfo())),
+          switchMap((user) =>
+            user ? scheduled([user], asyncScheduler) : this.userService.getUserInfo(),
+          ),
         )
         .subscribe((user) => {
           this.loadingService.removeSubscription(subscription);
