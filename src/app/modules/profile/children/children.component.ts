@@ -8,6 +8,7 @@ import { ChildRequest } from 'src/app/models/add-child-request';
 import { Child } from 'src/app/models/child.class';
 import { TokenService } from 'src/app/services/backend/token.service';
 import { UserService } from 'src/app/services/backend/user.service';
+import { LoadingService } from 'src/app/services/loading.service';
 // import { DateValidator } from 'src/app/validators/date.validator';
 import { ProfileService } from '../profile.service';
 
@@ -37,6 +38,7 @@ export class ChildrenComponent implements AfterViewInit, OnDestroy {
     public userService: UserService,
     private fb: FormBuilder,
     private tokenService: TokenService,
+    private loadingService: LoadingService,
   ) {
     this.showAddForm = false;
     this.addChildForm = this.fb.group({
@@ -64,25 +66,30 @@ export class ChildrenComponent implements AfterViewInit, OnDestroy {
       return;
     }
     if (this.tokenService.getAuthToken()) {
-      this.userService.userLoaded$
+      const subscription = this.userService.userLoaded$
         .pipe(
           takeWhile(() => this.rxAlive),
           mergeMap((user) => (user ? of(user) : this.userService.getUserInfo())),
         )
-        .subscribe((user) => {
-          if (!user || this.userService.activeChild) {
-            return;
-          }
-          if (window.innerWidth > 767 && !this.isMobile) {
-            this.modalOpen(this.message);
-            sessionStorage.setItem(modalOpenedKey, 'true');
-            return;
-          }
-          if (window.innerWidth < 768 && this.isMobile) {
-            this.modalOpen(this.message);
-            sessionStorage.setItem(modalOpenedKey, 'true');
-          }
-        });
+        .subscribe(
+          (user) => {
+            this.loadingService.removeSubscription(subscription);
+            if (!user || this.userService.activeChild) {
+              return;
+            }
+            if (window.innerWidth > 767 && !this.isMobile) {
+              this.modalOpen(this.message);
+              sessionStorage.setItem(modalOpenedKey, 'true');
+              return;
+            }
+            if (window.innerWidth < 768 && this.isMobile) {
+              this.modalOpen(this.message);
+              sessionStorage.setItem(modalOpenedKey, 'true');
+            }
+          },
+          () => this.loadingService.removeSubscription(subscription),
+        );
+      this.loadingService.addSubscription(subscription);
     }
   }
 

@@ -59,9 +59,13 @@ export class TaskComponent implements OnDestroy {
         }
         this.activatedRoute.params.pipe(takeWhile(() => this.rxAlive)).subscribe((params) => {
           if (params.id) {
-            this.getTask(params.id, true)
+            const subscription = this.getTask(params.id, true)
               .pipe(takeWhile(() => this.rxAlive))
-              .subscribe();
+              .subscribe(
+                () => this.loadingService.removeSubscription(subscription),
+                () => this.loadingService.removeSubscription(subscription),
+              );
+            this.loadingService.addSubscription(subscription);
           }
         });
       });
@@ -69,9 +73,13 @@ export class TaskComponent implements OnDestroy {
     }
     this.activatedRoute.params.pipe(takeWhile(() => this.rxAlive)).subscribe((params) => {
       if (params.id) {
-        this.getTask(params.id, true)
+        const subscription = this.getTask(params.id, true)
           .pipe(takeWhile(() => this.rxAlive))
-          .subscribe();
+          .subscribe(
+            () => this.loadingService.removeSubscription(subscription),
+            () => this.loadingService.removeSubscription(subscription),
+          );
+        this.loadingService.addSubscription(subscription);
       }
     });
   }
