@@ -30,7 +30,13 @@ const routes: Routes = [
   {
     path: 'rates',
     loadChildren: () => import('./modules/rates/rates.module').then((m) => m.RatesModule),
-    data: { title: 'Тарифы' },
+    data: {
+      title: 'Тарифы',
+      style: {
+        'background-image': 'url(./assets/images/rates_fon.png)',
+        'background-size': '100% auto',
+      },
+    },
   },
   {
     path: 'profile',
